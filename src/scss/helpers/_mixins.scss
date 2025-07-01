@@ -7,182 +7,186 @@ Helpers: Mixins
 ------------------------------------------------------------------
 */
 
-@import "./media-queries";
+@use "./media-queries";
+
+@mixin test() {
+    font-size: 200px;
+}
 
 //Grayscale
 @mixin grayscale_element($value) {
-	-webkit-filter: #{"grayscale(#{$value})"};
-	-moz-filter: #{"grayscale(#{$value})"};
-	filter: #{"grayscale(#{$value})"};
+    -webkit-filter: #{"grayscale(#{$value})"};
+    -moz-filter: #{"grayscale(#{$value})"};
+    filter: #{"grayscale(#{$value})"};
 }
 
 @mixin pattern_right() {
-	content: "";
-	display: block;
-	background-repeat: repeat;
-	right: 1.875rem;
-	top: 1.875rem;
-	height: calc(100% - 3.75rem);
-	width: 38%;
-	background-size: 99px auto;
-	position: absolute;
-	pointer-events: none;
-	z-index: 0;
+    content: "";
+    display: block;
+    background-repeat: repeat;
+    right: 1.875rem;
+    top: 1.875rem;
+    height: calc(100% - 3.75rem);
+    width: 38%;
+    background-size: 99px auto;
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
 }
 
 @mixin pattern_left() {
-	content: "";
-	display: block;
-	background-repeat: repeat;
-	left: 1.875rem;
-	bottom: 1.875rem;
-	height: calc(100% - 3.75rem);
-	width: 38%;
-	background-size: 99px auto;
-	position: absolute;
-	pointer-events: none;
-	z-index: 0;
+    content: "";
+    display: block;
+    background-repeat: repeat;
+    left: 1.875rem;
+    bottom: 1.875rem;
+    height: calc(100% - 3.75rem);
+    width: 38%;
+    background-size: 99px auto;
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
 }
 
 @mixin ms_flex_fix() {
-	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-		display: block;
-	}
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        display: block;
+    }
 }
 
 //Center Horizontally
 @mixin center_h() {
-	display: table;
-	margin: 0 auto;
-	text-align: center;
+    display: table;
+    margin: 0 auto;
+    text-align: center;
 }
 
 //Psuedo Elements
 @mixin pseudo($pos: absolute, $content: "") {
-	content: $content;
-	position: $pos;
+    content: $content;
+    position: $pos;
 }
 
 //Uppercase
 @mixin uppercase() {
-	text-transform: uppercase;
-	letter-spacing: 1.75px;
-	font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 1.75px;
+    font-weight: 300;
 }
 
 //Icon BG
 @mixin icon_bg($border-radius: 0, $size: 2rem) {
-	border-radius: $border-radius;
-	height: $size;
-	width: $size;
-	vertical-align: middle;
-	text-align: center;
+    border-radius: $border-radius;
+    height: $size;
+    width: $size;
+    vertical-align: middle;
+    text-align: center;
 }
 
 // Backgorund Image
 @mixin background-image($position: center) {
-	z-index: 0;
-	position: absolute;
-	top: 0;
-	left: 0;
-	object-fit: cover;
-	object-position: $position;
-	height: 100%;
-	width: 100%;
-	pointer-events: none;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    object-position: $position;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
 }
 
 @mixin section-padding() {
-	padding-bottom: var(--wp--preset--spacing--50);
-	padding-top: var(--wp--preset--spacing--50);
+    padding-bottom: var(--wp--preset--spacing--50);
+    padding-top: var(--wp--preset--spacing--50);
 
-	@include gt-sm() {
-		padding-bottom: var(--wp--preset--spacing--60);
-		padding-top: var(--wp--preset--spacing--60);
-	}
+    @include gt-sm() {
+        padding-bottom: var(--wp--preset--spacing--60);
+        padding-top: var(--wp--preset--spacing--60);
+    }
 
-	@include gt-lg() {
-		padding-bottom: var(--wp--preset--spacing--70);
-		padding-top: var(--wp--preset--spacing--70);
-	}
+    @include gt-lg() {
+        padding-bottom: var(--wp--preset--spacing--70);
+        padding-top: var(--wp--preset--spacing--70);
+    }
 }
 
 @mixin inner_area($block: null) {
-	@if $block != null {
-		&.is-layout-constrained {
-			.#{$block}__inner {
-				max-width: var(--wp--style--global--wide-size, 960px);
-			}
-		}
+    @if $block != null {
+        &.is-layout-constrained {
+            .#{$block}__inner {
+                max-width: var(--wp--style--global--wide-size, 960px);
+            }
+        }
 
-		.#{$block}__inner {
-			padding-left: var(--wp--custom--spacing--gutter, 1rem);
-			padding-right: var(--wp--custom--spacing--gutter, 1rem);
-		}
-	} @else {
-		&.is-layout-constrained {
-			> * {
-				max-width: var(--wp--style--global--wide-size, 960px);
-			}
-		}
+        .#{$block}__inner {
+            padding-left: var(--wp--custom--spacing--gutter, 1rem);
+            padding-right: var(--wp--custom--spacing--gutter, 1rem);
+        }
+    } @else {
+        &.is-layout-constrained {
+            > * {
+                max-width: var(--wp--style--global--wide-size, 960px);
+            }
+        }
 
-		> * {
-			padding-left: var(--wp--custom--spacing--gutter, 1rem);
-			padding-right: var(--wp--custom--spacing--gutter, 1rem);
-		}
-	}
+        > * {
+            padding-left: var(--wp--custom--spacing--gutter, 1rem);
+            padding-right: var(--wp--custom--spacing--gutter, 1rem);
+        }
+    }
 }
 
 // Add back padding that Gutenberg removes
 // @todo find a better/more global solution.
 @mixin restore_gutenberg_group_padding($block) {
-	:root :where(.wp-block-group) {
-		.#{$block} {
-			padding-left: var(--wp--custom--spacing--gutter, 1rem);
-			padding-right: var(--wp--custom--spacing--gutter, 1rem);
-		}
-	}
+    :root :where(.wp-block-group) {
+        .#{$block} {
+            padding-left: var(--wp--custom--spacing--gutter, 1rem);
+            padding-right: var(--wp--custom--spacing--gutter, 1rem);
+        }
+    }
 }
 
 @mixin section() {
-	// no longer used
+    // no longer used
 }
 
 @mixin unset-section() {
-	max-width: initial;
+    max-width: initial;
 
-	&__inner {
-		max-width: initial;
-		margin-left: initial;
-		margin-right: initial;
-		width: initial;
-		position: initial;
-		z-index: initial;
-	}
+    &__inner {
+        max-width: initial;
+        margin-left: initial;
+        margin-right: initial;
+        width: initial;
+        position: initial;
+        z-index: initial;
+    }
 }
 
 @mixin object_fit_wrap(
-	$aspect-ratio: var(--wp--custom--aspect-ratio-padding--x-wide, 56.25%),
-	$use-padding: true
+    $aspect-ratio: var(--wp--custom--aspect-ratio-padding--x-wide, 56.25%),
+    $use-padding: true
 ) {
-	width: 100%;
-	position: relative;
-	overflow: hidden;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
 
-	@if $use-padding {
-		height: 100%;
-		padding-bottom: $aspect-ratio;
-	} @else {
-		aspect-ratio: $aspect-ratio;
-	}
+    @if $use-padding {
+        height: 100%;
+        padding-bottom: $aspect-ratio;
+    } @else {
+        aspect-ratio: $aspect-ratio;
+    }
 }
 
 @mixin object_fit($fit: cover, $position: center) {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: $fit;
-	object-position: $position;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: $fit;
+    object-position: $position;
 }

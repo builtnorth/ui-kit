@@ -1,67 +1,40 @@
 {
-	"name": "@builtnorth/ui-kit",
-	"version": "0.0.1",
-	"description": "NPM package for very minimal global and common CSS and JS.",
-	"main": "index.js",
-	"scripts": {
-		"build": "wp-scripts build",
-		"check-engines": "wp-scripts check-engines",
-		"check-licenses": "wp-scripts check-licenses",
-		"format": "wp-scripts format",
-		"lint:css": "wp-scripts lint-style",
-		"lint:js": "wp-scripts lint-js",
-		"lint:md:docs": "wp-scripts lint-md-docs",
-		"lint:pkg-json": "wp-scripts lint-pkg-json",
-		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start",
-		"test:e2e": "wp-scripts test-e2e",
-		"test:unit": "wp-scripts test-unit-js",
-		"build:debug": "NODE_ENV=development wp-scripts build",
-		"inspect": "wp-scripts build --webpack-bundle-analyzer"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+:https://github.com/builtnorth/wp-admin-dashboard.git"
-	},
-	"author": "Built North",
-	"license": "GPL-2.0-or-later",
-	"bugs": {
-		"url": "https://github.com/builtnorth/wp-admin-dashboard.git/issues"
-	},
-	"homepage": "https://github.com/builtnorth/wp-admin-dashboard?tab=readme-ov-file#readme",
-	"devDependencies": {
-		"@babel/core": "^7.24.7",
-		"@babel/preset-env": "^7.24.7",
-		"@babel/preset-react": "^7.24.7",
-		"@wordpress/icons": "^10.3.0",
-		"@wordpress/scripts": "^26.19.0",
-		"babel-loader": "^8.3.0",
-		"classnames": "^2.5.1",
-		"lodash": "^4.17.21"
-	},
-	"exports": {
-		"./ui-kit": "./scss/style.scss",
-		"./base/": "./scss/base/index.scss",
-		"./base/utilities": "./scss/base/utilities.scss",
-		"./base/reset": "./scss/base/reset.scss",
-		"./base/accessibility": "./scss/base/accessibility.scss",
-		"./components": "./scss/components/index.scss",
-		"./components/buttons": "./scss/components/buttons.scss",
-		"./components/icons": "./scss/components/icons.scss",
-		"./components/slider": "./scss/components/slider.scss",
-		"./forms": "./scss/forms/index.scss",
-		"./forms/label": "./scss/forms/label.scss",
-		"./forms/fieldset": "./scss/forms/fieldset.scss",
-		"./forms/select": "./scss/forms/select.scss",
-		"./forms/checkbox": "./scss/forms/checkbox.scss",
-		"./forms/text": "./scss/forms/text.scss",
-		"./helpers": "./scss/helpers/index.scss",
-		"./helpers/mixins": "./scss/helpers/mixins.scss",
-		"./helpers/functions": "./scss/helpers/functions.scss",
-		"./helpers/media-queries": "./scss/helpers/media-queries.scss",
-		"./layout": "./scss/layout/index.scss",
-		"./layout/grid": "./scss/layout/grid.scss",
-		"./layout/columns": "./scss/layout/columns.scss"
-	}
+    "name": "@builtnorth/ui-kit",
+    "version": "0.0.1",
+    "description": "NPM package for very minimal global and common CSS and JS.",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+:https://github.com/builtnorth/wp-admin-dashboard.git"
+    },
+    "author": "Built North",
+    "license": "GPL-2.0-or-later",
+    "bugs": {
+        "url": "https://github.com/builtnorth/wp-admin-dashboard.git/issues"
+    },
+    "homepage": "https://github.com/builtnorth/wp-admin-dashboard?tab=readme-ov-file#readme",
+    "exports": {
+        ".": "./src/scss/style.scss",
+        "./base/": "./src/scss/base/index.scss",
+        "./base/utilities": "./src/scss/base/utilities.scss",
+        "./base/reset": "./src/scss/base/reset.scss",
+        "./base/accessibility": "./src/scss/base/accessibility.scss",
+        "./components": "./src/scss/components/index.scss",
+        "./components/buttons": "./src/scss/components/buttons.scss",
+        "./components/icons": "./src/scss/components/icons.scss",
+        "./components/slider": "./src/scss/components/slider.scss",
+        "./forms": "./src/scss/forms/index.scss",
+        "./forms/label": "./src/scss/forms/label.scss",
+        "./forms/fieldset": "./src/scss/forms/fieldset.scss",
+        "./forms/select": "./src/scss/forms/select.scss",
+        "./forms/checkbox": "./src/scss/forms/checkbox.scss",
+        "./forms/text": "./src/scss/forms/text.scss",
+        "./helpers": "./src/scss/helpers/index.scss",
+        "./helpers/mixins": "./src/scss/helpers/mixins.scss",
+        "./helpers/functions": "./src/scss/helpers/functions.scss",
+        "./helpers/media-queries": "./src/scss/helpers/media-queries.scss",
+        "./layout": "./src/scss/layout/index.scss",
+        "./layout/grid": "./src/scss/layout/grid.scss",
+        "./layout/columns": "./src/scss/layout/columns.scss"
+    }
 }
