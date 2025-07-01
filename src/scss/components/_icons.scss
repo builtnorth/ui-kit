@@ -1,0 +1,64 @@
+.is-icon-size {
+	&--x-small {
+		--icon-size: 1.25rem;
+	}
+	&--small {
+		--icon-size: 1.75rem;
+	}
+	&--medium {
+		--icon-size: 2.75rem;
+	}
+	&--large {
+		--icon-size: 6rem;
+	}
+	&--x-large {
+		--icon-size: 9.5rem;
+	}
+}
+
+// Adjust icon size when background is present
+// This is to account for the padding added to the icon
+.has-background {
+	&.is-icon-size--x-small {
+		--icon-size: 2rem;
+		--icon-padding: 0.25rem;
+	}
+	&.is-icon-size--small {
+		--icon-size: 3rem;
+		--icon-padding: 0.5rem;
+	}
+	&.is-icon-size--medium {
+		--icon-size: 4rem;
+		--icon-padding: 0.75rem;
+	}
+	&.is-icon-size--large {
+		--icon-size: 8rem;
+		--icon-padding: 1rem;
+	}
+	&.is-icon-size--x-large {
+		--icon-size: 12rem;
+		--icon-padding: 1.25rem;
+	}
+}
+
+.icon-item {
+	height: var(--icon-size);
+	width: var(--icon-size);
+	&__wrap {
+		height: var(--icon-size);
+		width: var(--icon-size);
+		svg {
+			height: var(--icon-size);
+			width: var(--icon-size);
+		}
+	}
+
+	&.has-background {
+		background-color: var(--wp--preset--color--light-gray);
+		.icon-item__wrap {
+			svg {
+				padding: var(--icon-padding);
+			}
+		}
+	}
+}

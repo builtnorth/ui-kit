@@ -1,0 +1,95 @@
+/*
+------------------------------------------------------------------
+Helpers: Resets
+
+CSS resets are used to override the default styles provided by browsers.
+This ensures that all browsers render elements consistently.
+------------------------------------------------------------------
+
+/* Box sizing & misc defaults
+----------------------------------------------------------------*/
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	text-rendering: optimizeSpeed;
+	line-height: 1.5;
+}
+
+/* Typography
+----------------------------------------------------------------*/
+* {
+	font-style: inherit;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+	text-wrap: balance;
+}
+
+p {
+	text-wrap: pretty;
+}
+
+blockquote {
+	margin: 0;
+	quotes: inherit;
+}
+
+mark {
+	background-color: transparent;
+	color: inherit;
+}
+
+/* Lists
+----------------------------------------------------------------*/
+
+ul,
+ol {
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 0;
+	padding-left: 1rem;
+}
+
+/* Media
+----------------------------------------------------------------*/
+img,
+picture,
+video,
+canvas,
+svg {
+	height: auto;
+	max-width: 100%;
+}
+
+figure {
+	margin-bottom: 0;
+	/* if block, bottom spacing is added. */
+	//display: flex; //breaks wordpress core/image where it breaks containment
+}
+
+/* Forms
+----------------------------------------------------------------*/
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+/* Links
+----------------------------------------------------------------*/
+:has(:target) {
+	scroll-padding-top: 3rem;
+}

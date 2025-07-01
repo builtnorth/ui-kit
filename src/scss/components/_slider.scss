@@ -1,0 +1,122 @@
+/*
+------------------------------------------------------------------
+Global Slider Styles
+
+@package BuiltStarter
+@since BuiltStarter 1.0.0
+------------------------------------------------------------------
+*/
+
+swiper-container {
+	--swiper-theme-color: var(--wp--preset--color--contrast, #000);
+	--swiper-pagination-bullet-border-radius: 0; // No direct equivalent, keeping as 0
+	--swiper-pagination-bullet-width: 20px;
+	--swiper-pagination-bullet-height: 8px;
+	--swiper-pagination-bottom: -6px;
+	--swiper-pagination-bullet-inactive-opacity: 1;
+	--swiper-pagination-bullet-border-color: rgba(255, 255, 255, 0.5);
+	--swiper-pagination-bullet-inactive-color: rgba(128, 128, 128, 0.125);
+
+	&::part(container) {
+		padding-bottom: var(--wp--preset--spacing--50, 2rem);
+	}
+
+	&::part(button-prev),
+	&::part(button-next) {
+		border: var(--wp--custom--border-width--tiny, 1px) solid
+			var(--wp--custom--color--border-medium, #ccc);
+		margin-top: calc(var(--wp--preset--spacing--50, 2rem) * -1);
+
+		/* adjust for padding on container */
+		background: var(--wp--preset--color--base, #fff);
+		height: 24px;
+		width: 24px;
+		padding: var(--wp--preset--spacing--30, 0.67rem);
+
+		&:hover,
+		&:focus {
+			background: var(--wp--preset--color--contrast, #000);
+			color: var(--wp--preset--color--base, #fff);
+		}
+	}
+
+	&::part(bullet),
+	&::part(bullet-active) {
+		position: relative;
+		border: var(--wp--custom--border-width--tiny, 1px) solid
+			var(--swiper-pagination-bullet-border-color);
+	}
+
+	&::part(bullet-active) {
+		background-color: var(
+			--wp--preset--color--secondary,
+			rgba(128, 128, 128, 0.75)
+		);
+	}
+
+	&::part(bullet) {
+		&::after {
+			content: "";
+			background-color: var(--swiper-pagination-bullet-inactive-color);
+			border-color: var(--wp--preset--color--base, #fff);
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+			opacity: var(--swiper-pagination-bullet-inactive-opacity, 0.3);
+		}
+	}
+}
+
+swiper-slide {
+	/* for equal height slides */
+	display: flex;
+	height: auto;
+}
+
+.post-query--slider,
+.page-query--slider {
+	swiper-container {
+		--swiper-pagination-bottom: 20px;
+
+		&::part(container) {
+			padding-bottom: var(--wp--preset--spacing--60, 4rem);
+		}
+
+		&::part(button-prev),
+		&::part(button-next) {
+			margin-top: 12px;
+			top: auto;
+		}
+
+		&::part(button-prev) {
+			left: auto;
+			right: 60px;
+		}
+
+		&::part(button-next) {
+			right: 0;
+		}
+
+		&::part(pagination) {
+			width: auto;
+			left: -3px;
+			bottom: calc(var(--swiper-pagination-bottom) - 0.25rem);
+		}
+	}
+}
+
+/* Secondary Background 
+------------------------------------------------------------------*/
+.has-secondary-background-color {
+	swiper-container {
+		&::part(bullet-active) {
+			background-color: var(
+				--wp--preset--color--contrast,
+				rgba(128, 128, 128, 0.75)
+			);
+		}
+	}
+}
