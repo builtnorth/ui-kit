@@ -7,7 +7,7 @@ Helpers: Mixins
 ------------------------------------------------------------------
 */
 
-@use "./media-queries";
+@use "./media-queries" as *;
 
 //Grayscale
 @mixin grayscale_element($value) {

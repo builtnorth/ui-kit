@@ -1,4 +1,5 @@
 @use "../helpers/index" as *;
+@use "sass:math";
 
 /* Columns
 ---------------------------------------- */
@@ -31,7 +32,7 @@
             @for $i from 1 through 12 {
                 &--span-#{$i} {
                     //flex: 0 0 auto;
-                    flex-basis: #{percentage($i / 12)};
+                    flex-basis: #{math.percentage(math.div($i, 12))};
                 }
             }
         }
