@@ -1,43 +1,43 @@
-@use "../helpers/index";
+@use "../helpers/index" as *;
 
 /* Columns
 ---------------------------------------- */
 
 .columns {
-	display: flex;
-	position: relative;
-	z-index: 1;
+    display: flex;
+    position: relative;
+    z-index: 1;
 
-	@include lt-md() {
-		flex-direction: column;
-	}
+    @include lt-md() {
+        flex-direction: column;
+    }
 
-	.column {
-		min-width: 0;
-		overflow-wrap: break-word;
-		word-break: break-word;
-		width: 100%;
-		flex-direction: column;
-		display: flex;
+    .column {
+        min-width: 0;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        width: 100%;
+        flex-direction: column;
+        display: flex;
 
-		// fix for gutenberg
-		margin-block-start: 0;
+        // fix for gutenberg
+        margin-block-start: 0;
 
-		@include gt-md() {
-			&--auto {
-				flex: 1;
-				width: auto;
-			}
-			@for $i from 1 through 12 {
-				&--span-#{$i} {
-					//flex: 0 0 auto;
-					flex-basis: #{percentage($i / 12)};
-				}
-			}
-		}
+        @include gt-md() {
+            &--auto {
+                flex: 1;
+                width: auto;
+            }
+            @for $i from 1 through 12 {
+                &--span-#{$i} {
+                    //flex: 0 0 auto;
+                    flex-basis: #{percentage($i / 12)};
+                }
+            }
+        }
 
-		&.has-background {
-			padding: var(--wp--preset--spacing--50);
-		}
-	}
+        &.has-background {
+            padding: var(--wp--preset--spacing--50);
+        }
+    }
 }

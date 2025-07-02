@@ -9,10 +9,6 @@ Helpers: Mixins
 
 @use "./media-queries";
 
-@mixin test() {
-    font-size: 200px;
-}
-
 //Grayscale
 @mixin grayscale_element($value) {
     -webkit-filter: #{"grayscale(#{$value})"};
