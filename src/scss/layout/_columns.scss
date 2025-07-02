@@ -6,6 +6,7 @@
 
 .columns {
     display: flex;
+    flex-wrap: nowrap;
     position: relative;
     z-index: 1;
 

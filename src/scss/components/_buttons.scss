@@ -1,88 +1,88 @@
 .polaris-buttons {
-	display: flex;
-	align-items: center;
-	gap: var(--wp--preset--spacing--30, 0.67rem);
+    display: flex;
+    align-items: center;
+    gap: var(--wp--preset--spacing--30, 0.67rem);
 }
 
 .polaris-button {
-	--button-icon-size: 1.5rem;
-	--button-block-gap: var(--wp--preset--spacing--30, 0.67rem);
-	cursor: pointer;
-	display: inline-flex;
+    --button-icon-size: 1.5rem;
+    --button-block-gap: var(--wp--preset--spacing--30, 0.67rem);
+    cursor: pointer;
+    display: inline-flex;
 
-	&.is-size-small {
-		--button-icon-size: 1.25rem;
-		--button-block-gap: var(--wp--preset--spacing--0, 0.25rem);
-		padding: calc(
-				var(--wp--custom--spacing--button-top-bottom, 0.44rem) / 1.5
-			)
-			calc(var(--wp--custom--spacing--button-left-right, 0.67rem) / 2);
-		font-size: var(--wp--preset--font-size--xx-small, 1rem);
-	}
+    &.is-size-small {
+        --button-icon-size: 1.25rem;
+        --button-block-gap: var(--wp--preset--spacing--0, 0.25rem);
+        padding: calc(
+                var(--wp--custom--spacing--button-top-bottom, 0.44rem) / 1.5
+            )
+            calc(var(--wp--custom--spacing--button-left-right, 0.67rem) / 2);
+        font-size: var(--wp--preset--font-size--xx-small, 1rem);
+    }
 
-	&.is-size-large {
-		--button-icon-size: 1.75rem;
-		--button-block-gap: var(--wp--preset--spacing--40, 0.83rem);
-		padding: calc(
-				var(--wp--custom--spacing--button-top-bottom, 0.67rem) * 1.5
-			)
-			calc(var(--wp--custom--spacing--button-left-right, 1rem) * 1.5);
-		font-size: var(--wp--preset--font-size--small, 1.25rem);
-	}
+    &.is-size-large {
+        --button-icon-size: 1.75rem;
+        --button-block-gap: var(--wp--preset--spacing--40, 0.83rem);
+        padding: calc(
+                var(--wp--custom--spacing--button-top-bottom, 0.67rem) * 1.5
+            )
+            calc(var(--wp--custom--spacing--button-left-right, 1rem) * 1.5);
+        font-size: var(--wp--preset--font-size--small, 1.25rem);
+    }
 
-	&:not(.is-style-text-link),
-	.is-style-primary {
-		padding: var(--wp--custom--spacing--button-top-bottom, 0.44rem)
-			var(--wp--custom--spacing--button-left-right, 0.67rem);
-		text-decoration: none;
-		background-color: var(--wp--preset--color--primary);
-		color: var(--wp--preset--color--white);
-		border: var(--wp--custom--border-width--tiny) solid
-			var(--wp--preset--color--primary);
+    &:not(.is-style-text-link),
+    .is-style-primary {
+        padding: var(--wp--custom--spacing--button-top-bottom, 0.44rem)
+            var(--wp--custom--spacing--button-left-right, 0.67rem);
+        text-decoration: none;
+        background-color: var(--wp--preset--color--primary);
+        color: var(--wp--preset--color--white);
+        border: var(--wp--custom--border-width--tiny) solid
+            var(--wp--preset--color--primary);
 
-		&.is-style-secondary {
-			border: none;
-			color: var(--wp--preset--color--contrast);
-			background-color: var(--wp--preset--color--neutral-2);
-		}
+        &.is-style-secondary {
+            border: none;
+            color: var(--wp--preset--color--contrast);
+            background-color: var(--wp--preset--color--neutral-2);
+        }
 
-		&.is-style-tertiary {
-			border: var(--wp--custom--border-width--tiny) solid currentColor;
-			color: currentColor;
-			background-color: transparent;
-		}
-	}
+        &.is-style-tertiary {
+            border: var(--wp--custom--border-width--tiny) solid currentColor;
+            color: currentColor;
+            background-color: transparent;
+        }
+    }
 
-	&.is-style-text-link {
-		color: currentColor;
-		background-color: transparent;
-		text-decoration: underline;
-		padding-left: 0;
-		padding-right: 0;
-		padding-top: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
-		padding-bottom: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
-	}
+    &.is-style-text-link {
+        color: currentColor;
+        background-color: transparent;
+        text-decoration: underline;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
+        padding-bottom: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
+    }
 
-	&__icon {
-		display: inline-flex;
-		align-items: center;
-	}
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+    }
 
-	.polaris-button__icon,
-	.icon-item,
-	.icon-item__wrap,
-	.icon-item__wrap svg {
-		height: var(--button-icon-size);
-		width: var(--button-icon-size);
-	}
+    .polaris-button__icon,
+    .icon-item,
+    .icon-item__wrap,
+    .icon-item__wrap svg {
+        height: var(--button-icon-size);
+        width: var(--button-icon-size);
+    }
 
-	&:has(.polaris-button__icon) {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--button-block-gap);
+    &:has(.polaris-button__icon) {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--button-block-gap);
 
-		.polaris-button__text {
-			display: inline;
-		}
-	}
+        .polaris-button__text {
+            display: inline;
+        }
+    }
 }
