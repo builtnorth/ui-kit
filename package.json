@@ -35,6 +35,8 @@
         "./helpers/media-queries": "./src/scss/helpers/media-queries.scss",
         "./layout": "./src/scss/layout/index.scss",
         "./layout/grid": "./src/scss/layout/grid.scss",
-        "./layout/columns": "./src/scss/layout/columns.scss"
+        "./layout/columns": "./src/scss/layout/columns.scss",
+        "./gutenberg": "./src/scss/gutenberg/index.scss",
+        "./gutenberg/quirks": "./src/scss/gutenberg/quirks.scss"
     }
 }

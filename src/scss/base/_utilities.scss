@@ -7,6 +7,25 @@ Classes to quickly add utility styles to your components.
 */
 @use "../helpers/index" as *;
 
+/* Vertical Alignment
+(needed because gutenberg prefixes with .wp-block)
+------------------------------------------------------------------*/
+.is-vertically-aligned-top {
+    align-items: flex-start;
+}
+
+.is-vertically-aligned-center {
+    align-items: center;
+}
+
+.is-vertically-aligned-bottom {
+    align-items: flex-end;
+}
+
+.is-vertically-aligned-stretch {
+    align-items: stretch;
+}
+
 /* Content Alignment
 ------------------------------------------------------------------*/
 .is-content-align-left {
@@ -33,13 +52,19 @@ Classes to quickly add utility styles to your components.
 /* Gutenberg Alignment
 	These are defaults in the editor. Need to manually add.
 ------------------------------------------------------------------*/
-.alignright {
-    float: right;
-}
 
-.alignleft {
-    float: left;
+// Still want padding for wide alignments
+.alignwide {
+    padding-left: var(--wp--custom--spacing--gutter, 1rem);
+    padding-right: var(--wp--custom--spacing--gutter, 1rem);
 }
+// .alignright {
+//     float: right;
+// }
+
+// .alignleft {
+//     float: left;
+// }
 
 /* Image Styles
 ------------------------------------------------------------------*/
