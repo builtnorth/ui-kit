@@ -1,14 +1,15 @@
-.polaris-buttons {
+.wp-block-wp-block-polaris-buttons {
     display: flex;
     align-items: center;
-    gap: var(--wp--preset--spacing--30, 0.67rem);
+    gap: var(--wp--preset--spacing--40, 1rem);
 }
 
-.polaris-button {
+.wp-block-polaris-button {
     --button-icon-size: 1.5rem;
     --button-block-gap: var(--wp--preset--spacing--30, 0.67rem);
     cursor: pointer;
     display: inline-flex;
+    flex-shrink: 0;
 
     &.is-size-small {
         --button-icon-size: 1.25rem;
@@ -61,6 +62,16 @@
         padding-right: 0;
         padding-top: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
         padding-bottom: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
+
+        /* Add margin for text links if not first child */
+        &:not(:first-child) {
+            margin-left: var(--wp--preset--spacing--30, 0.5rem);
+        }
+
+        /* Add margin for text links if not last child */
+        &:not(:last-child) {
+            margin-right: var(--wp--preset--spacing--30, 0.5rem);
+        }
     }
 
     &__icon {
@@ -68,7 +79,7 @@
         align-items: center;
     }
 
-    .polaris-button__icon,
+    .wp-block-polaris-button__icon,
     .icon-item,
     .icon-item__wrap,
     .icon-item__wrap svg {
@@ -76,12 +87,12 @@
         width: var(--button-icon-size);
     }
 
-    &:has(.polaris-button__icon) {
+    &:has(.wp-block-polaris-button__icon) {
         display: inline-flex;
         align-items: center;
         gap: var(--button-block-gap);
 
-        .polaris-button__text {
+        .wp-block-polaris-button__text {
             display: inline;
         }
     }
