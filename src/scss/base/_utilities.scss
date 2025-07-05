@@ -54,9 +54,16 @@ Classes to quickly add utility styles to your components.
 ------------------------------------------------------------------*/
 
 // Still want padding for wide alignments
+// Not in editor though as it duplicates the padding on the block.
 .alignwide {
     padding-left: var(--wp--custom--spacing--gutter, 1rem);
     padding-right: var(--wp--custom--spacing--gutter, 1rem);
+}
+.editor-styles-wrapper {
+    .alignwide {
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 // .alignright {
 //     float: right;

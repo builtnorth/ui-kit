@@ -4,7 +4,8 @@
 ---------------------------------------- */
 .grid {
     display: grid;
-    gap: var(--wp--preset--spacing--50);
+    /* Overrides spplied block gap from editor */
+    /* gap: var(--wp--style--block-gap); */
 
     @for $i from 2 through 6 {
         &.grid-has-#{$i} {

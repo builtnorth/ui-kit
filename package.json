@@ -19,6 +19,7 @@
         "./base/utilities": "./src/scss/base/_utilities.scss",
         "./base/reset": "./src/scss/base/_reset.scss",
         "./base/accessibility": "./src/scss/base/_accessibility.scss",
+        "./base/images": "./src/scss/base/_images.scss",
         "./components": "./src/scss/components/index.scss",
         "./components/buttons": "./src/scss/components/_buttons.scss",
         "./components/slider": "./src/scss/components/_slider.scss",

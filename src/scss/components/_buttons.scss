@@ -11,6 +11,10 @@
     display: inline-flex;
     flex-shrink: 0;
 
+    &.is-size-default {
+        font-size: var(--wp--preset--font-size--x-small, 1.25rem);
+    }
+
     &.is-size-small {
         --button-icon-size: 1.25rem;
         --button-block-gap: var(--wp--preset--spacing--0, 0.25rem);
@@ -28,7 +32,7 @@
                 var(--wp--custom--spacing--button-top-bottom, 0.67rem) * 1.5
             )
             calc(var(--wp--custom--spacing--button-left-right, 1rem) * 1.5);
-        font-size: var(--wp--preset--font-size--small, 1.25rem);
+        font-size: var(--wp--preset--font-size--small, 1.563rem);
     }
 
     &:not(.is-style-text-link),
