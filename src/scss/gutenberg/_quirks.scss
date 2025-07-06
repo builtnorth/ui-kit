@@ -12,3 +12,8 @@
 .wp-block-template-part {
     display: contents;
 }
+
+/* post tmeplate columns don't span full width */
+.wp-block-post-template {
+    width: 100%;
+}

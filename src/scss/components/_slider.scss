@@ -76,19 +76,19 @@ swiper-slide {
     height: auto;
 }
 
-.post-query--slider,
+.wp-block-polaris-post-feed--slider,
 .page-query--slider {
     swiper-container {
         --swiper-pagination-bottom: 20px;
 
         &::part(container) {
-            padding-bottom: var(--wp--preset--spacing--60, 4rem);
+            padding-bottom: 4.5rem;
         }
 
         &::part(button-prev),
         &::part(button-next) {
-            margin-top: 12px;
             top: auto;
+            bottom: 0;
         }
 
         &::part(button-prev) {
@@ -103,7 +103,7 @@ swiper-slide {
         &::part(pagination) {
             width: auto;
             left: -3px;
-            bottom: calc(var(--swiper-pagination-bottom) - 0.25rem);
+            bottom: 0.5rem;
         }
     }
 }

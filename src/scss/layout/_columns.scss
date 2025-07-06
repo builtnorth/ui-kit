@@ -22,6 +22,12 @@
         flex-direction: column;
         display: flex;
 
+        /* Needed for gutenberg - mainly wp-group blocks */
+        .wp-block-group,
+        & > * {
+            width: 100%;
+        }
+
         // fix for gutenberg
         margin-block-start: 0;
 
