@@ -1,14 +1,17 @@
 // Helpers
-@use "helpers/index";
+@use "helpers/index" as *;
 
 // Base
-@use "base/index";
+@use "base/index" as *;
 
 // Layout utilities
-@use "layout/index";
+@use "layout/index" as *;
 
 // Components
-@use "components/index";
+@use "components/index" as *;
 
 // Forms
-@use "forms/index";
+@use "forms/index" as *;
+
+// Gutenberg
+@use "gutenberg/index" as *;

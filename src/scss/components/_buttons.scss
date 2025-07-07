@@ -1,88 +1,103 @@
-.polaris-buttons {
-	display: flex;
-	align-items: center;
-	gap: var(--wp--preset--spacing--30, 0.67rem);
+.wp-block-wp-block-polaris-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--wp--preset--spacing--40, 1rem);
 }
 
-.polaris-button {
-	--button-icon-size: 1.5rem;
-	--button-block-gap: var(--wp--preset--spacing--30, 0.67rem);
-	cursor: pointer;
-	display: inline-flex;
+.wp-block-polaris-button {
+    --button-icon-size: 1.5rem;
+    --button-block-gap: var(--wp--preset--spacing--30, 0.67rem);
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
 
-	&.is-size-small {
-		--button-icon-size: 1.25rem;
-		--button-block-gap: var(--wp--preset--spacing--0, 0.25rem);
-		padding: calc(
-				var(--wp--custom--spacing--button-top-bottom, 0.44rem) / 1.5
-			)
-			calc(var(--wp--custom--spacing--button-left-right, 0.67rem) / 2);
-		font-size: var(--wp--preset--font-size--xx-small, 1rem);
-	}
+    &.is-size-default {
+        font-size: var(--wp--preset--font-size--x-small, 1.25rem);
+    }
 
-	&.is-size-large {
-		--button-icon-size: 1.75rem;
-		--button-block-gap: var(--wp--preset--spacing--40, 0.83rem);
-		padding: calc(
-				var(--wp--custom--spacing--button-top-bottom, 0.67rem) * 1.5
-			)
-			calc(var(--wp--custom--spacing--button-left-right, 1rem) * 1.5);
-		font-size: var(--wp--preset--font-size--small, 1.25rem);
-	}
+    &.is-size-small {
+        --button-icon-size: 1.25rem;
+        --button-block-gap: var(--wp--preset--spacing--0, 0.25rem);
+        padding: calc(
+                var(--wp--custom--spacing--button-top-bottom, 0.44rem) / 1.5
+            )
+            calc(var(--wp--custom--spacing--button-left-right, 0.67rem) / 2);
+        font-size: var(--wp--preset--font-size--xx-small, 1rem);
+    }
 
-	&:not(.is-style-text-link),
-	.is-style-primary {
-		padding: var(--wp--custom--spacing--button-top-bottom, 0.44rem)
-			var(--wp--custom--spacing--button-left-right, 0.67rem);
-		text-decoration: none;
-		background-color: var(--wp--preset--color--primary);
-		color: var(--wp--preset--color--white);
-		border: var(--wp--custom--border-width--tiny) solid
-			var(--wp--preset--color--primary);
+    &.is-size-large {
+        --button-icon-size: 1.75rem;
+        --button-block-gap: var(--wp--preset--spacing--40, 0.83rem);
+        padding: calc(
+                var(--wp--custom--spacing--button-top-bottom, 0.67rem) * 1.5
+            )
+            calc(var(--wp--custom--spacing--button-left-right, 1rem) * 1.5);
+        font-size: var(--wp--preset--font-size--small, 1.563rem);
+    }
 
-		&.is-style-secondary {
-			border: none;
-			color: var(--wp--preset--color--contrast);
-			background-color: var(--wp--preset--color--neutral-2);
-		}
+    &:not(.is-style-text-link),
+    .is-style-primary {
+        padding: var(--wp--custom--spacing--button-top-bottom, 0.44rem)
+            var(--wp--custom--spacing--button-left-right, 0.67rem);
+        text-decoration: none;
+        background-color: var(--wp--preset--color--primary);
+        color: var(--wp--preset--color--white);
+        border: var(--wp--custom--border-width--tiny) solid
+            var(--wp--preset--color--primary);
 
-		&.is-style-tertiary {
-			border: var(--wp--custom--border-width--tiny) solid currentColor;
-			color: currentColor;
-			background-color: transparent;
-		}
-	}
+        &.is-style-secondary {
+            border: none;
+            color: var(--wp--preset--color--contrast);
+            background-color: var(--wp--preset--color--neutral-2);
+        }
 
-	&.is-style-text-link {
-		color: currentColor;
-		background-color: transparent;
-		text-decoration: underline;
-		padding-left: 0;
-		padding-right: 0;
-		padding-top: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
-		padding-bottom: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
-	}
+        &.is-style-tertiary {
+            border: var(--wp--custom--border-width--tiny) solid currentColor;
+            color: currentColor;
+            background-color: transparent;
+        }
+    }
 
-	&__icon {
-		display: inline-flex;
-		align-items: center;
-	}
+    &.is-style-text-link {
+        color: currentColor;
+        background-color: transparent;
+        text-decoration: underline;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
+        padding-bottom: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
 
-	.polaris-button__icon,
-	.icon-item,
-	.icon-item__wrap,
-	.icon-item__wrap svg {
-		height: var(--button-icon-size);
-		width: var(--button-icon-size);
-	}
+        /* Add margin for text links if not first child */
+        &:not(:first-child) {
+            margin-left: var(--wp--preset--spacing--30, 0.5rem);
+        }
 
-	&:has(.polaris-button__icon) {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--button-block-gap);
+        /* Add margin for text links if not last child */
+        &:not(:last-child) {
+            margin-right: var(--wp--preset--spacing--30, 0.5rem);
+        }
+    }
 
-		.polaris-button__text {
-			display: inline;
-		}
-	}
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .wp-block-polaris-button__icon,
+    .icon-item,
+    .icon-item__wrap,
+    .icon-item__wrap svg {
+        height: var(--button-icon-size);
+        width: var(--button-icon-size);
+    }
+
+    &:has(.wp-block-polaris-button__icon) {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--button-block-gap);
+
+        .wp-block-polaris-button__text {
+            display: inline;
+        }
+    }
 }

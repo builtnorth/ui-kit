@@ -5,71 +5,103 @@ Utility Classes
 Classes to quickly add utility styles to your components.
 ------------------------------------------------------------------
 */
-@import "media-queries";
+@use "../helpers/index" as *;
+
+/* Vertical Alignment
+(needed because gutenberg prefixes with .wp-block)
+------------------------------------------------------------------*/
+.is-vertically-aligned-top {
+    align-items: flex-start;
+}
+
+.is-vertically-aligned-center {
+    align-items: center;
+}
+
+.is-vertically-aligned-bottom {
+    align-items: flex-end;
+}
+
+.is-vertically-aligned-stretch {
+    align-items: stretch;
+}
 
 /* Content Alignment
 ------------------------------------------------------------------*/
 .is-content-align-left {
-	text-align: left;
-	> * {
-		text-align: left;
-	}
+    text-align: left;
+    > * {
+        text-align: left;
+    }
 }
 
 .is-content-align-center {
-	text-align: center;
-	> * {
-		text-align: center;
-	}
+    text-align: center;
+    > * {
+        text-align: center;
+    }
 }
 
 .is-content-align-right {
-	text-align: right;
-	> * {
-		text-align: right;
-	}
+    text-align: right;
+    > * {
+        text-align: right;
+    }
 }
 
 /* Gutenberg Alignment
 	These are defaults in the editor. Need to manually add.
 ------------------------------------------------------------------*/
-.alignright {
-	float: right;
-}
 
-.alignleft {
-	float: left;
+// Still want padding for wide alignments
+// Not in editor though as it duplicates the padding on the block.
+.alignwide {
+    padding-left: var(--wp--custom--spacing--gutter, 1rem);
+    padding-right: var(--wp--custom--spacing--gutter, 1rem);
 }
+.editor-styles-wrapper {
+    .alignwide {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+// .alignright {
+//     float: right;
+// }
+
+// .alignleft {
+//     float: left;
+// }
 
 /* Image Styles
 ------------------------------------------------------------------*/
 .has-blur {
-	filter: blur(5px);
+    filter: blur(5px);
 }
 
 .has-grayscale {
-	filter: grayscale(100%);
+    filter: grayscale(100%);
 }
 
 .has-blur-grayscale {
-	filter: blur(5px) grayscale(100%);
+    filter: blur(5px) grayscale(100%);
 }
 
 /* Section & Background Images
 ---------------------------------------- */
 .has-background-image {
-	position: relative;
-	overflow: hidden;
+    position: relative;
+    overflow: hidden;
 
-	> *:not(.background) {
-		position: relative;
-		z-index: 1;
-	}
+    > *:not(.background) {
+        position: relative;
+        z-index: 1;
+    }
 
-	.background {
-		display: contents;
-		&__img {
-			@include background-image();
-		}
-	}
+    .background {
+        display: contents;
+        &__img {
+            @include background-image();
+        }
+    }
 }

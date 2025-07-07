@@ -1,0 +1,19 @@
+// Fix where it strips groups of padding
+// :root .wp-block-polaris-header > :where(.wp-block-group),
+// :root .wp-block-polaris-hero > :where(.wp-block-group),
+// :root .wp-block-polaris-section > :where(.wp-block-group),
+// :root .wp-block-polaris-footer-primary > :where(.wp-block-group),
+// :root .wp-block-polaris-footer-secondary > :where(.wp-block-group) {
+//     padding-left: var(--wp--custom--spacing--gutter, 1rem);
+//     padding-right: var(--wp--custom--spacing--gutter, 1rem);
+// }
+
+// Allow sticky to work with template parts
+.wp-block-template-part {
+    display: contents;
+}
+
+/* post tmeplate columns don't span full width */
+.wp-block-post-template {
+    width: 100%;
+}
