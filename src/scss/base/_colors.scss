@@ -1,0 +1,47 @@
+/*
+Colors
+
+Set up color/contrast pairs.
+Now we can use only one color for the background
+and the text will be the contrast color.
+****************************************************/
+
+/* Base Background */
+.has-base-background-color {
+    color: var(--wp--preset--color--contrast);
+}
+
+/* Contrast Background */
+.has-contrast-background-color {
+    color: var(--wp--preset--color--base);
+}
+
+/* Primary Background */
+.has-primary-background-color {
+    color: var(--wp--preset--color--primary-contrast);
+}
+
+/* Secondary Background */
+.has-secondary-background-color {
+    color: var(--wp--preset--color--secondary-contrast);
+}
+
+/* Tertiary Background */
+.has-tertiary-background-color {
+    color: var(--wp--preset--color--tertiary-contrast);
+}
+
+/* Neutral One Background */
+.has-neutral-1-background-color {
+    color: var(--wp--preset--color--neutral-1-contrast);
+}
+
+/* Neutral Two Background */
+.has-neutral-2-background-color {
+    color: var(--wp--preset--color--neutral-2-contrast);
+}
+
+/* Neutral Three Background */
+.has-neutral-3-background-color {
+    color: var(--wp--preset--color--neutral-3-contrast);
+}
