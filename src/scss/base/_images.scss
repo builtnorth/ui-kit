@@ -1,7 +1,9 @@
 // Flexible figure and caption styles that work with any prefix
+.wp-block-image,
 [class$="__figure"] {
     position: relative;
 
+    .wp-element-caption,
     [class$="__caption"] {
         position: absolute;
         bottom: var(--wp--preset--spacing--30);
