@@ -1,4 +1,4 @@
-.wp-block-wp-block-polaris-buttons {
+.wp-block-polaris-buttons {
     display: flex;
     align-items: center;
     gap: var(--wp--preset--spacing--40, 1rem);
@@ -99,5 +99,16 @@
         .wp-block-polaris-button__text {
             display: inline;
         }
+    }
+}
+
+/* If no link, remove hover, focus, and pointer events - @todo - test this */
+span.wp-block-polaris-button {
+    pointer-events: none !important;
+    &:hover {
+        all: unset;
+    }
+    &:focus {
+        all: unset;
     }
 }
