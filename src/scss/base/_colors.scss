@@ -9,39 +9,71 @@ and the text will be the contrast color.
 /* Base Background */
 .has-base-background-color {
     color: var(--wp--preset--color--contrast);
+
+    a {
+        color: inherit;
+    }
 }
 
 /* Contrast Background */
 .has-contrast-background-color {
     color: var(--wp--preset--color--base);
+
+    a {
+        color: inherit;
+    }
 }
 
 /* Primary Background */
 .has-primary-background-color {
     color: var(--wp--preset--color--primary-contrast);
+
+    a {
+        color: inherit;
+    }
 }
 
 /* Secondary Background */
 .has-secondary-background-color {
     color: var(--wp--preset--color--secondary-contrast);
+
+    a {
+        color: inherit;
+    }
 }
 
 /* Tertiary Background */
 .has-tertiary-background-color {
     color: var(--wp--preset--color--tertiary-contrast);
+
+    a {
+        color: inherit;
+    }
 }
 
 /* Neutral One Background */
 .has-neutral-1-background-color {
     color: var(--wp--preset--color--neutral-1-contrast);
+
+    a {
+        color: inherit;
+    }
 }
 
 /* Neutral Two Background */
 .has-neutral-2-background-color {
     color: var(--wp--preset--color--neutral-2-contrast);
+
+    a {
+        color: inherit;
+    }
 }
 
 /* Neutral Three Background */
 .has-neutral-3-background-color {
     color: var(--wp--preset--color--neutral-3-contrast);
+
+    a {
+        color: inherit;
+    }
 }

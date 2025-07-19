@@ -16,8 +16,6 @@
 
     .wp-block-polaris-column {
         min-width: 4rem;
-        overflow-wrap: break-word;
-        word-break: break-word;
         width: 100%;
         flex-direction: column;
         display: flex;
@@ -26,8 +24,7 @@
         margin-block-start: 0;
 
         /* Needed for gutenberg - mainly wp-group blocks */
-        .wp-block-group,
-        & > * {
+        .wp-block-group {
             width: 100%;
         }
 

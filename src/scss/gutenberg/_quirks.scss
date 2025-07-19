@@ -13,7 +13,27 @@
     display: contents;
 }
 
+// Allow sticky to work with entry-content
+.wp-block-post-content {
+    display: contents;
+}
+
 /* post tmeplate columns don't span full width */
 .wp-block-post-template {
     width: 100%;
+}
+
+/* Alignull within template parts within entry-contnet */
+.has-global-padding {
+    .wp-block-template-part {
+        .alignfull {
+            margin-left: calc(var(--wp--style--root--padding-left) * -1);
+            margin-right: calc(var(--wp--style--root--padding-right) * -1);
+        }
+    }
+}
+
+/* Remove padding on two align-full blocks */
+.alignfull + .alignfull {
+    margin-block-start: 0;
 }
