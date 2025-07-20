@@ -13,9 +13,10 @@
     display: contents;
 }
 
-// Allow sticky to work with entry-content
+// Allow post content to break out of its container for alignfull blocks
+// Need !important to override WordPress inline styles
 .wp-block-post-content {
-    display: contents;
+    display: contents !important;
 }
 
 /* post tmeplate columns don't span full width */
@@ -33,7 +34,11 @@
     }
 }
 
-/* Remove padding on two align-full blocks */
-.alignfull + .alignfull {
+/* Remove padding on align-full blocks */
+:root
+    :where(.editor-styles-wrapper)
+    :where(.is-layout-constrained)
+    > .alignfull,
+.alignfull {
     margin-block-start: 0;
 }
