@@ -10,35 +10,35 @@
 
 // Allow sticky to work with template parts
 .wp-block-template-part {
-    display: contents;
+	display: contents;
 }
 
 // Allow post content to break out of its container for alignfull blocks
 // Need !important to override WordPress inline styles
 .wp-block-post-content {
-    display: contents !important;
+	//display: contents !important;
 }
 
 /* post tmeplate columns don't span full width */
 .wp-block-post-template {
-    width: 100%;
+	width: 100%;
 }
 
 /* Alignull within template parts within entry-contnet */
 .has-global-padding {
-    .wp-block-template-part {
-        .alignfull {
-            margin-left: calc(var(--wp--style--root--padding-left) * -1);
-            margin-right: calc(var(--wp--style--root--padding-right) * -1);
-        }
-    }
+	.wp-block-template-part {
+		.alignfull {
+			margin-left: calc(var(--wp--style--root--padding-left) * -1);
+			margin-right: calc(var(--wp--style--root--padding-right) * -1);
+		}
+	}
 }
 
 /* Remove padding on align-full blocks */
 :root
-    :where(.editor-styles-wrapper)
-    :where(.is-layout-constrained)
-    > .alignfull,
+	:where(.editor-styles-wrapper)
+	:where(.is-layout-constrained)
+	> .alignfull,
 .alignfull {
-    margin-block-start: 0;
+	margin-block-start: 0;
 }
