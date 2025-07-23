@@ -3,19 +3,20 @@
 /* Grid
 ---------------------------------------- */
 .grid {
-    display: grid;
-    /* Overrides spplied block gap from editor */
-    /* gap: var(--wp--style--block-gap); */
+	display: grid;
+	flex-grow: 1;
+	/* Overrides spplied block gap from editor */
+	/* gap: var(--wp--style--block-gap); */
 
-    @for $i from 2 through 6 {
-        &.grid-has-#{$i} {
-            @include gt-sm() {
-                grid-template-columns: repeat(2, 1fr);
-            }
+	@for $i from 2 through 6 {
+		&.grid-has-#{$i} {
+			@include gt-sm() {
+				grid-template-columns: repeat(2, 1fr);
+			}
 
-            @include gt-lg() {
-                grid-template-columns: repeat($i, 1fr);
-            }
-        }
-    }
+			@include gt-lg() {
+				grid-template-columns: repeat($i, 1fr);
+			}
+		}
+	}
 }
