@@ -38,6 +38,7 @@
 		"./layout/grid": "./src/scss/layout/_grid.scss",
 		"./layout/columns": "./src/scss/layout/_columns.scss",
 		"./gutenberg": "./src/scss/gutenberg/index.scss",
-		"./gutenberg/quirks": "./src/scss/gutenberg/_quirks.scss"
+		"./gutenberg/quirks": "./src/scss/gutenberg/_quirks.scss",
+		"./gutenberg/placeholders": "./src/scss/gutenberg/_placeholders.scss"
 	}
 }
