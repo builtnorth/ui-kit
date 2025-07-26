@@ -15,6 +15,7 @@
 	"homepage": "https://github.com/builtnorth/wp-admin-dashboard?tab=readme-ov-file#readme",
 	"exports": {
 		".": "./src/scss/style.scss",
+		"./essential-styles": "./src/scss/essential-styles.scss",
 		"./base": "./src/scss/base/index.scss",
 		"./base/utilities": "./src/scss/base/_utilities.scss",
 		"./base/reset": "./src/scss/base/_reset.scss",
@@ -39,6 +40,7 @@
 		"./layout/columns": "./src/scss/layout/_columns.scss",
 		"./gutenberg": "./src/scss/gutenberg/index.scss",
 		"./gutenberg/quirks": "./src/scss/gutenberg/_quirks.scss",
-		"./gutenberg/placeholders": "./src/scss/gutenberg/_placeholders.scss"
+		"./gutenberg/placeholders": "./src/scss/gutenberg/_placeholders.scss",
+		"./gutenberg/appenders": "./src/scss/gutenberg/_appenders.scss"
 	}
 }

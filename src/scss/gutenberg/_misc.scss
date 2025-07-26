@@ -1,0 +1,46 @@
+/*
+------------------------------------------------------------------
+Misc
+
+@package BuiltStarter
+@since BuiltStarter 1.0.0
+------------------------------------------------------------------
+*/
+
+/* Hide excerpt read more link
+------------------------------------------------------------------
+*/
+.wp-block-post-excerpt__more-link {
+	display: none !important;
+}
+
+/* Icon picker list
+------------------------------------------------------------------
+*/
+.component-icon-picker__list {
+	> div {
+		overflow-x: hidden !important;
+	}
+}
+
+/* Input Control Suffix as Prefix - Temp until prefix works
+-----------------------------------------------------------------*/
+.builtnorth-input-control-suffix-as-prefix {
+	input {
+		padding-left: 30px !important;
+	}
+	.components-input-control__suffix {
+		position: absolute;
+		top: 7px;
+		left: 4px;
+	}
+}
+
+/* Hide the drag handle for core/image blocks
+-----------------------------------------------------------------*/
+.wp-block-polaris-image-card,
+.wp-block-polaris-hero {
+	.wp-block-image .components-resizable-box__handle {
+		display: none !important;
+	}
+}
