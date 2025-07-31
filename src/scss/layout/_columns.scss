@@ -27,21 +27,26 @@
 			width: 100%;
 		}
 
-		@include gt-md() {
-			&--auto {
-				flex: 1;
-				width: auto;
-			}
-			@for $i from 1 through 12 {
-				&--span-#{$i} {
-					//flex: 0 0 auto;
-					flex-basis: #{math.percentage(math.div($i, 12))};
-				}
+		&--auto {
+			flex: 1;
+			width: auto;
+		}
+		
+		@for $i from 1 through 12 {
+			&--span-#{$i} {
+				flex-basis: #{math.percentage(math.div($i, 12))};
 			}
 		}
 
 		&.has-background {
 			padding: var(--wp--preset--spacing--50);
+		}
+	}
+
+	// Mobile Stacking - Override default mobile stacking
+	&.no-stack-on-mobile {
+		@include lt-md() {
+			flex-direction: row;
 		}
 	}
 }

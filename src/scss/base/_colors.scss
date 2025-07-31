@@ -10,7 +10,7 @@ and the text will be the contrast color.
 .has-base-background-color {
 	color: var(--wp--preset--color--contrast);
 
-	a {
+	a:not([class*="has-background"]) {
 		color: inherit;
 	}
 }
@@ -19,7 +19,7 @@ and the text will be the contrast color.
 .has-contrast-background-color {
 	color: var(--wp--preset--color--base);
 
-	a {
+	a:not([class*="has-background"]) {
 		color: inherit;
 	}
 }
@@ -28,7 +28,7 @@ and the text will be the contrast color.
 .has-primary-background-color {
 	color: var(--wp--preset--color--primary-contrast);
 
-	a {
+	a:not([class*="has-background"]) {
 		color: inherit;
 	}
 }
@@ -37,7 +37,7 @@ and the text will be the contrast color.
 .has-secondary-background-color {
 	color: var(--wp--preset--color--secondary-contrast);
 
-	a {
+	a:not([class*="has-background"]) {
 		color: inherit;
 	}
 }
@@ -46,7 +46,7 @@ and the text will be the contrast color.
 .has-tertiary-background-color {
 	color: var(--wp--preset--color--tertiary-contrast);
 
-	a {
+	a:not([class*="has-background"]) {
 		color: inherit;
 	}
 }
@@ -55,7 +55,7 @@ and the text will be the contrast color.
 .has-neutral-1-background-color {
 	color: var(--wp--preset--color--neutral-1-contrast);
 
-	a {
+	a:not([class*="has-background"]) {
 		color: inherit;
 	}
 }
@@ -64,7 +64,7 @@ and the text will be the contrast color.
 .has-neutral-2-background-color {
 	color: var(--wp--preset--color--neutral-2-contrast);
 
-	a {
+	a:not([class*="has-background"]) {
 		color: inherit;
 	}
 }
@@ -73,7 +73,7 @@ and the text will be the contrast color.
 .has-neutral-3-background-color {
 	color: var(--wp--preset--color--neutral-3-contrast);
 
-	a {
+	a:not([class*="has-background"]) {
 		color: inherit;
 	}
 }

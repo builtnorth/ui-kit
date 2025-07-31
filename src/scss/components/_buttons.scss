@@ -258,16 +258,3 @@
 		}
 	}
 }
-
-// ==========================================================================
-// 7. Special Cases & Overrides
-// ==========================================================================
-// Disabled button (when using span instead of anchor)
-span.wp-block-polaris-button {
-	pointer-events: none !important;
-
-	&:hover,
-	&:focus {
-		all: unset;
-	}
-}
