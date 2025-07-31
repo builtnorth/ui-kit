@@ -5,44 +5,48 @@
 ---------------------------------------- */
 
 .wp-block-polaris-columns {
-    display: flex;
-    flex-wrap: nowrap;
-    position: relative;
-    z-index: 1;
+	display: flex;
+	flex-wrap: nowrap;
+	position: relative;
+	z-index: 1;
 
-    @include lt-md() {
-        flex-direction: column;
-    }
+	@include lt-md() {
+		flex-direction: column;
+	}
 
-    .wp-block-polaris-column {
-        min-width: 4rem;
-        width: 100%;
-        flex-direction: column;
-        display: flex;
+	.wp-block-polaris-column {
+		min-width: 4rem;
+		flex-direction: column;
+		display: flex;
 
-        /* fix for gutenberg */
-        margin-block-start: 0;
+		/* fix for gutenberg */
+		margin-block-start: 0;
 
-        /* Needed for gutenberg - mainly wp-group blocks */
-        .wp-block-group {
-            width: 100%;
-        }
+		/* Needed for gutenberg - mainly wp-group blocks */
+		> * {
+			width: 100%;
+		}
 
-        @include gt-md() {
-            &--auto {
-                flex: 1;
-                width: auto;
-            }
-            @for $i from 1 through 12 {
-                &--span-#{$i} {
-                    //flex: 0 0 auto;
-                    flex-basis: #{math.percentage(math.div($i, 12))};
-                }
-            }
-        }
+		&--auto {
+			flex: 1;
+			width: auto;
+		}
+		
+		@for $i from 1 through 12 {
+			&--span-#{$i} {
+				flex-basis: #{math.percentage(math.div($i, 12))};
+			}
+		}
 
-        &.has-background {
-            padding: var(--wp--preset--spacing--50);
-        }
-    }
+		&.has-background {
+			padding: var(--wp--preset--spacing--50);
+		}
+	}
+
+	// Mobile Stacking - Override default mobile stacking
+	&.no-stack-on-mobile {
+		@include lt-md() {
+			flex-direction: row;
+		}
+	}
 }

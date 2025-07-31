@@ -8,74 +8,85 @@ Helper classes for improving accessibility.
 
 /* Accessible card link
 ----------------------------------------------------------------*/
-.has-accessible-card-link {
-    position: relative;
+.is-accessible-card {
+	position: relative;
 
-    // Additional links that are inside the card
-    .is-interior-link,
-    .wp-block-post-terms a {
-        position: relative;
-        z-index: 2;
-        color: inherit;
-    }
-}
+	// Make the title link stretch to cover the entire card
+	.wp-block-post-title a::after,
+	.wp-block-polaris-taxonomy-feed__term-title a::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 1;
+	}
 
-.accessible-card-link {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    z-index: 0;
+	// Ensure other interactive elements stay clickable
+	.wp-block-post-terms a,
+	.wp-block-polaris-button {
+		position: relative;
+		z-index: 2;
+	}
+
+	// Optional: Add hover effect to the entire card
+	&:hover,
+	&:focus {
+		.wp-block-post-title a,
+		.wp-block-polaris-taxonomy-feed__term-title a {
+			text-decoration: underline;
+		}
+	}
 }
 
 /* Screen reader text
 ----------------------------------------------------------------*/
 .screen-reader-only {
-    border: 0;
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    word-wrap: normal;
-    //left: -99999px; // Messes up Gutenberg skip to link
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	word-wrap: normal;
+	//left: -99999px; // Messes up Gutenberg skip to link
 }
 
 /* Skip content
 ----------------------------------------------------------------*/
 .skip-content {
-    z-index: 999;
-    display: block;
-    color: var(--color--theme-base);
-    background-color: var(--color--theme-contrast);
-    border: 2px solid var(--color--theme-base);
-    padding: 5px 10px;
-    position: absolute;
-    left: -99999px;
-    font-size: var(--font-size--small);
-    font-weight: var(--font-weight--bold);
-    cursor: default;
+	z-index: 999;
+	display: block;
+	color: var(--color--theme-base);
+	background-color: var(--color--theme-contrast);
+	border: 2px solid var(--color--theme-base);
+	padding: 5px 10px;
+	position: absolute;
+	left: -99999px;
+	font-size: var(--font-size--small);
+	font-weight: var(--font-weight--bold);
+	cursor: default;
 
-    &:focus,
-    &:active {
-        color: var(--color--theme-base);
-        background-color: var(--color--theme-contrast);
-        visibility: visible;
-        text-decoration: underline;
-        left: 12px;
-    }
+	&:focus,
+	&:active {
+		color: var(--color--theme-base);
+		background-color: var(--color--theme-contrast);
+		visibility: visible;
+		text-decoration: underline;
+		left: 12px;
+	}
 
-    &.skip-to-main {
-        top: 4px;
-    }
+	&.skip-to-main {
+		top: 4px;
+	}
 
-    &.skip-to-top {
-        bottom: 4px;
-    }
+	&.skip-to-top {
+		bottom: 4px;
+	}
 }
 
 /* Motion specific
@@ -83,23 +94,23 @@ Helper classes for improving accessibility.
 
 /* If no preferecne, smooth scroll */
 @media (prefers-reduced-motion: no-preference) {
-    :has(:target) {
-        scroll-behavior: smooth;
-    }
+	:has(:target) {
+		scroll-behavior: smooth;
+	}
 }
 
 /* If reduced motion, disable animations and transitions */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 
-    html {
-        scroll-behavior: initial;
-    }
+	html {
+		scroll-behavior: initial;
+	}
 }

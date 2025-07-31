@@ -1,114 +1,260 @@
+/*
+ * Button Component Styles
+ * 
+ * Structure:
+ * 1. CSS Variables & Root Settings
+ * 2. Button Container (.wp-block-polaris-buttons)
+ * 3. Button Base Styles (.wp-block-polaris-button)
+ * 4. Button Size Variants
+ * 5. Button Style Variants
+ * 6. Button Icon Styles
+ * 7. Special Cases & Overrides
+ */
+
+// ==========================================================================
+// 1. CSS Variables & Root Settings
+// ==========================================================================
+:root {
+	// Default button padding
+	--button-padding-y: var(
+		--wp--custom--spacing--button-top-bottom,
+		var(--wp--preset--spacing--30, 0.44rem)
+	);
+	--button-padding-x: var(
+		--wp--custom--spacing--button-left-right,
+		var(--wp--preset--spacing--40, 0.67rem)
+	);
+
+	// Small button padding
+	--button-padding-y-small: calc(var(--button-padding-y) / 1.5);
+	--button-padding-x-small: calc(var(--button-padding-x) / 2);
+
+	// Large button padding
+	--button-padding-y-large: calc(var(--button-padding-y) * 1.5);
+	--button-padding-x-large: calc(var(--button-padding-x) * 1.5);
+}
+
+// ==========================================================================
+// 2. Button Container
+// ==========================================================================
 .wp-block-polaris-buttons {
-    display: flex;
-    align-items: center;
-    gap: var(--wp--preset--spacing--40, 1rem);
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--40, 1rem);
 }
 
+// ==========================================================================
+// 3. Button Base Styles
+// ==========================================================================
 .wp-block-polaris-button {
-    --button-icon-size: 1.5rem;
-    --button-block-gap: var(--wp--preset--spacing--30, 0.67rem);
-    cursor: pointer;
-    display: inline-flex;
-    flex-shrink: 0;
+	// Local CSS variables
+	--icon-size: 1.5rem;
+	--button-block-gap: var(--wp--preset--spacing--30, 0.67rem);
 
-    &.is-size-default {
-        font-size: var(--wp--preset--font-size--x-small, 1.25rem);
-    }
+	// Base styles
+	cursor: pointer;
+	display: inline-flex;
+	flex-shrink: 0;
+	border: var(--wp--custom--border-width--tiny) solid transparent;
 
-    &.is-size-small {
-        --button-icon-size: 1.25rem;
-        --button-block-gap: var(--wp--preset--spacing--0, 0.25rem);
-        padding: calc(
-                var(--wp--custom--spacing--button-top-bottom, 0.44rem) / 1.5
-            )
-            calc(var(--wp--custom--spacing--button-left-right, 0.67rem) / 2);
-        font-size: var(--wp--preset--font-size--xx-small, 1rem);
-    }
+	&:not(.is-style-text-link) {
+		text-decoration: none;
+	}
 
-    &.is-size-large {
-        --button-icon-size: 1.75rem;
-        --button-block-gap: var(--wp--preset--spacing--40, 0.83rem);
-        padding: calc(
-                var(--wp--custom--spacing--button-top-bottom, 0.67rem) * 1.5
-            )
-            calc(var(--wp--custom--spacing--button-left-right, 1rem) * 1.5);
-        font-size: var(--wp--preset--font-size--small, 1.563rem);
-    }
-
-    &:not(.is-style-text-link),
-    .is-style-primary {
-        padding: var(--wp--custom--spacing--button-top-bottom, 0.44rem)
-            var(--wp--custom--spacing--button-left-right, 0.67rem);
-        text-decoration: none;
-        background-color: var(--wp--preset--color--primary);
-        color: var(--wp--preset--color--white);
-        border: var(--wp--custom--border-width--tiny) solid
-            var(--wp--preset--color--primary);
-
-        &.is-style-secondary {
-            border: none;
-            color: var(--wp--preset--color--contrast);
-            background-color: var(--wp--preset--color--neutral-2);
-        }
-
-        &.is-style-tertiary {
-            border: var(--wp--custom--border-width--tiny) solid currentColor;
-            color: currentColor;
-            background-color: transparent;
-        }
-    }
-
-    &.is-style-text-link {
-        color: currentColor;
-        background-color: transparent;
-        text-decoration: underline;
-        padding-left: 0;
-        padding-right: 0;
-        padding-top: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
-        padding-bottom: var(--wp--custom--spacing--button-top-bottom, 0.44rem);
-
-        /* Add margin for text links if not first child */
-        &:not(:first-child) {
-            margin-left: var(--wp--preset--spacing--30, 0.5rem);
-        }
-
-        /* Add margin for text links if not last child */
-        &:not(:last-child) {
-            margin-right: var(--wp--preset--spacing--30, 0.5rem);
-        }
-    }
-
-    &__icon {
-        display: inline-flex;
-        align-items: center;
-    }
-
-    .wp-block-polaris-button__icon,
-    .icon-item,
-    .icon-item__wrap,
-    .icon-item__wrap svg {
-        height: var(--button-icon-size);
-        width: var(--button-icon-size);
-    }
-
-    &:has(.wp-block-polaris-button__icon) {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--button-block-gap);
-
-        .wp-block-polaris-button__text {
-            display: inline;
-        }
-    }
+	// Default icon size
+	.wp-block-polaris-icon {
+		--icon-size: 1.5rem;
+	}
 }
 
-/* If no link, remove hover, focus, and pointer events - @todo - test this */
-span.wp-block-polaris-button {
-    pointer-events: none !important;
-    &:hover {
-        all: unset;
-    }
-    &:focus {
-        all: unset;
-    }
+// ==========================================================================
+// 4. Button Size Variants
+// ==========================================================================
+.wp-block-polaris-button {
+	// Default size
+	&.is-size-default {
+		font-size: var(--wp--preset--font-size--x-small, 1.25rem);
+		padding: var(--button-padding-y) var(--button-padding-x);
+	}
+
+	// Small size
+	&.is-size-small {
+		--icon-size: 1.25rem;
+		--button-block-gap: var(--wp--preset--spacing--0, 0.25rem);
+		padding: var(--button-padding-y-small) var(--button-padding-x-small);
+		font-size: var(--wp--preset--font-size--xx-small, 1rem);
+
+		.wp-block-polaris-icon {
+			--icon-size: 1.25rem;
+		}
+	}
+
+	// Large size
+	&.is-size-large {
+		--icon-size: 1.75rem;
+		--button-block-gap: var(--wp--preset--spacing--40, 0.83rem);
+		padding: var(--button-padding-y-large) var(--button-padding-x-large);
+		font-size: var(--wp--preset--font-size--small, 1.563rem);
+
+		.wp-block-polaris-icon {
+			--icon-size: 1.75rem;
+		}
+	}
+}
+
+// ==========================================================================
+// 5. Button Style Variants
+// ==========================================================================
+.wp-block-polaris-button {
+	// Default style (default for non-text-link) - Fill appearance
+	&:not(.is-style-secondary):not(.is-style-tertiary):not(
+			.is-style-text-link
+		):not(.is-appearance-outline) {
+		background-color: var(--wp--preset--color--primary);
+		color: var(--wp--preset--color--white);
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
+
+		&:hover,
+		&:focus {
+			background-color: var(--wp--preset--color--primary-contrast);
+			color: var(--wp--preset--color--primary);
+			border-color: var(--wp--preset--color--primary);
+		}
+	}
+
+	// Secondary style - Fill appearance
+	&.is-style-secondary:not(.is-appearance-outline) {
+		color: var(--wp--preset--color--secondary-contrast);
+		background-color: var(--wp--preset--color--secondary);
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
+
+		&:hover,
+		&:focus {
+			background-color: var(--wp--preset--color--secondary-contrast);
+			color: var(--wp--preset--color--secondary);
+			border-color: var(--wp--preset--color--secondary);
+		}
+	}
+
+	// Tertiary style - Fill appearance
+	&.is-style-tertiary:not(.is-appearance-outline) {
+		color: var(--wp--preset--color--neutral-2-contrast);
+		background-color: var(--wp--preset--color--neutral-2);
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
+
+		&:hover,
+		&:focus {
+			background-color: var(--wp--preset--color--neutral-2-contrast);
+			color: var(--wp--preset--color--neutral-2);
+			border-color: var(--wp--preset--color--neutral-2);
+		}
+	}
+
+	// Outline appearance variants
+	&.is-appearance-outline {
+		background-color: transparent;
+		color: currentColor;
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease,
+			border-color 0.2s ease;
+
+		// Default/Primary outline
+		&:not(.is-style-secondary):not(.is-style-tertiary):not(
+				.is-style-text-link
+			) {
+			border-color: var(--wp--preset--color--primary);
+
+			&:hover,
+			&:focus {
+				background-color: var(--wp--preset--color--primary);
+				color: var(--wp--preset--color--white);
+			}
+		}
+
+		// Secondary outline
+		&.is-style-secondary {
+			border-color: var(--wp--preset--color--secondary);
+
+			&:hover,
+			&:focus {
+				background-color: var(--wp--preset--color--secondary);
+				color: var(--wp--preset--color--secondary-contrast);
+			}
+		}
+
+		// Tertiary outline
+		&.is-style-tertiary {
+			border-color: var(--wp--preset--color--neutral-2);
+
+			&:hover,
+			&:focus {
+				background-color: var(--wp--preset--color--neutral-2);
+				color: var(--wp--preset--color--neutral-2-contrast);
+			}
+		}
+	}
+
+	// Text link style
+	&.is-style-text-link {
+		color: currentColor;
+		background-color: transparent;
+		text-decoration: underline;
+		padding: var(--button-padding-y) 0;
+		transition: opacity 0.2s ease;
+
+		&:hover,
+		&:focus {
+			opacity: 0.7;
+			background-color: transparent;
+			border-color: transparent;
+			color: currentColor;
+			text-decoration: none;
+		}
+
+		// Margin for text links in button groups
+		&:not(:first-child) {
+			margin-left: var(--wp--preset--spacing--30, 0.5rem);
+		}
+
+		&:not(:last-child) {
+			margin-right: var(--wp--preset--spacing--30, 0.5rem);
+		}
+	}
+}
+
+// ==========================================================================
+// 6. Button Icon Styles
+// ==========================================================================
+.wp-block-polaris-button {
+	&__icon {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	// Icon sizing
+	.wp-block-polaris-button__icon,
+	.icon-item,
+	.icon-item__wrap,
+	.icon-item__wrap svg {
+		height: var(--icon-size);
+		width: var(--icon-size);
+	}
+
+	// Button with icon layout
+	&:has(.wp-block-polaris-button__icon) {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--button-block-gap);
+
+		.wp-block-polaris-button__text {
+			display: inline;
+		}
+	}
 }

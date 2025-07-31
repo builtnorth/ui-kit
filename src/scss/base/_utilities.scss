@@ -11,42 +11,42 @@ Classes to quickly add utility styles to your components.
 (needed because gutenberg prefixes with .wp-block)
 ------------------------------------------------------------------*/
 .is-vertically-aligned-top {
-    align-items: flex-start;
+	align-items: flex-start;
 }
 
 .is-vertically-aligned-center {
-    align-items: center;
+	align-items: center;
 }
 
 .is-vertically-aligned-bottom {
-    align-items: flex-end;
+	align-items: flex-end;
 }
 
 .is-vertically-aligned-stretch {
-    align-items: stretch;
+	align-items: stretch;
 }
 
 /* Content Alignment
 ------------------------------------------------------------------*/
 .is-content-align-left {
-    text-align: left;
-    > * {
-        text-align: left;
-    }
+	text-align: left;
+	> * {
+		text-align: left;
+	}
 }
 
 .is-content-align-center {
-    text-align: center;
-    > * {
-        text-align: center;
-    }
+	text-align: center;
+	> * {
+		text-align: center;
+	}
 }
 
 .is-content-align-right {
-    text-align: right;
-    > * {
-        text-align: right;
-    }
+	text-align: right;
+	> * {
+		text-align: right;
+	}
 }
 
 /* Gutenberg Alignment
@@ -56,14 +56,14 @@ Classes to quickly add utility styles to your components.
 // Still want padding for wide alignments
 // Not in editor though as it duplicates the padding on the block.
 .alignwide {
-    padding-left: var(--wp--custom--spacing--gutter, 1rem);
-    padding-right: var(--wp--custom--spacing--gutter, 1rem);
+	padding-left: var(--wp--custom--spacing--gutter, 1rem);
+	padding-right: var(--wp--custom--spacing--gutter, 1rem);
 }
 .editor-styles-wrapper {
-    .alignwide {
-        padding-left: 0;
-        padding-right: 0;
-    }
+	.alignwide {
+		padding-left: 0;
+		padding-right: 0;
+	}
 }
 // .alignright {
 //     float: right;
@@ -76,32 +76,117 @@ Classes to quickly add utility styles to your components.
 /* Image Styles
 ------------------------------------------------------------------*/
 .has-blur {
-    filter: blur(5px);
+	filter: blur(5px);
 }
 
 .has-grayscale {
-    filter: grayscale(100%);
+	filter: grayscale(100%);
 }
 
 .has-blur-grayscale {
-    filter: blur(5px) grayscale(100%);
+	filter: blur(5px) grayscale(100%);
 }
 
 /* Section & Background Images
----------------------------------------- */
+------------------------------------------------------------------*/
 .has-background-image {
-    position: relative;
-    overflow: hidden;
+	position: relative;
+	overflow: hidden;
 
-    > *:not(.background) {
-        position: relative;
-        z-index: 1;
-    }
+	> *:not(.background) {
+		position: relative;
+		z-index: 1;
+	}
 
-    .background {
-        display: contents;
-        &__img {
-            @include background-image();
-        }
-    }
+	.background {
+		display: contents;
+		&__img {
+			@include background-image();
+		}
+	}
+}
+
+/* Section Patterns
+  ------------------------------------------------------------------*/
+.has-pattern {
+	position: relative;
+	overflow: hidden;
+
+	// Ensure that content displays above the pattern
+	> *:not(.section-pattern):not(.background) {
+		position: relative;
+		z-index: 1;
+	}
+
+	.section-pattern {
+		margin-top: 0;
+		position: absolute;
+		pointer-events: none;
+		z-index: 0;
+
+		// Top row
+		&.pattern-align--top-left {
+			top: 0;
+			left: 0;
+		}
+		&.pattern-align--top-center {
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+		&.pattern-align--top-right {
+			top: 0;
+			right: 0;
+		}
+
+		// Middle row
+		&.pattern-align--center-left {
+			top: 50%;
+			left: 0;
+			transform: translateY(-50%);
+		}
+		&.pattern-align--center-center {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+		&.pattern-align--center-right {
+			top: 50%;
+			right: 0;
+			transform: translateY(-50%);
+		}
+
+		// Bottom row
+		&.pattern-align--bottom-left {
+			bottom: 0;
+			left: 0;
+		}
+		&.pattern-align--bottom-center {
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+		&.pattern-align--bottom-right {
+			bottom: 0;
+			right: 0;
+		}
+	}
+}
+
+// Apply to the section immediately before .has-pattern
+// Ensure that content displays above the pattern
+.has-pattern + * {
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+// Apply to the section immediately after .has-pattern
+// Ensure that content displays above the pattern
+* + .has-pattern {
+	> * {
+		position: relative;
+		z-index: 1;
+	}
 }
