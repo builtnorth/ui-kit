@@ -7,9 +7,20 @@
 	flex-grow: 1;
 	/* Overrides spplied block gap from editor */
 	/* gap: var(--wp--style--block-gap); */
+	container-type: inline-size;
 
 	@for $i from 2 through 6 {
 		&.grid-has-#{$i} {
+			/* Container queries for responsive behavior */
+			@container (min-width: 40rem) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			@container (min-width: 60rem) {
+				grid-template-columns: repeat($i, 1fr);
+			}
+
+			/* Media queries as fallback */
 			@include gt-sm() {
 				grid-template-columns: repeat(2, 1fr);
 			}
