@@ -1,7 +1,13 @@
-src
+# Development files
+.github/
+.gitignore
+node_modules/
+
+# Build configuration (not needed since we publish source SCSS)
 rollup.config.js
-.babelrc
-node_modules
-dist
 rollup.config.mjs
+.babelrc
 babel.config.json
+
+# OS files
+.DS_Store

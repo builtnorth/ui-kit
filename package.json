@@ -3,16 +3,19 @@
 	"version": "1.0.0",
 	"description": "NPM package for very minimal global and common CSS and JS.",
 	"main": "index.js",
+	"scripts": {
+		"build": "mkdir -p build && cp -r src build/ && cp index.js build/ && cp README.md build/ 2>/dev/null || true"
+	},
 	"repository": {
 		"type": "git",
-		"url": "git+:https://github.com/builtnorth/wp-admin-dashboard.git"
+		"url": "git+https://github.com/builtnorth/ui-kit.git"
 	},
 	"author": "Built North",
 	"license": "GPL-2.0-or-later",
 	"bugs": {
-		"url": "https://github.com/builtnorth/wp-admin-dashboard.git/issues"
+		"url": "https://github.com/builtnorth/ui-kit/issues"
 	},
-	"homepage": "https://github.com/builtnorth/wp-admin-dashboard?tab=readme-ov-file#readme",
+	"homepage": "https://github.com/builtnorth/ui-kit#readme",
 	"exports": {
 		".": "./src/scss/style.scss",
 		"./essential-styles": "./src/scss/essential-styles.scss",
