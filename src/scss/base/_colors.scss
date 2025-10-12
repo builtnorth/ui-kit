@@ -77,3 +77,30 @@ and the text will be the contrast color.
 		color: inherit;
 	}
 }
+
+/* Neutral Four Background */
+.has-neutral-4-background-color {
+	color: var(--wp--preset--color--neutral-4-contrast);
+
+	a:not([class*="has-background"]) {
+		color: inherit;
+	}
+}
+
+/* Neutral Five Background */
+.has-neutral-5-background-color {
+	color: var(--wp--preset--color--neutral-5-contrast);
+
+	a:not([class*="has-background"]) {
+		color: inherit;
+	}
+}
+
+/* Neutral Six Background */
+.has-neutral-6-background-color {
+	color: var(--wp--preset--color--neutral-6-contrast);
+
+	a:not([class*="has-background"]) {
+		color: inherit;
+	}
+}
