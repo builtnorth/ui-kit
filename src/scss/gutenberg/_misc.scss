@@ -44,3 +44,23 @@ Misc
 		display: none !important;
 	}
 }
+
+/* Full width button */
+.components-button.is-full-width {
+	justify-content: center;
+	width: 100%;
+}
+
+/* BaseControl in Panel */
+.components-panel__row {
+	.components-base-control {
+		width: 100%;
+	}
+}
+
+/* Panel Body */
+.components-panel__body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}

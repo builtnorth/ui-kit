@@ -110,7 +110,6 @@ Classes to quickly add utility styles to your components.
   ------------------------------------------------------------------*/
 .has-pattern {
 	position: relative;
-	overflow: hidden;
 
 	// Ensure that content displays above the pattern
 	> *:not(.section-pattern):not(.background) {

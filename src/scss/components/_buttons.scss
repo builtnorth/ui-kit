@@ -3,12 +3,13 @@
  * 
  * Structure:
  * 1. CSS Variables & Root Settings
- * 2. Button Container (.wp-block-polaris-buttons)
- * 3. Button Base Styles (.wp-block-polaris-button)
- * 4. Button Size Variants
- * 5. Button Style Variants
- * 6. Button Icon Styles
- * 7. Special Cases & Overrides
+ * 2. Mixins
+ * 3. Button Container (.wp-block-polaris-buttons)
+ * 4. Button Base Styles (.wp-block-polaris-button)
+ * 5. Button Size Variants
+ * 6. Button Style Variants
+ * 7. Button Icon Styles
+ * 8. Special Cases & Overrides
  */
 
 // ==========================================================================
@@ -35,7 +36,51 @@
 }
 
 // ==========================================================================
-// 2. Button Container
+// 2. Placeholders
+// ==========================================================================
+%button-primary-fill-hover {
+	background-color: var(--wp--preset--color--primary-contrast);
+	color: var(--wp--preset--color--primary);
+	border-color: var(--wp--preset--color--primary);
+}
+
+%button-secondary-fill-hover {
+	background-color: var(--wp--preset--color--secondary-contrast);
+	color: var(--wp--preset--color--secondary);
+	border-color: var(--wp--preset--color--secondary);
+}
+
+%button-tertiary-fill-hover {
+	background-color: var(--wp--preset--color--neutral-2-contrast);
+	color: var(--wp--preset--color--neutral-2);
+	border-color: var(--wp--preset--color--neutral-2);
+}
+
+%button-primary-outline-hover {
+	background-color: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--white);
+}
+
+%button-secondary-outline-hover {
+	background-color: var(--wp--preset--color--secondary);
+	color: var(--wp--preset--color--secondary-contrast);
+}
+
+%button-tertiary-outline-hover {
+	background-color: var(--wp--preset--color--neutral-2);
+	color: var(--wp--preset--color--neutral-2-contrast);
+}
+
+%button-text-link-hover {
+	opacity: 0.7;
+	background-color: transparent;
+	border-color: transparent;
+	color: currentColor;
+	text-decoration: none;
+}
+
+// ==========================================================================
+// 3. Button Container
 // ==========================================================================
 .wp-block-polaris-buttons {
 	display: flex;
@@ -44,7 +89,7 @@
 }
 
 // ==========================================================================
-// 3. Button Base Styles
+// 4. Button Base Styles
 // ==========================================================================
 .wp-block-polaris-button {
 	// Local CSS variables
@@ -68,7 +113,7 @@
 }
 
 // ==========================================================================
-// 4. Button Size Variants
+// 5. Button Size Variants
 // ==========================================================================
 .wp-block-polaris-button {
 	// Default size
@@ -103,7 +148,7 @@
 }
 
 // ==========================================================================
-// 5. Button Style Variants
+// 6. Button Style Variants
 // ==========================================================================
 .wp-block-polaris-button {
 	// Default style (default for non-text-link) - Fill appearance
@@ -117,10 +162,9 @@
 			color 0.2s ease;
 
 		&:hover,
-		&:focus {
-			background-color: var(--wp--preset--color--primary-contrast);
-			color: var(--wp--preset--color--primary);
-			border-color: var(--wp--preset--color--primary);
+		&:focus,
+		.is-accessible-card:hover & {
+			@extend %button-primary-fill-hover;
 		}
 	}
 
@@ -133,10 +177,9 @@
 			color 0.2s ease;
 
 		&:hover,
-		&:focus {
-			background-color: var(--wp--preset--color--secondary-contrast);
-			color: var(--wp--preset--color--secondary);
-			border-color: var(--wp--preset--color--secondary);
+		&:focus,
+		.is-accessible-card:hover & {
+			@extend %button-secondary-fill-hover;
 		}
 	}
 
@@ -149,10 +192,9 @@
 			color 0.2s ease;
 
 		&:hover,
-		&:focus {
-			background-color: var(--wp--preset--color--neutral-2-contrast);
-			color: var(--wp--preset--color--neutral-2);
-			border-color: var(--wp--preset--color--neutral-2);
+		&:focus,
+		.is-accessible-card:hover & {
+			@extend %button-tertiary-fill-hover;
 		}
 	}
 
@@ -172,9 +214,9 @@
 			border-color: var(--wp--preset--color--primary);
 
 			&:hover,
-			&:focus {
-				background-color: var(--wp--preset--color--primary);
-				color: var(--wp--preset--color--white);
+			&:focus,
+			.is-accessible-card:hover & {
+				@extend %button-primary-outline-hover;
 			}
 		}
 
@@ -183,9 +225,9 @@
 			border-color: var(--wp--preset--color--secondary);
 
 			&:hover,
-			&:focus {
-				background-color: var(--wp--preset--color--secondary);
-				color: var(--wp--preset--color--secondary-contrast);
+			&:focus,
+			.is-accessible-card:hover & {
+				@extend %button-secondary-outline-hover;
 			}
 		}
 
@@ -194,9 +236,9 @@
 			border-color: var(--wp--preset--color--neutral-2);
 
 			&:hover,
-			&:focus {
-				background-color: var(--wp--preset--color--neutral-2);
-				color: var(--wp--preset--color--neutral-2-contrast);
+			&:focus,
+			.is-accessible-card:hover & {
+				@extend %button-tertiary-outline-hover;
 			}
 		}
 	}
@@ -210,12 +252,9 @@
 		transition: opacity 0.2s ease;
 
 		&:hover,
-		&:focus {
-			opacity: 0.7;
-			background-color: transparent;
-			border-color: transparent;
-			color: currentColor;
-			text-decoration: none;
+		&:focus,
+		.is-accessible-card:hover & {
+			@extend %button-text-link-hover;
 		}
 
 		// Margin for text links in button groups
@@ -230,7 +269,7 @@
 }
 
 // ==========================================================================
-// 6. Button Icon Styles
+// 7. Button Icon Styles
 // ==========================================================================
 .wp-block-polaris-button {
 	&__icon {

@@ -10,6 +10,13 @@
 	position: relative;
 	z-index: 1;
 
+	/* Container query for responsive behavior */
+	/* Note: container query looks at nearest ancestor with container-type */
+	@container (max-width: 48rem) {
+		flex-direction: column;
+	}
+
+	/* Media query as fallback */
 	@include lt-md() {
 		flex-direction: column;
 	}
@@ -18,6 +25,7 @@
 		min-width: 4rem;
 		flex-direction: column;
 		display: flex;
+		align-self: stretch;
 
 		/* fix for gutenberg */
 		margin-block-start: 0;
@@ -31,7 +39,7 @@
 			flex: 1;
 			width: auto;
 		}
-		
+
 		@for $i from 1 through 12 {
 			&--span-#{$i} {
 				flex-basis: #{math.percentage(math.div($i, 12))};
@@ -45,8 +53,35 @@
 
 	// Mobile Stacking - Override default mobile stacking
 	&.no-stack-on-mobile {
+		/* Container query override */
+		@container (max-width: 48rem) {
+			flex-direction: row;
+		}
+
+		/* Media query as fallback */
 		@include lt-md() {
 			flex-direction: row;
+		}
+	}
+
+	// Handle WordPress-generated is-nowrap class
+	&.is-nowrap {
+		/* Allow stacking in small containers despite nowrap class */
+		@container (max-width: 48rem) {
+			flex-direction: column;
+
+			.wp-block-polaris-column {
+				width: 100%;
+			}
+		}
+
+		/* Media query as fallback */
+		@include lt-md() {
+			flex-direction: column;
+
+			.wp-block-polaris-column {
+				width: 100%;
+			}
 		}
 	}
 }

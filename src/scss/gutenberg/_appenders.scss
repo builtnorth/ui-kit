@@ -1,5 +1,16 @@
 /* stylelint-disable */
 
+// get lost on dark BGs.
+.block-editor-button-block-appender {
+	background-color: #fff !important;
+	color: #1e1e1e !important;
+
+	&:hover,
+	&:focus {
+		color: var(--wp-admin-theme-color, #007cba) !important;
+	}
+}
+
 .block-editor-inserter__toggle.components-button {
 	border: 1px solid #fff;
 }
@@ -114,12 +125,14 @@
 	}
 }
 
-.wp-block-polaris-column-appender-wrapper.is-dragging-over {
+.wp-block-polaris-column-appender-wrapper.is-dragging-over,
+.wp-block-polaris-slide-appender-wrapper.is-dragging-over {
 	background-color: rgba(134, 134, 134, 0.208);
 	border: 1px solid var(--wp-admin-theme-color);
 }
 
-.wp-block-polaris-column-appender-wrapper {
+.wp-block-polaris-column-appender-wrapper,
+.wp-block-polaris-slide-appender-wrapper {
 	background-color: rgba(134, 134, 134, 0.06);
 	border: 1px dashed rgba(87, 87, 87, 0.302);
 	height: 100%;
@@ -128,19 +141,17 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	pointer-events: none;
 	&:focus,
 	&:focus-within {
 		border: 1px solid var(--wp-admin-theme-color);
 	}
-
-	// Allow the button inside to be clickable
-	.built-block-appender-column__appender {
-		pointer-events: auto;
+	&:hover {
+		background-color: rgba(134, 134, 134, 0.1);
 	}
 }
 
-.built-block-appender-column__appender {
+.built-block-appender-column__appender,
+.built-block-appender-wp-block-polaris-slide__appender {
 	display: flex !important;
 	position: relative !important;
 	opacity: 1 !important;
