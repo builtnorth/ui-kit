@@ -18,7 +18,10 @@ on:
 
 jobs:
     release:
-        uses: builtnorth/basecamp-dev/.github/.github/workflows/npm-package-release.yml@dev
+        permissions:
+            contents: write
+            packages: write
+        uses: builtnorth/.github/.github/workflows/npm-package-release.yml@main
         with:
             version: ${{ inputs.version }}
             prerelease: ${{ inputs.prerelease }}
@@ -26,7 +29,7 @@ jobs:
             node-version: "22"
             publish-to-npm: false
             publish-to-github: true
-            use-workspace: false # SCSS package doesn't need workspace dependencies
+            use-workspace: true
         secrets:
             POLARIS_PLUGIN_GITHUB_TOKEN: ${{ secrets.POLARIS_PLUGIN_GITHUB_TOKEN }}
             NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
