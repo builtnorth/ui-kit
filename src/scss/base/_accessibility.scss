@@ -42,7 +42,8 @@ Helper classes for improving accessibility.
 
 /* Screen reader text
 ----------------------------------------------------------------*/
-.screen-reader-only {
+.screen-reader-only,
+.hidden_label > label {
 	border: 0;
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);

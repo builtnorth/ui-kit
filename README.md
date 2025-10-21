@@ -10,61 +10,100 @@ npm install @builtnorth/ui-kit
 
 ## Usage
 
-This package exports SCSS files that can be imported into your project.
+This package exports SCSS files that can be imported into your project using modern `@use` syntax.
 
 ### Import Everything
 
 ```scss
-@import "@builtnorth/ui-kit";
+@use "@builtnorth/ui-kit" as *;
 ```
+
+### Configure Once in Your Theme (Recommended)
+
+Configure ui-kit in your theme's `theme.json` - applies to ALL plugins automatically:
+
+```json
+{
+	"version": 3,
+	"settings": {
+		"custom": {
+			"spacing": {
+				"form-field": "1rem"
+			},
+			"border-radius": {
+				"form-field": "0.5rem"
+			}
+		}
+	}
+}
+```
+
+**✨ Theme configuration applies everywhere** - no need to configure each plugin separately!
+
+**📚 See [THEME-CONFIGURATION.md](./THEME-CONFIGURATION.md) for the complete theme.json guide.**
+
+### Advanced: SCSS Variable Override (Per-Package)
+
+For package-specific overrides:
+
+```scss
+@use "@builtnorth/ui-kit" with (
+	$form-field-padding: 1rem,
+	$form-field-border-radius: 0.5rem
+);
+```
+
+**📚 See [CONFIGURATION.md](./CONFIGURATION.md) for SCSS configuration details.**
 
 ### Import Essential Styles Only
 
 ```scss
-@import "@builtnorth/ui-kit/essential-styles";
+@use "@builtnorth/ui-kit/essential-styles" as *;
 ```
 
 ### Import Specific Modules
 
 ```scss
 // Base styles
-@import "@builtnorth/ui-kit/base";
-@import "@builtnorth/ui-kit/base/utilities";
-@import "@builtnorth/ui-kit/base/reset";
-@import "@builtnorth/ui-kit/base/accessibility";
-@import "@builtnorth/ui-kit/base/images";
-@import "@builtnorth/ui-kit/base/colors";
+@use "@builtnorth/ui-kit/base" as *;
+@use "@builtnorth/ui-kit/base/utilities" as *;
+@use "@builtnorth/ui-kit/base/reset" as *;
+@use "@builtnorth/ui-kit/base/accessibility" as *;
+@use "@builtnorth/ui-kit/base/images" as *;
+@use "@builtnorth/ui-kit/base/colors" as *;
 
-// Components
-@import "@builtnorth/ui-kit/components";
-@import "@builtnorth/ui-kit/components/buttons";
-@import "@builtnorth/ui-kit/components/slider";
+// Components (with namespace)
+@use "@builtnorth/ui-kit/components" as ui;
+@use "@builtnorth/ui-kit/components/buttons" as ui;
+@use "@builtnorth/ui-kit/components/slider" as ui;
 
 // Forms
-@import "@builtnorth/ui-kit/forms";
-@import "@builtnorth/ui-kit/forms/label";
-@import "@builtnorth/ui-kit/forms/fieldset";
-@import "@builtnorth/ui-kit/forms/select";
-@import "@builtnorth/ui-kit/forms/checkbox";
-@import "@builtnorth/ui-kit/forms/text";
+@use "@builtnorth/ui-kit/forms" as *;
+@use "@builtnorth/ui-kit/forms/label" as *;
+@use "@builtnorth/ui-kit/forms/fieldset" as *;
+@use "@builtnorth/ui-kit/forms/select" as *;
+@use "@builtnorth/ui-kit/forms/checkbox" as *;
+@use "@builtnorth/ui-kit/forms/text" as *;
 
-// Helpers
-@import "@builtnorth/ui-kit/helpers";
-@import "@builtnorth/ui-kit/helpers/mixins";
-@import "@builtnorth/ui-kit/helpers/functions";
-@import "@builtnorth/ui-kit/helpers/media-queries";
+// Helpers (commonly namespaced as 'ui')
+@use "@builtnorth/ui-kit/helpers" as ui;
+@use "@builtnorth/ui-kit/helpers/mixins" as ui;
+@use "@builtnorth/ui-kit/helpers/functions" as ui;
+@use "@builtnorth/ui-kit/helpers/media-queries" as *;
 
 // Layout
-@import "@builtnorth/ui-kit/layout";
-@import "@builtnorth/ui-kit/layout/grid";
-@import "@builtnorth/ui-kit/layout/columns";
+@use "@builtnorth/ui-kit/layout" as *;
+@use "@builtnorth/ui-kit/layout/grid" as grid;
+@use "@builtnorth/ui-kit/layout/columns" as *;
 
 // Gutenberg
-@import "@builtnorth/ui-kit/gutenberg";
-@import "@builtnorth/ui-kit/gutenberg/quirks";
-@import "@builtnorth/ui-kit/gutenberg/placeholders";
-@import "@builtnorth/ui-kit/gutenberg/appenders";
+@use "@builtnorth/ui-kit/gutenberg" as *;
+@use "@builtnorth/ui-kit/gutenberg/quirks" as *;
+@use "@builtnorth/ui-kit/gutenberg/placeholders" as *;
+@use "@builtnorth/ui-kit/gutenberg/appenders" as *;
 ```
+
+> **Note:** The `@use` syntax is recommended over the deprecated `@import`. Use `as *` to include styles globally, or use `as ui` (or any namespace) to access mixins and functions with a namespace prefix.
 
 ## What's Included
 
