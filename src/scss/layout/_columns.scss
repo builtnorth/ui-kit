@@ -50,6 +50,11 @@
 		}
 	}
 
+	// Allow columns to wrap onto multiple rows
+	&.is-flex-wrap {
+		flex-wrap: wrap;
+	}
+
 	// Mobile Stacking - Override default mobile stacking
 	&.no-stack-on-mobile {
 		/* Container query override */
