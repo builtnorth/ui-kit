@@ -9,7 +9,7 @@
 // }
 
 // Allow sticky to work with template parts
-.wp-block-template-part:not(header) {
+.wp-block-template-part:not(header, footer) {
 	display: contents;
 }
 
