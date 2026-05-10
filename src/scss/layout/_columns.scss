@@ -39,6 +39,13 @@
 			width: auto;
 		}
 
+		/* Sizes to inner content; use with justify-content: space-between on the row */
+		&--shrink {
+			flex: 0 0 auto;
+			width: auto;
+			max-width: 100%;
+		}
+
 		@for $i from 1 through 12 {
 			&--span-#{$i} {
 				flex-basis: #{math.percentage(math.div($i, 12))};
