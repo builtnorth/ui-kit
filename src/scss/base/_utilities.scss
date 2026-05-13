@@ -65,13 +65,26 @@ Classes to quickly add utility styles to your components.
 		padding-right: 0;
 	}
 }
-// .alignright {
-//     float: right;
-// }
 
-// .alignleft {
-//     float: left;
-// }
+.aligncenter {
+	margin-left: auto !important;
+	margin-right: auto !important;
+	display: flex !important;
+	width: auto !important;
+	align-self: center;
+}
+.alignleft {
+	float: none !important;
+	display: flex !important;
+	align-self: flex-start;
+	width: auto !important;
+}
+.alignright {
+	float: none !important;
+	display: flex !important;
+	align-self: flex-end;
+	width: auto !important;
+}
 
 /* Image Styles
 ------------------------------------------------------------------*/
