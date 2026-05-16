@@ -42,7 +42,7 @@
 @mixin button-fill-inverted($color-name, $contrast-name) {
 	background-color: var(--wp--preset--color--#{$contrast-name});
 	color: var(--wp--preset--color--#{$color-name});
-	border-color: var(--wp--preset--color--#{$color-name});
+	border-color: var(--wp--preset--color--#{$contrast-name});
 
 	&:hover,
 	&:focus,
@@ -64,8 +64,8 @@
 		var(--wp--preset--color--neutral-1, #000000)
 	);
 	border-color: var(
-		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		--wp--preset--color--neutral-2-contrast,
+		var(--wp--preset--color--neutral-1-contrast, #ffffff)
 	);
 
 	&:hover,
@@ -263,7 +263,7 @@
 		):not(.is-appearance-outline) {
 		background-color: var(--wp--preset--color--primary);
 		color: var(--wp--preset--color--primary-contrast);
-		border-color: var(--wp--preset--color--primary-contrast);
+		border-color: var(--wp--preset--color--primary);
 		transition:
 			background-color 0.2s ease,
 			color 0.2s ease,
@@ -280,7 +280,7 @@
 	&.is-style-secondary:not(.is-appearance-outline) {
 		color: var(--wp--preset--color--secondary-contrast);
 		background-color: var(--wp--preset--color--secondary);
-		border-color: var(--wp--preset--color--secondary-contrast);
+		border-color: var(--wp--preset--color--secondary);
 		transition:
 			background-color 0.2s ease,
 			color 0.2s ease,
@@ -304,8 +304,8 @@
 			var(--wp--preset--color--neutral-1, #000000)
 		);
 		border-color: var(
-			--wp--preset--color--neutral-2-contrast,
-			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+			--wp--preset--color--neutral-2,
+			var(--wp--preset--color--neutral-1, #000000)
 		);
 		transition:
 			background-color 0.2s ease,
