@@ -4,103 +4,33 @@ Colors
 Set up color/contrast pairs.
 Now we can use only one color for the background
 and the text will be the contrast color.
+
+Nested backgrounds: each container sets --polaris-auto-text-color so
+descendants (especially links) resolve contrast from the nearest
+background ancestor, not from intermediate wrappers or outer sections.
 ****************************************************/
 
-/* Base Background */
-.has-base-background-color {
-	color: var(--wp--preset--color--contrast);
+$background-contrast-pairs: (
+	"base": "contrast",
+	"contrast": "base",
+	"primary": "primary-contrast",
+	"secondary": "secondary-contrast",
+	"tertiary": "tertiary-contrast",
+	"neutral-1": "neutral-1-contrast",
+	"neutral-2": "neutral-2-contrast",
+	"neutral-3": "neutral-3-contrast",
+	"neutral-4": "neutral-4-contrast",
+	"neutral-5": "neutral-5-contrast",
+	"neutral-6": "neutral-6-contrast",
+);
 
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
+@each $background, $contrast in $background-contrast-pairs {
+	.has-#{$background}-background-color {
+		--polaris-auto-text-color: var(--wp--preset--color--#{$contrast});
+		color: var(--polaris-auto-text-color);
 
-/* Contrast Background */
-.has-contrast-background-color {
-	color: var(--wp--preset--color--base);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Primary Background */
-.has-primary-background-color {
-	color: var(--wp--preset--color--primary-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Secondary Background */
-.has-secondary-background-color {
-	color: var(--wp--preset--color--secondary-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Tertiary Background */
-.has-tertiary-background-color {
-	color: var(--wp--preset--color--tertiary-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral One Background */
-.has-neutral-1-background-color {
-	color: var(--wp--preset--color--neutral-1-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Two Background */
-.has-neutral-2-background-color {
-	color: var(--wp--preset--color--neutral-2-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Three Background */
-.has-neutral-3-background-color {
-	color: var(--wp--preset--color--neutral-3-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Four Background */
-.has-neutral-4-background-color {
-	color: var(--wp--preset--color--neutral-4-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Five Background */
-.has-neutral-5-background-color {
-	color: var(--wp--preset--color--neutral-5-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Six Background */
-.has-neutral-6-background-color {
-	color: var(--wp--preset--color--neutral-6-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
+		a:not([class*="has-background"]):not(.has-text-color) {
+			color: var(--polaris-auto-text-color);
+		}
 	}
 }
