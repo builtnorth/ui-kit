@@ -9,7 +9,8 @@
  * 5. Button Size Variants
  * 6. Button Style Variants
  * 7. Button Icon Styles
- * 8. Special Cases & Overrides
+ * 8. Same-background contrast (invert when button color matches ancestor bg)
+ * 9. Special Cases & Overrides
  */
 
 // ==========================================================================
@@ -36,8 +37,92 @@
 }
 
 // ==========================================================================
-// 2. Placeholders
+// 2. Mixins & Placeholders
 // ==========================================================================
+@mixin button-fill-inverted($color-name, $contrast-name) {
+	background-color: var(--wp--preset--color--#{$contrast-name});
+	color: var(--wp--preset--color--#{$color-name});
+	border-color: var(--wp--preset--color--#{$color-name});
+
+	&:hover,
+	&:focus,
+	.is-accessible-card:hover & {
+		background-color: var(--wp--preset--color--#{$color-name});
+		color: var(--wp--preset--color--#{$contrast-name});
+		// Fill matches section bg on hover — border uses contrast so the shape stays visible
+		border-color: var(--wp--preset--color--#{$contrast-name});
+	}
+}
+
+@mixin button-tertiary-fill-inverted() {
+	background-color: var(
+		--wp--preset--color--neutral-2-contrast,
+		var(--wp--preset--color--neutral-1-contrast, #ffffff)
+	);
+	color: var(
+		--wp--preset--color--neutral-2,
+		var(--wp--preset--color--neutral-1, #000000)
+	);
+	border-color: var(
+		--wp--preset--color--neutral-2,
+		var(--wp--preset--color--neutral-1, #000000)
+	);
+
+	&:hover,
+	&:focus,
+	.is-accessible-card:hover & {
+		background-color: var(
+			--wp--preset--color--neutral-2,
+			var(--wp--preset--color--neutral-1, #000000)
+		);
+		color: var(
+			--wp--preset--color--neutral-2-contrast,
+			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+		);
+		border-color: var(
+			--wp--preset--color--neutral-2-contrast,
+			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+		);
+	}
+}
+
+@mixin button-outline-on-matching-bg($color-name, $contrast-name) {
+	border-color: var(--wp--preset--color--#{$contrast-name});
+
+	&:hover,
+	&:focus,
+	.is-accessible-card:hover & {
+		background-color: var(--wp--preset--color--#{$contrast-name});
+		color: var(--wp--preset--color--#{$color-name});
+		border-color: var(--wp--preset--color--#{$contrast-name});
+	}
+}
+
+@mixin button-tertiary-outline-on-matching-bg() {
+	border-color: var(
+		--wp--preset--color--neutral-2-contrast,
+		var(--wp--preset--color--neutral-1-contrast, #ffffff)
+	);
+
+	&:hover,
+	&:focus,
+	.is-accessible-card:hover & {
+		background-color: var(
+			--wp--preset--color--neutral-2-contrast,
+			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+		);
+		color: var(
+			--wp--preset--color--neutral-2,
+			var(--wp--preset--color--neutral-1, #000000)
+		);
+		border-color: var(
+			--wp--preset--color--neutral-2-contrast,
+			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+		);
+	}
+}
+
+// Placeholders
 %button-primary-fill-hover {
 	background-color: var(--wp--preset--color--primary-contrast);
 	color: var(--wp--preset--color--primary);
@@ -51,24 +136,45 @@
 }
 
 %button-tertiary-fill-hover {
-	background-color: var(--wp--preset--color--neutral-2-contrast);
-	color: var(--wp--preset--color--neutral-2);
-	border-color: var(--wp--preset--color--neutral-2);
+	background-color: var(
+		--wp--preset--color--neutral-2-contrast,
+		var(--wp--preset--color--neutral-1-contrast, #ffffff)
+	);
+	color: var(
+		--wp--preset--color--neutral-2,
+		var(--wp--preset--color--neutral-1, #000000)
+	);
+	border-color: var(
+		--wp--preset--color--neutral-2,
+		var(--wp--preset--color--neutral-1, #000000)
+	);
 }
 
 %button-primary-outline-hover {
 	background-color: var(--wp--preset--color--primary);
 	color: var(--wp--preset--color--white);
+	border-color: var(--wp--preset--color--primary);
 }
 
 %button-secondary-outline-hover {
 	background-color: var(--wp--preset--color--secondary);
 	color: var(--wp--preset--color--secondary-contrast);
+	border-color: var(--wp--preset--color--secondary);
 }
 
 %button-tertiary-outline-hover {
-	background-color: var(--wp--preset--color--neutral-2);
-	color: var(--wp--preset--color--neutral-2-contrast);
+	background-color: var(
+		--wp--preset--color--neutral-2-contrast,
+		var(--wp--preset--color--neutral-1-contrast, #ffffff)
+	);
+	color: var(
+		--wp--preset--color--neutral-2,
+		var(--wp--preset--color--neutral-1, #000000)
+	);
+	border-color: var(
+		--wp--preset--color--neutral-2,
+		var(--wp--preset--color--neutral-1, #000000)
+	);
 }
 
 %button-text-link-hover {
@@ -156,10 +262,12 @@
 			.is-style-text-link
 		):not(.is-appearance-outline) {
 		background-color: var(--wp--preset--color--primary);
-		color: var(--wp--preset--color--white);
+		color: var(--wp--preset--color--primary-contrast);
+		border-color: var(--wp--preset--color--primary-contrast);
 		transition:
 			background-color 0.2s ease,
-			color 0.2s ease;
+			color 0.2s ease,
+			border-color 0.2s ease;
 
 		&:hover,
 		&:focus,
@@ -172,9 +280,11 @@
 	&.is-style-secondary:not(.is-appearance-outline) {
 		color: var(--wp--preset--color--secondary-contrast);
 		background-color: var(--wp--preset--color--secondary);
+		border-color: var(--wp--preset--color--secondary-contrast);
 		transition:
 			background-color 0.2s ease,
-			color 0.2s ease;
+			color 0.2s ease,
+			border-color 0.2s ease;
 
 		&:hover,
 		&:focus,
@@ -185,11 +295,22 @@
 
 	// Tertiary style - Fill appearance
 	&.is-style-tertiary:not(.is-appearance-outline) {
-		color: var(--wp--preset--color--neutral-2-contrast);
-		background-color: var(--wp--preset--color--neutral-2);
+		color: var(
+			--wp--preset--color--neutral-2-contrast,
+			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+		);
+		background-color: var(
+			--wp--preset--color--neutral-2,
+			var(--wp--preset--color--neutral-1, #000000)
+		);
+		border-color: var(
+			--wp--preset--color--neutral-2-contrast,
+			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+		);
 		transition:
 			background-color 0.2s ease,
-			color 0.2s ease;
+			color 0.2s ease,
+			border-color 0.2s ease;
 
 		&:hover,
 		&:focus,
@@ -295,5 +416,56 @@
 		.wp-block-polaris-button__text {
 			display: inline;
 		}
+	}
+}
+
+// ==========================================================================
+// 8. Same-background contrast
+// Invert fill/outline when the button palette matches an ancestor section bg
+// (e.g. primary fill button on .has-primary-background-color).
+// ==========================================================================
+$button-primary-style: ":not(.is-style-secondary):not(.is-style-tertiary):not(.is-style-text-link)";
+
+.has-primary-background-color {
+	.wp-block-polaris-button#{$button-primary-style}:not(
+		.is-appearance-outline
+	) {
+		@include button-fill-inverted("primary", "primary-contrast");
+	}
+
+	.wp-block-polaris-button#{$button-primary-style}.is-appearance-outline {
+		@include button-outline-on-matching-bg("primary", "primary-contrast");
+	}
+}
+
+.has-secondary-background-color {
+	.wp-block-polaris-button.is-style-secondary:not(.is-style-text-link):not(
+			.is-appearance-outline
+		) {
+		@include button-fill-inverted("secondary", "secondary-contrast");
+	}
+
+	.wp-block-polaris-button.is-style-secondary:not(
+			.is-style-text-link
+		).is-appearance-outline {
+		@include button-outline-on-matching-bg(
+			"secondary",
+			"secondary-contrast"
+		);
+	}
+}
+
+.has-neutral-2-background-color,
+.has-neutral-1-background-color {
+	.wp-block-polaris-button.is-style-tertiary:not(.is-style-text-link):not(
+			.is-appearance-outline
+		) {
+		@include button-tertiary-fill-inverted;
+	}
+
+	.wp-block-polaris-button.is-style-tertiary:not(
+			.is-style-text-link
+		).is-appearance-outline {
+		@include button-tertiary-outline-on-matching-bg;
 	}
 }
