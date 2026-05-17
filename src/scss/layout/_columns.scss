@@ -30,9 +30,10 @@
 		margin-block-start: 0;
 
 		/* Needed for gutenberg - mainly wp-group blocks */
-		> * {
-			width: 100%;
-		}
+		/* commented out, as messes up is-style-label width. Can turn back off or modifiy if more breakages detected.
+		// > * {
+		// 	width: 100%;
+		// }
 
 		&--auto {
 			flex: 1;

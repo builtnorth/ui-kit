@@ -398,13 +398,16 @@
 		align-items: center;
 	}
 
-	// Icon sizing
+	// Icon sizing (polaris/icon inner block + legacy icon-item markup)
 	.wp-block-polaris-button__icon,
+	.wp-block-polaris-button__icon .wp-block-polaris-icon,
+	.wp-block-polaris-button__icon .wp-block-polaris-icon svg,
 	.icon-item,
 	.icon-item__wrap,
 	.icon-item__wrap svg {
 		height: var(--icon-size);
 		width: var(--icon-size);
+		flex-shrink: 0;
 	}
 
 	// Button with icon layout
