@@ -79,6 +79,30 @@ Configure text inputs, selects, and textareas:
 - `--wp--custom--border-radius--form-field`
 - `--wp--custom--color--form-field-border`
 
+### Form Surfaces (Textareas, Choice Cards)
+
+Use a separate radius when line inputs are square but cards and textareas should be rounded:
+
+```json
+{
+	"settings": {
+		"custom": {
+			"form": {
+				"field": {
+					"border-radius": "0"
+				},
+				"surface": {
+					"border-radius": "var(--wp--custom--border-radius--small)"
+				}
+			}
+		}
+	}
+}
+```
+
+**CSS variable:** `--wp--custom--form--surface--border-radius`  
+**SCSS variable:** `$form-surface-border-radius`
+
 ### Checkboxes & Radio Buttons
 
 ```json

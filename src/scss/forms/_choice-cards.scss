@@ -9,102 +9,138 @@
 	}
 
 	.field--choice-card {
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
 		margin: 0;
 	}
 
 	.choice-card {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
-		gap: $spacing-30;
 		height: 100%;
 		margin: 0;
-		padding: $spacing-40;
-		border: var(--wp--custom--border-width--small, 1px) solid
-			var(--wp--preset--color--neutral-200, #e2e8f0);
-		border-radius: var(--wp--custom--border-radius--medium, 0.5rem);
-		background: var(--wp--preset--color--base, #fff);
+		padding: 0;
+		overflow: hidden;
+		border-width: $form-field-border-width;
+		border-style: solid;
+		border-color: $form-field-border-color;
+		border-radius: $form-surface-border-radius;
+		background-color: $form-field-background-color;
+		color: $form-field-color;
 		cursor: pointer;
-		transition:
-			border-color 0.15s ease,
-			box-shadow 0.15s ease,
-			background-color 0.15s ease;
+		transition: $transition-fast;
+		transition-property: border-color, box-shadow;
 
 		&:hover {
-			border-color: var(--wp--preset--color--neutral-300, #cbd5e1);
+			border-color: color-mix(
+				in srgb,
+				$form-field-border-color 70%,
+				$form-field-color
+			);
 		}
 
 		&:has(.choice-card__control:focus-visible) {
-			outline: 2px solid var(--wp--preset--color--primary, #2563eb);
+			outline: 2px solid $form-field-focus-color;
 			outline-offset: 2px;
 		}
 
 		&:has(.choice-card__control:checked) {
-			border-color: var(--wp--preset--color--primary, #2563eb);
-			box-shadow: 0 0 0 1px var(--wp--preset--color--primary, #2563eb);
-			background: color-mix(
-				in srgb,
-				var(--wp--preset--color--primary, #2563eb) 6%,
-				var(--wp--preset--color--base, #fff)
-			);
+			border-color: $form-choice-checked-color;
+			box-shadow: 0 0 0 1px $form-choice-checked-color;
+		}
+
+		&:has(.choice-card__control:checked) .field__label,
+		&:has(.choice-card__control:focus-visible) .field__label {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+	}
+
+	.choice-card__header {
+		display: flex;
+		flex: 0 0 auto;
+		flex-direction: column;
+		align-items: stretch;
+		padding: 0;
+
+		// Keep image band height consistent when a card has no media.
+		&:not(:has(.choice-card__media, .choice-card__media--icon))::after {
+			content: "";
+			display: block;
+			width: 100%;
+			aspect-ratio: 16 / 10;
 		}
 	}
 
 	.choice-card__control {
 		position: absolute;
-		width: 1px;
-		height: 1px;
-		padding: 0;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		white-space: nowrap;
-		border: 0;
+		right: $spacing-40;
+		bottom: $spacing-40;
+		z-index: 1;
+		margin: 0;
 	}
 
 	.choice-card__media--icon {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		aspect-ratio: 1;
-		font-size: 2.5rem;
 		width: 100%;
+		aspect-ratio: 16 / 10;
+		font-size: 2.5rem;
 		line-height: 1;
-		color: var(--wp--preset--color--primary, #2563eb);
+		color: $form-choice-checked-color;
 	}
 
 	.choice-card__media {
 		display: block;
+		width: 100%;
 		overflow: hidden;
-		border-radius: var(--wp--custom--border-radius--small, 0.25rem);
-		aspect-ratio: 16 / 9;
-		background: var(--wp--preset--color--neutral-100, #f1f5f9);
+		border-radius: calc($form-surface-border-radius - 2px)
+			calc($form-surface-border-radius - 2px) 0 0 0;
 
 		img {
 			display: block;
 			width: 100%;
-			height: 100%;
+			aspect-ratio: 16 / 10;
 			object-fit: cover;
+			border-radius: calc($form-surface-border-radius - 2px)
+				calc($form-surface-border-radius - 2px) 0 0;
 		}
 	}
 
 	.choice-card__content {
-		display: flex;
-		flex-direction: column;
-		gap: $spacing-20;
-		flex: 1 1 auto;
-		min-width: 0;
-	}
+		--choice-card-control-gutter: calc(
+			#{$form-choice-size} + #{$form-choice-spacing}
+		);
 
-	.choice-card__title {
-		font-weight: 600;
-		font-size: var(--wp--preset--font-size--small, 1rem);
-		line-height: 1.3;
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		gap: $spacing-20;
+		min-width: 0;
+		padding: $spacing-30
+			calc(#{$spacing-40} + var(--choice-card-control-gutter))
+			calc(#{$spacing-40} + var(--choice-card-control-gutter)) $spacing-40;
+		text-align: center;
+
+		// Inherits theme / form label typography.
+		.field__label {
+			margin: 0;
+			transition: $transition-fast;
+			transition-property: text-decoration;
+		}
 	}
 
 	.choice-card__description {
+		margin-top: auto;
 		font-size: var(--wp--preset--font-size--xx-small, 0.875rem);
+		font-style: italic;
 		line-height: 1.45;
-		color: var(--wp--preset--color--neutral-600, #475569);
+		color: color-mix(in srgb, $form-field-color 65%, transparent);
 	}
 }

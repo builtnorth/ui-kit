@@ -3,8 +3,9 @@
 // ============================================================================
 // Maps to theme.json settings.custom.form.*
 //
-//   form.field  → text inputs, selects, textareas
-//   form.choice → checkboxes, radios
+//   form.field   → text inputs, selects (line-style controls)
+//   form.surface → textareas, choice cards, other panel-like fields
+//   form.choice  → checkboxes, radios
 //
 // @use "@builtnorth/ui-kit" with ( $form-field-padding-x: 1rem );
 
@@ -30,6 +31,13 @@ $form-field-color: var(--wp--custom--form--field--color, #000) !default;
 $form-field-focus-color: var(
 	--wp--custom--color--focus,
 	var(--wp--preset--color--primary)
+) !default;
+
+// form.surface — rounded panels independent of field border-radius (e.g. sharp inputs, soft cards)
+// ----------------------------------------------------------------------------
+$form-surface-border-radius: var(
+	--wp--custom--form--surface--border-radius,
+	var(--wp--custom--border-radius--small, 0.25rem)
 ) !default;
 
 // form.choice
