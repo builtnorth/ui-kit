@@ -22,6 +22,7 @@ $background-contrast-pairs: (
 	"neutral-4": "neutral-4-contrast",
 	"neutral-5": "neutral-5-contrast",
 	"neutral-6": "neutral-6-contrast",
+	"white": "neutral-1-contrast",
 );
 
 @each $background, $contrast in $background-contrast-pairs {
@@ -31,6 +32,15 @@ $background-contrast-pairs: (
 
 		a:not([class*="has-background"]):not(.has-text-color) {
 			color: var(--polaris-auto-text-color);
+		}
+	}
+
+	// contact-information, social-media: icon bg without icon color (stroke SVGs via --icon-color).
+	.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
+		--icon-color: var(--wp--preset--color--#{$contrast});
+
+		svg {
+			color: var(--icon-color);
 		}
 	}
 }
