@@ -1,49 +1,50 @@
 // ============================================================================
 // UI Kit Configuration
 // ============================================================================
-// Override any of these variables BEFORE importing ui-kit to customize
+// Maps to theme.json settings.custom.form.*
 //
-// Example usage in your theme/plugin:
-// @use "@builtnorth/ui-kit" with (
-//   $form-field-padding: 1rem,
-//   $form-border-radius: 0.5rem
-// );
+//   form.field  → text inputs, selects, textareas
+//   form.choice → checkboxes, radios
+//
+// @use "@builtnorth/ui-kit" with ( $form-field-padding-x: 1rem );
 
-// Form Field Settings
+// form.field
 // ----------------------------------------------------------------------------
-$form-field-padding: var(--wp--custom--form--field-padding, 0.11rem) !default;
+$form-field-padding-x: var(--wp--custom--form--field--padding-x, 0.11rem) !default;
+$form-field-padding-y: var(--wp--custom--form--field--padding-y, 0.11rem) !default;
+$form-field-height: var(--wp--custom--form--field--height, 3rem) !default;
 $form-field-border-width: var(
-	--wp--custom--form--field-border-width,
-	1px
+	--wp--custom--form--field--border-width,
+	var(--wp--custom--border-width--x-small, 1px)
 ) !default;
 $form-field-border-color: var(
-	--wp--custom--form--field-border-color,
-	#8e8e8e
+	--wp--custom--form--field--border-color,
+	var(--wp--custom--color--border-light, #8e8e8e)
 ) !default;
-$form-field-border-radius: var(
-	--wp--custom--form--field-border-radius,
-	0
+$form-field-border-radius: var(--wp--custom--form--field--border-radius, 0) !default;
+$form-field-background-color: var(
+	--wp--custom--form--field--background-color,
+	#fff
 ) !default;
+$form-field-color: var(--wp--custom--form--field--color, #000) !default;
 $form-field-focus-color: var(
-	--wp--custom--form--field-focus-color,
+	--wp--custom--color--focus,
 	var(--wp--preset--color--primary)
 ) !default;
-$form-field-bg-color: var(--wp--custom--form--field-bg-color, #fff) !default;
-$form-field-text-color: var(
-	--wp--custom--form--field-text-color,
-	#000
-) !default;
 
-// Form Choice Settings (checkbox/radio)
+// form.choice
 // ----------------------------------------------------------------------------
-$form-choice-size: var(--wp--custom--form--choice-size, 1.125rem) !default;
-$form-choice-spacing: var(--wp--custom--form--choice-spacing, 0.25rem) !default;
+$form-choice-size: var(--wp--custom--form--choice--size, 1.125rem) !default;
+$form-choice-spacing: var(
+	--wp--custom--form--choice--spacing,
+	var(--wp--preset--spacing--20, 0.25rem)
+) !default;
 $form-choice-border-radius: var(
-	--wp--custom--form--choice-border-radius,
-	0.25rem
+	--wp--custom--form--choice--border-radius,
+	var(--wp--custom--border-radius--x-small, 0.25rem)
 ) !default;
 $form-choice-checked-color: var(
-	--wp--custom--form--choice-checked-color,
+	--wp--custom--form--choice--checked-color,
 	var(--wp--preset--color--primary)
 ) !default;
 
@@ -58,8 +59,8 @@ $button-padding-x: var(
 	1.5rem
 ) !default;
 $button-border-radius: var(
-	--wp--custom--border-radius--medium,
-	0.25rem
+	--wp--custom--border-radius--button,
+	var(--wp--custom--border-radius--medium, 0.25rem)
 ) !default;
 $button-font-weight: var(--wp--custom--font-weight--medium, 500) !default;
 

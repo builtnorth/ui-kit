@@ -22,7 +22,6 @@ $background-contrast-pairs: (
 	"neutral-4": "neutral-4-contrast",
 	"neutral-5": "neutral-5-contrast",
 	"neutral-6": "neutral-6-contrast",
-	"white": "neutral-1-contrast",
 );
 
 @each $background, $contrast in $background-contrast-pairs {
@@ -30,7 +29,9 @@ $background-contrast-pairs: (
 		--polaris-auto-text-color: var(--wp--preset--color--#{$contrast});
 		color: var(--polaris-auto-text-color);
 
-		a:not([class*="has-background"]):not(.has-text-color) {
+		a:not([class*="has-background"]):not(.has-text-color):not(
+				.has-link-color
+			) {
 			color: var(--polaris-auto-text-color);
 		}
 	}

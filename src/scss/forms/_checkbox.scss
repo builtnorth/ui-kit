@@ -1,0 +1,83 @@
+@use "../config" as *;
+
+// Vertical stack: label + control siblings (hidden label fields may sit between).
+:where(
+	:has(
+		> label[for]:first-child
+			~ :is(
+				input:not([type="checkbox"]):not([type="radio"]):not(
+						[type="hidden"]
+					),
+				select,
+				textarea
+			)
+	)
+),
+:where(
+	:has(
+		> :is(input, select, textarea):not([type="checkbox"]):not(
+				[type="radio"]
+			):not([type="hidden"])
+			~ label[for]
+	)
+) {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-20;
+}
+
+// Checkbox / radio: control before label (checkbox upper-left, text inline).
+:where(:has(> label[for] ~ input[type="checkbox"])),
+:where(:has(> label[for] ~ input[type="radio"])) {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: flex-start;
+	gap: $form-choice-spacing;
+
+	> label[for] {
+		order: 2;
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	> input[type="checkbox"],
+	> input[type="radio"] {
+		order: 1;
+		width: $form-choice-size;
+		height: $form-choice-size;
+		margin-top: 0.25em;
+		flex-shrink: 0;
+	}
+
+	// JustValidate injects .field__error-label into this row — full width on line 2.
+	> .field__error-label {
+		flex: 0 0 100%;
+		order: 3;
+		padding-left: calc(#{$form-choice-size} + #{$form-choice-spacing});
+	}
+}
+
+// Help text immediately after a choice row.
+:where(:has(> label[for] ~ input[type="checkbox"])) + p,
+:where(:has(> label[for] ~ input[type="radio"])) + p,
+:where(
+		:has(
+			> label[for]:first-child
+				~ :is(
+					input:not([type="checkbox"]):not([type="radio"]):not(
+							[type="hidden"]
+						),
+					select,
+					textarea
+				)
+		)
+	)
+	+ p {
+	margin-bottom: 0;
+	font-size: var(--wp--preset--font-size--xx-small);
+}
+
+:where(:has(> label[for] ~ input[type="checkbox"])) + p,
+:where(:has(> label[for] ~ input[type="radio"])) + p {
+	margin-left: calc(#{$form-choice-size} + #{$form-choice-spacing});
+}

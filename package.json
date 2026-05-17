@@ -30,6 +30,7 @@
 		"./components/buttons": "./src/scss/components/_buttons.scss",
 		"./components/slider": "./src/scss/components/_slider.scss",
 		"./forms": "./src/scss/forms/index.scss",
+		"./forms/shared": "./src/scss/forms/_shared.scss",
 		"./forms/label": "./src/scss/forms/_label.scss",
 		"./forms/fieldset": "./src/scss/forms/_fieldset.scss",
 		"./forms/select": "./src/scss/forms/_select.scss",

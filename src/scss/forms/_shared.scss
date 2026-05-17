@@ -1,16 +1,35 @@
 @use "../config" as *;
 
-input,
-select,
-textarea {
+input:not([type="checkbox"]):not([type="radio"]),
+select {
 	margin: 0;
 	border-width: $form-field-border-width;
 	border-color: $form-field-border-color;
 	border-radius: $form-field-border-radius;
-	padding: $form-field-padding;
-	background-color: $form-field-bg-color;
+	padding: $form-field-padding-y $form-field-padding-x;
+	min-height: $form-field-height;
+	background-color: $form-field-background-color;
 	width: 100%;
-	color: $form-field-text-color;
+	color: $form-field-color;
+
+	&:focus,
+	&:focus-within {
+		outline-color: $form-field-focus-color;
+	}
+}
+
+textarea {
+	margin: 0;
+	border-width: $form-field-border-width;
+	border-color: $form-field-border-color;
+	border-radius: min(
+		$form-field-border-radius,
+		var(--wp--custom--border-radius--small)
+	);
+	padding: $form-field-padding-y $form-field-padding-x;
+	background-color: $form-field-background-color;
+	width: 100%;
+	color: $form-field-color;
 
 	&:focus,
 	&:focus-within {
@@ -24,8 +43,10 @@ input[type="radio"] {
 	width: $form-choice-size;
 	height: $form-choice-size;
 	appearance: none;
-	background-color: $form-field-bg-color;
+	background-color: $form-field-background-color;
 	border-style: solid;
+	border-color: $form-field-border-color;
+	border-width: $form-field-border-width;
 	display: inline-block;
 	vertical-align: middle;
 	background-position: center;
@@ -51,7 +72,6 @@ input[type="checkbox"] {
 	}
 }
 
-input[type="radio"],
 input[type="radio"] {
 	border-radius: 50%;
 
