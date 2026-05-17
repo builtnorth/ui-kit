@@ -35,6 +35,7 @@
 		"./forms/fieldset": "./src/scss/forms/_fieldset.scss",
 		"./forms/select": "./src/scss/forms/_select.scss",
 		"./forms/checkbox": "./src/scss/forms/_checkbox.scss",
+		"./forms/choice-cards": "./src/scss/forms/_choice-cards.scss",
 		"./forms/text": "./src/scss/forms/_text.scss",
 		"./helpers": "./src/scss/helpers/index.scss",
 		"./helpers/mixins": "./src/scss/helpers/_mixins.scss",

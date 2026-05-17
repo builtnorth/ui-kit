@@ -1,6 +1,11 @@
 @use "../config" as *;
 
-input:not([type="checkbox"]):not([type="radio"]),
+legend,
+label {
+	font-size: $form-label-text-size;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
 select {
 	margin: 0;
 	border-width: $form-field-border-width;
@@ -32,6 +37,27 @@ textarea {
 	&:focus,
 	&:focus-within {
 		outline-color: $form-field-focus-color;
+	}
+}
+
+input[type="range"] {
+	margin: 0;
+	width: 100%;
+	min-height: auto;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	accent-color: $form-field-focus-color;
+	cursor: pointer;
+}
+
+.field--content .field__content {
+	> :first-child {
+		margin-top: 0;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
 	}
 }
 
