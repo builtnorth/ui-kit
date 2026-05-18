@@ -29,8 +29,16 @@ $background-contrast-pairs: (
 		--polaris-auto-text-color: var(--wp--preset--color--#{$contrast});
 		color: var(--polaris-auto-text-color);
 
+		// Plain links only — filled buttons set their own color/background.
+		// Outline and text-link buttons use currentColor and need this rule.
 		a:not([class*="has-background"]):not(.has-text-color):not(
 				.has-link-color
+			):not(
+				.wp-block-polaris-button:not(.is-appearance-outline):not(
+						.is-style-text-link
+					)
+			):not(
+				.wp-block-button:not(.is-style-outline) .wp-block-button__link
 			) {
 			color: var(--polaris-auto-text-color);
 		}
