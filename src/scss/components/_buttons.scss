@@ -221,6 +221,20 @@
 		text-decoration: none;
 	}
 
+	// Links inside button label (e.g. variable tags) inherit surface color.
+	a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover,
+		&:focus,
+		&:visited,
+		&:active {
+			color: inherit;
+			text-decoration: none;
+		}
+	}
+
 	.wp-block-polaris-icon {
 		--icon-size: 1.5rem;
 	}

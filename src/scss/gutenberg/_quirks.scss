@@ -37,16 +37,19 @@
 // :root :where(.wp-block-group) {
 //     padding: 0;
 // }
-.wp-block-group.has-global-padding,
-.wp-block-polaris-section.has-global-padding,
-.wp-block-polaris-hero.has-global-padding {
-	padding-right: var(--wp--style--root--padding-right);
-	padding-left: var(--wp--style--root--padding-left);
-}
+
+// .wp-block-group.has-global-padding,
+// .wp-block-polaris-section.has-global-padding,
+// .wp-block-polaris-hero.has-global-padding,
+// .wp-block-polaris-header.has-global-padding {
+// 	padding-right: var(--wp--style--root--padding-right);
+// 	padding-left: var(--wp--style--root--padding-left);
+// }
 
 // Flex section/hero: global padding + content column (no custom justification overrides).
 .wp-block-polaris-section.is-layout-flex.has-global-padding,
-.wp-block-polaris-hero.is-layout-flex.has-global-padding {
+.wp-block-polaris-hero.is-layout-flex.has-global-padding,
+.wp-block-polaris-header.is-layout-flex.has-global-padding {
 	&.is-vertical {
 		flex-wrap: nowrap !important;
 		flex-direction: column !important;
@@ -55,8 +58,12 @@
 	> .alignfull {
 		box-sizing: border-box;
 		max-width: none !important;
-		margin-left: calc(var(--wp--style--root--padding-left, 0px) * -1) !important;
-		margin-right: calc(var(--wp--style--root--padding-right, 0px) * -1) !important;
+		margin-left: calc(
+			var(--wp--style--root--padding-left, 0px) * -1
+		) !important;
+		margin-right: calc(
+			var(--wp--style--root--padding-right, 0px) * -1
+		) !important;
 	}
 
 	> :where(:not(.alignfull):not(.alignwide):not(.is-style-label)) {
