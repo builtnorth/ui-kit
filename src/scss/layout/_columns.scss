@@ -55,10 +55,6 @@
 				flex-basis: #{math.percentage(math.div($i, 12))};
 			}
 		}
-
-		&.has-background {
-			padding: var(--wp--preset--spacing--50);
-		}
 	}
 
 	// Allow columns to wrap onto multiple rows

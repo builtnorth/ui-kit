@@ -203,3 +203,14 @@ Classes to quickly add utility styles to your components.
 		z-index: 1;
 	}
 }
+
+/* Background Padding when .has-background is used
+  ------------------------------------------------------------------*/
+
+.wp-block-polaris-columns,
+.wp-block-polaris-column,
+.wp-block-polaris-price-card {
+	&.has-background {
+		padding: var(--wp--preset--spacing--50);
+	}
+}
