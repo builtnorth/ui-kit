@@ -209,7 +209,8 @@ Classes to quickly add utility styles to your components.
 
 .wp-block-polaris-columns:not(.wp-block-polaris-split-section),
 .wp-block-polaris-column,
-.wp-block-polaris-price-card {
+.wp-block-polaris-price-card,
+.wp-block-polaris-contact-information {
 	&.has-background {
 		padding: var(--wp--preset--spacing--50);
 	}

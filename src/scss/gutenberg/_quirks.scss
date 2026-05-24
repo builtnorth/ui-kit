@@ -49,10 +49,68 @@
 // Flex section/hero: global padding + content column (no custom justification overrides).
 .wp-block-polaris-section.is-layout-flex.has-global-padding,
 .wp-block-polaris-hero.is-layout-flex.has-global-padding,
-.wp-block-polaris-header.is-layout-flex.has-global-padding {
+.wp-block-polaris-header.is-layout-flex.has-global-padding,
+.wp-block-polaris-footer.is-layout-flex.has-global-padding {
 	&.is-vertical {
 		flex-wrap: nowrap !important;
 		flex-direction: column !important;
+	}
+
+	// Default flex layout is vertical; WP only adds .is-horizontal when set explicitly.
+	&:not(.is-horizontal) {
+		> :where(
+			:not(
+				.alignfull,
+				.alignwide,
+				.is-style-label,
+				.section-pattern,
+				.wp-block-site-logo
+			)
+		) {
+			box-sizing: border-box;
+			max-width: var(--wp--style--global--content-size);
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		// Fill content column; omit width: 100% above so flex items (e.g. site-logo)
+		// can shrink and respect align-items on the parent.
+		> :where(
+			.wp-block-group,
+			.wp-block-separator,
+			[class*="wp-block-polaris-"]
+		) {
+			width: 100%;
+		}
+	}
+
+	// Horizontal flex (e.g. header logo + nav): inset the row to content width
+	// instead of giving each flex item width: 100%.
+	&.is-horizontal {
+		padding-left: max(
+			var(--wp--style--root--padding-left, 0px),
+			calc((100% - var(--wp--style--global--content-size)) / 2)
+		);
+		padding-right: max(
+			var(--wp--style--root--padding-right, 0px),
+			calc((100% - var(--wp--style--global--content-size)) / 2)
+		);
+
+		> :where(
+			:not(
+				.alignfull,
+				.alignwide,
+				.is-style-label,
+				.section-pattern,
+				.wp-block-site-logo
+			)
+		) {
+			box-sizing: border-box;
+			width: auto;
+			max-width: none;
+			margin-left: 0;
+			margin-right: 0;
+		}
 	}
 
 	> .alignfull {
@@ -66,21 +124,21 @@
 		) !important;
 	}
 
-	> :where(
-		:not(.alignfull):not(.alignwide):not(.is-style-label):not(
-				.section-pattern
-			)
-	) {
-		box-sizing: border-box;
-		width: 100%;
-		max-width: var(--wp--style--global--content-size);
-		margin-left: auto;
-		margin-right: auto;
-	}
-
 	> .alignwide {
 		max-width: var(--wp--style--global--wide-size);
 	}
+}
+
+// Vertical header, justification center: WP maps justifyContent → align-items on column flex
+// (see wp-includes/block-supports/layout.php). Generated wp-container-* rules apply on the
+// frontend; the site editor canvas does not get them for dynamic blocks.
+.wp-block-polaris-header.is-layout-flex.is-vertical.is-content-justification-center,
+.wp-block-polaris-header
+	.block-editor-block-list__layout.is-layout-flex.is-vertical.is-content-justification-center,
+.wp-block-polaris-footer.is-layout-flex.is-vertical.is-content-justification-center,
+.wp-block-polaris-footer
+	.block-editor-block-list__layout.is-layout-flex.is-vertical.is-content-justification-center {
+	align-items: center;
 }
 
 // Remove margin on first block
