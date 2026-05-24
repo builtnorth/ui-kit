@@ -31,6 +31,7 @@ $background-contrast-pairs: (
 
 		// Plain links only — filled buttons set their own color/background.
 		// Outline and text-link buttons use currentColor and need this rule.
+		// Form submit buttons (button.form-button) use components/_buttons.scss.
 		a:not([class*="has-background"]):not(.has-text-color):not(
 				.has-link-color
 			):not(
@@ -39,17 +40,53 @@ $background-contrast-pairs: (
 					)
 			):not(
 				.wp-block-button:not(.is-style-outline) .wp-block-button__link
-			) {
+			):not(button.form-button) {
 			color: var(--polaris-auto-text-color);
 		}
 	}
 
-	// contact-information, social-media: icon bg without icon color (stroke SVGs via --icon-color).
+	// contact-information, social-media, icon: default chip (contrast icon on preset bg).
 	.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
 		--icon-color: var(--wp--preset--color--#{$contrast});
 
 		svg {
 			color: var(--icon-color);
+		}
+	}
+
+	// Same-surface: icon chip inverts when its bg matches the section surface.
+	.has-#{$background}-background-color {
+		.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
+			--icon-color: var(--wp--preset--color--#{$background});
+			--icon-background-color: var(--wp--preset--color--#{$contrast});
+
+			svg {
+				color: var(--icon-color);
+			}
+		}
+
+		// Nested colored wrappers reset chips to default fills (nearest surface wins).
+		[class*="-background-color"].has-background {
+			.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
+				--icon-color: var(--wp--preset--color--#{$contrast});
+				--icon-background-color: var(--wp--preset--color--#{$background});
+
+				svg {
+					color: var(--icon-color);
+				}
+			}
+		}
+
+		// Re-invert when inner wrapper matches the icon bg again.
+		[class*="-background-color"].has-background.has-#{$background}-background-color {
+			.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
+				--icon-color: var(--wp--preset--color--#{$background});
+				--icon-background-color: var(--wp--preset--color--#{$contrast});
+
+				svg {
+					color: var(--icon-color);
+				}
+			}
 		}
 	}
 }

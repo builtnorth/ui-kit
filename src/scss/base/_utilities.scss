@@ -207,7 +207,7 @@ Classes to quickly add utility styles to your components.
 /* Background Padding when .has-background is used
   ------------------------------------------------------------------*/
 
-.wp-block-polaris-columns,
+.wp-block-polaris-columns:not(.wp-block-polaris-split-section),
 .wp-block-polaris-column,
 .wp-block-polaris-price-card {
 	&.has-background {
