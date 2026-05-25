@@ -33,9 +33,9 @@
 	margin-block-start: 0;
 }
 
-// Flex section/hero: inset container to content column; child alignment comes from
-// WP layout (align-items). Do NOT use margin auto on children — that centers every
-// block and ignores the editor justification control.
+// Flex section/hero: cap direct children at the content column (matches header inset).
+// Vertical justification uses align-items on the parent (see mixins below), not
+// margin auto on each child.
 .wp-block-polaris-section.is-layout-flex.has-global-padding,
 .wp-block-polaris-hero.is-layout-flex.has-global-padding {
 	&.is-vertical {
@@ -44,15 +44,6 @@
 	}
 
 	&:not(.is-horizontal) {
-		padding-left: max(
-			var(--wp--style--root--padding-left, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
-		padding-right: max(
-			var(--wp--style--root--padding-right, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
-
 		> :where(
 			:not(
 				.alignfull,
@@ -62,39 +53,17 @@
 			)
 		) {
 			box-sizing: border-box;
-			max-width: 100%;
-			margin-left: 0;
-			margin-right: 0;
+			max-width: var(--wp--style--global--content-size);
+			margin-left: auto;
+			margin-right: auto;
 		}
 
-		// Left/default: fill content column. Center/right: natural width so align-items works.
-		&:not(.is-content-justification-center):not(
-			.is-content-justification-right
+		> :where(
+			.wp-block-group,
+			.wp-block-separator,
+			[class*="wp-block-polaris-"]
 		) {
-			> :where(
-				:not(
-					.alignfull,
-					.alignwide,
-					.is-style-label,
-					.section-pattern
-				)
-			) {
-				width: 100%;
-			}
-		}
-
-		&.is-content-justification-center,
-		&.is-content-justification-right {
-			> :where(
-				:not(
-					.alignfull,
-					.alignwide,
-					.is-style-label,
-					.section-pattern
-				)
-			) {
-				width: auto;
-			}
+			width: 100%;
 		}
 	}
 
@@ -122,6 +91,47 @@
 			margin-left: 0;
 			margin-right: 0;
 		}
+	}
+
+	> .alignfull {
+		box-sizing: border-box;
+		max-width: none !important;
+		margin-left: calc(
+			var(--wp--style--root--padding-left, 0px) * -1
+		) !important;
+		margin-right: calc(
+			var(--wp--style--root--padding-right, 0px) * -1
+		) !important;
+	}
+
+	> .alignwide {
+		max-width: var(--wp--style--global--wide-size);
+	}
+}
+
+// Constrained section/hero: same content-column cap as flex blocks above.
+.wp-block-polaris-section.is-layout-constrained.has-global-padding,
+.wp-block-polaris-hero.is-layout-constrained.has-global-padding {
+	> :where(
+		:not(
+			.alignfull,
+			.alignwide,
+			.is-style-label,
+			.section-pattern
+		)
+	) {
+		box-sizing: border-box;
+		max-width: var(--wp--style--global--content-size);
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	> :where(
+		.wp-block-group,
+		.wp-block-separator,
+		[class*="wp-block-polaris-"]
+	) {
+		width: 100%;
 	}
 
 	> .alignfull {

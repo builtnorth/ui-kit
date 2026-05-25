@@ -29,6 +29,29 @@ $background-contrast-pairs: (
 		--polaris-auto-text-color: var(--wp--preset--color--#{$contrast});
 		color: var(--polaris-auto-text-color);
 
+		// Map blocks manage their own text (popups, attribution, controls).
+		.wp-block-polaris-map,
+		.wp-block-polaris-service-area-map {
+			color: initial;
+			--polaris-auto-text-color: initial;
+
+			a:not([class*="has-background"]):not(.has-text-color):not(
+					.has-link-color
+				):not(
+					.wp-block-polaris-button:not(.is-appearance-outline):not(
+							.is-style-text-link
+						)
+				):not(
+					.wp-block-button:not(.is-style-outline) .wp-block-button__link
+				):not(button.form-button) {
+				color: initial;
+			}
+
+			.wp-block-polaris-button.is-style-text-link {
+				color: currentColor;
+			}
+		}
+
 		// Plain links only — filled buttons set their own color/background.
 		// Outline and text-link buttons use currentColor and need this rule.
 		// Form submit buttons (button.form-button) use components/_buttons.scss.
@@ -68,9 +91,13 @@ $background-contrast-pairs: (
 
 		// Nested colored wrappers reset chips to default fills (nearest surface wins).
 		[class*="-background-color"].has-background {
-			.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
+			.has-#{$background}-icon-background-color:not(
+				[style*="--icon-color"]
+			) {
 				--icon-color: var(--wp--preset--color--#{$contrast});
-				--icon-background-color: var(--wp--preset--color--#{$background});
+				--icon-background-color: var(
+					--wp--preset--color--#{$background}
+				);
 
 				svg {
 					color: var(--icon-color);
@@ -80,7 +107,9 @@ $background-contrast-pairs: (
 
 		// Re-invert when inner wrapper matches the icon bg again.
 		[class*="-background-color"].has-background.has-#{$background}-background-color {
-			.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
+			.has-#{$background}-icon-background-color:not(
+				[style*="--icon-color"]
+			) {
 				--icon-color: var(--wp--preset--color--#{$background});
 				--icon-background-color: var(--wp--preset--color--#{$contrast});
 

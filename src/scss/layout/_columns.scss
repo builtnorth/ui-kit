@@ -9,6 +9,7 @@
 	flex-wrap: nowrap;
 	position: relative;
 	z-index: 1;
+	max-width: 100%;
 
 	/* Container query for responsive behavior */
 	/* Note: container query looks at nearest ancestor with container-type */
@@ -59,6 +60,39 @@
 
 		&.is-vertically-aligned-stretch {
 			align-items: stretch;
+		}
+
+		// Center / right / space-between only work when `--auto` columns do not
+		// grow to fill the row. Span columns use proportional flex so block-gap
+		// is absorbed without overflowing the content column (hero span-6 + span-6).
+		&.is-content-justification-center,
+		&.is-content-justification-right,
+		&.is-content-justification-space-between {
+			.wp-block-polaris-column--auto {
+				flex: 0 1 auto;
+				min-width: 0;
+			}
+
+			.wp-block-polaris-column--shrink {
+				flex: 0 0 auto;
+				width: auto;
+			}
+
+			@for $i from 1 through 12 {
+				.wp-block-polaris-column--span-#{$i} {
+					flex: #{$i} #{$i} 0;
+					min-width: 0;
+					max-width: #{math.percentage(math.div($i, 12))};
+				}
+			}
+		}
+
+		// Trailing shrink columns: absorb remaining row space so the column
+		// reaches the content edge when span siblings do not fill the row.
+		&.is-content-justification-space-between {
+			> .wp-block-polaris-column--shrink:last-child:not(:only-child) {
+				margin-inline-start: auto;
+			}
 		}
 	}
 
@@ -120,7 +154,28 @@
 
 		@for $i from 1 through 12 {
 			&--span-#{$i} {
-				flex-basis: #{math.percentage(math.div($i, 12))};
+				flex: #{$i} #{$i} 0;
+				min-width: 0;
+				max-width: #{math.percentage(math.div($i, 12))};
+			}
+		}
+	}
+
+	// Split section uses intentional span ratios; do not let default column flex grow
+	// distort the media/content split or overflow the content column.
+	&.wp-block-polaris-split-section:not(.alignfull) {
+		max-width: 100%;
+
+		> .wp-block-polaris-column {
+			flex-grow: 0;
+			min-width: 0;
+		}
+
+		@for $i from 1 through 12 {
+			> .wp-block-polaris-column--span-#{$i} {
+				flex: #{$i} #{$i} 0;
+				min-width: 0;
+				max-width: #{math.percentage(math.div($i, 12))};
 			}
 		}
 	}
