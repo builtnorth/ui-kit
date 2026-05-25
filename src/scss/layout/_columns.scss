@@ -21,6 +21,47 @@
 		flex-direction: column;
 	}
 
+	/* Horizontal row: main-axis justification + cross-axis vertical alignment. */
+	&.is-layout-flex.is-horizontal,
+	&.is-layout-flex:not(.is-vertical) {
+		&.is-content-justification-left,
+		&:not([class*="is-content-justification-"]) {
+			justify-content: flex-start;
+		}
+
+		&.is-content-justification-center {
+			justify-content: center;
+		}
+
+		&.is-content-justification-right {
+			justify-content: flex-end;
+		}
+
+		&.is-content-justification-space-between {
+			justify-content: space-between;
+		}
+
+		&:not([class*="is-vertically-aligned-"]) {
+			align-items: flex-start;
+		}
+
+		&.is-vertically-aligned-top {
+			align-items: flex-start;
+		}
+
+		&.is-vertically-aligned-center {
+			align-items: center;
+		}
+
+		&.is-vertically-aligned-bottom {
+			align-items: flex-end;
+		}
+
+		&.is-vertically-aligned-stretch {
+			align-items: stretch;
+		}
+	}
+
 	.wp-block-polaris-column {
 		min-width: 4rem;
 		flex-direction: column;
@@ -28,6 +69,33 @@
 
 		/* fix for gutenberg */
 		margin-block-start: 0;
+
+		/* Vertical stack inside each column: default content to the top. */
+		&.is-layout-flex.is-vertical,
+		&.is-layout-flex:not(.is-horizontal) {
+			&:not([class*="is-vertically-aligned-"]) {
+				justify-content: flex-start;
+			}
+
+			&.is-vertically-aligned-top {
+				justify-content: flex-start;
+			}
+
+			&.is-vertically-aligned-center {
+				justify-content: center;
+			}
+
+			&.is-vertically-aligned-bottom {
+				justify-content: flex-end;
+			}
+		}
+
+		/* Card/stat blocks should not stretch to fill column height. */
+		.wp-block-polaris-stat,
+		.wp-block-polaris-icon-card,
+		.wp-block-polaris-image-card {
+			flex-grow: 0;
+		}
 
 		/* Needed for gutenberg - mainly wp-group blocks */
 		/* commented out, as messes up is-style-label width. Can turn back off or modify if more breakages detected.

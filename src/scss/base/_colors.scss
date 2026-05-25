@@ -48,6 +48,7 @@ $background-contrast-pairs: (
 	// contact-information, social-media, icon: default chip (contrast icon on preset bg).
 	.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
 		--icon-color: var(--wp--preset--color--#{$contrast});
+		--icon-background-color: var(--wp--preset--color--#{$background});
 
 		svg {
 			color: var(--icon-color);
