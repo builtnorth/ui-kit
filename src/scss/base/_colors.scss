@@ -27,6 +27,7 @@ $background-contrast-pairs: (
 @each $background, $contrast in $background-contrast-pairs {
 	.has-#{$background}-background-color {
 		--polaris-auto-text-color: var(--wp--preset--color--#{$contrast});
+		--polaris-auto-surface-color: var(--wp--preset--color--#{$background});
 		color: var(--polaris-auto-text-color);
 
 		// Map blocks manage their own text (popups, attribution, controls).
