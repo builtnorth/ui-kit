@@ -15,11 +15,38 @@
 	/* Note: container query looks at nearest ancestor with container-type */
 	@container (max-width: 48rem) {
 		flex-direction: column;
+
+		// Span ratios are for horizontal rows only; full width when stacked.
+		> .wp-block-polaris-column,
+		.wp-block-polaris-column {
+			max-width: 100%;
+			width: 100%;
+
+			@for $i from 1 through 12 {
+				&--span-#{$i} {
+					flex: 1 1 100%;
+					max-width: 100%;
+				}
+			}
+		}
 	}
 
 	/* Media query as fallback */
 	@include lt-md() {
 		flex-direction: column;
+
+		> .wp-block-polaris-column,
+		.wp-block-polaris-column {
+			max-width: 100%;
+			width: 100%;
+
+			@for $i from 1 through 12 {
+				&--span-#{$i} {
+					flex: 1 1 100%;
+					max-width: 100%;
+				}
+			}
+		}
 	}
 
 	/* Horizontal row: main-axis justification + cross-axis vertical alignment. */
@@ -78,11 +105,13 @@
 				width: auto;
 			}
 
-			@for $i from 1 through 12 {
-				.wp-block-polaris-column--span-#{$i} {
-					flex: #{$i} #{$i} 0;
-					min-width: 0;
-					max-width: #{math.percentage(math.div($i, 12))};
+			@include gt-md() {
+				@for $i from 1 through 12 {
+					.wp-block-polaris-column--span-#{$i} {
+						flex: #{$i} #{$i} 0;
+						min-width: 0;
+						max-width: #{math.percentage(math.div($i, 12))};
+					}
 				}
 			}
 		}
@@ -152,30 +181,33 @@
 			max-width: 100%;
 		}
 
-		@for $i from 1 through 12 {
-			&--span-#{$i} {
-				flex: #{$i} #{$i} 0;
-				min-width: 0;
-				max-width: #{math.percentage(math.div($i, 12))};
+		@include gt-md() {
+			@for $i from 1 through 12 {
+				&--span-#{$i} {
+					flex: #{$i} #{$i} 0;
+					min-width: 0;
+					max-width: #{math.percentage(math.div($i, 12))};
+				}
 			}
 		}
 	}
 
 	// Split section uses intentional span ratios; do not let default column flex grow
 	// distort the media/content split or overflow the content column.
+	// Container width/alignment is owned by wp-block-polaris-split-section styles.
 	&.wp-block-polaris-split-section:not(.alignfull) {
-		max-width: 100%;
-
 		> .wp-block-polaris-column {
 			flex-grow: 0;
 			min-width: 0;
 		}
 
-		@for $i from 1 through 12 {
-			> .wp-block-polaris-column--span-#{$i} {
-				flex: #{$i} #{$i} 0;
-				min-width: 0;
-				max-width: #{math.percentage(math.div($i, 12))};
+		@include gt-md() {
+			@for $i from 1 through 12 {
+				> .wp-block-polaris-column--span-#{$i} {
+					flex: #{$i} #{$i} 0;
+					min-width: 0;
+					max-width: #{math.percentage(math.div($i, 12))};
+				}
 			}
 		}
 	}

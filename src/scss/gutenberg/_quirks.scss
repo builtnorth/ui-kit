@@ -33,9 +33,9 @@
 	margin-block-start: 0;
 }
 
-// Flex section/hero: cap direct children at the content column (matches header inset).
-// Vertical justification uses align-items on the parent (see mixins below), not
-// margin auto on each child.
+// Flex section/hero: inset container to content column; child alignment comes from
+// WP layout (align-items). Do NOT use margin auto on children — that centers every
+// block at full content width and ignores the editor justification control.
 .wp-block-polaris-section.is-layout-flex.has-global-padding,
 .wp-block-polaris-hero.is-layout-flex.has-global-padding {
 	&.is-vertical {
@@ -44,26 +44,132 @@
 	}
 
 	&:not(.is-horizontal) {
+		padding-left: max(
+			var(--wp--style--root--padding-left, 0px),
+			calc((100% - var(--wp--style--global--content-size)) / 2)
+		);
+		padding-right: max(
+			var(--wp--style--root--padding-right, 0px),
+			calc((100% - var(--wp--style--global--content-size)) / 2)
+		);
+
+		// Base: reset margins so no child ever drifts outside the inset column.
 		> :where(
 			:not(
 				.alignfull,
 				.alignwide,
 				.is-style-label,
+				.is-style-subheading,
 				.section-pattern
 			)
 		) {
 			box-sizing: border-box;
-			max-width: var(--wp--style--global--content-size);
-			margin-left: auto;
-			margin-right: auto;
+			max-width: 100%;
+			margin-left: 0;
+			margin-right: 0;
 		}
 
-		> :where(
-			.wp-block-group,
-			.wp-block-separator,
-			[class*="wp-block-polaris-"]
-		) {
+		// Structural layout blocks always fill the content column (span math requires it).
+		> .wp-block-polaris-columns,
+		> .wp-block-group,
+		> .wp-block-separator {
 			width: 100%;
+		}
+
+		// Left/default: text & block children fill the column.
+		// Buttons and chips are excluded — they are auto-width, positioned by align-items.
+		&:not(.is-content-justification-center):not(
+			.is-content-justification-right
+		) {
+			> :where(
+				:not(
+					.alignfull,
+					.alignwide,
+					.is-style-label,
+					.is-style-subheading,
+					.section-pattern,
+					.wp-block-polaris-buttons,
+					.wp-block-buttons,
+					.wp-block-polaris-columns,
+					.wp-block-group,
+					.wp-block-separator
+				)
+			) {
+				width: 100%;
+			}
+		}
+
+		// Center/right: non-structural children shrink to natural width so
+		// align-items can center/right-align them.
+		&.is-content-justification-center,
+		&.is-content-justification-right {
+			> :where(
+				:not(
+					.alignfull,
+					.alignwide,
+					.is-style-label,
+					.is-style-subheading,
+					.section-pattern,
+					.wp-block-polaris-columns,
+					.wp-block-group,
+					.wp-block-separator
+				)
+			) {
+				width: auto;
+			}
+		}
+
+		// Editor canvas: same rules applied via the inner layout wrapper.
+		// NOTE: use a direct child (>) to avoid matching button blocks' own inner layouts.
+		> .block-editor-block-list__layout.is-layout-flex {
+			// Structural blocks always fill the column.
+			> .block-editor-block-list__block:has(
+					.wp-block-polaris-columns,
+					.wp-block-group
+				) {
+				width: 100%;
+				max-width: 100%;
+			}
+
+			// Buttons and chips: always auto-width regardless of justification.
+			> .block-editor-block-list__block:has(
+					.wp-block-polaris-buttons,
+					.wp-block-buttons,
+					.is-style-label,
+					.is-style-subheading
+				) {
+				width: auto;
+				max-width: 100%;
+			}
+
+			&:not(.is-content-justification-center):not(
+				.is-content-justification-right
+			) {
+				// Text blocks fill the column in left-justified layouts.
+				> .block-editor-block-list__block:not(
+						:has(
+							.wp-block-polaris-buttons,
+							.wp-block-buttons,
+							.wp-block-polaris-columns,
+							.wp-block-group,
+							.is-style-label,
+							.is-style-subheading
+						)
+					) {
+					width: 100%;
+					max-width: 100%;
+				}
+			}
+
+			&.is-content-justification-center,
+			&.is-content-justification-right {
+				> .block-editor-block-list__block:not(
+						:has(.wp-block-polaris-columns, .wp-block-group)
+					) {
+					width: auto;
+					max-width: 100%;
+				}
+			}
 		}
 	}
 
@@ -82,6 +188,7 @@
 				.alignfull,
 				.alignwide,
 				.is-style-label,
+				.is-style-subheading,
 				.section-pattern
 			)
 		) {
@@ -109,29 +216,150 @@
 	}
 }
 
-// Constrained section/hero: same content-column cap as flex blocks above.
+// Label/subheading chips follow section/hero layout justification (toolbar).
+// Overrides theme chip margins (e.g. label-content-column-margins) and skin align-self.
+@mixin polaris-chip-layout-justification($block) {
+	.#{$block}.is-layout-flex.has-global-padding:not(.is-horizontal) {
+		> :where(.is-style-label:not(.alignwide):not(.alignfull)),
+		> :where(.is-style-subheading:not(.alignwide):not(.alignfull)) {
+			box-sizing: border-box;
+			width: fit-content !important;
+			max-width: 100%;
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+		}
+
+		&:not(.is-content-justification-center):not(
+			.is-content-justification-right
+		) {
+			> :where(.is-style-label:not(.alignwide):not(.alignfull)),
+			> :where(.is-style-subheading:not(.alignwide):not(.alignfull)) {
+				align-self: flex-start !important;
+			}
+		}
+
+		&.is-content-justification-center {
+			> :where(.is-style-label:not(.alignwide):not(.alignfull)),
+			> :where(.is-style-subheading:not(.alignwide):not(.alignfull)) {
+				align-self: center !important;
+			}
+		}
+
+		&.is-content-justification-right {
+			> :where(.is-style-label:not(.alignwide):not(.alignfull)),
+			> :where(.is-style-subheading:not(.alignwide):not(.alignfull)) {
+				align-self: flex-end !important;
+			}
+		}
+
+		.block-editor-block-list__layout.is-layout-flex {
+			> .block-editor-block-list__block:has(.is-style-label),
+			> .block-editor-block-list__block:has(.is-style-subheading) {
+				width: auto !important;
+				max-width: 100%;
+				margin-left: 0 !important;
+				margin-right: 0 !important;
+			}
+
+			&:not(.is-content-justification-center):not(
+				.is-content-justification-right
+			) {
+				> .block-editor-block-list__block:has(.is-style-label),
+				> .block-editor-block-list__block:has(.is-style-subheading) {
+					align-self: flex-start !important;
+				}
+			}
+
+			&.is-content-justification-center {
+				> .block-editor-block-list__block:has(.is-style-label),
+				> .block-editor-block-list__block:has(.is-style-subheading) {
+					align-self: center !important;
+				}
+			}
+
+			&.is-content-justification-right {
+				> .block-editor-block-list__block:has(.is-style-label),
+				> .block-editor-block-list__block:has(.is-style-subheading) {
+					align-self: flex-end !important;
+				}
+			}
+		}
+	}
+}
+
+@include polaris-chip-layout-justification("wp-block-polaris-section");
+@include polaris-chip-layout-justification("wp-block-polaris-hero");
+
+// Constrained section/hero: same inset + justification behavior as flex above.
 .wp-block-polaris-section.is-layout-constrained.has-global-padding,
 .wp-block-polaris-hero.is-layout-constrained.has-global-padding {
+	padding-left: max(
+		var(--wp--style--root--padding-left, 0px),
+		calc((100% - var(--wp--style--global--content-size)) / 2)
+	);
+	padding-right: max(
+		var(--wp--style--root--padding-right, 0px),
+		calc((100% - var(--wp--style--global--content-size)) / 2)
+	);
+
 	> :where(
 		:not(
 			.alignfull,
 			.alignwide,
 			.is-style-label,
+			.is-style-subheading,
 			.section-pattern
 		)
 	) {
 		box-sizing: border-box;
-		max-width: var(--wp--style--global--content-size);
-		margin-left: auto;
-		margin-right: auto;
+		max-width: 100%;
+		margin-left: 0;
+		margin-right: 0;
 	}
 
-	> :where(
-		.wp-block-group,
-		.wp-block-separator,
-		[class*="wp-block-polaris-"]
-	) {
+	> .wp-block-polaris-columns,
+	> .wp-block-group,
+	> .wp-block-separator {
 		width: 100%;
+	}
+
+	&:not(.is-content-justification-center):not(
+		.is-content-justification-right
+	) {
+		> :where(
+			:not(
+				.alignfull,
+				.alignwide,
+				.is-style-label,
+				.is-style-subheading,
+				.section-pattern,
+				.wp-block-polaris-buttons,
+				.wp-block-buttons,
+				.wp-block-polaris-columns,
+				.wp-block-group,
+				.wp-block-separator
+			)
+		) {
+			width: 100%;
+		}
+	}
+
+	&.is-content-justification-center,
+	&.is-content-justification-right {
+		> :where(
+			:not(
+				.alignfull,
+				.alignwide,
+				.is-style-label,
+				.is-style-subheading,
+				.section-pattern,
+				.wp-block-polaris-columns,
+				.wp-block-group,
+				.wp-block-separator
+			)
+		) {
+			width: auto;
+		}
 	}
 
 	> .alignfull {
@@ -173,6 +401,7 @@
 				.alignfull,
 				.alignwide,
 				.is-style-label,
+				.is-style-subheading,
 				.section-pattern,
 				.wp-block-site-logo
 			)
@@ -200,6 +429,7 @@
 				.alignfull,
 				.alignwide,
 				.is-style-label,
+				.is-style-subheading,
 				.section-pattern,
 				.wp-block-site-logo
 			)
