@@ -2,7 +2,12 @@
  * core/group layout modes (Row, Stack, Grid) share one block type in WP.
  * theme.json core/group blockGap compiles to :where(.wp-block-group-is-layout-*)
  * with (0,1,0) specificity — beat it with compound selectors on the same classes.
- * Grid + Row → column-gap; Stack stays on block-gap from theme.json.
+ *
+ * Row (horizontal flex): column-gap token on the main axis.
+ * Grid: WP minmax() track sizing uses var(--wp--style--block-gap) in inline layout
+ * CSS — reassign that variable to column-gap on the grid element so track math
+ * matches column-gap, while row-gap keeps the theme block-gap.
+ * Stack stays on block-gap from theme.json.
  *
  * Standard (flow/constrained) groups do NOT use gap on the wrapper — WP applies
  * blockGap as margin-block-start on direct children. theme.json margin:0 on p/heading
@@ -10,7 +15,15 @@
  */
 
 .wp-block-group {
-	&.wp-block-group-is-layout-grid,
+	&.wp-block-group-is-layout-grid {
+		// Longhands only (do not set `gap` — theme :where() uses block-gap in shorthand).
+		// Set row-gap before reassigning --wp--style--block-gap so minmax() track math
+		// uses column-gap while rows keep the theme block-gap.
+		row-gap: var(--wp--style--block-gap);
+		--wp--style--block-gap: var(--wp--custom--spacing--column-gap);
+		column-gap: var(--wp--custom--spacing--column-gap);
+	}
+
 	&.wp-block-group-is-layout-flex.is-horizontal {
 		gap: var(--wp--custom--spacing--column-gap);
 	}
