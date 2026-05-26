@@ -64,7 +64,10 @@ Helpers: Mixins
 }
 
 //Icon BG
-@mixin icon_bg($border-radius: 0, $size: 2rem) {
+@mixin icon_bg(
+	$border-radius: var(--wp--custom--border-radius--icon),
+	$size: 2rem
+) {
 	border-radius: $border-radius;
 	height: $size;
 	width: $size;
