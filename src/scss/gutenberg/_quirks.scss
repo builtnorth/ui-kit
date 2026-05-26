@@ -13,6 +13,19 @@
 	display: contents;
 }
 
+// Viewport-based content column inset. Blocks inside .wp-block-post-content resolve
+// `100%` against the narrower constrained parent; header/footer sit outside it.
+@mixin polaris-content-column-padding-inline {
+	padding-left: max(
+		var(--wp--style--root--padding-left, 0px),
+		calc((100vw - var(--wp--style--global--content-size)) / 2)
+	);
+	padding-right: max(
+		var(--wp--style--root--padding-right, 0px),
+		calc((100vw - var(--wp--style--global--content-size)) / 2)
+	);
+}
+
 // Allow post content to break out of its container for alignfull blocks
 // Need !important to override WordPress inline styles
 .wp-block-post-content {
@@ -44,14 +57,7 @@
 	}
 
 	&:not(.is-horizontal) {
-		padding-left: max(
-			var(--wp--style--root--padding-left, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
-		padding-right: max(
-			var(--wp--style--root--padding-right, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
+		@include polaris-content-column-padding-inline;
 
 		// Base: reset margins so no child ever drifts outside the inset column.
 		> :where(
@@ -174,14 +180,7 @@
 	}
 
 	&.is-horizontal {
-		padding-left: max(
-			var(--wp--style--root--padding-left, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
-		padding-right: max(
-			var(--wp--style--root--padding-right, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
+		@include polaris-content-column-padding-inline;
 
 		> :where(
 			:not(
@@ -293,14 +292,7 @@
 // Constrained section/hero: same inset + justification behavior as flex above.
 .wp-block-polaris-section.is-layout-constrained.has-global-padding,
 .wp-block-polaris-hero.is-layout-constrained.has-global-padding {
-	padding-left: max(
-		var(--wp--style--root--padding-left, 0px),
-		calc((100% - var(--wp--style--global--content-size)) / 2)
-	);
-	padding-right: max(
-		var(--wp--style--root--padding-right, 0px),
-		calc((100% - var(--wp--style--global--content-size)) / 2)
-	);
+	@include polaris-content-column-padding-inline;
 
 	> :where(
 		:not(
@@ -387,14 +379,7 @@
 	}
 
 	&:not(.is-horizontal) {
-		padding-left: max(
-			var(--wp--style--root--padding-left, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
-		padding-right: max(
-			var(--wp--style--root--padding-right, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
+		@include polaris-content-column-padding-inline;
 
 		> :where(
 			:not(
@@ -415,14 +400,7 @@
 	}
 
 	&.is-horizontal {
-		padding-left: max(
-			var(--wp--style--root--padding-left, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
-		padding-right: max(
-			var(--wp--style--root--padding-right, 0px),
-			calc((100% - var(--wp--style--global--content-size)) / 2)
-		);
+		@include polaris-content-column-padding-inline;
 
 		> :where(
 			:not(

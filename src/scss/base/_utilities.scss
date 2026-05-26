@@ -319,7 +319,8 @@ Cross-axis on horizontal flex rows; main-axis on vertical flex stacks.
 .wp-block-polaris-column,
 .wp-block-polaris-price-card,
 .wp-block-polaris-contact-information,
-.wp-block-polaris-icon-card {
+.wp-block-polaris-icon-card,
+.wp-block-polaris-stat {
 	&.has-background {
 		padding: var(--wp--preset--spacing--50);
 	}

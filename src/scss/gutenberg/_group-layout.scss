@@ -1,0 +1,24 @@
+/*
+ * core/group layout modes (Row, Stack, Grid) share one block type in WP.
+ * theme.json core/group blockGap compiles to :where(.wp-block-group-is-layout-*)
+ * with (0,1,0) specificity — beat it with compound selectors on the same classes.
+ * Grid + Row → column-gap; Stack stays on block-gap from theme.json.
+ *
+ * Standard (flow/constrained) groups do NOT use gap on the wrapper — WP applies
+ * blockGap as margin-block-start on direct children. theme.json margin:0 on p/heading
+ * loads later at equal specificity and cancels that spacing; restore it below.
+ */
+
+.wp-block-group {
+	&.wp-block-group-is-layout-grid,
+	&.wp-block-group-is-layout-flex.is-horizontal {
+		gap: var(--wp--custom--spacing--column-gap);
+	}
+
+	&.wp-block-group-is-layout-constrained,
+	&.wp-block-group-is-layout-flow {
+		> * + * {
+			margin-block-start: var(--wp--style--block-gap);
+		}
+	}
+}

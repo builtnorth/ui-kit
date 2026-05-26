@@ -25,15 +25,15 @@ swiper-container {
 	);
 
 	&::part(container) {
-		padding-bottom: var(--wp--styles--block-gap, 2rem);
-		margin-bottom: var(--wp--styles--block-gap, 2rem);
+		padding-bottom: var(--wp--style--block-gap, 2rem);
+		margin-bottom: var(--wp--style--block-gap, 2rem);
 	}
 
 	&::part(button-prev),
 	&::part(button-next) {
 		border: var(--wp--custom--border-width--tiny, 1px) solid
 			var(--wp--custom--color--border-medium, #ccc);
-		margin-top: calc(var(--wp--styles--block-gap, 2rem) * -1);
+		margin-top: calc(var(--wp--style--block-gap, 2rem) * -1);
 
 		/* adjust for padding on container */
 		background: var(--wp--preset--color--base, #fff);
