@@ -64,6 +64,26 @@
 			width: 100%;
 		}
 
+		// Chips (is-style-label / is-style-subheading) have align-self: flex-start set
+		// by design skins so they don't stretch. Override align-self to follow the
+		// section/hero justification — WP sets align-items on the container but
+		// align-self on the chip itself wins and must be explicitly corrected.
+		> :where(.is-style-label, .is-style-subheading) {
+			align-self: flex-start; // default / left
+		}
+
+		&.is-content-justification-center {
+			> :where(.is-style-label, .is-style-subheading) {
+				align-self: center;
+			}
+		}
+
+		&.is-content-justification-right {
+			> :where(.is-style-label, .is-style-subheading) {
+				align-self: flex-end;
+			}
+		}
+
 		// Left/default: text content blocks fill the column width.
 		// Positive list — only known text/content blocks receive width: 100%.
 		// Flex containers (buttons, columns, group, polaris/column) are intentionally
