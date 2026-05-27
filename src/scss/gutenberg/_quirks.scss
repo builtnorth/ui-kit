@@ -38,11 +38,6 @@
 // These rules only constrain width and inset — nothing that WP already manages.
 .wp-block-polaris-section.is-layout-flex.has-global-padding,
 .wp-block-polaris-hero.is-layout-flex.has-global-padding {
-	&.is-vertical {
-		flex-wrap: nowrap !important;
-		flex-direction: column !important;
-	}
-
 	&:not(.is-horizontal) {
 		@include polaris-content-column-padding-inline;
 
@@ -151,96 +146,9 @@
 	}
 }
 
-// Constrained section/hero: same content column inset + width rules as flex above.
-.wp-block-polaris-section.is-layout-constrained.has-global-padding,
-.wp-block-polaris-hero.is-layout-constrained.has-global-padding {
-	@include polaris-content-column-padding-inline;
-
-	> :where(
-		:not(
-			.alignfull,
-			.alignwide,
-			.is-style-label,
-			.is-style-subheading,
-			.section-pattern
-		)
-	) {
-		box-sizing: border-box;
-		max-width: 100%;
-		margin-left: 0;
-		margin-right: 0;
-	}
-
-	> .wp-block-polaris-columns,
-	> .wp-block-group,
-	> .wp-block-separator {
-		width: 100%;
-	}
-
-	// Positive list: text blocks fill the column in left-justified constrained sections.
-	&:not(.is-content-justification-center):not(
-			.is-content-justification-right
-		) {
-		> :where(
-			.wp-block-heading,
-			.wp-block-paragraph,
-			.wp-block-list,
-			.wp-block-quote,
-			.wp-block-preformatted,
-			.wp-block-code,
-			.wp-block-table,
-			.wp-block-html,
-			.wp-block-image,
-			.wp-block-media-text,
-			.wp-block-cover
-		) {
-			width: 100%;
-		}
-	}
-
-	&.is-content-justification-center,
-	&.is-content-justification-right {
-		> :where(
-			:not(
-				.alignfull,
-				.alignwide,
-				.is-style-label,
-				.is-style-subheading,
-				.section-pattern,
-				.wp-block-polaris-columns,
-				.wp-block-polaris-column,
-				.wp-block-group,
-				.wp-block-separator
-			)
-		) {
-			width: auto;
-		}
-	}
-
-	> .alignfull {
-		box-sizing: border-box;
-		max-width: none !important;
-		margin-left: calc(
-			var(--wp--style--root--padding-left, 0px) * -1
-		) !important;
-		margin-right: calc(
-			var(--wp--style--root--padding-right, 0px) * -1
-		) !important;
-	}
-
-	> .alignwide {
-		max-width: var(--wp--style--global--wide-size);
-	}
-}
-
 // Header/footer: content column inset; site-logo stays natural width for flex alignment.
 .wp-block-polaris-header.is-layout-flex.has-global-padding,
 .wp-block-polaris-footer.is-layout-flex.has-global-padding {
-	&.is-vertical {
-		flex-wrap: nowrap !important;
-		flex-direction: column !important;
-	}
-
 	&:not(.is-horizontal) {
 		@include polaris-content-column-padding-inline;
 
