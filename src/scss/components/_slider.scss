@@ -10,7 +10,7 @@ Global Slider Styles
 swiper-container {
 	--swiper-theme-color: var(--wp--preset--color--contrast, #000);
 	--swiper-pagination-bullet-border-radius: var(
-		--wp--custom--border-radius--round,
+		--wp--custom--border-radius--chip,
 		9999px
 	);
 	--swiper-pagination-bullet-width: 20px;
@@ -28,8 +28,8 @@ swiper-container {
 		transparent
 	);
 	--swiper-navigigation-border-radius: var(
-		--wp--custom--border-radius--x-small,
-		0.25rem
+		--wp--custom--border-radius--tile,
+		1rem
 	);
 
 	&::part(container) {
