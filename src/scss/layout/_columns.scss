@@ -5,18 +5,12 @@
 ---------------------------------------- */
 
 .wp-block-polaris-columns {
-	display: flex;
-	flex-wrap: nowrap;
-	position: relative;
-	z-index: 1;
-	max-width: 100%;
-
-	/* Container query for responsive behavior */
-	/* Note: container query looks at nearest ancestor with container-type */
+	/* Mobile stacking — polaris feature; WP layout does not stack columns.
+	   Container query takes priority; media query is a fallback for browsers
+	   or contexts where no container-type ancestor has been established. */
 	@container (max-width: 48rem) {
 		flex-direction: column;
 
-		// Span ratios are for horizontal rows only; full width when stacked.
 		> .wp-block-polaris-column,
 		.wp-block-polaris-column {
 			max-width: 100%;
@@ -31,142 +25,35 @@
 		}
 	}
 
-	/* Media query as fallback */
-	@include lt-md() {
-		flex-direction: column;
+	// Allow columns to wrap onto multiple rows
+	&.is-flex-wrap {
+		flex-wrap: wrap;
+	}
 
-		> .wp-block-polaris-column,
-		.wp-block-polaris-column {
-			max-width: 100%;
-			width: 100%;
-
-			@for $i from 1 through 12 {
-				&--span-#{$i} {
-					flex: 1 1 100%;
-					max-width: 100%;
-				}
-			}
+	// Mobile stacking override
+	&.no-stack-on-mobile {
+		@container (max-width: 48rem) {
+			flex-direction: row;
 		}
 	}
 
-	/* Horizontal row: main-axis justification + cross-axis vertical alignment. */
-	&.is-layout-flex.is-horizontal,
-	&.is-layout-flex:not(.is-vertical) {
-		&.is-content-justification-left,
-		&:not([class*="is-content-justification-"]) {
-			justify-content: flex-start;
-		}
-
-		&.is-content-justification-center {
-			justify-content: center;
-		}
-
-		&.is-content-justification-right {
-			justify-content: flex-end;
-		}
-
-		&.is-content-justification-space-between {
-			justify-content: space-between;
-		}
-
-		&:not([class*="is-vertically-aligned-"]) {
-			align-items: flex-start;
-		}
-
-		&.is-vertically-aligned-top {
-			align-items: flex-start;
-		}
-
-		&.is-vertically-aligned-center {
-			align-items: center;
-		}
-
-		&.is-vertically-aligned-bottom {
-			align-items: flex-end;
-		}
-
-		&.is-vertically-aligned-stretch {
-			align-items: stretch;
-		}
-
-		// Center / right / space-between only work when `--auto` columns do not
-		// grow to fill the row. Span columns use proportional flex so block-gap
-		// is absorbed without overflowing the content column (hero span-6 + span-6).
-		&.is-content-justification-center,
-		&.is-content-justification-right,
-		&.is-content-justification-space-between {
-			.wp-block-polaris-column--auto {
-				flex: 0 1 auto;
-				min-width: 0;
-			}
-
-			.wp-block-polaris-column--shrink {
-				flex: 0 0 auto;
-				width: auto;
-			}
-
-			@include gt-md() {
-				@for $i from 1 through 12 {
-					.wp-block-polaris-column--span-#{$i} {
-						flex: #{$i} #{$i} 0;
-						min-width: 0;
-						max-width: #{math.percentage(math.div($i, 12))};
-					}
-				}
-			}
-		}
-
-		// Trailing shrink columns: absorb remaining row space so the column
-		// reaches the content edge when span siblings do not fill the row.
-		&.is-content-justification-space-between {
-			> .wp-block-polaris-column--shrink:last-child:not(:only-child) {
-				margin-inline-start: auto;
-			}
-		}
+	// Card/stat blocks should not stretch to fill column height.
+	.wp-block-polaris-stat,
+	.wp-block-polaris-icon-card,
+	.wp-block-polaris-image-card {
+		flex-grow: 0;
 	}
 
 	.wp-block-polaris-column {
+		/* Minimum size prevents content from collapsing completely. */
 		min-width: 4rem;
 		flex-direction: column;
 		display: flex;
 
-		/* fix for gutenberg */
+		/* Reset block-gap margin applied by Gutenberg. */
 		margin-block-start: 0;
 
-		/* Vertical stack inside each column: default content to the top. */
-		&.is-layout-flex.is-vertical,
-		&.is-layout-flex:not(.is-horizontal) {
-			&:not([class*="is-vertically-aligned-"]) {
-				justify-content: flex-start;
-			}
-
-			&.is-vertically-aligned-top {
-				justify-content: flex-start;
-			}
-
-			&.is-vertically-aligned-center {
-				justify-content: center;
-			}
-
-			&.is-vertically-aligned-bottom {
-				justify-content: flex-end;
-			}
-		}
-
-		/* Card/stat blocks should not stretch to fill column height. */
-		.wp-block-polaris-stat,
-		.wp-block-polaris-icon-card,
-		.wp-block-polaris-image-card {
-			flex-grow: 0;
-		}
-
-		/* Needed for gutenberg - mainly wp-group blocks */
-		/* commented out, as messes up is-style-label width. Can turn back off or modify if more breakages detected.
-		> * {
-			width: 100%;
-		}
-		*/
-
+		/* --auto: grows to fill available space. */
 		&--auto {
 			flex: 1;
 			width: auto;
@@ -174,13 +61,14 @@
 			max-width: 100%;
 		}
 
-		/* Sizes to inner content; use with justify-content: space-between on the row */
+		/* --shrink: sizes to inner content width; pair with justify-content: space-between on the row. */
 		&--shrink {
 			flex: 0 0 auto;
 			width: auto;
 			max-width: 100%;
 		}
 
+		/* Proportional span columns. Applied above md breakpoint only. */
 		@include gt-md() {
 			@for $i from 1 through 12 {
 				&--span-#{$i} {
@@ -192,9 +80,7 @@
 		}
 	}
 
-	// Split section uses intentional span ratios; do not let default column flex grow
-	// distort the media/content split or overflow the content column.
-	// Container width/alignment is owned by wp-block-polaris-split-section styles.
+	// Split section: span ratios are intentional; block-gap must not distort the split.
 	&.wp-block-polaris-split-section:not(.alignfull) {
 		> .wp-block-polaris-column {
 			flex-grow: 0;
@@ -208,45 +94,6 @@
 					min-width: 0;
 					max-width: #{math.percentage(math.div($i, 12))};
 				}
-			}
-		}
-	}
-
-	// Allow columns to wrap onto multiple rows
-	&.is-flex-wrap {
-		flex-wrap: wrap;
-	}
-
-	// Mobile Stacking - Override default mobile stacking
-	&.no-stack-on-mobile {
-		/* Container query override */
-		@container (max-width: 48rem) {
-			flex-direction: row;
-		}
-
-		/* Media query as fallback */
-		@include lt-md() {
-			flex-direction: row;
-		}
-	}
-
-	// Handle WordPress-generated is-nowrap class
-	&.is-nowrap {
-		/* Allow stacking in small containers despite nowrap class */
-		@container (max-width: 48rem) {
-			flex-direction: column;
-
-			.wp-block-polaris-column {
-				width: 100%;
-			}
-		}
-
-		/* Media query as fallback */
-		@include lt-md() {
-			flex-direction: column;
-
-			.wp-block-polaris-column {
-				width: 100%;
 			}
 		}
 	}
