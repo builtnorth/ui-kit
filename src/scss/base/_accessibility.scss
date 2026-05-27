@@ -60,22 +60,22 @@ Helper classes for improving accessibility.
 /* Skip content
 ----------------------------------------------------------------*/
 .skip-content {
-	z-index: 999;
+	z-index: 999999;
 	display: block;
-	color: var(--color--theme-base);
-	background-color: var(--color--theme-contrast);
-	border: 2px solid var(--color--theme-base);
+	color: var(--wp--preset--color--base, #f5f5f4);
+	background-color: var(--wp--preset--color--contrast, #1c1917);
+	border: 2px solid var(--wp--preset--color--base, #f5f5f4);
 	padding: 5px 10px;
 	position: absolute;
 	left: -99999px;
-	font-size: var(--font-size--small);
-	font-weight: var(--font-weight--bold);
+	font-size: var(--wp--preset--font-size--small, 1.5rem);
+	font-weight: var(--wp--custom--font-weight--bold, 700);
 	cursor: default;
 
 	&:focus,
 	&:active {
-		color: var(--color--theme-base);
-		background-color: var(--color--theme-contrast);
+		color: var(--wp--preset--color--base, #f5f5f4);
+		background-color: var(--wp--preset--color--contrast, #1c1917);
 		visibility: visible;
 		text-decoration: underline;
 		left: 12px;

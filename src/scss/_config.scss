@@ -125,11 +125,27 @@ $radius-md: var(--wp--custom--border-radius--medium, 0.5rem) !default;
 $radius-lg: var(--wp--custom--border-radius--large, 1rem) !default;
 $radius-full: var(--wp--custom--border-radius--round, 9999px) !default;
 
-// Transitions
+// Transitions (theme.json settings.custom.transition.*)
 // ----------------------------------------------------------------------------
-$transition-base: all 0.2s ease-in-out !default;
-$transition-fast: all 0.1s ease-in-out !default;
-$transition-slow: all 0.3s ease-in-out !default;
+$transition-duration-fast: var(
+	--wp--custom--transition--duration-fast,
+	100ms
+) !default;
+$transition-duration-base: var(
+	--wp--custom--transition--duration-base,
+	200ms
+) !default;
+$transition-duration-slow: var(
+	--wp--custom--transition--duration-slow,
+	300ms
+) !default;
+$transition-easing-default: var(
+	--wp--custom--transition--easing-default,
+	ease-in-out
+) !default;
+$transition-base: all $transition-duration-base $transition-easing-default !default;
+$transition-fast: all $transition-duration-fast $transition-easing-default !default;
+$transition-slow: all $transition-duration-slow $transition-easing-default !default;
 
 // Z-Index Scale
 // ----------------------------------------------------------------------------

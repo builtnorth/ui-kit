@@ -1,3 +1,5 @@
+@use "../config" as *;
+
 /*
  * Button Component Styles
  *
@@ -66,15 +68,15 @@
 @mixin button-tertiary-fill-inverted() {
 	background-color: var(
 		--wp--preset--color--neutral-2-contrast,
-		var(--wp--preset--color--neutral-1-contrast, #ffffff)
+		var(--wp--preset--color--neutral-1-contrast, #1c1917)
 	);
 	color: var(
 		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		var(--wp--preset--color--neutral-1, #eeece2)
 	);
 	border-color: var(
 		--wp--preset--color--neutral-2-contrast,
-		var(--wp--preset--color--neutral-1-contrast, #ffffff)
+		var(--wp--preset--color--neutral-1-contrast, #1c1917)
 	);
 
 	&:hover,
@@ -82,15 +84,15 @@
 	.is-accessible-card:hover & {
 		background-color: var(
 			--wp--preset--color--neutral-2,
-			var(--wp--preset--color--neutral-1, #000000)
+			var(--wp--preset--color--neutral-1, #eeece2)
 		);
 		color: var(
 			--wp--preset--color--neutral-2-contrast,
-			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+			var(--wp--preset--color--neutral-1-contrast, #1c1917)
 		);
 		border-color: var(
 			--wp--preset--color--neutral-2-contrast,
-			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+			var(--wp--preset--color--neutral-1-contrast, #1c1917)
 		);
 	}
 }
@@ -110,7 +112,7 @@
 @mixin button-tertiary-outline-on-matching-bg() {
 	border-color: var(
 		--wp--preset--color--neutral-2-contrast,
-		var(--wp--preset--color--neutral-1-contrast, #ffffff)
+		var(--wp--preset--color--neutral-1-contrast, #1c1917)
 	);
 
 	&:hover,
@@ -118,15 +120,15 @@
 	.is-accessible-card:hover & {
 		background-color: var(
 			--wp--preset--color--neutral-2-contrast,
-			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+			var(--wp--preset--color--neutral-1-contrast, #1c1917)
 		);
 		color: var(
 			--wp--preset--color--neutral-2,
-			var(--wp--preset--color--neutral-1, #000000)
+			var(--wp--preset--color--neutral-1, #eeece2)
 		);
 		border-color: var(
 			--wp--preset--color--neutral-2-contrast,
-			var(--wp--preset--color--neutral-1-contrast, #ffffff)
+			var(--wp--preset--color--neutral-1-contrast, #1c1917)
 		);
 	}
 }
@@ -150,18 +152,18 @@
 	);
 	color: var(
 		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		var(--wp--preset--color--neutral-1, #eeece2)
 	);
 	border-color: var(
 		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		var(--wp--preset--color--neutral-1, #eeece2)
 	);
 }
 
 %button-primary-outline-hover {
-	background-color: var(--wp--preset--color--primary);
-	color: var(--wp--preset--color--white);
-	border-color: var(--wp--preset--color--primary);
+	background-color: var(--wp--preset--color--primary, #b45309);
+	color: var(--wp--preset--color--primary-contrast, #f5f5f4);
+	border-color: var(--wp--preset--color--primary, #b45309);
 }
 
 %button-secondary-outline-hover {
@@ -177,11 +179,11 @@
 	);
 	color: var(
 		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		var(--wp--preset--color--neutral-1, #eeece2)
 	);
 	border-color: var(
 		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		var(--wp--preset--color--neutral-1, #eeece2)
 	);
 }
 
@@ -213,8 +215,13 @@
 	cursor: pointer;
 	display: inline-flex;
 	flex-shrink: 0;
-	border: var(--wp--custom--border-width--tiny, 1px) solid transparent;
+	align-items: center;
+	justify-content: center;
+	border: var(--wp--custom--border-width--x-small, 1px) solid transparent;
+	border-radius: $button-border-radius;
 	box-sizing: border-box;
+	font-family: var(--wp--preset--font-family--secondary, inherit);
+	font-weight: var(--wp--custom--font-weight--medium, 500);
 	text-align: center;
 
 	&:not(.is-style-text-link) {
@@ -284,9 +291,12 @@
 		color: var(--wp--preset--color--primary-contrast);
 		border-color: var(--wp--preset--color--primary);
 		transition:
-			background-color 0.2s ease,
-			color 0.2s ease,
-			border-color 0.2s ease;
+			background-color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out),
+			color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out),
+			border-color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out);
 
 		&:hover,
 		&:focus,
@@ -300,9 +310,12 @@
 		background-color: var(--wp--preset--color--secondary);
 		border-color: var(--wp--preset--color--secondary);
 		transition:
-			background-color 0.2s ease,
-			color 0.2s ease,
-			border-color 0.2s ease;
+			background-color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out),
+			color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out),
+			border-color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out);
 
 		&:hover,
 		&:focus,
@@ -318,16 +331,19 @@
 		);
 		background-color: var(
 			--wp--preset--color--neutral-2,
-			var(--wp--preset--color--neutral-1, #000000)
+			var(--wp--preset--color--neutral-1, #eeece2)
 		);
 		border-color: var(
 			--wp--preset--color--neutral-2,
-			var(--wp--preset--color--neutral-1, #000000)
+			var(--wp--preset--color--neutral-1, #eeece2)
 		);
 		transition:
-			background-color 0.2s ease,
-			color 0.2s ease,
-			border-color 0.2s ease;
+			background-color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out),
+			color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out),
+			border-color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out);
 
 		&:hover,
 		&:focus,
@@ -340,9 +356,12 @@
 		background-color: transparent;
 		color: currentColor;
 		transition:
-			background-color 0.2s ease,
-			color 0.2s ease,
-			border-color 0.2s ease;
+			background-color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out),
+			color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out),
+			border-color var(--wp--custom--transition--duration-base, 200ms)
+				var(--wp--custom--transition--easing-default, ease-in-out);
 
 		&:not(.is-style-secondary):not(.is-style-tertiary):not(
 				.is-style-text-link
@@ -382,7 +401,8 @@
 		background-color: transparent;
 		text-decoration: underline;
 		padding: var(--button-padding-y) 0;
-		transition: opacity 0.2s ease;
+		transition: opacity var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out);
 
 		&:hover,
 		&:focus,
@@ -406,9 +426,12 @@
 	color: currentColor;
 	border-color: var(--wp--preset--color--primary);
 	transition:
-		background-color 0.2s ease,
-		color 0.2s ease,
-		border-color 0.2s ease;
+		background-color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out),
+		color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out),
+		border-color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out);
 
 	&:hover,
 	&:focus,
@@ -422,9 +445,12 @@
 	background-color: var(--wp--preset--color--secondary);
 	border-color: var(--wp--preset--color--secondary);
 	transition:
-		background-color 0.2s ease,
-		color 0.2s ease,
-		border-color 0.2s ease;
+		background-color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out),
+		color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out),
+		border-color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out);
 
 	&:hover,
 	&:focus,
@@ -440,16 +466,19 @@
 	);
 	background-color: var(
 		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		var(--wp--preset--color--neutral-1, #eeece2)
 	);
 	border-color: var(
 		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		var(--wp--preset--color--neutral-1, #eeece2)
 	);
 	transition:
-		background-color 0.2s ease,
-		color 0.2s ease,
-		border-color 0.2s ease;
+		background-color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out),
+		color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out),
+		border-color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out);
 
 	&:hover,
 	&:focus,
@@ -527,11 +556,11 @@ $button-primary-style: ":not(.is-style-secondary):not(.is-style-tertiary):not(.i
 	);
 	background-color: var(
 		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		var(--wp--preset--color--neutral-1, #eeece2)
 	);
 	border-color: var(
 		--wp--preset--color--neutral-2,
-		var(--wp--preset--color--neutral-1, #000000)
+		var(--wp--preset--color--neutral-1, #eeece2)
 	);
 
 	&:hover,

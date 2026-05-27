@@ -26,8 +26,41 @@ Helpers: Mixins
 	margin: 0;
 }
 
+// Transition — theme.json settings.custom.transition.*
+@mixin transition-interactive() {
+	transition:
+		background-color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out),
+		color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out),
+		border-color var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out);
+}
+
+@mixin transition-opacity() {
+	transition: opacity var(--wp--custom--transition--duration-base, 200ms)
+		var(--wp--custom--transition--easing-default, ease-in-out);
+}
+
+@mixin transition-transform() {
+	transition: transform var(--wp--custom--transition--duration-base, 200ms)
+		var(--wp--custom--transition--easing-default, ease-in-out);
+}
+
+@mixin transition-height-opacity() {
+	transition:
+		max-height var(--wp--custom--transition--duration-slow, 300ms)
+			var(--wp--custom--transition--easing-default, ease-in-out),
+		opacity var(--wp--custom--transition--duration-base, 200ms)
+			var(--wp--custom--transition--easing-default, ease-in-out);
+}
+
 // Transition
-@mixin transition($property: all, $duration: 0.3s, $timing-function: ease) {
+@mixin transition(
+	$property: all,
+	$duration: var(--wp--custom--transition--duration-base, 200ms),
+	$timing-function: var(--wp--custom--transition--easing-default, ease-in-out)
+) {
 	transition: $property $duration $timing-function;
 }
 
@@ -65,7 +98,7 @@ Helpers: Mixins
 
 //Icon BG
 @mixin icon_bg(
-	$border-radius: var(--wp--custom--border-radius--icon),
+	$border-radius: var(--wp--custom--border-radius--icon, 9999px),
 	$size: 2rem
 ) {
 	border-radius: $border-radius;

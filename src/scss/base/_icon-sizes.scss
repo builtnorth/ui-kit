@@ -1,0 +1,57 @@
+// Icon size tokens — values from theme.json settings.custom.icon.*
+
+.is-icon-size {
+	&--x-small {
+		--icon-size: var(--wp--custom--icon--size--x-small, 1.25rem);
+	}
+	&--small {
+		--icon-size: var(--wp--custom--icon--size--small, 1.75rem);
+	}
+	&--medium {
+		--icon-size: var(--wp--custom--icon--size--medium, 2.75rem);
+	}
+	&--large {
+		--icon-size: var(--wp--custom--icon--size--large, 6rem);
+	}
+	&--x-large {
+		--icon-size: var(--wp--custom--icon--size--x-large, 9.5rem);
+	}
+}
+
+.has-background {
+	&.is-icon-size--x-small {
+		--icon-size: var(--wp--custom--icon--size-background--x-small, 2rem);
+		--icon-padding: var(
+			--wp--custom--icon--padding-background--x-small,
+			0.45rem
+		);
+	}
+	&.is-icon-size--small {
+		--icon-size: var(--wp--custom--icon--size-background--small, 3rem);
+		--icon-padding: var(
+			--wp--custom--icon--padding-background--small,
+			0.65rem
+		);
+	}
+	&.is-icon-size--medium {
+		--icon-size: var(--wp--custom--icon--size-background--medium, 4rem);
+		--icon-padding: var(
+			--wp--custom--icon--padding-background--medium,
+			0.8rem
+		);
+	}
+	&.is-icon-size--large {
+		--icon-size: var(--wp--custom--icon--size-background--large, 8rem);
+		--icon-padding: var(
+			--wp--custom--icon--padding-background--large,
+			1.5rem
+		);
+	}
+	&.is-icon-size--x-large {
+		--icon-size: var(--wp--custom--icon--size-background--x-large, 12rem);
+		--icon-padding: var(
+			--wp--custom--icon--padding-background--x-large,
+			2rem
+		);
+	}
+}

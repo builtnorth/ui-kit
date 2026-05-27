@@ -17,8 +17,16 @@ swiper-container {
 	--swiper-pagination-bullet-height: 8px;
 	--swiper-pagination-bottom: -0.5rem;
 	--swiper-pagination-bullet-inactive-opacity: 1;
-	--swiper-pagination-bullet-border-color: rgba(255, 255, 255, 0.5);
-	--swiper-pagination-bullet-inactive-color: rgba(128, 128, 128, 0.125);
+	--swiper-pagination-bullet-border-color: color-mix(
+		in srgb,
+		currentColor 50%,
+		transparent
+	);
+	--swiper-pagination-bullet-inactive-color: color-mix(
+		in srgb,
+		currentColor 12.5%,
+		transparent
+	);
 	--swiper-navigigation-border-radius: var(
 		--wp--custom--border-radius--x-small,
 		0.25rem
@@ -31,8 +39,8 @@ swiper-container {
 
 	&::part(button-prev),
 	&::part(button-next) {
-		border: var(--wp--custom--border-width--tiny, 1px) solid
-			var(--wp--custom--color--border-medium, #ccc);
+		border: var(--wp--custom--border-width--small, 2px) solid
+			var(--wp--custom--color--border-medium, rgba(0, 0, 0, 0.25));
 		margin-top: calc(var(--wp--style--block-gap, 2rem) * -1);
 
 		/* adjust for padding on container */
@@ -52,7 +60,7 @@ swiper-container {
 	&::part(bullet),
 	&::part(bullet-active) {
 		position: relative;
-		border: var(--wp--custom--border-width--tiny, 1px) solid
+		border: var(--wp--custom--border-width--small, 2px) solid
 			var(--swiper-pagination-bullet-border-color);
 	}
 

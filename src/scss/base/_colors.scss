@@ -44,7 +44,7 @@ $background-contrast-pairs: (
 						)
 				):not(
 					.wp-block-button:not(.is-style-outline) .wp-block-button__link
-				):not(button.form-button) {
+				):not(button.form-button):not(button.form__btn-prev):not(button.form__btn-next) {
 				color: initial;
 			}
 
@@ -64,7 +64,7 @@ $background-contrast-pairs: (
 					)
 			):not(
 				.wp-block-button:not(.is-style-outline) .wp-block-button__link
-			):not(button.form-button) {
+			):not(button.form-button):not(button.form__btn-prev):not(button.form__btn-next) {
 			color: var(--polaris-auto-text-color);
 		}
 	}

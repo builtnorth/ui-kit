@@ -20,12 +20,18 @@
 		// Set row-gap before reassigning --wp--style--block-gap so minmax() track math
 		// uses column-gap while rows keep the theme block-gap.
 		row-gap: var(--wp--style--block-gap);
-		--wp--style--block-gap: var(--wp--custom--spacing--column-gap);
-		column-gap: var(--wp--custom--spacing--column-gap);
+		--wp--style--block-gap: var(
+			--wp--custom--spacing--column-gap,
+			calc(2rem + 0.5rem)
+		);
+		column-gap: var(
+			--wp--custom--spacing--column-gap,
+			calc(2rem + 0.5rem)
+		);
 	}
 
 	&.wp-block-group-is-layout-flex.is-horizontal {
-		gap: var(--wp--custom--spacing--column-gap);
+		gap: var(--wp--custom--spacing--column-gap, calc(2rem + 0.5rem));
 	}
 
 	&.wp-block-group-is-layout-constrained,

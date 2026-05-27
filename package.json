@@ -26,6 +26,7 @@
 		"./base/accessibility": "./src/scss/base/_accessibility.scss",
 		"./base/images": "./src/scss/base/_images.scss",
 		"./base/colors": "./src/scss/base/_colors.scss",
+		"./base/icon-sizes": "./src/scss/base/_icon-sizes.scss",
 		"./components": "./src/scss/components/index.scss",
 		"./components/buttons": "./src/scss/components/_buttons.scss",
 		"./components/slider": "./src/scss/components/_slider.scss",
