@@ -15,125 +15,142 @@ $large: 1024px;
 $xlarge: 1280px;
 $xxlarge: 1536px;
 
+// Viewport: stack-on-mobile for top-level polaris/columns (footer, page rows).
+$columns-stack-max: $medium !default;
+// Nested / form-in-column: parent column narrower than this → stack (not the same as viewport).
+$columns-stack-container-max: $xsmall !default;
+
 $small-y: 43em !default;
 $large-y: 53em !default;
 
 @mixin gt-xl {
-    @media only screen and (min-width: $xlarge) {
-        @content;
-    }
+	@media only screen and (min-width: $xlarge) {
+		@content;
+	}
 }
 
 @mixin gt-lg {
-    @media only screen and (min-width: $large) {
-        @content;
-    }
+	@media only screen and (min-width: $large) {
+		@content;
+	}
 }
 
 @mixin gt-md {
-    @media only screen and (min-width: $medium) {
-        @content;
-    }
+	@media only screen and (min-width: $medium) {
+		@content;
+	}
 }
 
 @mixin gt-sm {
-    @media only screen and (min-width: $small) {
-        @content;
-    }
+	@media only screen and (min-width: $small) {
+		@content;
+	}
 }
 
 @mixin gt-xs {
-    @media only screen and (min-width: $xsmall) {
-        @content;
-    }
+	@media only screen and (min-width: $xsmall) {
+		@content;
+	}
 }
 
 @mixin gt-xxs {
-    @media only screen and (min-width: $xxsmall) {
-        @content;
-    }
+	@media only screen and (min-width: $xxsmall) {
+		@content;
+	}
 }
 
 @mixin lt-xxl {
-    @media only screen and (max-width: $xxlarge) {
-        @content;
-    }
+	@media only screen and (max-width: $xxlarge) {
+		@content;
+	}
 }
 
 @mixin lt-xl {
-    @media only screen and (max-width: $xlarge) {
-        @content;
-    }
+	@media only screen and (max-width: $xlarge) {
+		@content;
+	}
 }
 
 @mixin lt-lg {
-    @media only screen and (max-width: $large) {
-        @content;
-    }
+	@media only screen and (max-width: $large) {
+		@content;
+	}
 }
 
 @mixin lt-md {
-    @media only screen and (max-width: $medium) {
-        @content;
-    }
+	@media only screen and (max-width: $medium) {
+		@content;
+	}
+}
+
+@mixin lt-stack {
+	@media only screen and (max-width: $columns-stack-max) {
+		@content;
+	}
+}
+
+@mixin gt-stack {
+	@media only screen and (min-width: #{$columns-stack-max + 1px}) {
+		@content;
+	}
 }
 
 @mixin lt-sm {
-    @media only screen and (max-width: $small) {
-        @content;
-    }
+	@media only screen and (max-width: $small) {
+		@content;
+	}
 }
 
 @mixin lt-xs {
-    @media only screen and (max-width: $xsmall) {
-        @content;
-    }
+	@media only screen and (max-width: $xsmall) {
+		@content;
+	}
 }
 
 @mixin lt-xxs {
-    @media only screen and (max-width: $xxsmall) {
-        @content;
-    }
+	@media only screen and (max-width: $xxsmall) {
+		@content;
+	}
 }
 
 @mixin only-md {
-    @media only screen and (max-width: $large) and (min-width: $medium) {
-        @content;
-    }
+	@media only screen and (max-width: $large) and (min-width: $medium) {
+		@content;
+	}
 }
 
 @mixin only-lg {
-    @media only screen and (max-width: $xlarge) and (min-width: $large) {
-        @content;
-    }
+	@media only screen and (max-width: $xlarge) and (min-width: $large) {
+		@content;
+	}
 }
 
 @mixin only-xl {
-    @media only screen and (max-width: $xxlarge) and (min-width: $xlarge) {
-        @content;
-    }
+	@media only screen and (max-width: $xxlarge) and (min-width: $xlarge) {
+		@content;
+	}
 }
 
 @mixin lt-custom($lt_custom) {
-    @media only screen and (max-width: $lt_custom) {
-        @content;
-    }
+	@media only screen and (max-width: $lt_custom) {
+		@content;
+	}
 }
 
 @mixin gt-custom($gt__custom) {
-    @media only screen and (min-width: $gt__custom) {
-        @content;
-    }
+	@media only screen and (min-width: $gt__custom) {
+		@content;
+	}
 }
 
 @mixin vert-sm {
-    @media only screen and (min-width: $medium) and (max-height: $small-y) {
-        @content;
-    }
+	@media only screen and (min-width: $medium) and (max-height: $small-y) {
+		@content;
+	}
 }
 
 @mixin vert-lg {
-    @media only screen and (min-width: $medium) and (min-height: $large-y) {
-        @content;
-    }
+	@media only screen and (min-width: $medium) and (min-height: $large-y) {
+		@content;
+	}
 }

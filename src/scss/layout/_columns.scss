@@ -1,43 +1,36 @@
 @use "../helpers/index" as *;
 @use "sass:math";
+@use "./stack-inline" as *;
 
 /* Columns
 ---------------------------------------- */
 
 .wp-block-polaris-columns {
-	/* Mobile stacking — polaris feature; WP layout does not stack columns.
-	   Container query takes priority; media query is a fallback for browsers
-	   or contexts where no container-type ancestor has been established. */
-	@container (max-width: 48rem) {
-		flex-direction: column;
-
-		> .wp-block-polaris-column,
-		.wp-block-polaris-column {
-			max-width: 100%;
-			width: 100%;
-
-			@for $i from 1 through 12 {
-				&--span-#{$i} {
-					flex: 1 1 100%;
-					max-width: 100%;
-				}
-			}
-		}
+	/* Top-level rows: viewport only (not the width of a parent column). */
+	@include lt-stack() {
+		@include polaris-columns-stack-row;
 	}
 
-	// Allow columns to wrap onto multiple rows
 	&.is-flex-wrap {
 		flex-wrap: wrap;
 	}
 
-	// Mobile stacking override
 	&.no-stack-on-mobile {
-		@container (max-width: 48rem) {
-			flex-direction: row;
+		@include lt-stack() {
+			flex-direction: row !important;
 		}
 	}
 
-	// Card/stat blocks should not stretch to fill column height.
+	&.is-nowrap:not(.no-stack-on-mobile) {
+		@include lt-stack() {
+			flex-direction: column !important;
+
+			.wp-block-polaris-column {
+				width: 100% !important;
+			}
+		}
+	}
+
 	.wp-block-polaris-stat,
 	.wp-block-polaris-icon-card,
 	.wp-block-polaris-image-card {
@@ -45,15 +38,11 @@
 	}
 
 	.wp-block-polaris-column {
-		/* Minimum size prevents content from collapsing completely. */
 		min-width: 4rem;
 		flex-direction: column;
 		display: flex;
-
-		/* Reset block-gap margin applied by Gutenberg. */
 		margin-block-start: 0;
 
-		/* --auto: grows to fill available space. */
 		&--auto {
 			flex: 1;
 			width: auto;
@@ -61,15 +50,13 @@
 			max-width: 100%;
 		}
 
-		/* --shrink: sizes to inner content width; pair with justify-content: space-between on the row. */
 		&--shrink {
 			flex: 0 0 auto;
 			width: auto;
 			max-width: 100%;
 		}
 
-		/* Proportional span columns. Applied above md breakpoint only. */
-		@include gt-md() {
+		@include gt-stack() {
 			@for $i from 1 through 12 {
 				&--span-#{$i} {
 					flex: #{$i} #{$i} 0;
@@ -78,16 +65,57 @@
 				}
 			}
 		}
+
+		/* Container for nested polaris/columns (and form content) inside this column. */
+		&:has(> .wp-block-polaris-columns),
+		&:has(.form__content) {
+			container-type: inline-size;
+			container-name: polaris-column;
+		}
 	}
 
-	// Split section: span ratios are intentional; block-gap must not distort the split.
+	/* Nested row: stack when parent column is narrower than $columns-stack-max. */
+	.wp-block-polaris-column > & {
+		@include polaris-stack-when-narrow-in-container(polaris-column) {
+			@include polaris-columns-stack-row;
+		}
+
+		&.no-stack-on-mobile {
+			@container polaris-column (max-width: #{$columns-stack-container-max}) {
+				flex-direction: row !important;
+			}
+
+			@include lt-stack() {
+				flex-direction: row !important;
+			}
+		}
+
+		&.is-nowrap:not(.no-stack-on-mobile) {
+			@container polaris-column (max-width: #{$columns-stack-container-max}) {
+				flex-direction: column !important;
+
+				> .wp-block-polaris-column {
+					width: 100% !important;
+				}
+			}
+
+			@include lt-stack() {
+				flex-direction: column !important;
+
+				> .wp-block-polaris-column {
+					width: 100% !important;
+				}
+			}
+		}
+	}
+
 	&.wp-block-polaris-split-section:not(.alignfull) {
 		> .wp-block-polaris-column {
 			flex-grow: 0;
 			min-width: 0;
 		}
 
-		@include gt-md() {
+		@include gt-stack() {
 			@for $i from 1 through 12 {
 				> .wp-block-polaris-column--span-#{$i} {
 					flex: #{$i} #{$i} 0;
