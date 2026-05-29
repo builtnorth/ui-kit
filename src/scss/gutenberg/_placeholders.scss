@@ -111,13 +111,3 @@ Custom image placeholder
 .components-placeholder__fieldset form {
 	justify-content: center;
 }
-
-/* Hide image upload button if inside tmeplate part since they are not editable
-------------------------------------------*/
-.wp-block-template-part {
-	.components-placeholder__fieldset,
-	.components-placeholder__label,
-	.components-button {
-		display: none !important;
-	}
-}

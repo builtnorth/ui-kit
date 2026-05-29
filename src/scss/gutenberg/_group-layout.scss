@@ -15,6 +15,13 @@
  */
 
 .wp-block-group {
+	// WP prints flex-direction via wp-container-* on the frontend; query/post-template
+	// markup in the editor often has is-vertical without matching container CSS.
+	// &.is-layout-flex.is-vertical,
+	// &.wp-block-group-is-layout-flex.is-vertical {
+	// 	flex-direction: column;
+	// }
+
 	&.wp-block-group-is-layout-grid {
 		// Longhands only (do not set `gap` — theme :where() uses block-gap in shorthand).
 		// Set row-gap before reassigning --wp--style--block-gap so minmax() track math
@@ -24,10 +31,7 @@
 			--wp--custom--spacing--column-gap,
 			calc(2rem + 0.5rem)
 		);
-		column-gap: var(
-			--wp--custom--spacing--column-gap,
-			calc(2rem + 0.5rem)
-		);
+		column-gap: var(--wp--custom--spacing--column-gap, calc(2rem + 0.5rem));
 	}
 
 	&.wp-block-group-is-layout-flex.is-horizontal {

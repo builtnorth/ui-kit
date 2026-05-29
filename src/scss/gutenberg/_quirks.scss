@@ -1,6 +1,13 @@
-// Allow sticky to work with template parts
+// Allow sticky to work with template parts on the frontend. `display: contents`
+// removes the wrapper box — that breaks canvas click-to-select for CPT heroes
+// (e.g. hero-team) in the post editor; restore a box inside the iframe only.
 .wp-block-template-part:not(header, footer) {
 	display: contents;
+}
+
+.editor-styles-wrapper .wp-block-template-part:not(header, footer),
+body.site-editor-php .wp-block-template-part:not(header, footer) {
+	display: block;
 }
 
 // Viewport-based content column inset. Blocks inside .wp-block-post-content resolve
@@ -230,4 +237,21 @@
 // Remove margin on first top-level site block
 .wp-site-blocks > * {
 	margin-block-start: 0;
+}
+
+// cards don't span full container without this
+.wp-block-query {
+	width: 100%;
+}
+
+// keep heading margin bottom is flow layout
+:root :where(.is-layout-flow) > {
+	.wp-block-heading {
+		margin-block-end: var(--wp--style--block-gap);
+		margin-block-start: var(--wp--style--block-gap);
+	}
+	.wp-block-paragraph {
+		margin-block-end: var(--wp--style--block-gap);
+		margin-block-start: var(--wp--style--block-gap);
+	}
 }

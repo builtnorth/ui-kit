@@ -194,7 +194,8 @@ Classes to quickly add utility styles to your components.
 .wp-block-polaris-contact-information,
 .wp-block-polaris-icon-card,
 .wp-block-polaris-stat,
-.wp-block-group {
+.wp-block-group,
+.wp-block-polaris-review-card {
 	&.has-background {
 		padding: var(--wp--preset--spacing--50);
 	}
