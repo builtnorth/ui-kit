@@ -88,7 +88,7 @@ Classes to quickly add utility styles to your components.
 	position: relative;
 	overflow: hidden;
 
-	> *:not(.background) {
+	> *:not(.background):not(.section-pattern) {
 		position: relative;
 		z-index: 1;
 	}

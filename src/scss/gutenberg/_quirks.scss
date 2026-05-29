@@ -44,7 +44,8 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 // WP layout (wp-container-* rules) handles justify-content / align-items / flex-direction.
 // These rules only constrain width and inset — nothing that WP already manages.
 .wp-block-polaris-section.is-layout-flex.has-global-padding,
-.wp-block-polaris-hero.is-layout-flex.has-global-padding {
+.wp-block-polaris-hero.is-layout-flex.has-global-padding,
+.wp-block-group.alignfull.is-layout-flex.has-global-padding {
 	&:not(.is-horizontal) {
 		@include polaris-content-column-padding-inline;
 
@@ -55,7 +56,8 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 				.alignwide,
 				.is-style-label,
 				.is-style-subheading,
-				.section-pattern
+				.section-pattern,
+				.background
 			)
 		) {
 			box-sizing: border-box;
@@ -126,6 +128,7 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 					.is-style-label,
 					.is-style-subheading,
 					.section-pattern,
+					.background,
 					.wp-block-polaris-columns,
 					.wp-block-polaris-column,
 					.wp-block-group,
@@ -146,7 +149,8 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 				.alignwide,
 				.is-style-label,
 				.is-style-subheading,
-				.section-pattern
+				.section-pattern,
+				.background
 			)
 		) {
 			box-sizing: border-box;
