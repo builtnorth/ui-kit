@@ -84,7 +84,7 @@ $button-padding-x: var(
 ) !default;
 $button-border-radius: var(
 	--wp--custom--border-radius--button,
-	var(--wp--custom--border-radius--medium, 0.25rem)
+	var(--wp--preset--border-radius--x-small, 0.25rem)
 ) !default;
 $button-font-weight: var(--wp--custom--font-weight--medium, 500) !default;
 
