@@ -94,6 +94,7 @@ swiper-slide {
 	height: auto;
 }
 
+.wp-block-polaris-slider,
 .wp-block-polaris-post-feed--slider,
 .page-query--slider {
 	swiper-container {
@@ -107,20 +108,24 @@ swiper-slide {
 		&::part(button-next) {
 			top: auto;
 			bottom: 0;
+			right: auto;
 		}
 
 		&::part(button-prev) {
-			left: auto;
-			right: 60px;
+			left: 0;
 		}
 
 		&::part(button-next) {
-			right: 0;
+			left: 60px;
 		}
 
 		&::part(pagination) {
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			left: 120px;
+			right: 0;
 			width: auto;
-			left: -3px;
 			bottom: 0.5rem;
 		}
 	}
