@@ -48,8 +48,11 @@ Helpers: Mixins
 }
 
 @mixin transition-height-opacity() {
+	// clip-path is composited (GPU-accelerated) unlike max-height which forces a
+	// layout pass on every animation frame. Use clip-path: inset() to reveal/hide
+	// vertically instead of animating max-height.
 	transition:
-		max-height var(--wp--custom--transition--duration-slow, 300ms)
+		clip-path var(--wp--custom--transition--duration-slow, 300ms)
 			var(--wp--custom--transition--easing-default, ease-in-out),
 		opacity var(--wp--custom--transition--duration-base, 200ms)
 			var(--wp--custom--transition--easing-default, ease-in-out);

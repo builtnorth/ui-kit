@@ -40,6 +40,36 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 	margin-block-start: 0;
 }
 
+// Editor only: sections/heroes are flush by design on the FRONTEND (theme.json sets
+// margin-top:0 on polaris/section so full-bleed sections stack seamlessly). In the
+// CANVAS that same flush boundary leaves Gutenberg no "between" band: hovering a
+// full-height section always resolves to "drop inside this section", the inserter
+// shows no insertion point between sections, and you cannot drop a block between
+// them. Restore WP's block-gap between top-level sections in the editor purely as a
+// drop affordance — the frontend stays flush. Wave-divider sections re-bridge this
+// gap visually (theme editor divider rules) so the divider still looks seamless.
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-section,
+.editor-styles-wrapper :where(.is-layout-constrained) > .wp-block-polaris-hero,
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-split-section {
+	margin-block-start: var(--wp--style--block-gap, 1.5rem);
+}
+
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-section:first-child,
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-hero:first-child,
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-split-section:first-child {
+	margin-block-start: 0;
+}
+
 // Flex section/hero: inset container to content column width.
 // WP layout (wp-container-* rules) handles justify-content / align-items / flex-direction.
 // These rules only constrain width and inset — nothing that WP already manages.

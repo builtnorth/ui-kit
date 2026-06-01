@@ -3,6 +3,7 @@
 	"version": "1.1.0",
 	"description": "NPM package for very minimal global and common CSS and JS.",
 	"main": "index.js",
+	"sideEffects": ["**/*.scss", "**/*.css"],
 	"scripts": {
 		"build": "mkdir -p build && cp -r src build/ && cp index.js build/ && cp README.md build/ 2>/dev/null || true"
 	},
