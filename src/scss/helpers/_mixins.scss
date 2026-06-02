@@ -67,19 +67,6 @@ Helpers: Mixins
 	transition: $property $duration $timing-function;
 }
 
-//Grayscale
-@mixin grayscale_element($value) {
-	-webkit-filter: #{"grayscale(#{$value})"};
-	-moz-filter: #{"grayscale(#{$value})"};
-	filter: #{"grayscale(#{$value})"};
-}
-
-@mixin ms_flex_fix() {
-	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-		display: block;
-	}
-}
-
 //Center Horizontally
 @mixin center_h() {
 	display: table;
@@ -122,36 +109,6 @@ Helpers: Mixins
 	height: 100%;
 	width: 100%;
 	pointer-events: none;
-}
-
-@mixin inner_area($block: null) {
-	// @if $block != null {
-	//     &.is-layout-constrained {
-	//         .#{$block}__inner {
-	//             max-width: var(--wp--style--global--content-size, 1240px);
-	//         }
-	//     }
-
-	//     .#{$block}__inner {
-	//         padding-left: var(--wp--custom--spacing--gutter, 1rem);
-	//         padding-right: var(--wp--custom--spacing--gutter, 1rem);
-	//     }
-	// } @else {
-	//     &.is-layout-constrained {
-	//         > * {
-	//             max-width: var(--wp--style--global--content-size, 1240px);
-	//         }
-	//     }
-
-	//     > * {
-	//         padding-left: var(--wp--custom--spacing--gutter, 1rem);
-	//         padding-right: var(--wp--custom--spacing--gutter, 1rem);
-	//     }
-	// }
-}
-
-@mixin section() {
-	// no longer used
 }
 
 @mixin unset-section() {
