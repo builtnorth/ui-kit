@@ -111,6 +111,10 @@ Helpers: Mixins
 	pointer-events: none;
 }
 
+@mixin section() {
+	// no longer used
+}
+
 @mixin unset-section() {
 	max-width: initial;
 
