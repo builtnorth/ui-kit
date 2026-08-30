@@ -4,103 +4,120 @@ Colors
 Set up color/contrast pairs.
 Now we can use only one color for the background
 and the text will be the contrast color.
+
+Nested backgrounds: each container sets --polaris-auto-text-color so
+descendants (especially links) resolve contrast from the nearest
+background ancestor, not from intermediate wrappers or outer sections.
 ****************************************************/
 
-/* Base Background */
-.has-base-background-color {
-	color: var(--wp--preset--color--contrast);
+$background-contrast-pairs: (
+	"base": "contrast",
+	"contrast": "base",
+	"primary": "primary-contrast",
+	"secondary": "secondary-contrast",
+	"tertiary": "tertiary-contrast",
+	"neutral-1": "neutral-1-contrast",
+	"neutral-2": "neutral-2-contrast",
+	"neutral-3": "neutral-3-contrast",
+	"neutral-4": "neutral-4-contrast",
+	"neutral-5": "neutral-5-contrast",
+	"neutral-6": "neutral-6-contrast",
+);
 
-	a:not([class*="has-background"]) {
-		color: inherit;
+@each $background, $contrast in $background-contrast-pairs {
+	.has-#{$background}-background-color {
+		--polaris-auto-text-color: var(--wp--preset--color--#{$contrast});
+		--polaris-auto-surface-color: var(--wp--preset--color--#{$background});
+		color: var(--polaris-auto-text-color);
+
+		// Map blocks manage their own text (popups, attribution, controls).
+		.wp-block-polaris-map,
+		.wp-block-polaris-service-area-map {
+			color: initial;
+			--polaris-auto-text-color: initial;
+
+			a:not([class*="has-background"]):not(.has-text-color):not(
+					.has-link-color
+				):not(
+					.wp-block-polaris-button:not(.is-appearance-outline):not(
+							.is-style-text-link
+						)
+				):not(
+					.wp-block-button:not(.is-style-outline) .wp-block-button__link
+				):not(button.form-button):not(button.form__btn-prev):not(button.form__btn-next) {
+				color: initial;
+			}
+
+			.wp-block-polaris-button.is-style-text-link {
+				color: currentColor;
+			}
+		}
+
+		// Plain links only — filled buttons set their own color/background.
+		// Outline and text-link buttons use currentColor and need this rule.
+		// Form submit buttons (button.form-button) use components/_buttons.scss.
+		a:not([class*="has-background"]):not(.has-text-color):not(
+				.has-link-color
+			):not(
+				.wp-block-polaris-button:not(.is-appearance-outline):not(
+						.is-style-text-link
+					)
+			):not(
+				.wp-block-button:not(.is-style-outline) .wp-block-button__link
+			):not(button.form-button):not(button.form__btn-prev):not(button.form__btn-next) {
+			color: var(--polaris-auto-text-color);
+		}
 	}
-}
 
-/* Contrast Background */
-.has-contrast-background-color {
-	color: var(--wp--preset--color--base);
+	// contact-information, social-media, icon: default chip (contrast icon on preset bg).
+	.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
+		--icon-color: var(--wp--preset--color--#{$contrast});
+		--icon-background-color: var(--wp--preset--color--#{$background});
 
-	a:not([class*="has-background"]) {
-		color: inherit;
+		svg {
+			color: var(--icon-color);
+		}
 	}
-}
 
-/* Primary Background */
-.has-primary-background-color {
-	color: var(--wp--preset--color--primary-contrast);
+	// Same-surface: icon chip inverts when its bg matches the section surface.
+	.has-#{$background}-background-color {
+		.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
+			--icon-color: var(--wp--preset--color--#{$background});
+			--icon-background-color: var(--wp--preset--color--#{$contrast});
 
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
+			svg {
+				color: var(--icon-color);
+			}
+		}
 
-/* Secondary Background */
-.has-secondary-background-color {
-	color: var(--wp--preset--color--secondary-contrast);
+		// Nested colored wrappers reset chips to default fills (nearest surface wins).
+		[class*="-background-color"].has-background {
+			.has-#{$background}-icon-background-color:not(
+				[style*="--icon-color"]
+			) {
+				--icon-color: var(--wp--preset--color--#{$contrast});
+				--icon-background-color: var(
+					--wp--preset--color--#{$background}
+				);
 
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
+				svg {
+					color: var(--icon-color);
+				}
+			}
+		}
 
-/* Tertiary Background */
-.has-tertiary-background-color {
-	color: var(--wp--preset--color--tertiary-contrast);
+		// Re-invert when inner wrapper matches the icon bg again.
+		[class*="-background-color"].has-background.has-#{$background}-background-color {
+			.has-#{$background}-icon-background-color:not(
+				[style*="--icon-color"]
+			) {
+				--icon-color: var(--wp--preset--color--#{$background});
+				--icon-background-color: var(--wp--preset--color--#{$contrast});
 
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral One Background */
-.has-neutral-1-background-color {
-	color: var(--wp--preset--color--neutral-1-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Two Background */
-.has-neutral-2-background-color {
-	color: var(--wp--preset--color--neutral-2-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Three Background */
-.has-neutral-3-background-color {
-	color: var(--wp--preset--color--neutral-3-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Four Background */
-.has-neutral-4-background-color {
-	color: var(--wp--preset--color--neutral-4-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Five Background */
-.has-neutral-5-background-color {
-	color: var(--wp--preset--color--neutral-5-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
-	}
-}
-
-/* Neutral Six Background */
-.has-neutral-6-background-color {
-	color: var(--wp--preset--color--neutral-6-contrast);
-
-	a:not([class*="has-background"]) {
-		color: inherit;
+				svg {
+					color: var(--icon-color);
+				}
+			}
+		}
 	}
 }

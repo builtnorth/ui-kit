@@ -62,6 +62,16 @@ $form-field-border-radius: 0;
 $form-field-focus-color: var(--wp--preset--color--primary);
 ```
 
+### Form Surface Settings (Textareas, Choice Cards)
+
+Use when line inputs should stay square but larger surfaces can be rounded:
+
+```scss
+$form-surface-border-radius: 0.5rem;
+```
+
+**theme.json:** `settings.custom.form.surface.border-radius` → `--wp--custom--form--surface--border-radius`
+
 ### Form Choice Settings (Checkbox/Radio)
 
 ```scss

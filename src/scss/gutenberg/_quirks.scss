@@ -1,30 +1,37 @@
-// Fix where it strips groups of padding
-// :root .wp-block-polaris-header > :where(.wp-block-group),
-// :root .wp-block-polaris-hero > :where(.wp-block-group),
-// :root .wp-block-polaris-section > :where(.wp-block-group),
-// :root .wp-block-polaris-footer-primary > :where(.wp-block-group),
-// :root .wp-block-polaris-footer-secondary > :where(.wp-block-group) {
-//     padding-left: var(--wp--custom--spacing--gutter, 1rem);
-//     padding-right: var(--wp--custom--spacing--gutter, 1rem);
-// }
-
-// Allow sticky to work with template parts
+// Allow sticky to work with template parts on the frontend. `display: contents`
+// removes the wrapper box — that breaks canvas click-to-select for CPT heroes
+// (e.g. hero-team) in the post editor; restore a box inside the iframe only.
 .wp-block-template-part:not(header, footer) {
 	display: contents;
 }
 
-// Allow post content to break out of its container for alignfull blocks
-// Need !important to override WordPress inline styles
-.wp-block-post-content {
-	//display: contents !important;
+.editor-styles-wrapper .wp-block-template-part:not(header, footer),
+body.site-editor-php .wp-block-template-part:not(header, footer) {
+	display: block;
 }
 
-/* post tmeplate columns don't span full width */
+// Viewport-based content column inset. Blocks inside .wp-block-post-content resolve
+// `100%` against the narrower constrained parent; header/footer sit outside it.
+@mixin polaris-content-column-padding-inline {
+	padding-left: max(
+		var(--wp--style--root--padding-left, 0px),
+		calc((100vw - var(--wp--style--global--content-size)) / 2)
+	);
+	padding-right: max(
+		var(--wp--style--root--padding-right, 0px),
+		calc((100vw - var(--wp--style--global--content-size)) / 2)
+	);
+}
+
+// Allow post content to break out of its container for alignfull blocks.
+// Uncomment if needed: .wp-block-post-content { display: contents !important; }
+
+/* Post template: ensure query loop grid spans full width */
 .wp-block-post-template {
 	width: 100%;
 }
 
-/* Remove padding on align-full blocks */
+/* Remove margin on first block inside constrained layouts */
 :root
 	:where(.editor-styles-wrapper)
 	:where(.is-layout-constrained)
@@ -33,16 +40,252 @@
 	margin-block-start: 0;
 }
 
-// Override this gutenberg quirk:
-// :root :where(.wp-block-group) {
-//     padding: 0;
-// }
-.wp-block-group.has-global-padding {
-	padding-right: var(--wp--style--root--padding-right);
-	padding-left: var(--wp--style--root--padding-left);
+// Editor only: sections/heroes are flush by design on the FRONTEND (theme.json sets
+// margin-top:0 on polaris/section so full-bleed sections stack seamlessly). In the
+// CANVAS that same flush boundary leaves Gutenberg no "between" band: hovering a
+// full-height section always resolves to "drop inside this section", the inserter
+// shows no insertion point between sections, and you cannot drop a block between
+// them. Restore WP's block-gap between top-level sections in the editor purely as a
+// drop affordance — the frontend stays flush. Wave-divider sections re-bridge this
+// gap visually (theme editor divider rules) so the divider still looks seamless.
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-section,
+.editor-styles-wrapper :where(.is-layout-constrained) > .wp-block-polaris-hero,
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-split-section {
+	margin-block-start: var(--wp--style--block-gap, 1.5rem);
 }
 
-// Remove margin on first block
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-section:first-child,
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-hero:first-child,
+.editor-styles-wrapper
+	:where(.is-layout-constrained)
+	> .wp-block-polaris-split-section:first-child {
+	margin-block-start: 0;
+}
+
+// Flex section/hero: inset container to content column width.
+// WP layout (wp-container-* rules) handles justify-content / align-items / flex-direction.
+// These rules only constrain width and inset — nothing that WP already manages.
+.wp-block-polaris-section.is-layout-flex.has-global-padding,
+.wp-block-polaris-hero.is-layout-flex.has-global-padding,
+.wp-block-group.alignfull.is-layout-flex.has-global-padding {
+	&:not(.is-horizontal) {
+		@include polaris-content-column-padding-inline;
+
+		// Reset margins so no child escapes the inset column.
+		> :where(
+			:not(
+				.alignfull,
+				.alignwide,
+				.is-style-label,
+				.is-style-subheading,
+				.section-pattern,
+				.background
+			)
+		) {
+			box-sizing: border-box;
+			max-width: 100%;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		// Structural layout blocks always fill the content column (span math requires it).
+		> .wp-block-polaris-columns,
+		> .wp-block-group,
+		> .wp-block-separator {
+			width: 100%;
+		}
+
+		// Chips (is-style-label / is-style-subheading) have align-self: flex-start set
+		// by design skins so they don't stretch. Override align-self to follow the
+		// section/hero justification — WP sets align-items on the container but
+		// align-self on the chip itself wins and must be explicitly corrected.
+		> :where(.is-style-label, .is-style-subheading) {
+			align-self: flex-start; // default / left
+		}
+
+		&.is-content-justification-center {
+			> :where(.is-style-label, .is-style-subheading) {
+				align-self: center;
+			}
+		}
+
+		&.is-content-justification-right {
+			> :where(.is-style-label, .is-style-subheading) {
+				align-self: flex-end;
+			}
+		}
+
+		// Left/default: text content blocks fill the column width.
+		// Positive list — only known text/content blocks receive width: 100%.
+		// Flex containers (buttons, columns, group, polaris/column) are intentionally
+		// omitted so they remain sized by their own layout/flex rules.
+		&:not(.is-content-justification-center):not(
+				.is-content-justification-right
+			) {
+			> :where(
+				.wp-block-heading,
+				.wp-block-paragraph,
+				.wp-block-list,
+				.wp-block-quote,
+				.wp-block-preformatted,
+				.wp-block-code,
+				.wp-block-table,
+				.wp-block-html,
+				.wp-block-image,
+				.wp-block-media-text,
+				.wp-block-cover
+			) {
+				width: 100%;
+			}
+		}
+
+		// Center/right: non-structural children shrink to natural width so
+		// align-items can center/right-align them.
+		&.is-content-justification-center,
+		&.is-content-justification-right {
+			> :where(
+				:not(
+					.alignfull,
+					.alignwide,
+					.is-style-label,
+					.is-style-subheading,
+					.section-pattern,
+					.background,
+					.wp-block-polaris-columns,
+					.wp-block-polaris-column,
+					.wp-block-group,
+					.wp-block-separator
+				)
+			) {
+				width: auto;
+			}
+		}
+	}
+
+	&.is-horizontal {
+		@include polaris-content-column-padding-inline;
+
+		> :where(
+			:not(
+				.alignfull,
+				.alignwide,
+				.is-style-label,
+				.is-style-subheading,
+				.section-pattern,
+				.background
+			)
+		) {
+			box-sizing: border-box;
+			width: auto;
+			max-width: none;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	> .alignfull {
+		box-sizing: border-box;
+		max-width: none !important;
+		margin-left: calc(
+			var(--wp--style--root--padding-left, 0px) * -1
+		) !important;
+		margin-right: calc(
+			var(--wp--style--root--padding-right, 0px) * -1
+		) !important;
+	}
+
+	> .alignwide {
+		max-width: var(--wp--style--global--wide-size);
+	}
+}
+
+// Header/footer: content column inset; site-logo stays natural width for flex alignment.
+.wp-block-polaris-header.is-layout-flex.has-global-padding,
+.wp-block-polaris-footer.is-layout-flex.has-global-padding {
+	&:not(.is-horizontal) {
+		@include polaris-content-column-padding-inline;
+
+		> :where(
+			:not(
+				.alignfull,
+				.alignwide,
+				.is-style-label,
+				.is-style-subheading,
+				.section-pattern,
+				.wp-block-site-logo
+			)
+		) {
+			box-sizing: border-box;
+			width: 100%;
+			max-width: 100%;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	&.is-horizontal {
+		@include polaris-content-column-padding-inline;
+
+		> :where(
+			:not(
+				.alignfull,
+				.alignwide,
+				.is-style-label,
+				.is-style-subheading,
+				.section-pattern,
+				.wp-block-site-logo
+			)
+		) {
+			box-sizing: border-box;
+			width: auto;
+			max-width: none;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	> .alignfull {
+		box-sizing: border-box;
+		max-width: none !important;
+		margin-left: calc(
+			var(--wp--style--root--padding-left, 0px) * -1
+		) !important;
+		margin-right: calc(
+			var(--wp--style--root--padding-right, 0px) * -1
+		) !important;
+	}
+
+	> .alignwide {
+		max-width: var(--wp--style--global--wide-size);
+	}
+}
+
+// Remove margin on first top-level site block
 .wp-site-blocks > * {
 	margin-block-start: 0;
+}
+
+// cards don't span full container without this
+.wp-block-query {
+	width: 100%;
+}
+
+// keep heading margin bottom is flow layout
+:root :where(.is-layout-flow) > {
+	.wp-block-heading {
+		margin-block-end: var(--wp--style--block-gap);
+		margin-block-start: var(--wp--style--block-gap);
+	}
+	.wp-block-paragraph {
+		margin-block-end: var(--wp--style--block-gap);
+		margin-block-start: var(--wp--style--block-gap);
+	}
 }

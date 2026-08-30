@@ -1,20 +1,67 @@
 @use "../config" as *;
 
-input,
-select,
-textarea {
+legend,
+label {
+	font-size: $form-label-text-size;
+}
+
+legend {
+	margin-bottom: var(--wp--preset--spacing--20, 0.44rem);
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select {
 	margin: 0;
 	border-width: $form-field-border-width;
 	border-color: $form-field-border-color;
 	border-radius: $form-field-border-radius;
-	padding: $form-field-padding;
-	background-color: $form-field-bg-color;
+	border-style: solid;
+	padding: $form-field-padding-y $form-field-padding-x;
+	min-height: $form-field-height;
+	background-color: $form-field-background-color;
 	width: 100%;
-	color: $form-field-text-color;
+	color: $form-field-color;
 
 	&:focus,
 	&:focus-within {
 		outline-color: $form-field-focus-color;
+	}
+}
+
+textarea {
+	margin: 0;
+	border-width: $form-field-border-width;
+	border-color: $form-field-border-color;
+	border-radius: $form-surface-border-radius;
+	padding: $form-field-padding-y $form-field-padding-x;
+	background-color: $form-field-background-color;
+	width: 100%;
+	color: $form-field-color;
+
+	&:focus,
+	&:focus-within {
+		outline-color: $form-field-focus-color;
+	}
+}
+
+input[type="range"] {
+	margin: 0;
+	width: 100%;
+	min-height: auto;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	accent-color: $form-field-focus-color;
+	cursor: pointer;
+}
+
+.field--content .field__content {
+	> :first-child {
+		margin-top: 0;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
 	}
 }
 
@@ -24,8 +71,10 @@ input[type="radio"] {
 	width: $form-choice-size;
 	height: $form-choice-size;
 	appearance: none;
-	background-color: $form-field-bg-color;
+	background-color: $form-field-background-color;
 	border-style: solid;
+	border-color: $form-field-border-color;
+	border-width: $form-field-border-width;
 	display: inline-block;
 	vertical-align: middle;
 	background-position: center;
@@ -35,7 +84,7 @@ input[type="radio"] {
 
 	&:checked {
 		background-color: $form-choice-checked-color;
-		border-color: $form-choice-checked-color;
+		border-color: $form-field-border-color;
 	}
 
 	&:focus {
@@ -51,11 +100,15 @@ input[type="checkbox"] {
 	}
 }
 
-input[type="radio"],
 input[type="radio"] {
 	border-radius: 50%;
 
 	&:checked {
 		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
 	}
+}
+
+.required-text {
+	font-size: var(--wp--preset--font-size--xx-small, 0.875rem);
+	margin-left: 0.25rem;
 }

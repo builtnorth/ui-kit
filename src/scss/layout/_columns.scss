@@ -1,97 +1,127 @@
 @use "../helpers/index" as *;
 @use "sass:math";
+@use "./stack-inline" as *;
 
 /* Columns
 ---------------------------------------- */
 
 .wp-block-polaris-columns {
-	display: flex;
-	flex-wrap: nowrap;
-	position: relative;
-	z-index: 1;
-
-	/* Container query for responsive behavior */
-	/* Note: container query looks at nearest ancestor with container-type */
-	@container (max-width: 48rem) {
-		flex-direction: column;
+	/* Top-level rows: viewport only (not the width of a parent column). */
+	@include lt-stack() {
+		@include polaris-columns-stack-row;
 	}
 
-	/* Media query as fallback */
-	@include lt-md() {
-		flex-direction: column;
+	&.is-flex-wrap {
+		flex-wrap: wrap;
+	}
+
+	&.no-stack-on-mobile {
+		@include lt-stack() {
+			flex-direction: row !important;
+		}
+	}
+
+	&.is-nowrap:not(.no-stack-on-mobile) {
+		@include lt-stack() {
+			flex-direction: column !important;
+
+			.wp-block-polaris-column {
+				width: 100% !important;
+			}
+		}
+	}
+
+	.wp-block-polaris-stat,
+	.wp-block-polaris-icon-card,
+	.wp-block-polaris-image-card {
+		flex-grow: 0;
 	}
 
 	.wp-block-polaris-column {
 		min-width: 4rem;
 		flex-direction: column;
 		display: flex;
-
-		/* fix for gutenberg */
 		margin-block-start: 0;
-
-		/* Needed for gutenberg - mainly wp-group blocks */
-		> * {
-			width: 100%;
-		}
 
 		&--auto {
 			flex: 1;
 			width: auto;
+			min-width: 0;
+			max-width: 100%;
 		}
 
-		/* Sizes to inner content; use with justify-content: space-between on the row */
 		&--shrink {
 			flex: 0 0 auto;
 			width: auto;
 			max-width: 100%;
 		}
 
-		@for $i from 1 through 12 {
-			&--span-#{$i} {
-				flex-basis: #{math.percentage(math.div($i, 12))};
+		@include gt-stack() {
+			@for $i from 1 through 12 {
+				&--span-#{$i} {
+					flex: #{$i} #{$i} 0;
+					min-width: 0;
+					max-width: #{math.percentage(math.div($i, 12))};
+				}
 			}
 		}
 
-		&.has-background {
-			padding: var(--wp--preset--spacing--50);
+		/* Container for nested polaris/columns (and form content) inside this column. */
+		&:has(> .wp-block-polaris-columns),
+		&:has(.form__content) {
+			container-type: inline-size;
+			container-name: polaris-column;
 		}
 	}
 
-	// Allow columns to wrap onto multiple rows
-	&.is-flex-wrap {
-		flex-wrap: wrap;
-	}
-
-	// Mobile Stacking - Override default mobile stacking
-	&.no-stack-on-mobile {
-		/* Container query override */
-		@container (max-width: 48rem) {
-			flex-direction: row;
+	/* Nested row: stack when parent column is narrower than $columns-stack-max. */
+	.wp-block-polaris-column > & {
+		@include polaris-stack-when-narrow-in-container(polaris-column) {
+			@include polaris-columns-stack-row;
 		}
 
-		/* Media query as fallback */
-		@include lt-md() {
-			flex-direction: row;
-		}
-	}
+		&.no-stack-on-mobile {
+			@container polaris-column (max-width: #{$columns-stack-container-max}) {
+				flex-direction: row !important;
+			}
 
-	// Handle WordPress-generated is-nowrap class
-	&.is-nowrap {
-		/* Allow stacking in small containers despite nowrap class */
-		@container (max-width: 48rem) {
-			flex-direction: column;
-
-			.wp-block-polaris-column {
-				width: 100%;
+			@include lt-stack() {
+				flex-direction: row !important;
 			}
 		}
 
-		/* Media query as fallback */
-		@include lt-md() {
-			flex-direction: column;
+		&.is-nowrap:not(.no-stack-on-mobile) {
+			@container polaris-column (max-width: #{$columns-stack-container-max}) {
+				flex-direction: column !important;
 
-			.wp-block-polaris-column {
-				width: 100%;
+				> .wp-block-polaris-column {
+					width: 100% !important;
+				}
+			}
+
+			@include lt-stack() {
+				flex-direction: column !important;
+
+				> .wp-block-polaris-column {
+					width: 100% !important;
+				}
+			}
+		}
+	}
+
+	&.wp-block-polaris-split-section:not(.alignfull) {
+		> .wp-block-polaris-column {
+			flex-grow: 0;
+			min-width: 0;
+		}
+
+		@include gt-stack() {
+			@for $i from 1 through 12 {
+				> .wp-block-polaris-column--span-#{$i} {
+					flex: #{$i} #{$i} 0;
+					min-width: 0;
+					max-width: #{math.percentage(math.div($i, 12))};
+				}
 			}
 		}
 	}

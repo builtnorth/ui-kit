@@ -1,3 +1,40 @@
+@use "../config" as *;
+
 fieldset {
-	all: unset;
+	border: none;
+	padding: 0;
+	margin: 0;
+	min-width: 0;
+}
+
+// Group wrapper (e.g. sibling rows after <legend>).
+fieldset > div {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-20;
+}
+
+fieldset[data-layout="inline"] > div,
+fieldset.is-fieldset-inline > div {
+	display: inline-flex;
+	flex-flow: row wrap;
+	gap: $spacing-50;
+}
+
+fieldset[data-columns],
+fieldset[class*="is-fieldset-columns-"] {
+	--fieldset-columns: 1;
+
+	> div {
+		display: grid;
+		grid-template-columns: repeat(var(--fieldset-columns), minmax(0, 1fr));
+		gap: $spacing-20;
+	}
+}
+
+@for $i from 2 through 6 {
+	fieldset[data-columns="#{$i}"],
+	fieldset.is-fieldset-columns-#{$i} {
+		--fieldset-columns: #{$i};
+	}
 }

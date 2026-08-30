@@ -7,20 +7,18 @@ Misc
 ------------------------------------------------------------------
 */
 
+/* Can't do this, as itmesses up footer and too many layouts */
+// .wp-block-group {
+// 	&.has-background {
+// 		padding: var(--wp--preset--spacing--50);
+// 	}
+// }
+
 /* Hide excerpt read more link
 ------------------------------------------------------------------
 */
 .wp-block-post-excerpt__more-link {
 	display: none !important;
-}
-
-/* Icon picker list
-------------------------------------------------------------------
-*/
-.component-icon-picker__list {
-	> div {
-		overflow-x: hidden !important;
-	}
 }
 
 /* Input Control Suffix as Prefix - Temp until prefix works

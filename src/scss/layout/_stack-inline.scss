@@ -1,0 +1,88 @@
+@use "../helpers/index" as *;
+@use "sass:math";
+
+/* Shared stacking for inline rows (columns, form field groups). */
+
+@mixin polaris-stack-children-full-width {
+	> * {
+		max-width: 100%;
+		width: 100%;
+		min-width: 0;
+	}
+}
+
+@mixin polaris-columns-stack-row {
+	flex-direction: column !important;
+
+	> .wp-block-polaris-column,
+	.wp-block-polaris-column {
+		max-width: 100% !important;
+		width: 100% !important;
+		min-width: 0;
+
+		@for $i from 1 through 12 {
+			&--span-#{$i} {
+				flex: 1 1 100% !important;
+				max-width: 100% !important;
+			}
+		}
+	}
+}
+
+// Viewport only — top-level rows (footer, full-width sections).
+@mixin polaris-stack-when-narrow {
+	@include lt-stack() {
+		@content;
+	}
+}
+
+// Nested in a layout column: container uses $columns-stack-container-max (tighter than viewport).
+@mixin polaris-stack-when-narrow-in-container($container-name: polaris-column) {
+	@container #{$container-name} (max-width: #{$columns-stack-container-max}) {
+		@content;
+	}
+
+	@include lt-stack() {
+		@content;
+	}
+}
+
+@mixin polaris-stack-flex-row-when-narrow {
+	@include polaris-stack-when-narrow {
+		flex-direction: column !important;
+		@include polaris-stack-children-full-width;
+	}
+}
+
+@mixin polaris-stack-flex-row-when-narrow-in-container($container-name: polaris-column) {
+	@include polaris-stack-when-narrow-in-container($container-name) {
+		flex-direction: column !important;
+		@include polaris-stack-children-full-width;
+	}
+}
+
+@mixin polaris-stack-grid-2col-when-narrow {
+	@include polaris-stack-when-narrow {
+		grid-template-columns: 1fr !important;
+
+		> * {
+			grid-column: 1 / -1;
+			max-width: 100%;
+			width: 100%;
+			min-width: 0;
+		}
+	}
+}
+
+@mixin polaris-stack-grid-2col-when-narrow-in-container($container-name: polaris-column) {
+	@include polaris-stack-when-narrow-in-container($container-name) {
+		grid-template-columns: 1fr !important;
+
+		> * {
+			grid-column: 1 / -1;
+			max-width: 100%;
+			width: 100%;
+			min-width: 0;
+		}
+	}
+}

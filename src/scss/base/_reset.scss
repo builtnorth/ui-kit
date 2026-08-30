@@ -73,11 +73,6 @@ svg {
 	max-width: 100%;
 }
 
-img {
-	/* Remove extra space from image below images*/
-	display: block;
-}
-
 figure {
 	margin-bottom: 0;
 }
@@ -104,4 +99,16 @@ button {
 ----------------------------------------------------------------*/
 :has(:target) {
 	scroll-padding-top: 3rem;
+}
+
+.wp-block-site-title {
+	margin-bottom: 0;
+	a {
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			text-decoration: underline;
+		}
+	}
 }

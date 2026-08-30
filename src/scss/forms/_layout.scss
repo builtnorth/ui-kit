@@ -1,0 +1,65 @@
+@use "../helpers/index" as *;
+@use "../layout/stack-inline" as *;
+
+/*
+ * In a layout column (contact | form): nested container on polaris-column width.
+ * $columns-stack-container-max (480px) — not viewport 768, so a ~500px form column
+ * keeps First|Last and Email|Phone in a row on a wide screen.
+ */
+
+.wp-block-polaris-column .form__content {
+	.field-group--name {
+		@include polaris-stack-flex-row-when-narrow-in-container(polaris-column);
+	}
+
+	.field-group--address {
+		@include polaris-stack-grid-2col-when-narrow-in-container(polaris-column);
+	}
+
+	.wp-block-polaris-columns {
+		@include polaris-stack-when-narrow-in-container(polaris-column) {
+			@include polaris-columns-stack-row;
+		}
+	}
+
+	.wp-block-columns:not(.is-not-stacked-on-mobile) {
+		@include polaris-stack-when-narrow-in-container(polaris-column) {
+			flex-direction: column !important;
+
+			> .wp-block-column {
+				flex-basis: 100% !important;
+				width: 100% !important;
+				max-width: 100% !important;
+			}
+		}
+	}
+}
+
+/* Full-width form (no layout column wrapper). */
+.form__content {
+	.field-group--name {
+		@include polaris-stack-flex-row-when-narrow();
+	}
+
+	.field-group--address {
+		@include polaris-stack-grid-2col-when-narrow();
+	}
+
+	.wp-block-polaris-columns {
+		@include polaris-stack-when-narrow() {
+			@include polaris-columns-stack-row;
+		}
+	}
+
+	.wp-block-columns:not(.is-not-stacked-on-mobile) {
+		@include polaris-stack-when-narrow() {
+			flex-direction: column !important;
+
+			> .wp-block-column {
+				flex-basis: 100% !important;
+				width: 100% !important;
+				max-width: 100% !important;
+			}
+		}
+	}
+}

@@ -1,0 +1,34 @@
+/* Multi-part field layout (stacking rules live in forms/_layout.scss). */
+
+.field-group--name {
+	display: flex;
+	flex-direction: row;
+	gap: var(--wp--preset--spacing--40);
+	align-items: flex-start;
+
+	.field-name {
+		display: flex;
+		flex-direction: column;
+		flex: 1 1 0;
+		min-width: 0;
+		gap: var(--wp--preset--spacing--20);
+	}
+}
+
+.field-group--address {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
+
+	.field-address {
+		display: flex;
+		flex-direction: column;
+		gap: var(--wp--preset--spacing--20);
+		grid-column: span 1;
+
+		&--street-address,
+		&--address-line-2 {
+			grid-column: span 2;
+		}
+	}
+}

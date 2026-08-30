@@ -7,25 +7,6 @@ Classes to quickly add utility styles to your components.
 */
 @use "../helpers/index" as *;
 
-/* Vertical Alignment
-(needed because gutenberg prefixes with .wp-block)
-------------------------------------------------------------------*/
-.is-vertically-aligned-top {
-	align-items: flex-start;
-}
-
-.is-vertically-aligned-center {
-	align-items: center;
-}
-
-.is-vertically-aligned-bottom {
-	align-items: flex-end;
-}
-
-.is-vertically-aligned-stretch {
-	align-items: stretch;
-}
-
 /* Content Alignment
 ------------------------------------------------------------------*/
 .is-content-align-left {
@@ -71,7 +52,7 @@ Classes to quickly add utility styles to your components.
 	margin-right: auto !important;
 	display: flex !important;
 	width: auto !important;
-	align-self: center;
+	justify-self: center;
 }
 .alignleft {
 	float: none !important;
@@ -102,11 +83,12 @@ Classes to quickly add utility styles to your components.
 
 /* Section & Background Images
 ------------------------------------------------------------------*/
+
 .has-background-image {
 	position: relative;
 	overflow: hidden;
 
-	> *:not(.background) {
+	> *:not(.background):not(.section-pattern) {
 		position: relative;
 		z-index: 1;
 	}
@@ -200,5 +182,21 @@ Classes to quickly add utility styles to your components.
 	> * {
 		position: relative;
 		z-index: 1;
+	}
+}
+
+/* Background Padding when .has-background is used
+  ------------------------------------------------------------------*/
+
+.wp-block-polaris-columns:not(.wp-block-polaris-split-section),
+.wp-block-polaris-column,
+.wp-block-polaris-price-card,
+.wp-block-polaris-contact-information,
+.wp-block-polaris-icon-card,
+.wp-block-polaris-stat,
+.wp-block-group,
+.wp-block-polaris-review-card {
+	&.has-background {
+		padding: var(--wp--preset--spacing--50);
 	}
 }
