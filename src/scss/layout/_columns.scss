@@ -42,6 +42,7 @@
 		flex-direction: column;
 		display: flex;
 		margin-block-start: 0;
+		align-items: stretch;
 
 		&--auto {
 			flex: 1;

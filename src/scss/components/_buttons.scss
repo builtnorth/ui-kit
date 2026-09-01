@@ -209,7 +209,7 @@
 // 4. Button base styles
 // ==========================================================================
 @include button-surfaces {
-	--icon-size: 1.5rem;
+	--icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
 	--button-block-gap: var(--wp--preset--spacing--30, 0.67rem);
 
 	cursor: pointer;
@@ -220,8 +220,6 @@
 	border: var(--wp--custom--border-width--x-small, 1px) solid transparent;
 	border-radius: $button-border-radius;
 	box-sizing: border-box;
-	font-family: var(--wp--preset--font-family--secondary, inherit);
-	font-weight: var(--wp--custom--font-weight--medium, 500);
 	text-align: center;
 
 	&:not(.is-style-text-link) {
@@ -243,7 +241,7 @@
 	}
 
 	.wp-block-polaris-icon {
-		--icon-size: 1.5rem;
+		--icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
 	}
 }
 
@@ -253,29 +251,38 @@
 @include button-surfaces {
 	&.is-size-default,
 	&:not(.is-size-small):not(.is-size-large):not(.is-style-text-link) {
-		font-size: var(--wp--preset--font-size--x-small, 1.25rem);
+		font-size: var(
+			--wp--custom--button--font-size-default,
+			var(--wp--preset--font-size--x-small, 1.25rem)
+		);
 		padding: var(--button-padding-y) var(--button-padding-x);
 	}
 
 	&.is-size-small {
-		--icon-size: 1.25rem;
+		--icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
 		--button-block-gap: var(--wp--preset--spacing--0, 0.25rem);
 		padding: var(--button-padding-y-small) var(--button-padding-x-small);
-		font-size: var(--wp--preset--font-size--xx-small, 1rem);
+		font-size: var(
+			--wp--custom--button--font-size-small,
+			var(--wp--preset--font-size--xx-small, 1rem)
+		);
 
 		.wp-block-polaris-icon {
-			--icon-size: 1.25rem;
+			--icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
 		}
 	}
 
 	&.is-size-large {
-		--icon-size: 1.75rem;
+		--icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
 		--button-block-gap: var(--wp--preset--spacing--40, 0.83rem);
 		padding: var(--button-padding-y-large) var(--button-padding-x-large);
-		font-size: var(--wp--preset--font-size--small, 1.563rem);
+		font-size: var(
+			--wp--custom--button--font-size-large,
+			var(--wp--preset--font-size--small, 1.563rem)
+		);
 
 		.wp-block-polaris-icon {
-			--icon-size: 1.75rem;
+			--icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
 		}
 	}
 }
@@ -440,7 +447,8 @@
 	}
 }
 
-.wp-block-button.is-style-secondary:not(.is-style-outline) .wp-block-button__link {
+.wp-block-button.is-style-secondary:not(.is-style-outline)
+	.wp-block-button__link {
 	color: var(--wp--preset--color--secondary-contrast);
 	background-color: var(--wp--preset--color--secondary);
 	border-color: var(--wp--preset--color--secondary);
@@ -459,7 +467,8 @@
 	}
 }
 
-.wp-block-button.is-style-tertiary:not(.is-style-outline) .wp-block-button__link {
+.wp-block-button.is-style-tertiary:not(.is-style-outline)
+	.wp-block-button__link {
 	color: var(
 		--wp--preset--color--neutral-2-contrast,
 		var(--wp--preset--color--neutral-1-contrast, #ffffff)
@@ -571,7 +580,9 @@ $button-primary-style: ":not(.is-style-secondary):not(.is-style-tertiary):not(.i
 }
 
 @mixin nested-surface-button-defaults() {
-	.wp-block-polaris-button#{$button-primary-style}:not(.is-appearance-outline),
+	.wp-block-polaris-button#{$button-primary-style}:not(
+		.is-appearance-outline
+	),
 	button.form-button#{$button-primary-style}:not(.is-appearance-outline),
 	button.form__btn-prev#{$button-primary-style}:not(.is-appearance-outline),
 	button.form__btn-next#{$button-primary-style}:not(.is-appearance-outline),
@@ -607,8 +618,8 @@ $button-primary-style: ":not(.is-style-secondary):not(.is-style-tertiary):not(.i
 
 .has-primary-background-color {
 	.wp-block-polaris-button#{$button-primary-style}:not(
-			.is-appearance-outline
-		),
+		.is-appearance-outline
+	),
 	button.form-button#{$button-primary-style}:not(.is-appearance-outline),
 	button.form__btn-prev#{$button-primary-style}:not(.is-appearance-outline),
 	button.form__btn-next#{$button-primary-style}:not(.is-appearance-outline),
@@ -633,11 +644,15 @@ $button-primary-style: ":not(.is-style-secondary):not(.is-style-tertiary):not(.i
 
 	[class*="-background-color"].has-background.has-primary-background-color {
 		.wp-block-polaris-button#{$button-primary-style}:not(
+			.is-appearance-outline
+		),
+		button.form-button#{$button-primary-style}:not(.is-appearance-outline),
+		button.form__btn-prev#{$button-primary-style}:not(
 				.is-appearance-outline
 			),
-		button.form-button#{$button-primary-style}:not(.is-appearance-outline),
-		button.form__btn-prev#{$button-primary-style}:not(.is-appearance-outline),
-		button.form__btn-next#{$button-primary-style}:not(.is-appearance-outline),
+		button.form__btn-next#{$button-primary-style}:not(
+				.is-appearance-outline
+			),
 		.wp-block-button:not(.is-style-outline):not(.is-style-secondary):not(
 				.is-style-tertiary
 			)
@@ -665,7 +680,8 @@ $button-primary-style: ":not(.is-style-secondary):not(.is-style-tertiary):not(.i
 	button.form-button.is-style-secondary.is-appearance-outline,
 	button.form__btn-prev.is-style-secondary.is-appearance-outline,
 	button.form__btn-next.is-style-secondary.is-appearance-outline,
-	.wp-block-button.is-style-secondary.is-style-outline .wp-block-button__link {
+	.wp-block-button.is-style-secondary.is-style-outline
+		.wp-block-button__link {
 		@include button-outline-on-matching-bg(
 			"secondary",
 			"secondary-contrast"
@@ -677,9 +693,9 @@ $button-primary-style: ":not(.is-style-secondary):not(.is-style-tertiary):not(.i
 	}
 
 	[class*="-background-color"].has-background.has-secondary-background-color {
-		.wp-block-polaris-button.is-style-secondary:not(.is-style-text-link):not(
-				.is-appearance-outline
-			),
+		.wp-block-polaris-button.is-style-secondary:not(
+				.is-style-text-link
+			):not(.is-appearance-outline),
 		button.form-button.is-style-secondary:not(.is-appearance-outline),
 		button.form__btn-prev.is-style-secondary:not(.is-appearance-outline),
 		button.form__btn-next.is-style-secondary:not(.is-appearance-outline),

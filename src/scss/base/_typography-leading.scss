@@ -5,26 +5,26 @@
  * fall back to half-leading compensation on the display element only.
  */
 
-$display-trim-selectors: ":is(h1, h2, h3, h4, h5, h6, .wp-block-heading, .wp-block-post-title, .hero-heading__title, .wp-block-polaris-counter)";
+// $display-trim-selectors: ":is(h1, h2, h3, h4, h5, h6, .wp-block-heading, .wp-block-post-title, .hero-heading__title, .wp-block-polaris-counter)";
 
-$copy-after-display-selectors: "#{$display-trim-selectors} + :is(p, .wp-block-paragraph, ul, ol, .wp-block-list, h1, h2, h3, h4, h5, h6, .wp-block-heading, .wp-block-polaris-counter), .is-style-subheading + :is(p, .wp-block-paragraph)";
+// $copy-after-display-selectors: "#{$display-trim-selectors} + :is(p, .wp-block-paragraph, ul, ol, .wp-block-list, h1, h2, h3, h4, h5, h6, .wp-block-heading, .wp-block-polaris-counter), .is-style-subheading + :is(p, .wp-block-paragraph)";
 
-#{$display-trim-selectors} {
-	@supports (text-box-trim: trim-start) {
-		text-box-trim: trim-start;
-		text-box-edge: cap alphabetic;
-	}
+// #{$display-trim-selectors} {
+// 	@supports (text-box-trim: trim-start) {
+// 		text-box-trim: trim-start;
+// 		text-box-edge: cap alphabetic;
+// 	}
 
-	@supports not (text-box-trim: trim-start) {
-		margin-block-end: calc(
-			(var(--wp--custom--line-height--heading, 1.2) - 1) / 2 * -1em
-		);
-	}
-}
+// 	@supports not (text-box-trim: trim-start) {
+// 		margin-block-end: calc(
+// 			(var(--wp--custom--line-height--heading, 1.2) - 1) / 2 * -1em
+// 		);
+// 	}
+// }
 
-#{$copy-after-display-selectors} {
-	@supports (text-box-trim: trim-start) {
-		text-box-trim: trim-start;
-		text-box-edge: cap alphabetic;
-	}
-}
+// #{$copy-after-display-selectors} {
+// 	@supports (text-box-trim: trim-start) {
+// 		text-box-trim: trim-start;
+// 		text-box-edge: cap alphabetic;
+// 	}
+// }

@@ -4,6 +4,7 @@
 // Maps to theme.json settings.custom.form.*
 //
 //   form.field   → text inputs, selects (line-style controls)
+//   form.label   → legend, label, help text sizing
 //   form.surface → textareas, choice cards, other panel-like fields
 //   form.choice  → checkboxes, radios
 //
@@ -12,10 +13,13 @@
 // form.field
 // ----------------------------------------------------------------------------
 $form-field-spacing: var(--wp--style-block-gap, 0.5rem) !default;
-$form-label-text-size: var(--wp--preset--font-size--x-small, 1rem) !default;
+$form-label-text-size: var(
+	--wp--custom--form--label--font-size,
+	var(--wp--preset--font-size--x-small, 1rem)
+) !default;
 $form-label-help-text-size: var(
-	--wp--preset--font-size--tiny,
-	0.75rem
+	--wp--custom--form--label--help-font-size,
+	var(--wp--preset--font-size--tiny, 0.75rem)
 ) !default;
 
 $form-field-padding-x: var(
