@@ -27,7 +27,7 @@ jobs:
             prerelease: ${{ inputs.prerelease }}
             package-name: "ui-kit"
             node-version: "22"
-            publish-to-npm: false
+            publish-to-npm: true
             publish-to-github: true
             use-workspace: false
         secrets:
