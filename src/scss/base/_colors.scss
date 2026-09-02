@@ -14,14 +14,23 @@ $background-contrast-pairs: (
 	"base": "contrast",
 	"contrast": "base",
 	"primary": "primary-contrast",
+	"primary-contrast": "primary",
 	"secondary": "secondary-contrast",
+	"secondary-contrast": "secondary",
 	"tertiary": "tertiary-contrast",
+	"tertiary-contrast": "tertiary",
 	"neutral-1": "neutral-1-contrast",
+	"neutral-1-contrast": "neutral-1",
 	"neutral-2": "neutral-2-contrast",
+	"neutral-2-contrast": "neutral-2",
 	"neutral-3": "neutral-3-contrast",
+	"neutral-3-contrast": "neutral-3",
 	"neutral-4": "neutral-4-contrast",
+	"neutral-4-contrast": "neutral-4",
 	"neutral-5": "neutral-5-contrast",
+	"neutral-5-contrast": "neutral-5",
 	"neutral-6": "neutral-6-contrast",
+	"neutral-6-contrast": "neutral-6",
 );
 
 @each $background, $contrast in $background-contrast-pairs {
