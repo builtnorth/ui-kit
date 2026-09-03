@@ -100,11 +100,17 @@ $container-max-width: var(--wp--custom--layout--content-size, 1200px) !default;
 
 // Breakpoints
 // ----------------------------------------------------------------------------
-$breakpoint-sm: 576px !default;
+// This is the source of truth for helpers/_media-queries.scss's
+// gt-*/lt-*/only-* mixins (which drive layout/_columns.scss,
+// layout/_stack-inline.scss, layout/_grid.scss, etc.) — override here via
+// `@use "@builtnorth/ui-kit" with (...)`, not by editing media-queries.scss.
+$breakpoint-xxs: 320px !default;
+$breakpoint-xs: 480px !default;
+$breakpoint-sm: 640px !default;
 $breakpoint-md: 768px !default;
-$breakpoint-lg: 992px !default;
-$breakpoint-xl: 1200px !default;
-$breakpoint-xxl: 1400px !default;
+$breakpoint-lg: 1024px !default;
+$breakpoint-xl: 1280px !default;
+$breakpoint-xxl: 1536px !default;
 
 // Colors (can be overridden but default to theme.json)
 // ----------------------------------------------------------------------------

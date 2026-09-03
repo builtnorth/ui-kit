@@ -7,13 +7,18 @@ Helpers: Media Queries
 ------------------------------------------------------------------
 */
 
-$xxsmall: 320px;
-$xsmall: 480px;
-$small: 640px;
-$medium: 768px;
-$large: 1024px;
-$xlarge: 1280px;
-$xxlarge: 1536px;
+// Values come from ../config's $breakpoint-* (the package's documented
+// override surface via `@use "@builtnorth/ui-kit" with (...)`) — override
+// there, not here.
+@use "../config" as config;
+
+$xxsmall: config.$breakpoint-xxs;
+$xsmall: config.$breakpoint-xs;
+$small: config.$breakpoint-sm;
+$medium: config.$breakpoint-md;
+$large: config.$breakpoint-lg;
+$xlarge: config.$breakpoint-xl;
+$xxlarge: config.$breakpoint-xxl;
 
 // Viewport: stack-on-mobile for top-level polaris/columns (footer, page rows).
 $columns-stack-max: $medium !default;

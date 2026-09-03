@@ -1,7 +1,9 @@
 @forward "./icon-sizes";
 @forward "./accessibility";
 @forward "./reset";
-@forward "./typography-leading";
 @forward "./utilities";
 @forward "./images";
 @forward "./colors";
+// typography-leading.scss is intentionally not forwarded — every rule in it
+// is commented out (WIP text-box-trim experiment), so forwarding it compiles
+// to nothing. See that file for context if picking the idea back up.
