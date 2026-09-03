@@ -5,10 +5,20 @@
 /* Columns
 ---------------------------------------- */
 
+// post-feed's grid shares this class (to mirror polaris/columns's other
+// layout styling) but manages its own responsive column count via the
+// responsive-columns mixin instead of this file's binary 768px stack —
+// every viewport-driven stacking rule below must exclude it, or WordPress's
+// auto-added layout classes (is-nowrap, etc.) force it to 1 column at
+// 768px regardless of the block's actual --post-feed-columns breakpoints.
+$polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
+
 .wp-block-polaris-columns {
 	/* Top-level rows: viewport only (not the width of a parent column). */
-	@include lt-stack() {
-		@include polaris-columns-stack-row;
+	&#{$polaris-columns-not-post-feed} {
+		@include lt-stack() {
+			@include polaris-columns-stack-row;
+		}
 	}
 
 	&.is-flex-wrap {
@@ -21,7 +31,7 @@
 		}
 	}
 
-	&.is-nowrap:not(.no-stack-on-mobile) {
+	&.is-nowrap:not(.no-stack-on-mobile)#{$polaris-columns-not-post-feed} {
 		@include lt-stack() {
 			flex-direction: column !important;
 

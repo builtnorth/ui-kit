@@ -10,6 +10,14 @@ descendants (especially links) resolve contrast from the nearest
 background ancestor, not from intermediate wrappers or outer sections.
 ****************************************************/
 
+// CSS can't derive a "{slug}-contrast" preset var name from "{slug}" at
+// runtime (no string concatenation), so every color pair a site's theme.json
+// defines must be listed explicitly, either here or via a theme's own
+// @include polaris-color-contrast-rules((...)) call (see mixin below) — a
+// site adding a new palette color with a matching "{slug}-contrast" entry
+// (e.g. "brand"/"brand-contrast") needs both directions listed somewhere, or
+// elements using that background never get --polaris-auto-text-color set and
+// fall through to an ancestor's color.
 $background-contrast-pairs: (
 	"base": "contrast",
 	"contrast": "base",
@@ -19,6 +27,8 @@ $background-contrast-pairs: (
 	"secondary-contrast": "secondary",
 	"tertiary": "tertiary-contrast",
 	"tertiary-contrast": "tertiary",
+	"white": "white-contrast",
+	"white-contrast": "white",
 	"neutral-1": "neutral-1-contrast",
 	"neutral-1-contrast": "neutral-1",
 	"neutral-2": "neutral-2-contrast",
@@ -31,20 +41,51 @@ $background-contrast-pairs: (
 	"neutral-5-contrast": "neutral-5",
 	"neutral-6": "neutral-6-contrast",
 	"neutral-6-contrast": "neutral-6",
-);
+) !default;
 
-@each $background, $contrast in $background-contrast-pairs {
-	.has-#{$background}-background-color {
-		--polaris-auto-text-color: var(--wp--preset--color--#{$contrast});
-		--polaris-auto-surface-color: var(--wp--preset--color--#{$background});
-		color: var(--polaris-auto-text-color);
+// Generates the background/contrast ruleset for one background-contrast map.
+// A theme adding palette colors ui-kit doesn't know about (e.g. a custom
+// "brand"/"brand-contrast" pair) can call this directly instead of forking
+// ui-kit's map:
+//
+//   @use "@builtnorth/ui-kit/base/colors" as polaris-colors;
+//   @include polaris-colors.polaris-color-contrast-rules((
+//     "brand": "brand-contrast",
+//     "brand-contrast": "brand",
+//   ));
+@mixin polaris-color-contrast-rules($pairs) {
+	@each $background, $contrast in $pairs {
+		.has-#{$background}-background-color {
+			--polaris-auto-text-color: var(--wp--preset--color--#{$contrast});
+			--polaris-auto-surface-color: var(--wp--preset--color--#{$background});
+			color: var(--polaris-auto-text-color);
 
-		// Map blocks manage their own text (popups, attribution, controls).
-		.wp-block-polaris-map,
-		.wp-block-polaris-service-area-map {
-			color: initial;
-			--polaris-auto-text-color: initial;
+			// Map blocks manage their own text (popups, attribution, controls).
+			.wp-block-polaris-map,
+			.wp-block-polaris-service-area-map {
+				color: initial;
+				--polaris-auto-text-color: initial;
 
+				a:not([class*="has-background"]):not(.has-text-color):not(
+						.has-link-color
+					):not(
+						.wp-block-polaris-button:not(.is-appearance-outline):not(
+								.is-style-text-link
+							)
+					):not(
+						.wp-block-button:not(.is-style-outline) .wp-block-button__link
+					):not(button.form-button):not(button.form__btn-prev):not(button.form__btn-next) {
+					color: initial;
+				}
+
+				.wp-block-polaris-button.is-style-text-link {
+					color: currentColor;
+				}
+			}
+
+			// Plain links only — filled buttons set their own color/background.
+			// Outline and text-link buttons use currentColor and need this rule.
+			// Form submit buttons (button.form-button) use components/_buttons.scss.
 			a:not([class*="has-background"]):not(.has-text-color):not(
 					.has-link-color
 				):not(
@@ -54,72 +95,23 @@ $background-contrast-pairs: (
 				):not(
 					.wp-block-button:not(.is-style-outline) .wp-block-button__link
 				):not(button.form-button):not(button.form__btn-prev):not(button.form__btn-next) {
-				color: initial;
-			}
-
-			.wp-block-polaris-button.is-style-text-link {
-				color: currentColor;
+				color: var(--polaris-auto-text-color);
 			}
 		}
 
-		// Plain links only — filled buttons set their own color/background.
-		// Outline and text-link buttons use currentColor and need this rule.
-		// Form submit buttons (button.form-button) use components/_buttons.scss.
-		a:not([class*="has-background"]):not(.has-text-color):not(
-				.has-link-color
-			):not(
-				.wp-block-polaris-button:not(.is-appearance-outline):not(
-						.is-style-text-link
-					)
-			):not(
-				.wp-block-button:not(.is-style-outline) .wp-block-button__link
-			):not(button.form-button):not(button.form__btn-prev):not(button.form__btn-next) {
-			color: var(--polaris-auto-text-color);
-		}
-	}
-
-	// contact-information, social-media, icon: default chip (contrast icon on preset bg).
-	.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
-		--icon-color: var(--wp--preset--color--#{$contrast});
-		--icon-background-color: var(--wp--preset--color--#{$background});
-
-		svg {
-			color: var(--icon-color);
-		}
-	}
-
-	// Same-surface: icon chip inverts when its bg matches the section surface.
-	.has-#{$background}-background-color {
+		// contact-information, social-media, icon: default chip (contrast icon on preset bg).
 		.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
-			--icon-color: var(--wp--preset--color--#{$background});
-			--icon-background-color: var(--wp--preset--color--#{$contrast});
+			--icon-color: var(--wp--preset--color--#{$contrast});
+			--icon-background-color: var(--wp--preset--color--#{$background});
 
 			svg {
 				color: var(--icon-color);
 			}
 		}
 
-		// Nested colored wrappers reset chips to default fills (nearest surface wins).
-		[class*="-background-color"].has-background {
-			.has-#{$background}-icon-background-color:not(
-				[style*="--icon-color"]
-			) {
-				--icon-color: var(--wp--preset--color--#{$contrast});
-				--icon-background-color: var(
-					--wp--preset--color--#{$background}
-				);
-
-				svg {
-					color: var(--icon-color);
-				}
-			}
-		}
-
-		// Re-invert when inner wrapper matches the icon bg again.
-		[class*="-background-color"].has-background.has-#{$background}-background-color {
-			.has-#{$background}-icon-background-color:not(
-				[style*="--icon-color"]
-			) {
+		// Same-surface: icon chip inverts when its bg matches the section surface.
+		.has-#{$background}-background-color {
+			.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
 				--icon-color: var(--wp--preset--color--#{$background});
 				--icon-background-color: var(--wp--preset--color--#{$contrast});
 
@@ -127,6 +119,38 @@ $background-contrast-pairs: (
 					color: var(--icon-color);
 				}
 			}
+
+			// Nested colored wrappers reset chips to default fills (nearest surface wins).
+			[class*="-background-color"].has-background {
+				.has-#{$background}-icon-background-color:not(
+					[style*="--icon-color"]
+				) {
+					--icon-color: var(--wp--preset--color--#{$contrast});
+					--icon-background-color: var(
+						--wp--preset--color--#{$background}
+					);
+
+					svg {
+						color: var(--icon-color);
+					}
+				}
+			}
+
+			// Re-invert when inner wrapper matches the icon bg again.
+			[class*="-background-color"].has-background.has-#{$background}-background-color {
+				.has-#{$background}-icon-background-color:not(
+					[style*="--icon-color"]
+				) {
+					--icon-color: var(--wp--preset--color--#{$background});
+					--icon-background-color: var(--wp--preset--color--#{$contrast});
+
+					svg {
+						color: var(--icon-color);
+					}
+				}
+			}
 		}
 	}
 }
+
+@include polaris-color-contrast-rules($background-contrast-pairs);

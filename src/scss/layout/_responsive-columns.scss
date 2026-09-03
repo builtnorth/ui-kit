@@ -1,0 +1,81 @@
+@use "sass:math";
+@use "sass:list";
+@use "../helpers/index" as *;
+
+/* Responsive Columns
+---------------------------------------- */
+/*
+Generates halving-step breakpoints for an equal-width N-column layout driven
+by a single CSS custom property (e.g. --post-feed-columns). Each step halves
+the column count (ceil(N/2)) until reaching 1, so wide grids progressively
+lose columns as their container narrows instead of jumping straight from N
+to 1. N=3 is special-cased straight to 1 (3→2 is too weak a reduction to be
+worth an extra step).
+
+Steps are gated by a `data-column-count="N"` attribute on the same element
+(exact match — CSS can't branch on a custom property's runtime value), so
+callers must render that attribute alongside the custom property.
+*/
+
+@function responsive-columns-steps($n) {
+	@if $n==3 {
+		@return (3, 1);
+	}
+
+	$steps: ($n);
+	$current: $n;
+
+	@while $current >1 {
+		$current: math.ceil(math.div($current, 2));
+		$steps: list.append($steps, $current);
+	}
+
+	@return $steps;
+}
+
+// $property: the custom property to override at each step, e.g. --post-feed-columns.
+// $attr: the data-attribute name used to match the configured column count, e.g. data-column-count.
+// $min: smallest N to generate rules for (default 2 — nothing to halve below that).
+// $max: largest N to generate rules for.
+// $card-min-width: reference width used to derive each step's container-query breakpoint.
+//
+// A container can't query itself — @container rules here must live on a
+// descendant selector (passed as $child), not on `&`, or the browser drops
+// them for the containing element entirely (they'd only affect further
+// descendants of $child, never $property set on the container itself).
+@mixin responsive-columns(
+	$property,
+	$child,
+	$attr: "data-column-count",
+	$min: 2,
+	$max: 12,
+	$card-min-width: 12rem
+) {
+	container-type: inline-size;
+
+	@for $n from $min through $max {
+		$steps: responsive-columns-steps($n);
+
+		&[#{$attr}="#{$n}"] {
+			@for $i from 2 through list.length($steps) {
+				$step-columns: list.nth($steps, $i);
+				// Breakpoint = the width below which the *previous* step's columns
+				// would no longer fit at the reference minimum card width.
+				$prev-columns: list.nth($steps, $i - 1);
+				$breakpoint: $card-min-width * $prev-columns;
+
+				@container (max-width: #{$breakpoint}) {
+					#{$child} {
+						#{$property}: #{$step-columns};
+					}
+				}
+
+				@media only screen and (max-width: #{$breakpoint}) {
+					#{$child} {
+						#{$property}: #{$step-columns};
+					}
+				}
+			}
+		}
+	}
+}
