@@ -1,4 +1,6 @@
-@forward "./icon-sizes";
+// icon-sizes: not forwarded here — consumers import explicitly
+// (@builtnorth/ui-kit/base/icon-sizes) from block styles (icon, term-icon,
+// back-to-top) so essentials does not ship duplicate tokens sitewide.
 @forward "./accessibility";
 @forward "./reset";
 @forward "./utilities";
