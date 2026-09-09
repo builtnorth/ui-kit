@@ -1,24 +1,19 @@
 name: CI
 
 on:
-    push:
-        branches:
-            - main
-            - dev
     pull_request:
         branches:
             - main
-            - dev
+    workflow_dispatch:
 
 jobs:
     ci:
-        uses: builtnorth/basecamp-dev/.github/.github/workflows/npm-package-ci.yml@dev
+        uses: builtnorth/.github/.github/workflows/npm-package-ci.yml@main
         with:
             package-name: "ui-kit"
             # Skip tests, lint, and build since this is a pure SCSS package
             run-tests: false
             run-lint: false
             run-build: false
-            use-workspace: true
-        secrets:
-            POLARIS_PLUGIN_GITHUB_TOKEN: ${{ secrets.POLARIS_PLUGIN_GITHUB_TOKEN }}
+            use-workspace: false
+        secrets: inherit
