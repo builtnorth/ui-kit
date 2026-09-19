@@ -79,11 +79,11 @@ $form-choice-checked-color: var(
 // Button Settings
 // ----------------------------------------------------------------------------
 $button-padding-y: var(
-	--wp--custom--spacing--button-top-bottom,
+	--wp--custom--button--padding-y,
 	0.75rem
 ) !default;
 $button-padding-x: var(
-	--wp--custom--spacing--button-left-right,
+	--wp--custom--button--padding-x,
 	1.5rem
 ) !default;
 $button-border-radius: var(

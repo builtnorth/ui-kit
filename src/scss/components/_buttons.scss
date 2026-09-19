@@ -4,40 +4,31 @@
  * Button Component Styles
  *
  * Shared surfaces: polaris/button block, core/button link, and plugin form submits.
+ * Padding reads --wp--custom--button--padding-y / padding-x
+ * (theme.json settings.custom.button). Optional: padding-y-small / padding-x-small
+ * (and -large).
  *
  * Structure:
- * 1. CSS Variables & Root Settings
- * 2. Mixins
- * 3. Button containers
- * 4. Button base styles (all surfaces)
- * 5. Button size variants
- * 6. Button style variants
- * 7. Button icon styles (polaris only)
- * 8. Same-background contrast
+ * 1. Mixins
+ * 2. Button containers
+ * 3. Button base styles (all surfaces)
+ * 4. Button size variants
+ * 5. Button style variants
+ * 6. Button icon styles (polaris only)
+ * 7. Same-background contrast
  */
 
-// ==========================================================================
-// 1. CSS Variables & Root Settings
-// ==========================================================================
-:root {
-	--button-padding-y: var(
-		--wp--custom--spacing--button-top-bottom,
-		var(--wp--preset--spacing--30, 0.44rem)
-	);
-	--button-padding-x: var(
-		--wp--custom--spacing--button-left-right,
-		var(--wp--preset--spacing--40, 0.67rem)
-	);
-
-	--button-padding-y-small: calc(var(--button-padding-y) / 1.5);
-	--button-padding-x-small: calc(var(--button-padding-x) / 2);
-
-	--button-padding-y-large: calc(var(--button-padding-y) * 1.5);
-	--button-padding-x-large: calc(var(--button-padding-x) * 1.5);
-}
+$_button-pad-y: var(
+	--wp--custom--button--padding-y,
+	var(--wp--preset--spacing--30, 0.44rem)
+);
+$_button-pad-x: var(
+	--wp--custom--button--padding-x,
+	var(--wp--preset--spacing--40, 0.67rem)
+);
 
 // ==========================================================================
-// 2. Mixins & Placeholders
+// 1. Mixins & Placeholders
 // ==========================================================================
 
 /// Interactive elements that share Polaris button appearance.
@@ -255,13 +246,20 @@
 			--wp--custom--button--font-size-default,
 			var(--wp--preset--font-size--x-small, 1.25rem)
 		);
-		padding: var(--button-padding-y) var(--button-padding-x);
+		padding: $_button-pad-y $_button-pad-x;
 	}
 
 	&.is-size-small {
 		--icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
 		--button-block-gap: var(--wp--preset--spacing--0, 0.25rem);
-		padding: var(--button-padding-y-small) var(--button-padding-x-small);
+		padding: var(
+				--wp--custom--button--padding-y-small,
+				calc(#{$_button-pad-y} / 1.5)
+			)
+			var(
+				--wp--custom--button--padding-x-small,
+				calc(#{$_button-pad-x} / 2)
+			);
 		font-size: var(
 			--wp--custom--button--font-size-small,
 			var(--wp--preset--font-size--xx-small, 1rem)
@@ -275,7 +273,14 @@
 	&.is-size-large {
 		--icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
 		--button-block-gap: var(--wp--preset--spacing--40, 0.83rem);
-		padding: var(--button-padding-y-large) var(--button-padding-x-large);
+		padding: var(
+				--wp--custom--button--padding-y-large,
+				calc(#{$_button-pad-y} * 1.5)
+			)
+			var(
+				--wp--custom--button--padding-x-large,
+				calc(#{$_button-pad-x} * 1.5)
+			);
 		font-size: var(
 			--wp--custom--button--font-size-large,
 			var(--wp--preset--font-size--small, 1.563rem)
@@ -407,7 +412,7 @@
 		color: currentColor;
 		background-color: transparent;
 		text-decoration: underline;
-		padding: var(--button-padding-y) 0;
+		padding: $_button-pad-y 0;
 		transition: opacity var(--wp--custom--transition--duration-base, 200ms)
 			var(--wp--custom--transition--easing-default, ease-in-out);
 
