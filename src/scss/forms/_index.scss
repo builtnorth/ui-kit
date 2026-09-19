@@ -1,2 +1,9 @@
+// Form field chrome for plugins/themes that render forms.
+// Intentionally NOT included in essential-styles — import this barrel instead.
 @forward "./shared";
+@forward "./field-groups";
+@forward "./layout";
+@forward "./checkbox";
+@forward "./fieldset";
+@forward "./select";
 @forward "./file";
