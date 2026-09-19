@@ -7,6 +7,7 @@
 //   form.label   → legend, label, help text sizing
 //   form.surface → textareas, choice cards, other panel-like fields
 //   form.choice  → checkboxes, radios
+//   form.file    → file inputs, drop zones, selected-file rows
 //
 // @use "@builtnorth/ui-kit" with ( $form-field-padding-x: 1rem );
 
@@ -74,6 +75,26 @@ $form-choice-border-radius: var(
 $form-choice-checked-color: var(
 	--wp--custom--form--choice--checked-color,
 	var(--wp--preset--color--primary)
+) !default;
+
+// form.file
+// ----------------------------------------------------------------------------
+$form-file-min-height: var(--wp--custom--form--file--min-height, 8rem) !default;
+$form-file-padding: var(
+	--wp--custom--form--file--padding,
+	var(--wp--preset--spacing--50, 1.5rem)
+) !default;
+$form-file-border-width: var(
+	--wp--custom--form--file--border-width,
+	var(--wp--custom--border-width--small, 2px)
+) !default;
+$form-file-border-style: var(
+	--wp--custom--form--file--border-style,
+	dashed
+) !default;
+$form-file-border-color: var(
+	--wp--custom--form--file--border-color,
+	var(--wp--custom--color--border-medium, #8e8e8e)
 ) !default;
 
 // Button Settings

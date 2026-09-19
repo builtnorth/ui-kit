@@ -9,7 +9,9 @@ legend {
 	margin-bottom: var(--wp--preset--spacing--20, 0.44rem);
 }
 
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(
+		[type="file"]
+	),
 select {
 	margin: 0;
 	border-width: $form-field-border-width;
