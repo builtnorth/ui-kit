@@ -55,6 +55,9 @@ $background-contrast-pairs: (
 //     "brand": "brand-contrast",
 //     "brand-contrast": "brand",
 //   ));
+// Elements carrying an icon-chip colour are chips, not surfaces.
+$_not-chip: ':where(:not([class*="-icon-background-color"]))';
+
 @mixin polaris-color-contrast-rules($pairs) {
 	@each $background, $contrast in $pairs {
 		.has-#{$background}-background-color {
@@ -63,57 +66,48 @@ $background-contrast-pairs: (
 			color: var(--polaris-auto-text-color);
 		}
 
-		// contact-information, social-media, icon: default chip (contrast icon on preset bg).
+		// contact-information, social-media, icon: chip colours. Default is the
+		// contrast icon on the preset background; a matching surface inverts it
+		// by setting --polaris-icon-{bg}-* (below), which the chip inherits.
 		.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
-			--icon-color: var(--wp--preset--color--#{$contrast});
-			--icon-background-color: var(--wp--preset--color--#{$background});
-
-			svg {
-				color: var(--icon-color);
-			}
+			--icon-color: var(
+				--polaris-icon-#{$background}-color,
+				var(--wp--preset--color--#{$contrast})
+			);
+			--icon-background-color: var(
+				--polaris-icon-#{$background}-bg,
+				var(--wp--preset--color--#{$background})
+			);
 		}
 
-		// Same-surface: icon chip inverts when its bg matches the section surface.
-		.has-#{$background}-background-color {
-			.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
-				--icon-color: var(--wp--preset--color--#{$background});
-				--icon-background-color: var(--wp--preset--color--#{$contrast});
-
-				svg {
-					color: var(--icon-color);
-				}
-			}
-
-			// Nested colored wrappers reset chips to default fills (nearest surface wins).
-			[class*="-background-color"].has-background {
-				.has-#{$background}-icon-background-color:not(
-					[style*="--icon-color"]
-				) {
-					--icon-color: var(--wp--preset--color--#{$contrast});
-					--icon-background-color: var(
-						--wp--preset--color--#{$background}
-					);
-
-					svg {
-						color: var(--icon-color);
-					}
-				}
-			}
-
-			// Re-invert when inner wrapper matches the icon bg again.
-			[class*="-background-color"].has-background.has-#{$background}-background-color {
-				.has-#{$background}-icon-background-color:not(
-					[style*="--icon-color"]
-				) {
-					--icon-color: var(--wp--preset--color--#{$background});
-					--icon-background-color: var(--wp--preset--color--#{$contrast});
-
-					svg {
-						color: var(--icon-color);
-					}
-				}
-			}
+		// Same-surface: a chip whose bg matches the nearest surface inverts. The
+		// second selector out-ranks the nested-wrapper reset below when the
+		// wrapper is itself this colour. Chips are excluded (:where() adds no
+		// specificity) so a chip never inverts itself.
+		.has-#{$background}-background-color#{$_not-chip},
+		[class*="-background-color"].has-background.has-#{$background}-background-color#{$_not-chip} {
+			--polaris-icon-#{$background}-color: var(--wp--preset--color--#{$background});
+			--polaris-icon-#{$background}-bg: var(--wp--preset--color--#{$contrast});
 		}
+	}
+
+	// Nested coloured wrappers drop any inversion inherited from an outer
+	// surface, so chips follow the nearest surface.
+	[class*="-background-color"].has-background#{$_not-chip} {
+		@each $background, $contrast in $pairs {
+			--polaris-icon-#{$background}-color: initial;
+			--polaris-icon-#{$background}-bg: initial;
+		}
+	}
+
+	// Chip glyph colour — identical for every pair, so emitted once.
+	$chips: ();
+	@each $background, $contrast in $pairs {
+		$chips: list.append($chips, ".has-#{$background}-icon-background-color", $separator: comma);
+	}
+
+	:is(#{$chips}):not([style*="--icon-color"]) svg {
+		color: var(--icon-color);
 	}
 
 	// Link + map rules are identical for every background — emit them once.
