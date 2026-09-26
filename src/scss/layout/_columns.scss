@@ -1,9 +1,20 @@
 @use "../helpers/index" as *;
-@use "sass:math";
 @use "./stack-inline" as *;
 
 /* Columns
 ---------------------------------------- */
+
+// Gap-aware width for an $i-of-12 span, matching how a CSS Grid `fr` track
+// (or post-feed's flex `calc()`) divides space: subtract the gaps the row
+// would have at 12 equal tracks, then add back the gaps a span of $i visually
+// crosses. Reduces to the plain flat percentage when gap is 0, and to
+// `(100% - (n-1)*gap) / n` for the equal-split case (e.g. span-4 of 12 = thirds).
+@function column-width($i, $columns: 12, $gap: var(--wp--style--block-gap, 0px)) {
+	@return calc(
+		(100% - (#{$columns} - 1) * #{$gap}) * #{$i} / #{$columns} + (#{$i} - 1) *
+			#{$gap}
+	);
+}
 
 // post-feed's grid shares this class (to mirror polaris/columns's other
 // layout styling) but manages its own responsive column count via the
@@ -72,7 +83,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 				&--span-#{$i} {
 					flex: #{$i} #{$i} 0;
 					min-width: 0;
-					max-width: #{math.percentage(math.div($i, 12))};
+					max-width: column-width($i);
 				}
 			}
 		}
@@ -131,7 +142,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 				> .wp-block-polaris-column--span-#{$i} {
 					flex: #{$i} #{$i} 0;
 					min-width: 0;
-					max-width: #{math.percentage(math.div($i, 12))};
+					max-width: column-width($i);
 				}
 			}
 		}
