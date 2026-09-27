@@ -1,9 +1,6 @@
-// Form field chrome for plugins/themes that render forms.
+// Global form field styles: element chrome and label/control rows.
 // Intentionally NOT included in essential-styles — import this barrel instead.
 @forward "./shared";
-@forward "./field-groups";
-@forward "./layout";
 @forward "./checkbox";
-@forward "./fieldset";
 @forward "./select";
 @forward "./file";

@@ -1,4 +1,9 @@
 @use "../config" as *;
+@use "./mixins" as *;
+
+// Global field chrome: styles every form element on the page. Only load it
+// where forms are the page's own (e.g. the forms plugin); elsewhere, use the
+// mixins in forms/mixins inside your own wrapper.
 
 legend,
 label {
@@ -13,104 +18,56 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(
 		[type="file"]
 	),
 select {
-	margin: 0;
-	border-width: $form-field-border-width;
-	border-color: $form-field-border-color;
-	border-radius: $form-field-border-radius;
-	border-style: solid;
-	padding: $form-field-padding-y $form-field-padding-x;
-	min-height: $form-field-height;
-	background-color: $form-field-background-color;
-	width: 100%;
-	color: $form-field-color;
-
-	&:focus,
-	&:focus-within {
-		outline-color: $form-field-focus-color;
-	}
+	@include form-field;
 }
 
 textarea {
-	margin: 0;
-	border-width: $form-field-border-width;
-	border-color: $form-field-border-color;
-	border-radius: $form-surface-border-radius;
-	padding: $form-field-padding-y $form-field-padding-x;
-	background-color: $form-field-background-color;
-	width: 100%;
-	color: $form-field-color;
-
-	&:focus,
-	&:focus-within {
-		outline-color: $form-field-focus-color;
-	}
+	@include form-textarea;
 }
 
 input[type="range"] {
-	margin: 0;
-	width: 100%;
-	min-height: auto;
-	padding: 0;
-	border: 0;
-	background: transparent;
-	accent-color: $form-field-focus-color;
-	cursor: pointer;
-}
-
-.field--content .field__content {
-	> :first-child {
-		margin-top: 0;
-	}
-
-	> :last-child {
-		margin-bottom: 0;
-	}
+	@include form-range;
 }
 
 input[type="checkbox"],
 input[type="radio"] {
-	margin-top: $form-choice-spacing;
-	width: $form-choice-size;
-	height: $form-choice-size;
-	appearance: none;
-	background-color: $form-field-background-color;
-	border-style: solid;
-	border-color: $form-field-border-color;
-	border-width: $form-field-border-width;
-	display: inline-block;
-	vertical-align: middle;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: contain;
-	flex-shrink: 0;
-
-	&:checked {
-		background-color: $form-choice-checked-color;
-		border-color: $form-field-border-color;
-	}
-
-	&:focus {
-		outline-color: $form-field-focus-color;
-	}
+	@include form-choice;
 }
 
 input[type="checkbox"] {
-	border-radius: $form-choice-border-radius;
-
-	&:checked {
-		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
-	}
+	@include form-checkbox;
 }
 
 input[type="radio"] {
-	border-radius: 50%;
+	@include form-radio;
+}
 
-	&:checked {
-		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+// Choice rows (see forms/_checkbox): control size and alignment.
+:where(:has(> label[for] ~ input[type="checkbox"])),
+:where(:has(> label[for] ~ input[type="radio"])) {
+	> input[type="checkbox"],
+	> input[type="radio"] {
+		width: $form-choice-size;
+		height: $form-choice-size;
+		margin-top: 0.25em;
 	}
 }
 
-.required-text {
-	font-size: var(--wp--preset--font-size--xx-small, 0.875rem);
-	margin-left: 0.25rem;
+// Help text after a field or choice row.
+:where(:has(> label[for] ~ input[type="checkbox"])) + p,
+:where(:has(> label[for] ~ input[type="radio"])) + p,
+:where(
+		:has(
+			> label[for]:first-child
+				~ :is(
+					input:not([type="checkbox"]):not([type="radio"]):not(
+							[type="hidden"]
+						),
+					select,
+					textarea
+				)
+		)
+	)
+	+ p {
+	font-size: var(--wp--preset--font-size--xx-small, 1rem);
 }

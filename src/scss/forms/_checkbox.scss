@@ -43,9 +43,6 @@
 	> input[type="checkbox"],
 	> input[type="radio"] {
 		order: 1;
-		width: $form-choice-size;
-		height: $form-choice-size;
-		margin-top: 0.25em;
 		flex-shrink: 0;
 	}
 
@@ -74,7 +71,6 @@
 	)
 	+ p {
 	margin-bottom: 0;
-	font-size: var(--wp--preset--font-size--xx-small, 1rem);
 }
 
 :where(:has(> label[for] ~ input[type="checkbox"])) + p,

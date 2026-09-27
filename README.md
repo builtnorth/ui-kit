@@ -77,13 +77,16 @@ For package-specific overrides:
 @use "@builtnorth/ui-kit/components/buttons" as ui;
 @use "@builtnorth/ui-kit/components/slider" as ui;
 
-// Forms
+// Forms: global element styles (every field on the page)
 @use "@builtnorth/ui-kit/forms" as *;
-@use "@builtnorth/ui-kit/forms/label" as *;
-@use "@builtnorth/ui-kit/forms/fieldset" as *;
-@use "@builtnorth/ui-kit/forms/select" as *;
+@use "@builtnorth/ui-kit/forms/shared" as *;
 @use "@builtnorth/ui-kit/forms/checkbox" as *;
-@use "@builtnorth/ui-kit/forms/text" as *;
+@use "@builtnorth/ui-kit/forms/select" as *;
+@use "@builtnorth/ui-kit/forms/file" as *;
+
+// Forms: mixins, for fields inside your own wrapper
+@use "@builtnorth/ui-kit/forms/mixins" as form;
+// .my-filters select { @include form.form-field; @include form.form-select; }
 
 // Helpers (commonly namespaced as 'ui')
 @use "@builtnorth/ui-kit/helpers" as ui;
@@ -109,7 +112,7 @@ For package-specific overrides:
 
 - **Base**: Reset, utilities, accessibility, images, and color utilities
 - **Components**: Buttons, sliders, pagination
-- **Forms**: Styled form elements (labels, fieldsets, selects, checkboxes, text inputs)
+- **Forms**: Field chrome (labels, text inputs, selects, checkboxes, radios, range, file), as global element styles or as mixins you scope yourself
 - **Helpers**: Mixins, functions, and media query utilities
 - **Layout**: Grid and column systems
 - **Gutenberg**: WordPress block editor specific styles
