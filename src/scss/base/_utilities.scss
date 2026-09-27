@@ -70,7 +70,7 @@ Classes to quickly add utility styles to your components.
 /* Image Styles
 ------------------------------------------------------------------*/
 .has-blur {
-	filter: blur(5px);
+	filter: blur(var(--wp--custom--background--blur, 5px));
 }
 
 .has-grayscale {
@@ -78,7 +78,7 @@ Classes to quickly add utility styles to your components.
 }
 
 .has-blur-grayscale {
-	filter: blur(5px) grayscale(100%);
+	filter: blur(var(--wp--custom--background--blur, 5px)) grayscale(100%);
 }
 
 /* Section & Background Images

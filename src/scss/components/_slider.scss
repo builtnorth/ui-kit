@@ -45,8 +45,8 @@ swiper-container {
 
 		/* adjust for padding on container */
 		background: var(--wp--preset--color--base, #fff);
-		height: 24px;
-		width: 24px;
+		height: var(--wp--custom--slider--arrow-size, 24px);
+		width: var(--wp--custom--slider--arrow-size, 24px);
 		padding: var(--wp--preset--spacing--30, 0.67rem);
 		border-radius: var(--swiper-navigigation-border-radius);
 
@@ -101,7 +101,8 @@ swiper-slide {
 		--swiper-pagination-bottom: 20px;
 
 		&::part(container) {
-			padding-bottom: 4.5rem;
+			// Room below the slides for the arrows and dots.
+			padding-bottom: var(--wp--custom--slider--controls-height, 4.5rem);
 		}
 
 		&::part(button-prev),
@@ -116,17 +117,17 @@ swiper-slide {
 		}
 
 		&::part(button-next) {
-			left: 60px;
+			left: var(--wp--custom--slider--next-offset, 60px);
 		}
 
 		&::part(pagination) {
 			display: flex;
 			justify-content: flex-end;
 			align-items: center;
-			left: 120px;
+			left: var(--wp--custom--slider--pagination-offset, 120px);
 			right: 0;
 			width: auto;
-			bottom: 0.5rem;
+			bottom: var(--wp--custom--slider--pagination-bottom, 0.5rem);
 		}
 	}
 }

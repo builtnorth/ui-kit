@@ -64,8 +64,9 @@ Helper classes for improving accessibility.
 	display: block;
 	color: var(--wp--preset--color--base, #f5f5f4);
 	background-color: var(--wp--preset--color--contrast, #1c1917);
-	border: 2px solid var(--wp--preset--color--base, #f5f5f4);
-	padding: 5px 10px;
+	border: var(--wp--custom--skip-link--border-width, 2px) solid
+		var(--wp--preset--color--base, #f5f5f4);
+	padding: var(--wp--custom--skip-link--padding, 5px 10px);
 	position: absolute;
 	left: -99999px;
 	font-size: var(--wp--preset--font-size--small, 1.5rem);
@@ -78,15 +79,15 @@ Helper classes for improving accessibility.
 		background-color: var(--wp--preset--color--contrast, #1c1917);
 		visibility: visible;
 		text-decoration: underline;
-		left: 12px;
+		left: var(--wp--custom--skip-link--offset-x, 12px);
 	}
 
 	&.skip-to-main {
-		top: 4px;
+		top: var(--wp--custom--skip-link--offset-y, 4px);
 	}
 
 	&.skip-to-top {
-		bottom: 4px;
+		bottom: var(--wp--custom--skip-link--offset-y, 4px);
 	}
 }
 
