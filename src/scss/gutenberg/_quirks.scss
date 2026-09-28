@@ -123,6 +123,22 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 			}
 		}
 
+		// A chip's own text alignment wins over the container's justification,
+		// the same way headings and paragraphs follow theirs.
+		> :where(.is-style-label, .is-style-subheading) {
+			&.has-text-align-left {
+				align-self: flex-start;
+			}
+
+			&.has-text-align-center {
+				align-self: center;
+			}
+
+			&.has-text-align-right {
+				align-self: flex-end;
+			}
+		}
+
 		// Left/default: text content blocks fill the column width.
 		// Positive list — only known text/content blocks receive width: 100%.
 		// Flex containers (buttons, columns, group, polaris/column) are intentionally
