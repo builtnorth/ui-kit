@@ -1,26 +1,54 @@
 // Allow sticky to work with template parts on the frontend. `display: contents`
-// removes the wrapper box — that breaks canvas click-to-select for CPT heroes
-// (e.g. hero-team) in the post editor; restore a box inside the iframe only.
+// removes the wrapper box. In the editor we MUST keep a real box so clicks can
+// hit the template-part (contents makes the host untargetable).
 .wp-block-template-part:not(header, footer) {
-	display: contents;
+    display: contents;
 }
 
+// Editor: keep a clickable host, but make it layout-transparent so it does not
+// trap alignfull / constrained direct-child rules around CPT heroes (which are
+// already a <section>). Without this, the host is a second layout parent and
+// section/hero styling looks double-wrapped.
+//
+// The editor root container forces non-alignfull children to content-size with
+// `margin-left/right: auto !important`. Template parts are not alignfull, so
+// they sit in the content column — cancel that AND the has-global-padding root
+// padding so the host spans the canvas like an alignfull section would.
+.editor-styles-wrapper
+	.is-root-container
+	> .wp-block-template-part:not(header, footer),
 .editor-styles-wrapper .wp-block-template-part:not(header, footer),
 body.site-editor-php .wp-block-template-part:not(header, footer) {
 	display: block;
+	box-sizing: border-box;
+	width: calc(
+		100% + var(--wp--style--root--padding-left, 0px) +
+			var(--wp--style--root--padding-right, 0px)
+	) !important;
+	max-width: none !important;
+	margin-block: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	margin-left: calc(
+		var(--wp--style--root--padding-left, 0px) * -1
+	) !important;
+	margin-right: calc(
+		var(--wp--style--root--padding-right, 0px) * -1
+	) !important;
 }
 
 // Viewport-based content column inset. Blocks inside .wp-block-post-content resolve
 // `100%` against the narrower constrained parent; header/footer sit outside it.
 @mixin polaris-content-column-padding-inline {
-	padding-left: max(
-		var(--wp--style--root--padding-left, 0px),
-		calc((100vw - var(--wp--style--global--content-size)) / 2)
-	);
-	padding-right: max(
-		var(--wp--style--root--padding-right, 0px),
-		calc((100vw - var(--wp--style--global--content-size)) / 2)
-	);
+    padding-left: max(
+        var(--wp--style--root--padding-left, 0px),
+        calc((100vw - var(--wp--style--global--content-size)) / 2)
+    );
+    padding-right: max(
+        var(--wp--style--root--padding-right, 0px),
+        calc((100vw - var(--wp--style--global--content-size)) / 2)
+    );
 }
 
 // Allow post content to break out of its container for alignfull blocks.
@@ -28,16 +56,16 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 
 /* Post template: ensure query loop grid spans full width */
 .wp-block-post-template {
-	width: 100%;
+    width: 100%;
 }
 
 /* Remove margin on first block inside constrained layouts */
 :root
-	:where(.editor-styles-wrapper)
-	:where(.is-layout-constrained)
-	> .alignfull,
+    :where(.editor-styles-wrapper)
+    :where(.is-layout-constrained)
+    > .alignfull,
 .alignfull {
-	margin-block-start: 0;
+    margin-block-start: 0;
 }
 
 // Editor only: sections/heroes are flush by design on the FRONTEND (theme.json sets
@@ -49,25 +77,31 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 // drop affordance — the frontend stays flush. Wave-divider sections re-bridge this
 // gap visually (theme editor divider rules) so the divider still looks seamless.
 .editor-styles-wrapper
-	:where(.is-layout-constrained)
-	> .wp-block-polaris-section,
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-section,
 .editor-styles-wrapper :where(.is-layout-constrained) > .wp-block-polaris-hero,
 .editor-styles-wrapper
-	:where(.is-layout-constrained)
-	> .wp-block-polaris-split-section {
-	margin-block-start: var(--wp--style--block-gap, 1.5rem);
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-split-section,
+.editor-styles-wrapper
+    :where(.is-layout-constrained)
+    > .wp-block-template-part:not(header, footer) {
+    margin-block-start: var(--wp--style--block-gap, 1.5rem);
 }
 
 .editor-styles-wrapper
-	:where(.is-layout-constrained)
-	> .wp-block-polaris-section:first-child,
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-section:first-child,
 .editor-styles-wrapper
-	:where(.is-layout-constrained)
-	> .wp-block-polaris-hero:first-child,
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-hero:first-child,
 .editor-styles-wrapper
-	:where(.is-layout-constrained)
-	> .wp-block-polaris-split-section:first-child {
-	margin-block-start: 0;
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-split-section:first-child,
+.editor-styles-wrapper
+    :where(.is-layout-constrained)
+    > .wp-block-template-part:not(header, footer):first-child {
+    margin-block-start: 0;
 }
 
 // Flex section/hero: inset container to content column width.
@@ -76,232 +110,232 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 .wp-block-polaris-section.is-layout-flex.has-global-padding,
 .wp-block-polaris-hero.is-layout-flex.has-global-padding,
 .wp-block-group.alignfull.is-layout-flex.has-global-padding {
-	&:not(.is-horizontal) {
-		@include polaris-content-column-padding-inline;
+    &:not(.is-horizontal) {
+        @include polaris-content-column-padding-inline;
 
-		// Reset margins so no child escapes the inset column.
-		> :where(
-			:not(
-				.alignfull,
-				.alignwide,
-				.is-style-label,
-				.is-style-subheading,
-				.section-pattern,
-				.background
-			)
-		) {
-			box-sizing: border-box;
-			max-width: 100%;
-			margin-left: 0;
-			margin-right: 0;
-		}
+        // Reset margins so no child escapes the inset column.
+        > :where(
+            :not(
+                .alignfull,
+                .alignwide,
+                .is-style-label,
+                .is-style-subheading,
+                .section-pattern,
+                .background
+            )
+        ) {
+            box-sizing: border-box;
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
 
-		// Structural layout blocks always fill the content column (span math requires it).
-		> .wp-block-polaris-columns,
-		> .wp-block-group,
-		> .wp-block-separator {
-			width: 100%;
-		}
+        // Structural layout blocks always fill the content column (span math requires it).
+        > .wp-block-polaris-columns,
+        > .wp-block-group,
+        > .wp-block-separator {
+            width: 100%;
+        }
 
-		// Chips (is-style-label / is-style-subheading) have align-self: flex-start set
-		// by design skins so they don't stretch. Override align-self to follow the
-		// section/hero justification — WP sets align-items on the container but
-		// align-self on the chip itself wins and must be explicitly corrected.
-		> :where(.is-style-label, .is-style-subheading) {
-			align-self: flex-start; // default / left
-		}
+        // Chips (is-style-label / is-style-subheading) have align-self: flex-start set
+        // by design skins so they don't stretch. Override align-self to follow the
+        // section/hero justification — WP sets align-items on the container but
+        // align-self on the chip itself wins and must be explicitly corrected.
+        > :where(.is-style-label, .is-style-subheading) {
+            align-self: flex-start; // default / left
+        }
 
-		&.is-content-justification-center {
-			> :where(.is-style-label, .is-style-subheading) {
-				align-self: center;
-			}
-		}
+        &.is-content-justification-center {
+            > :where(.is-style-label, .is-style-subheading) {
+                align-self: center;
+            }
+        }
 
-		&.is-content-justification-right {
-			> :where(.is-style-label, .is-style-subheading) {
-				align-self: flex-end;
-			}
-		}
+        &.is-content-justification-right {
+            > :where(.is-style-label, .is-style-subheading) {
+                align-self: flex-end;
+            }
+        }
 
-		// A chip's own text alignment wins over the container's justification,
-		// the same way headings and paragraphs follow theirs.
-		> :where(.is-style-label, .is-style-subheading) {
-			&.has-text-align-left {
-				align-self: flex-start;
-			}
+        // A chip's own text alignment wins over the container's justification,
+        // the same way headings and paragraphs follow theirs.
+        > :where(.is-style-label, .is-style-subheading) {
+            &.has-text-align-left {
+                align-self: flex-start;
+            }
 
-			&.has-text-align-center {
-				align-self: center;
-			}
+            &.has-text-align-center {
+                align-self: center;
+            }
 
-			&.has-text-align-right {
-				align-self: flex-end;
-			}
-		}
+            &.has-text-align-right {
+                align-self: flex-end;
+            }
+        }
 
-		// Left/default: text content blocks fill the column width.
-		// Positive list — only known text/content blocks receive width: 100%.
-		// Flex containers (buttons, columns, group, polaris/column) are intentionally
-		// omitted so they remain sized by their own layout/flex rules.
-		&:not(.is-content-justification-center):not(
-				.is-content-justification-right
-			) {
-			> :where(
-				.wp-block-heading,
-				.wp-block-paragraph,
-				.wp-block-list,
-				.wp-block-quote,
-				.wp-block-preformatted,
-				.wp-block-code,
-				.wp-block-table,
-				.wp-block-html,
-				.wp-block-image,
-				.wp-block-media-text,
-				.wp-block-cover
-			) {
-				width: 100%;
-			}
-		}
+        // Left/default: text content blocks fill the column width.
+        // Positive list — only known text/content blocks receive width: 100%.
+        // Flex containers (buttons, columns, group, polaris/column) are intentionally
+        // omitted so they remain sized by their own layout/flex rules.
+        &:not(.is-content-justification-center):not(
+                .is-content-justification-right
+            ) {
+            > :where(
+                .wp-block-heading,
+                .wp-block-paragraph,
+                .wp-block-list,
+                .wp-block-quote,
+                .wp-block-preformatted,
+                .wp-block-code,
+                .wp-block-table,
+                .wp-block-html,
+                .wp-block-image,
+                .wp-block-media-text,
+                .wp-block-cover
+            ) {
+                width: 100%;
+            }
+        }
 
-		// Center/right: non-structural children shrink to natural width so
-		// align-items can center/right-align them.
-		&.is-content-justification-center,
-		&.is-content-justification-right {
-			> :where(
-				:not(
-					.alignfull,
-					.alignwide,
-					.is-style-label,
-					.is-style-subheading,
-					.section-pattern,
-					.background,
-					.wp-block-polaris-columns,
-					.wp-block-polaris-column,
-					.wp-block-group,
-					.wp-block-separator
-				)
-			) {
-				width: auto;
-			}
-		}
-	}
+        // Center/right: non-structural children shrink to natural width so
+        // align-items can center/right-align them.
+        &.is-content-justification-center,
+        &.is-content-justification-right {
+            > :where(
+                :not(
+                    .alignfull,
+                    .alignwide,
+                    .is-style-label,
+                    .is-style-subheading,
+                    .section-pattern,
+                    .background,
+                    .wp-block-polaris-columns,
+                    .wp-block-polaris-column,
+                    .wp-block-group,
+                    .wp-block-separator
+                )
+            ) {
+                width: auto;
+            }
+        }
+    }
 
-	&.is-horizontal {
-		@include polaris-content-column-padding-inline;
+    &.is-horizontal {
+        @include polaris-content-column-padding-inline;
 
-		> :where(
-			:not(
-				.alignfull,
-				.alignwide,
-				.is-style-label,
-				.is-style-subheading,
-				.section-pattern,
-				.background
-			)
-		) {
-			box-sizing: border-box;
-			width: auto;
-			max-width: none;
-			margin-left: 0;
-			margin-right: 0;
-		}
-	}
+        > :where(
+            :not(
+                .alignfull,
+                .alignwide,
+                .is-style-label,
+                .is-style-subheading,
+                .section-pattern,
+                .background
+            )
+        ) {
+            box-sizing: border-box;
+            width: auto;
+            max-width: none;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
 
-	> .alignfull {
-		box-sizing: border-box;
-		max-width: none !important;
-		margin-left: calc(
-			var(--wp--style--root--padding-left, 0px) * -1
-		) !important;
-		margin-right: calc(
-			var(--wp--style--root--padding-right, 0px) * -1
-		) !important;
-	}
+    > .alignfull {
+        box-sizing: border-box;
+        max-width: none !important;
+        margin-left: calc(
+            var(--wp--style--root--padding-left, 0px) * -1
+        ) !important;
+        margin-right: calc(
+            var(--wp--style--root--padding-right, 0px) * -1
+        ) !important;
+    }
 
-	> .alignwide {
-		max-width: var(--wp--style--global--wide-size);
-	}
+    > .alignwide {
+        max-width: var(--wp--style--global--wide-size);
+    }
 }
 
 // Header/footer: content column inset; site-logo stays natural width for flex alignment.
 .wp-block-polaris-header.is-layout-flex.has-global-padding,
 .wp-block-polaris-footer.is-layout-flex.has-global-padding {
-	&:not(.is-horizontal) {
-		@include polaris-content-column-padding-inline;
+    &:not(.is-horizontal) {
+        @include polaris-content-column-padding-inline;
 
-		> :where(
-			:not(
-				.alignfull,
-				.alignwide,
-				.is-style-label,
-				.is-style-subheading,
-				.section-pattern,
-				.wp-block-site-logo
-			)
-		) {
-			box-sizing: border-box;
-			width: 100%;
-			max-width: 100%;
-			margin-left: 0;
-			margin-right: 0;
-		}
-	}
+        > :where(
+            :not(
+                .alignfull,
+                .alignwide,
+                .is-style-label,
+                .is-style-subheading,
+                .section-pattern,
+                .wp-block-site-logo
+            )
+        ) {
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
 
-	&.is-horizontal {
-		@include polaris-content-column-padding-inline;
+    &.is-horizontal {
+        @include polaris-content-column-padding-inline;
 
-		> :where(
-			:not(
-				.alignfull,
-				.alignwide,
-				.is-style-label,
-				.is-style-subheading,
-				.section-pattern,
-				.wp-block-site-logo
-			)
-		) {
-			box-sizing: border-box;
-			width: auto;
-			max-width: none;
-			margin-left: 0;
-			margin-right: 0;
-		}
-	}
+        > :where(
+            :not(
+                .alignfull,
+                .alignwide,
+                .is-style-label,
+                .is-style-subheading,
+                .section-pattern,
+                .wp-block-site-logo
+            )
+        ) {
+            box-sizing: border-box;
+            width: auto;
+            max-width: none;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
 
-	> .alignfull {
-		box-sizing: border-box;
-		max-width: none !important;
-		margin-left: calc(
-			var(--wp--style--root--padding-left, 0px) * -1
-		) !important;
-		margin-right: calc(
-			var(--wp--style--root--padding-right, 0px) * -1
-		) !important;
-	}
+    > .alignfull {
+        box-sizing: border-box;
+        max-width: none !important;
+        margin-left: calc(
+            var(--wp--style--root--padding-left, 0px) * -1
+        ) !important;
+        margin-right: calc(
+            var(--wp--style--root--padding-right, 0px) * -1
+        ) !important;
+    }
 
-	> .alignwide {
-		max-width: var(--wp--style--global--wide-size);
-	}
+    > .alignwide {
+        max-width: var(--wp--style--global--wide-size);
+    }
 }
 
 // Remove margin on first top-level site block
 .wp-site-blocks > * {
-	margin-block-start: 0;
+    margin-block-start: 0;
 }
 
 // cards don't span full container without this
 .wp-block-query {
-	width: 100%;
+    width: 100%;
 }
 
 // keep heading margin bottom is flow layout
 :root :where(.is-layout-flow) > {
-	.wp-block-heading {
-		margin-block-end: var(--wp--style--block-gap);
-		margin-block-start: var(--wp--style--block-gap);
-	}
-	.wp-block-paragraph {
-		margin-block-end: var(--wp--style--block-gap);
-		margin-block-start: var(--wp--style--block-gap);
-	}
+    .wp-block-heading {
+        margin-block-end: var(--wp--style--block-gap);
+        margin-block-start: var(--wp--style--block-gap);
+    }
+    .wp-block-paragraph {
+        margin-block-end: var(--wp--style--block-gap);
+        margin-block-start: var(--wp--style--block-gap);
+    }
 }
