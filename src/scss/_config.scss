@@ -13,7 +13,10 @@
 
 // form.field
 // ----------------------------------------------------------------------------
-$form-field-spacing: var(--wp--style-block-gap, 0.5rem) !default;
+$form-field-spacing: var(
+	--wp--custom--form--field--spacing,
+	var(--wp--custom--spacing--form-field, 0.5rem)
+) !default;
 $form-label-text-size: var(
 	--wp--custom--form--label--font-size,
 	var(--wp--preset--font-size--x-small, 1rem)

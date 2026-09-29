@@ -120,8 +120,9 @@
 	line-height: 1.3;
 	cursor: pointer;
 
-	&::file-selector-button,
-	&::-webkit-file-upload-button {
+	// No ::-webkit-file-upload-button alias: browsers that don't know it
+	// (Firefox) drop the whole selector list.
+	&::file-selector-button {
 		margin-right: $spacing-30;
 		padding: $spacing-20 $spacing-30;
 		border: $form-field-border-width solid $form-field-border-color;
@@ -131,8 +132,7 @@
 		cursor: pointer;
 	}
 
-	&:hover::file-selector-button,
-	&:hover::-webkit-file-upload-button {
+	&:hover::file-selector-button {
 		border-color: $form-field-focus-color;
 	}
 
