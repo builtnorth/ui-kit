@@ -54,7 +54,7 @@ $form-field-background-color: var(
 $form-field-color: var(--wp--custom--form--field--color, #000) !default;
 $form-field-focus-color: var(
 	--wp--custom--color--focus,
-	var(--wp--preset--color--primary)
+	var(--wp--preset--color--primary, #c4540e)
 ) !default;
 
 // form.surface — rounded panels independent of field border-radius (e.g. sharp inputs, soft cards)
@@ -77,7 +77,7 @@ $form-choice-border-radius: var(
 ) !default;
 $form-choice-checked-color: var(
 	--wp--custom--form--choice--checked-color,
-	var(--wp--preset--color--primary)
+	var(--wp--preset--color--primary, #c4540e)
 ) !default;
 
 // form.file
@@ -120,7 +120,7 @@ $button-font-weight: var(--wp--custom--font-weight--medium, 500) !default;
 // ----------------------------------------------------------------------------
 $grid-gutter: var(--wp--custom--spacing--gutter, 1rem) !default;
 $grid-columns: 12 !default;
-$container-max-width: var(--wp--custom--layout--content-size, 1200px) !default;
+$container-max-width: var(--wp--style--global--content-size, 1240px) !default;
 
 // Breakpoints
 // ----------------------------------------------------------------------------
@@ -138,10 +138,10 @@ $breakpoint-xxl: 1536px !default;
 
 // Colors (can be overridden but default to theme.json)
 // ----------------------------------------------------------------------------
-$color-primary: var(--wp--preset--color--primary) !default;
-$color-secondary: var(--wp--preset--color--secondary) !default;
-$color-base: var(--wp--preset--color--base) !default;
-$color-contrast: var(--wp--preset--color--contrast) !default;
+$color-primary: var(--wp--preset--color--primary, #c4540e) !default;
+$color-secondary: var(--wp--preset--color--secondary, #108379) !default;
+$color-base: var(--wp--preset--color--base, #f2f5f7) !default;
+$color-contrast: var(--wp--preset--color--contrast, #08172f) !default;
 
 // Spacing Scale (can be overridden but default to theme.json)
 // ----------------------------------------------------------------------------

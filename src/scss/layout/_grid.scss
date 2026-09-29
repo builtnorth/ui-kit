@@ -6,7 +6,7 @@
 	display: grid;
 	flex-grow: 1;
 	/* Overrides spplied block gap from editor */
-	/* gap: var(--wp--style--block-gap); */
+	/* gap: var(--wp--style--block-gap, 1.5rem); */
 	container-type: inline-size;
 
 	@for $i from 2 through 6 {

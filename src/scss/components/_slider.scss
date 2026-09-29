@@ -27,7 +27,7 @@ swiper-container {
 		currentColor 12.5%,
 		transparent
 	);
-	--swiper-navigigation-border-radius: var(
+	--swiper-navigation-border-radius: var(
 		--wp--custom--border-radius--tile,
 		1rem
 	);
@@ -48,7 +48,7 @@ swiper-container {
 		height: var(--wp--custom--slider--arrow-size, 24px);
 		width: var(--wp--custom--slider--arrow-size, 24px);
 		padding: var(--wp--preset--spacing--30, 0.67rem);
-		border-radius: var(--swiper-navigigation-border-radius);
+		border-radius: var(--swiper-navigation-border-radius);
 
 		&:hover,
 		&:focus {

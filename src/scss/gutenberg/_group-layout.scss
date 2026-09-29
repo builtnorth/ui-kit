@@ -4,7 +4,7 @@
  * with (0,1,0) specificity — beat it with compound selectors on the same classes.
  *
  * Row (horizontal flex): column-gap token on the main axis.
- * Grid: WP minmax() track sizing uses var(--wp--style--block-gap) in inline layout
+ * Grid: WP minmax() track sizing uses var(--wp--style--block-gap, 1.5rem) in inline layout
  * CSS — reassign that variable to column-gap on the grid element so track math
  * matches column-gap, while row-gap keeps the theme block-gap.
  * Stack stays on block-gap from theme.json.
@@ -26,7 +26,7 @@
 		// Longhands only (do not set `gap` — theme :where() uses block-gap in shorthand).
 		// Set row-gap before reassigning --wp--style--block-gap so minmax() track math
 		// uses column-gap while rows keep the theme block-gap.
-		row-gap: var(--wp--style--block-gap);
+		row-gap: var(--wp--style--block-gap, 1.5rem);
 		--wp--style--block-gap: var(
 			--wp--custom--spacing--column-gap,
 			calc(2rem + 0.5rem)
@@ -41,7 +41,7 @@
 	&.wp-block-group-is-layout-constrained,
 	&.wp-block-group-is-layout-flow {
 		> * + * {
-			margin-block-start: var(--wp--style--block-gap);
+			margin-block-start: var(--wp--style--block-gap, 1.5rem);
 		}
 	}
 }
