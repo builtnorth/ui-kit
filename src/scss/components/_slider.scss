@@ -7,6 +7,27 @@ Global Slider Styles
 ------------------------------------------------------------------
 */
 
+// Slider arrow — shared by Swiper's navigation parts and plain buttons
+// (.polaris-slider-arrow), so every arrow is styled in one place.
+@mixin slider-arrow {
+	border: var(--wp--custom--border-width--small, 2px) solid
+		var(--wp--custom--color--border-medium, rgba(0, 0, 0, 0.25));
+	background: var(--wp--preset--color--base, #fff);
+	height: var(--wp--custom--slider--arrow-size, 24px);
+	width: var(--wp--custom--slider--arrow-size, 24px);
+	padding: var(--wp--preset--spacing--30, 0.67rem);
+	border-radius: var(
+		--swiper-navigation-border-radius,
+		var(--wp--custom--border-radius--tile, 1rem)
+	);
+
+	&:hover,
+	&:focus {
+		background: var(--wp--preset--color--contrast, #000);
+		color: var(--wp--preset--color--base, #fff);
+	}
+}
+
 swiper-container {
 	--swiper-theme-color: var(--wp--preset--color--contrast, #000);
 	--swiper-pagination-bullet-border-radius: var(
@@ -39,22 +60,9 @@ swiper-container {
 
 	&::part(button-prev),
 	&::part(button-next) {
-		border: var(--wp--custom--border-width--small, 2px) solid
-			var(--wp--custom--color--border-medium, rgba(0, 0, 0, 0.25));
-		margin-top: calc(var(--wp--style--block-gap, 2rem) * -1);
-
+		@include slider-arrow;
 		/* adjust for padding on container */
-		background: var(--wp--preset--color--base, #fff);
-		height: var(--wp--custom--slider--arrow-size, 24px);
-		width: var(--wp--custom--slider--arrow-size, 24px);
-		padding: var(--wp--preset--spacing--30, 0.67rem);
-		border-radius: var(--swiper-navigation-border-radius);
-
-		&:hover,
-		&:focus {
-			background: var(--wp--preset--color--contrast, #000);
-			color: var(--wp--preset--color--base, #fff);
-		}
+		margin-top: calc(var(--wp--style--block-gap, 2rem) * -1);
 	}
 
 	&::part(bullet),
@@ -85,6 +93,44 @@ swiper-container {
 			opacity: var(--swiper-pagination-bullet-inactive-opacity, 0.3);
 			pointer-events: none;
 		}
+	}
+}
+
+// The same arrow on a plain <button> (Swiper's own defaults included: a
+// content-box square, the theme colour, dimmed when disabled). Put Swiper's
+// chevron SVG inside; --prev flips it.
+.polaris-slider-arrow {
+	@include slider-arrow;
+	box-sizing: content-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	margin: 0;
+	color: var(--swiper-navigation-color, var(--wp--preset--color--contrast, #000));
+	cursor: pointer;
+	transition: all var(--wp--custom--transition--duration-base, 200ms)
+		var(--wp--custom--transition--easing-default, ease-in-out);
+
+	svg {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	&--prev svg {
+		transform: rotate(180deg);
+	}
+
+	&:disabled {
+		opacity: 0.35;
+		cursor: auto;
+		pointer-events: none;
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--wp--custom--color--focus, currentColor);
+		outline-offset: 2px;
 	}
 }
 
