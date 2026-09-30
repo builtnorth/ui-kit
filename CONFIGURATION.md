@@ -138,18 +138,6 @@ $transition-fast: all 0.1s ease-in-out;
 $transition-slow: all 0.3s ease-in-out;
 ```
 
-### Z-Index Scale
-
-```scss
-$z-index-dropdown: 1000;
-$z-index-sticky: 1020;
-$z-index-fixed: 1030;
-$z-index-modal-backdrop: 1040;
-$z-index-modal: 1050;
-$z-index-popover: 1060;
-$z-index-tooltip: 1070;
-```
-
 ## Real-World Examples
 
 ### Example 1: Customize Forms for Your Brand

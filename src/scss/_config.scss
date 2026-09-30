@@ -168,13 +168,3 @@ $transition-easing-default: var(
 $transition-base: all $transition-duration-base $transition-easing-default !default;
 $transition-fast: all $transition-duration-fast $transition-easing-default !default;
 $transition-slow: all $transition-duration-slow $transition-easing-default !default;
-
-// Z-Index Scale
-// ----------------------------------------------------------------------------
-$z-index-dropdown: 1000 !default;
-$z-index-sticky: 1020 !default;
-$z-index-fixed: 1030 !default;
-$z-index-modal-backdrop: 1040 !default;
-$z-index-modal: 1050 !default;
-$z-index-popover: 1060 !default;
-$z-index-tooltip: 1070 !default;
