@@ -36,13 +36,13 @@ $form-field-padding-y: var(
 $form-field-height: var(--wp--custom--form--field--height, 3rem) !default;
 $form-field-border-width: var(
     --wp--custom--form--field--border-width,
-    var(--wp--custom--border-width--x-small, 1px)
+    var(--wp--custom--border-width--tiny, 1px)
 ) !default;
 $form-field-border-color: var(
     --wp--custom--form--field--border-color,
     var(
         --wp--custom--color--border-light,
-        color-mix(in srgb, currentColor 25%, transparent)
+        color-mix(in srgb, currentColor 12.5%, transparent)
     )
 ) !default;
 $form-field-border-radius: var(
@@ -51,7 +51,7 @@ $form-field-border-radius: var(
 ) !default;
 $form-field-background-color: var(
     --wp--custom--form--field--background-color,
-    #fff
+    var(--wp--preset--color--base, #fff)
 ) !default;
 $form-field-color: var(--wp--custom--form--field--color, inherit) !default;
 $form-field-focus-color: var(--wp--custom--color--focus, currentColor) !default;
@@ -76,7 +76,7 @@ $form-choice-border-radius: var(
 ) !default;
 $form-choice-checked-color: var(
     --wp--custom--form--choice--checked-color,
-    var(--wp--custom--color--accent, currentColor)
+    var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000))
 ) !default;
 
 // form.file
@@ -85,7 +85,7 @@ $form-file-min-height: var(--wp--custom--form--file--min-height, 8rem) !default;
 $form-file-padding: var(--wp--custom--form--file--padding, 1.5rem) !default;
 $form-file-border-width: var(
     --wp--custom--form--file--border-width,
-    var(--wp--custom--border-width--small, 2px)
+    var(--wp--custom--border-width--x-small, 2px)
 ) !default;
 $form-file-border-style: var(
     --wp--custom--form--file--border-style,
@@ -101,8 +101,8 @@ $form-file-border-color: var(
 
 // Button Settings
 // ----------------------------------------------------------------------------
-$button-padding-y: var(--wp--custom--button--padding-y, 0.75rem) !default;
-$button-padding-x: var(--wp--custom--button--padding-x, 1.5rem) !default;
+$button-padding-y: var(--wp--custom--button--padding-y, 0.67rem) !default;
+$button-padding-x: var(--wp--custom--button--padding-x, 1rem) !default;
 $button-border-radius: var(--wp--custom--border-radius--button, 0) !default;
 $button-font-weight: var(--wp--custom--font-weight--medium, 500) !default;
 
@@ -132,11 +132,11 @@ $breakpoint-xxl: 1536px !default;
 // Colors (can be overridden but default to theme.json)
 // ----------------------------------------------------------------------------
 $color-primary: var(
-    --wp--custom--color--accent,
+    --wp--custom--color--primary,
     var(--wp--preset--color--contrast, #000)
 ) !default;
 $color-secondary: var(
-    --wp--custom--color--accent,
+    --wp--custom--color--primary,
     var(--wp--preset--color--contrast, #000)
 ) !default;
 $color-base: var(--wp--preset--color--base, #fff) !default;

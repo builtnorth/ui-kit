@@ -10,7 +10,7 @@ Global Slider Styles
 // Slider arrow — shared by Swiper's navigation parts and plain buttons
 // (.polaris-slider-arrow), so every arrow is styled in one place.
 @mixin slider-arrow {
-	border: var(--wp--custom--border-width--small, 2px) solid
+	border: var(--wp--custom--border-width--x-small, 2px) solid
 		var(--wp--custom--color--border-medium, color-mix(in srgb, currentColor 25%, transparent));
 	background: var(--wp--preset--color--base, #fff);
 	// The control size is the whole button; the chevron fills what is left.
@@ -68,7 +68,7 @@ swiper-container {
 	&::part(bullet),
 	&::part(bullet-active) {
 		position: relative;
-		border: var(--wp--custom--border-width--small, 2px) solid
+		border: var(--wp--custom--border-width--x-small, 2px) solid
 			var(--swiper-pagination-bullet-border-color);
 	}
 

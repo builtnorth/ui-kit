@@ -120,7 +120,7 @@ $_surface: ':where(:not(.wp-block-polaris-button, .wp-block-button__link, button
 	text-decoration: none;
 	background-color: var(--_button-bg);
 	color: var(--_button-fg);
-	border: var(--wp--custom--border-width--x-small, 1px) solid
+	border: var(--wp--custom--border-width--tiny, 1px) solid
 		var(--_button-border);
 
 	&:is(:hover, :focus),
