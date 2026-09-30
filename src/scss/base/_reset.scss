@@ -11,19 +11,19 @@ This ensures that all browsers render elements consistently.
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-	min-height: 100vh;
-	text-rendering: optimizeSpeed;
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
 }
 
 /* Typography
 ----------------------------------------------------------------*/
 * {
-	font-style: inherit;
-	-webkit-font-smoothing: antialiased;
+    font-style: inherit;
+    -webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -32,22 +32,24 @@ h3,
 h4,
 h5,
 h6 {
-	overflow-wrap: break-word;
-	text-wrap: balance;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+    margin: 0;
+    padding: 0;
 }
 
 p {
-	text-wrap: pretty;
+    text-wrap: pretty;
 }
 
 blockquote {
-	margin: 0;
-	quotes: inherit;
+    margin: 0;
+    quotes: inherit;
 }
 
 mark {
-	background-color: transparent;
-	color: inherit;
+    background-color: transparent;
+    color: inherit;
 }
 
 /* Lists
@@ -55,10 +57,10 @@ mark {
 
 ul,
 ol {
-	margin-left: 0;
-	margin-right: 0;
-	margin-top: 0;
-	padding-left: var(--wp--custom--list--indent, 1rem);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    padding-left: var(--wp--custom--list--indent, 1rem);
 }
 
 /* Media
@@ -68,12 +70,12 @@ picture,
 video,
 canvas,
 svg {
-	height: auto;
-	max-width: 100%;
+    height: auto;
+    max-width: 100%;
 }
 
 figure {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* Forms
@@ -82,33 +84,33 @@ input,
 button,
 textarea,
 select {
-	font: inherit;
+    font: inherit;
 }
 
 button {
-	background: none;
-	color: inherit;
-	border: none;
-	font: inherit;
-	cursor: pointer;
-	padding: 0;
+    background: none;
+    color: inherit;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
 }
 
 /* Links
 ----------------------------------------------------------------*/
 :has(:target) {
-	// Offset anchor targets below a sticky header.
-	scroll-padding-top: var(--wp--custom--scroll-padding-top, 3rem);
+    // Offset anchor targets below a sticky header.
+    scroll-padding-top: var(--wp--custom--scroll-padding-top, 3rem);
 }
 
 .wp-block-site-title {
-	margin-bottom: 0;
-	a {
-		text-decoration: none;
+    margin-bottom: 0;
+    a {
+        text-decoration: none;
 
-		&:hover,
-		&:focus {
-			text-decoration: underline;
-		}
-	}
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+    }
 }
