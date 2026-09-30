@@ -38,22 +38,6 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 	) !important;
 }
 
-// Layout width: --wp--custom--section--content-size, then the theme's wide
-// size, then 1200px. A theme's content size is often a narrow reading measure,
-// so it is not the default; a theme that wants it sets the token.
-// Viewport-based content column inset. Blocks inside .wp-block-post-content resolve
-// `100%` against the narrower constrained parent; header/footer sit outside it.
-@mixin polaris-content-column-padding-inline {
-    padding-left: max(
-        var(--wp--style--root--padding-left, 0px),
-        calc((100vw - var(--wp--custom--section--content-size, var(--wp--style--global--wide-size, 1200px))) / 2)
-    );
-    padding-right: max(
-        var(--wp--style--root--padding-right, 0px),
-        calc((100vw - var(--wp--custom--section--content-size, var(--wp--style--global--wide-size, 1200px))) / 2)
-    );
-}
-
 // Allow post content to break out of its container for alignfull blocks.
 // Uncomment if needed: .wp-block-post-content { display: contents !important; }
 
@@ -107,16 +91,12 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
     margin-block-start: 0;
 }
 
-// Flex section/hero: inset container to content column width.
+// Flex container children: widths, chip alignment and justification.
 // WP layout (wp-container-* rules) handles justify-content / align-items / flex-direction.
-// These rules only constrain width and inset — nothing that WP already manages.
-.wp-block-polaris-section.is-layout-flex.has-global-padding,
-.wp-block-polaris-hero.is-layout-flex.has-global-padding,
-.wp-block-group.alignfull.is-layout-flex.has-global-padding {
+@mixin polaris-flex-container-children {
     &:not(.is-horizontal) {
-        @include polaris-content-column-padding-inline;
 
-        // Reset margins so no child escapes the inset column.
+        // Reset margins so no child escapes the column.
         > :where(
             :not(
                 .alignfull,
@@ -224,7 +204,6 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
     }
 
     &.is-horizontal {
-        @include polaris-content-column-padding-inline;
 
         > :where(
             :not(
@@ -243,29 +222,48 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
             margin-right: 0;
         }
     }
-
-    > .alignfull {
-        box-sizing: border-box;
-        max-width: none !important;
-        margin-left: calc(
-            var(--wp--style--root--padding-left, 0px) * -1
-        ) !important;
-        margin-right: calc(
-            var(--wp--style--root--padding-right, 0px) * -1
-        ) !important;
-    }
-
-    > .alignwide {
-        max-width: var(--wp--style--global--wide-size, 1380px);
-    }
 }
 
-// Header/footer: content column inset; site-logo stays natural width for flex alignment.
-.wp-block-polaris-header.is-layout-flex.has-global-padding,
-.wp-block-polaris-footer.is-layout-flex.has-global-padding {
-    &:not(.is-horizontal) {
-        @include polaris-content-column-padding-inline;
+// Section, hero, header and footer: the block is the full-width box
+// (background, pattern, dividers). Its saved inner wrapper is the
+// width-limited, centred layout container, and carries the layout classes.
+.wp-block-polaris-section.has-global-padding,
+.wp-block-polaris-hero.has-global-padding,
+.wp-block-polaris-header.has-global-padding,
+.wp-block-polaris-footer.has-global-padding {
+    // A column, so the wrapper can fill a minimum height and its vertical
+    // alignment has room to work.
+    display: flex;
+    flex-direction: column;
+    padding-left: var(--wp--style--root--padding-left, 1rem);
+    padding-right: var(--wp--style--root--padding-right, 1rem);
+}
 
+.wp-block-polaris-section__inner,
+.wp-block-polaris-hero__inner,
+.wp-block-polaris-header__inner,
+.wp-block-polaris-footer__inner {
+    box-sizing: border-box;
+    width: 100%;
+    // Layout width: the section content-size token, then the theme's wide
+    // size, then 1200px. A theme's content size is often a narrow reading
+    // measure, so it is not the default; a theme that wants it sets the token.
+    max-width: var(--wp--custom--section--content-size, var(--wp--style--global--wide-size, 1200px));
+    margin-left: auto;
+    margin-right: auto;
+    flex-grow: 1;
+
+}
+
+.wp-block-polaris-section__inner.is-layout-flex,
+.wp-block-polaris-hero__inner.is-layout-flex {
+    @include polaris-flex-container-children;
+}
+
+// Header/footer inner wrapper: site-logo stays natural width for flex alignment.
+.wp-block-polaris-header__inner.is-layout-flex,
+.wp-block-polaris-footer__inner.is-layout-flex {
+    &:not(.is-horizontal) {
         > :where(
             :not(
                 .alignfull,
@@ -285,8 +283,6 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
     }
 
     &.is-horizontal {
-        @include polaris-content-column-padding-inline;
-
         > :where(
             :not(
                 .alignfull,
@@ -303,21 +299,6 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
             margin-left: 0;
             margin-right: 0;
         }
-    }
-
-    > .alignfull {
-        box-sizing: border-box;
-        max-width: none !important;
-        margin-left: calc(
-            var(--wp--style--root--padding-left, 0px) * -1
-        ) !important;
-        margin-right: calc(
-            var(--wp--style--root--padding-right, 0px) * -1
-        ) !important;
-    }
-
-    > .alignwide {
-        max-width: var(--wp--style--global--wide-size, 1380px);
     }
 }
 
