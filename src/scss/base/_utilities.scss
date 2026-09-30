@@ -207,11 +207,11 @@ Classes to quickly add utility styles to your components.
 
 .post-card .post-card__title,
 .no-results__title {
-	font-size: var(--wp--custom--card--title-font-size, 1.25em);
+	font-size: var(--wp--custom--title--font-size, 1.25em);
 }
 
 .post-card .post-card__excerpt {
-	font-size: var(--wp--custom--card--description-font-size);
+	font-size: var(--wp--custom--description--font-size);
 }
 
 .post-card .post-card__terms {

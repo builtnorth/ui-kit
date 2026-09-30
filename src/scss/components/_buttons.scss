@@ -100,7 +100,7 @@ $_button-transition:
 
     &.is-size-small {
         --polaris-icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
-        --_button-block-gap: var(--wp--custom--button--block-gap, 0.25rem);
+        --_button-block-gap: var(--wp--custom--inline-gap, 0.5rem);
         padding: var(
                 --wp--custom--button--padding-y-small,
                 calc(#{$pad-y} / 1.5)

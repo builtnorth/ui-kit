@@ -36,7 +36,7 @@ swiper-container {
 	// the resolved length from column-gap and passes it to Swiper.
 	column-gap: var(--polaris-slider-gap, var(--wp--style--block-gap, 1.5rem));
 	--swiper-theme-color: var(--wp--preset--color--contrast, currentColor);
-	--swiper-pagination-bullet-border-radius: var(--wp--custom--slider--bullet-radius, 9999px);
+	--swiper-pagination-bullet-border-radius: var(--wp--custom--border-radius--chip, 0);
 	--swiper-pagination-bullet-width: 20px;
 	--swiper-pagination-bullet-height: 8px;
 	--swiper-pagination-bottom: -0.5rem;
@@ -73,10 +73,7 @@ swiper-container {
 	}
 
 	&::part(bullet-active) {
-		background-color: var(
-			--wp--custom--slider--bullet-active-color,
-			currentColor
-		);
+		background-color: var(--wp--custom--slider--bullet-active-color, var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000)));
 	}
 
 	&::part(bullet) {

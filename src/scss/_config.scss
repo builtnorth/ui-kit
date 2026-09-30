@@ -13,17 +13,11 @@
 
 // form.field
 // ----------------------------------------------------------------------------
-$form-field-spacing: var(
-    --wp--custom--form--field--spacing,
-    var(--wp--custom--spacing--form-field, 0.5rem)
-) !default;
+$form-field-spacing: var(--wp--custom--form--field--spacing, 0.5rem) !default;
 $form-label-text-size: var(--wp--custom--form--label--font-size, 1em) !default;
 // Space between a label or legend and its field(s).
 $form-label-spacing: var(--wp--custom--form--label--spacing, 0.5rem) !default;
-$form-label-help-text-size: var(
-    --wp--custom--form--label--help-font-size,
-    0.875em
-) !default;
+$form-label-help-text-size: var(--wp--custom--small-text--font-size, 0.875em) !default;
 
 $form-field-padding-x: var(
     --wp--custom--form--field--padding-x,
@@ -58,10 +52,7 @@ $form-field-focus-color: var(--wp--custom--color--focus, currentColor) !default;
 
 // form.surface — rounded panels independent of field border-radius (e.g. sharp inputs, soft cards)
 // ----------------------------------------------------------------------------
-$form-surface-border-radius: var(
-    --wp--custom--form--surface--border-radius,
-    0
-) !default;
+$form-surface-border-radius: var(--wp--custom--border-radius--tile, 0) !default;
 
 // form.choice
 // ----------------------------------------------------------------------------
@@ -82,11 +73,8 @@ $form-choice-checked-color: var(
 // form.file
 // ----------------------------------------------------------------------------
 $form-file-min-height: var(--wp--custom--form--file--min-height, 8rem) !default;
-$form-file-padding: var(--wp--custom--form--file--padding, 1.5rem) !default;
-$form-file-border-width: var(
-    --wp--custom--form--file--border-width,
-    var(--wp--custom--border-width--x-small, 2px)
-) !default;
+$form-file-padding: var(--wp--custom--panel--padding-y, 1rem) var(--wp--custom--panel--padding-x, 2rem) !default;
+$form-file-border-width: var(--wp--custom--border-width--x-small, 2px) !default;
 $form-file-border-style: var(
     --wp--custom--form--file--border-style,
     dashed

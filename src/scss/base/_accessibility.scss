@@ -89,7 +89,7 @@ $_card-primary-links: ".polaris-card-link, .wp-block-post-title a, .wp-block-pol
 	display: block;
 	color: var(--wp--preset--color--base, #fff);
 	background-color: var(--wp--preset--color--contrast, #000);
-	border: var(--wp--custom--skip-link--border-width, 2px) solid
+	border: var(--wp--custom--border-width--x-small, 2px) solid
 		var(--wp--preset--color--base, #fff);
 	padding: var(--wp--custom--skip-link--padding, 5px 10px);
 	position: absolute;
@@ -104,15 +104,15 @@ $_card-primary-links: ".polaris-card-link, .wp-block-post-title a, .wp-block-pol
 		background-color: var(--wp--preset--color--contrast, #000);
 		visibility: visible;
 		text-decoration: underline;
-		left: var(--wp--custom--skip-link--offset-x, 12px);
+		left: var(--wp--custom--control--offset, 0.5rem);
 	}
 
 	&.skip-to-main {
-		top: var(--wp--custom--skip-link--offset-y, 4px);
+		top: var(--wp--custom--control--offset, 0.5rem);
 	}
 
 	&.skip-to-top {
-		bottom: var(--wp--custom--skip-link--offset-y, 4px);
+		bottom: var(--wp--custom--control--offset, 0.5rem);
 	}
 }
 
