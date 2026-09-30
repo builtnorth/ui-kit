@@ -47,7 +47,9 @@ $form-field-background-color: var(
     --wp--custom--form--field--background-color,
     var(--wp--preset--color--base, #fff)
 ) !default;
-$form-field-color: var(--wp--custom--form--field--color, inherit) !default;
+// currentColor, not inherit: this is also mixed into other colours
+// (color-mix(in srgb, $form-field-color 55%, …)), where inherit is invalid.
+$form-field-color: var(--wp--custom--form--field--color, currentColor) !default;
 $form-field-focus-color: var(--wp--custom--color--focus, currentColor) !default;
 
 // form.surface — rounded panels independent of field border-radius (e.g. sharp inputs, soft cards)
