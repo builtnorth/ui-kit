@@ -200,3 +200,16 @@ Classes to quickly add utility styles to your components.
 		padding: var(--wp--custom--card--padding, 2rem);
 	}
 }
+
+/* Card template text: role sizes. A size chosen on the block wins (core's
+  has-*-font-size classes are !important).
+  ------------------------------------------------------------------*/
+
+.post-card .post-card__title,
+.no-results__title {
+	font-size: var(--wp--custom--card--title-font-size, 1.25em);
+}
+
+.post-card .post-card__terms {
+	font-size: var(--wp--custom--small-text--font-size, 0.875em);
+}

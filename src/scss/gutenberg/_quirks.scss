@@ -368,5 +368,5 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
     .wp-block-polaris-whitelabel-meta,
     .wp-block-polaris-query-sort
 ) {
-    font-size: var(--wp--custom--small-text--font-size, var(--wp--preset--font-size--tiny, 0.875em));
+    font-size: var(--wp--custom--small-text--font-size, 0.875em);
 }

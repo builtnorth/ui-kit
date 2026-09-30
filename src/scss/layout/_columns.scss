@@ -21,7 +21,7 @@
 // responsive-columns mixin instead of this file's binary 768px stack —
 // every viewport-driven stacking rule below must exclude it, or WordPress's
 // auto-added layout classes (is-nowrap, etc.) force it to 1 column at
-// 768px regardless of the block's actual --post-feed-columns breakpoints.
+// 768px regardless of the block's actual --polaris-post-feed-columns breakpoints.
 $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 
 .wp-block-polaris-columns {

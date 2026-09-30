@@ -18,6 +18,8 @@ $form-field-spacing: var(
     var(--wp--custom--spacing--form-field, 0.5rem)
 ) !default;
 $form-label-text-size: var(--wp--custom--form--label--font-size, 1em) !default;
+// Space between a label or legend and its field(s).
+$form-label-spacing: var(--wp--custom--form--label--spacing, 0.5rem) !default;
 $form-label-help-text-size: var(
     --wp--custom--form--label--help-font-size,
     0.875em
@@ -25,11 +27,11 @@ $form-label-help-text-size: var(
 
 $form-field-padding-x: var(
     --wp--custom--form--field--padding-x,
-    0.11rem
+    0.75rem
 ) !default;
 $form-field-padding-y: var(
     --wp--custom--form--field--padding-y,
-    0.11rem
+    0.5rem
 ) !default;
 $form-field-height: var(--wp--custom--form--field--height, 3rem) !default;
 $form-field-border-width: var(
@@ -49,7 +51,7 @@ $form-field-border-radius: var(
 ) !default;
 $form-field-background-color: var(
     --wp--custom--form--field--background-color,
-    var(--wp--preset--color--white, #fff)
+    #fff
 ) !default;
 $form-field-color: var(--wp--custom--form--field--color, inherit) !default;
 $form-field-focus-color: var(--wp--custom--color--focus, currentColor) !default;
@@ -58,7 +60,7 @@ $form-field-focus-color: var(--wp--custom--color--focus, currentColor) !default;
 // ----------------------------------------------------------------------------
 $form-surface-border-radius: var(
     --wp--custom--form--surface--border-radius,
-    var(--wp--preset--border-radius--x-small, 0)
+    0
 ) !default;
 
 // form.choice
@@ -74,16 +76,13 @@ $form-choice-border-radius: var(
 ) !default;
 $form-choice-checked-color: var(
     --wp--custom--form--choice--checked-color,
-    var(--wp--preset--color--primary, currentColor)
+    var(--wp--custom--color--accent, currentColor)
 ) !default;
 
 // form.file
 // ----------------------------------------------------------------------------
 $form-file-min-height: var(--wp--custom--form--file--min-height, 8rem) !default;
-$form-file-padding: var(
-    --wp--custom--form--file--padding,
-    1.5rem
-) !default;
+$form-file-padding: var(--wp--custom--form--file--padding, 1.5rem) !default;
 $form-file-border-width: var(
     --wp--custom--form--file--border-width,
     var(--wp--custom--border-width--small, 2px)
@@ -104,10 +103,7 @@ $form-file-border-color: var(
 // ----------------------------------------------------------------------------
 $button-padding-y: var(--wp--custom--button--padding-y, 0.75rem) !default;
 $button-padding-x: var(--wp--custom--button--padding-x, 1.5rem) !default;
-$button-border-radius: var(
-    --wp--custom--border-radius--button,
-    var(--wp--preset--border-radius--x-small, 0)
-) !default;
+$button-border-radius: var(--wp--custom--border-radius--button, 0) !default;
 $button-font-weight: var(--wp--custom--font-weight--medium, 500) !default;
 
 // Layout Settings
@@ -135,8 +131,14 @@ $breakpoint-xxl: 1536px !default;
 
 // Colors (can be overridden but default to theme.json)
 // ----------------------------------------------------------------------------
-$color-primary: var(--wp--preset--color--primary, #000) !default;
-$color-secondary: var(--wp--preset--color--secondary, #000) !default;
+$color-primary: var(
+    --wp--custom--color--accent,
+    var(--wp--preset--color--contrast, #000)
+) !default;
+$color-secondary: var(
+    --wp--custom--color--accent,
+    var(--wp--preset--color--contrast, #000)
+) !default;
 $color-base: var(--wp--preset--color--base, #fff) !default;
 $color-contrast: var(--wp--preset--color--contrast, #000) !default;
 
@@ -152,10 +154,10 @@ $spacing-70: 3.38rem !default;
 
 // Border Radius Scale
 // ----------------------------------------------------------------------------
-$radius-sm: var(--wp--preset--border-radius--x-small, 0) !default;
-$radius-md: var(--wp--preset--border-radius--small, 0) !default;
-$radius-lg: var(--wp--preset--border-radius--medium, 0) !default;
-$radius-full: var(--wp--preset--border-radius--round, 0) !default;
+$radius-sm: var(--wp--custom--border-radius--button, 0) !default;
+$radius-md: var(--wp--custom--border-radius--tile, 0) !default;
+$radius-lg: var(--wp--custom--border-radius--tile, 0) !default;
+$radius-full: 9999px !default;
 
 // Transitions (theme.json settings.custom.transition.*)
 // ----------------------------------------------------------------------------

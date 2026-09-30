@@ -20,7 +20,7 @@ Global Slider Styles
 	padding: 0.375rem;
 	border-radius: var(
 		--swiper-navigation-border-radius,
-		var(--wp--custom--border-radius--tile, var(--wp--preset--border-radius--medium, 0))
+		var(--wp--custom--border-radius--tile, 0)
 	);
 
 	&:hover,
@@ -51,7 +51,7 @@ swiper-container {
 		currentColor 12.5%,
 		transparent
 	);
-	--swiper-navigation-border-radius: var(--wp--custom--border-radius--tile, var(--wp--preset--border-radius--medium, 0));
+	--swiper-navigation-border-radius: var(--wp--custom--border-radius--tile, 0);
 
 	&::part(container) {
 		padding-bottom: var(--wp--style--block-gap, 1.5rem);

@@ -67,12 +67,12 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 		// contact-information, social-media, icon: chip colours. Default is the
 		// contrast icon on the preset background; a matching surface inverts it
 		// by setting --polaris-icon-{bg}-* (below), which the chip inherits.
-		.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
-			--icon-color: var(
+		.has-#{$background}-icon-background-color:not([style*="--polaris-icon-color"]) {
+			--polaris-icon-color: var(
 				--polaris-icon-#{$background}-color,
 				#{preset-color($contrast)}
 			);
-			--icon-background-color: var(
+			--polaris-icon-background-color: var(
 				--polaris-icon-#{$background}-bg,
 				#{preset-color($background)}
 			);
@@ -105,8 +105,8 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 			$chips: list.append($chips, ".has-#{$background}-icon-background-color", $separator: comma);
 		}
 
-		:is(#{$chips}):not([style*="--icon-color"]) svg {
-			color: var(--icon-color);
+		:is(#{$chips}):not([style*="--polaris-icon-color"]) svg {
+			color: var(--polaris-icon-color);
 		}
 	}
 

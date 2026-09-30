@@ -197,20 +197,14 @@ $_surface: ':where(:not(.wp-block-polaris-button, .wp-block-button__link, button
 		// `font-size: inherit` whichever stylesheet loads last.
 		&.is-size-default,
 		&.is-style-text-link.is-size-default {
-			font-size: var(
-				--wp--custom--button--font-size-default,
-				var(--wp--preset--font-size--x-small, 1.25em)
-			);
+			font-size: var(--wp--custom--button--font-size-default, 1em);
 		}
 	}
 
 	// (0,1,1): beats theme.json button element styles, which print later at
 	// (0,1,0). The size classes are one class higher.
 	@include button-paint-surfaces {
-		font-size: var(
-			--wp--custom--button--font-size-default,
-			var(--wp--preset--font-size--x-small, 1.25em)
-		);
+		font-size: var(--wp--custom--button--font-size-default, 1em);
 		padding: $pad-y $pad-x;
 	}
 }

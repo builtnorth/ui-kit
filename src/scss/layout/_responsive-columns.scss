@@ -6,7 +6,7 @@
 ---------------------------------------- */
 /*
 Generates halving-step breakpoints for an equal-width N-column layout driven
-by a single CSS custom property (e.g. --post-feed-columns). Each step halves
+by a single CSS custom property (e.g. --polaris-post-feed-columns). Each step halves
 the column count (ceil(N/2)) until reaching 1, so wide grids progressively
 lose columns as their container narrows instead of jumping straight from N
 to 1. N=3 is special-cased straight to 1 (3→2 is too weak a reduction to be
@@ -33,7 +33,7 @@ callers must render that attribute alongside the custom property.
 	@return $steps;
 }
 
-// $property: the custom property to override at each step, e.g. --post-feed-columns.
+// $property: the custom property to override at each step, e.g. --polaris-post-feed-columns.
 // $attr: the data-attribute name used to match the configured column count, e.g. data-column-count.
 // $min: smallest N to generate rules for (default 2 — nothing to halve below that).
 // $max: largest N to generate rules for.

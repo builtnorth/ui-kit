@@ -55,8 +55,8 @@ $_button-transition:
 // (its button element styles, or the button-mixins).
 // ==========================================================================
 @include button-surfaces {
-    --icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
-    --button-block-gap: var(--wp--custom--button--icon-gap, 0.67rem);
+    --polaris-icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
+    --_button-block-gap: var(--wp--custom--button--icon-gap, 0.67rem);
 
     cursor: pointer;
     display: inline-flex;
@@ -82,7 +82,7 @@ $_button-transition:
     }
 
     .wp-block-polaris-icon {
-        --icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
+        --polaris-icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
     }
 }
 
@@ -99,8 +99,8 @@ $_button-transition:
     }
 
     &.is-size-small {
-        --icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
-        --button-block-gap: var(--wp--custom--button--block-gap, 0.25rem);
+        --polaris-icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
+        --_button-block-gap: var(--wp--custom--button--block-gap, 0.25rem);
         padding: var(
                 --wp--custom--button--padding-y-small,
                 calc(#{$pad-y} / 1.5)
@@ -109,13 +109,13 @@ $_button-transition:
         font-size: var(--wp--custom--button--font-size-small, 0.875em);
 
         .wp-block-polaris-icon {
-            --icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
+            --polaris-icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
         }
     }
 
     &.is-size-large {
-        --icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
-        --button-block-gap: 1rem;
+        --polaris-icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
+        --_button-block-gap: 1rem;
         padding: var(
                 --wp--custom--button--padding-y-large,
                 calc(#{$pad-y} * 1.5)
@@ -124,7 +124,7 @@ $_button-transition:
         font-size: var(--wp--custom--button--font-size-large, 1.25em);
 
         .wp-block-polaris-icon {
-            --icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
+            --polaris-icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
         }
     }
 }
@@ -250,15 +250,15 @@ $_neutral-variants: (
     .icon-item,
     .icon-item__wrap,
     .icon-item__wrap svg {
-        height: var(--icon-size, 2.75rem);
-        width: var(--icon-size, 2.75rem);
+        height: var(--polaris-icon-size, 2.75rem);
+        width: var(--polaris-icon-size, 2.75rem);
         flex-shrink: 0;
     }
 
     &:has(.wp-block-polaris-button__icon) {
         display: inline-flex;
         align-items: center;
-        gap: var(--button-block-gap);
+        gap: var(--_button-block-gap);
 
         .wp-block-polaris-button__text {
             display: inline;

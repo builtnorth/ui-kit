@@ -23,7 +23,7 @@
 ) {
 	display: flex;
 	flex-direction: column;
-	gap: $spacing-20;
+	gap: $form-label-spacing;
 }
 
 // Checkbox / radio: control before label (checkbox upper-left, text inline).

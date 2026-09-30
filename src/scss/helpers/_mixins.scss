@@ -88,7 +88,7 @@ Helpers: Mixins
 
 //Icon BG
 @mixin icon_bg(
-	$border-radius: var(--wp--custom--border-radius--icon, var(--wp--preset--border-radius--round, 0)),
+	$border-radius: var(--wp--custom--border-radius--icon, 0),
 	$size: 2rem
 ) {
 	border-radius: $border-radius;
