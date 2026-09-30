@@ -1,4 +1,5 @@
 @use "sass:list";
+@use "sass:map";
 
 /*
 Colors
@@ -31,6 +32,8 @@ $background-contrast-pairs: (
 	"tertiary-contrast": "tertiary",
 	"white": "white-contrast",
 	"white-contrast": "white",
+	"black": "black-contrast",
+	"black-contrast": "black",
 	"neutral-1": "neutral-1-contrast",
 	"neutral-1-contrast": "neutral-1",
 	"neutral-2": "neutral-2-contrast",
@@ -45,6 +48,56 @@ $background-contrast-pairs: (
 	"neutral-6-contrast": "neutral-6",
 ) !default;
 
+// The rest of core's default palette: surfaces that only need their text
+// (and link) colour set. They skip the icon-chip rules the pairs above get,
+// which would add about 1.3 KB of CSS per colour to every page.
+$text-only-contrast-pairs: (
+	"cyan-bluish-gray": "cyan-bluish-gray-contrast",
+	"pale-pink": "pale-pink-contrast",
+	"vivid-red": "vivid-red-contrast",
+	"luminous-vivid-orange": "luminous-vivid-orange-contrast",
+	"luminous-vivid-amber": "luminous-vivid-amber-contrast",
+	"light-green-cyan": "light-green-cyan-contrast",
+	"vivid-green-cyan": "vivid-green-cyan-contrast",
+	"pale-cyan-blue": "pale-cyan-blue-contrast",
+	"vivid-cyan-blue": "vivid-cyan-blue-contrast",
+	"vivid-purple": "vivid-purple-contrast",
+) !default;
+
+// Core's default palette has no "-contrast" partners. Without a fallback the
+// contrast var is undefined, the `color` declaration is invalid, and text
+// inherits an outer surface's colour (e.g. light text from a dark header on a
+// white dropdown). Each core colour falls back to black or white text,
+// whichever has the higher WCAG contrast ratio on it. A theme that defines
+// the preset still wins.
+$_on-light: "var(--wp--preset--color--black, #000)";
+$_on-dark: "var(--wp--preset--color--white, #fff)";
+
+$preset-fallbacks: (
+	"white": "#fff",
+	"white-contrast": $_on-light,
+	"black": "#000",
+	"black-contrast": $_on-dark,
+	"cyan-bluish-gray-contrast": $_on-light,
+	"pale-pink-contrast": $_on-light,
+	"vivid-red-contrast": $_on-dark,
+	"luminous-vivid-orange-contrast": $_on-light,
+	"luminous-vivid-amber-contrast": $_on-light,
+	"light-green-cyan-contrast": $_on-light,
+	"vivid-green-cyan-contrast": $_on-light,
+	"pale-cyan-blue-contrast": $_on-light,
+	"vivid-cyan-blue-contrast": $_on-light,
+	"vivid-purple-contrast": $_on-light,
+) !default;
+
+@function preset-color($slug) {
+	$fallback: map.get($preset-fallbacks, $slug);
+	@if $fallback {
+		@return var(--wp--preset--color--#{$slug}, #{$fallback});
+	}
+	@return var(--wp--preset--color--#{$slug});
+}
+
 // Generates the background/contrast ruleset for one background-contrast map.
 // A theme adding palette colors ui-kit doesn't know about (e.g. a custom
 // "brand"/"brand-contrast" pair) can call this directly instead of forking
@@ -58,11 +111,19 @@ $background-contrast-pairs: (
 // Elements carrying an icon-chip colour are chips, not surfaces.
 $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 
-@mixin polaris-color-contrast-rules($pairs) {
+@mixin polaris-color-contrast-rules($pairs, $text-only-pairs: ()) {
+	@each $background, $contrast in $text-only-pairs {
+		.has-#{$background}-background-color {
+			--polaris-auto-text-color: #{preset-color($contrast)};
+			--polaris-auto-surface-color: #{preset-color($background)};
+			color: var(--polaris-auto-text-color);
+		}
+	}
+
 	@each $background, $contrast in $pairs {
 		.has-#{$background}-background-color {
-			--polaris-auto-text-color: var(--wp--preset--color--#{$contrast});
-			--polaris-auto-surface-color: var(--wp--preset--color--#{$background});
+			--polaris-auto-text-color: #{preset-color($contrast)};
+			--polaris-auto-surface-color: #{preset-color($background)};
 			color: var(--polaris-auto-text-color);
 		}
 
@@ -72,11 +133,11 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 		.has-#{$background}-icon-background-color:not([style*="--icon-color"]) {
 			--icon-color: var(
 				--polaris-icon-#{$background}-color,
-				var(--wp--preset--color--#{$contrast})
+				#{preset-color($contrast)}
 			);
 			--icon-background-color: var(
 				--polaris-icon-#{$background}-bg,
-				var(--wp--preset--color--#{$background})
+				#{preset-color($background)}
 			);
 		}
 
@@ -86,8 +147,8 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 		// specificity) so a chip never inverts itself.
 		.has-#{$background}-background-color#{$_not-chip},
 		[class*="-background-color"].has-background.has-#{$background}-background-color#{$_not-chip} {
-			--polaris-icon-#{$background}-color: var(--wp--preset--color--#{$background});
-			--polaris-icon-#{$background}-bg: var(--wp--preset--color--#{$contrast});
+			--polaris-icon-#{$background}-color: #{preset-color($background)};
+			--polaris-icon-#{$background}-bg: #{preset-color($contrast)};
 		}
 	}
 
@@ -114,7 +175,7 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 	// :is() takes its most specific argument (one class), so specificity and
 	// matching are unchanged from one copy per background; only size drops.
 	$surfaces: ();
-	@each $background, $contrast in $pairs {
+	@each $background, $contrast in map.merge($pairs, $text-only-pairs) {
 		$surfaces: list.append($surfaces, ".has-#{$background}-background-color", $separator: comma);
 	}
 
@@ -156,4 +217,4 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 	}
 }
 
-@include polaris-color-contrast-rules($background-contrast-pairs);
+@include polaris-color-contrast-rules($background-contrast-pairs, $text-only-contrast-pairs);
