@@ -29,6 +29,10 @@ Global Slider Styles
 }
 
 swiper-container {
+	// Space between slides: a slider's Block spacing (--polaris-slider-gap,
+	// set in render.php), else the theme's block gap. The slider script reads
+	// the resolved length from column-gap and passes it to Swiper.
+	column-gap: var(--polaris-slider-gap, var(--wp--style--block-gap, 2rem));
 	--swiper-theme-color: var(--wp--preset--color--contrast, #000);
 	--swiper-pagination-bullet-border-radius: var(
 		--wp--custom--border-radius--chip,
