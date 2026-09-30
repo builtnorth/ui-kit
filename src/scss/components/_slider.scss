@@ -122,7 +122,9 @@ swiper-container {
 		transform: rotate(180deg);
 	}
 
-	&:disabled {
+	// aria-disabled keeps keyboard focus on an arrow at the end of its row.
+	&:disabled,
+	&[aria-disabled="true"] {
 		opacity: 0.35;
 		cursor: auto;
 		pointer-events: none;
