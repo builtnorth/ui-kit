@@ -7,13 +7,22 @@ Helper classes for improving accessibility.
 */
 
 /* Accessible card link
-----------------------------------------------------------------*/
+----------------------------------------------------------------
+One real link inside the card (its "primary link") is stretched over the
+whole card, so the card is clickable without wrapping it in a link. The
+primary link is a post or term title link, or `.polaris-card-link` (set by
+the editor's card Link control; see polaris-blocks CardLinkHook).
+
+Text under the stretched link can't be selected: that is inherent to the
+technique.
+*/
+$_card-primary-links: ".polaris-card-link, .wp-block-post-title a, .wp-block-polaris-taxonomy-feed__term-title a";
+
 .is-accessible-card {
 	position: relative;
 
-	// Make the title link stretch to cover the entire card
-	.wp-block-post-title a::after,
-	.wp-block-polaris-taxonomy-feed__term-title a::after {
+	// Stretch the primary link over the entire card.
+	:is(#{$_card-primary-links})::after {
 		content: "";
 		position: absolute;
 		top: 0;
@@ -23,18 +32,34 @@ Helper classes for improving accessibility.
 		z-index: 1;
 	}
 
-	// Ensure other interactive elements stay clickable
-	.wp-block-post-terms a,
-	.wp-block-polaris-button {
+	// A link added by the card Link control reads as the text it wraps.
+	.polaris-card-link {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	// Every other link and control stays clickable above it. Zero
+	// specificity (the card class is inside :where() too), so an element's own
+	// positioning still wins.
+	@at-root :where(.is-accessible-card) :where(a, button, input, select, textarea, summary, label, [tabindex]):where(:not(#{$_card-primary-links})) {
 		position: relative;
 		z-index: 2;
 	}
 
-	// Optional: Add hover effect to the entire card
+	// Keyboard focus is shown around the whole card, not just the link text.
+	:is(#{$_card-primary-links}):focus-visible {
+		outline: none;
+
+		&::after {
+			outline: 2px solid currentColor;
+			outline-offset: -2px;
+		}
+	}
+
+	// Hover and focus underline the primary link.
 	&:hover,
-	&:focus {
-		.wp-block-post-title a,
-		.wp-block-polaris-taxonomy-feed__term-title a {
+	&:focus-within {
+		:is(#{$_card-primary-links}) {
 			text-decoration: underline;
 		}
 	}
