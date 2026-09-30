@@ -9,7 +9,7 @@
 // would have at 12 equal tracks, then add back the gaps a span of $i visually
 // crosses. Reduces to the plain flat percentage when gap is 0, and to
 // `(100% - (n-1)*gap) / n` for the equal-split case (e.g. span-4 of 12 = thirds).
-@function column-width($i, $columns: 12, $gap: var(--wp--style--block-gap, 1.5rem)) {
+@function column-width($i, $columns: 12, $gap: var(--_columns-gap, var(--wp--style--block-gap, 1.5rem))) {
 	@return calc(
 		(100% - (#{$columns} - 1) * #{$gap}) * #{$i} / #{$columns} + (#{$i} - 1) *
 			#{$gap}
@@ -25,6 +25,18 @@
 $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 
 .wp-block-polaris-columns {
+	// The row's gap: this block's Block spacing (--polaris-columns-gap, set by
+	// render.php / edit.js), else the column-gap token, else the theme's block
+	// spacing. The span widths below read the same value, so a row always adds
+	// up to 100%.
+	&#{$polaris-columns-not-post-feed} {
+		--_columns-gap: var(
+			--polaris-columns-gap,
+			var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem))
+		);
+		gap: var(--_columns-gap);
+	}
+
 	/* Top-level rows: viewport only (not the width of a parent column). */
 	&#{$polaris-columns-not-post-feed} {
 		@include lt-stack() {

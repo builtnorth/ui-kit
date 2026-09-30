@@ -32,21 +32,21 @@
  */
 
 $_button-transition:
-	background-color var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, ease-in-out),
-	color var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, ease-in-out),
-	border-color var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, ease-in-out);
+    background-color var(--wp--custom--transition--duration-base, 200ms)
+        var(--wp--custom--transition--easing-default, ease-in-out),
+    color var(--wp--custom--transition--duration-base, 200ms)
+        var(--wp--custom--transition--easing-default, ease-in-out),
+    border-color var(--wp--custom--transition--duration-base, 200ms)
+        var(--wp--custom--transition--easing-default, ease-in-out);
 
 // ==========================================================================
 // 1. Button containers
 // ==========================================================================
 .wp-block-polaris-buttons,
 .wp-block-buttons {
-	display: flex;
-	align-items: center;
-	gap: var(--wp--preset--spacing--40, 1rem);
+    display: flex;
+    align-items: center;
+    gap: var(--wp--custom--component--gap, 1rem);
 }
 
 // ==========================================================================
@@ -55,84 +55,78 @@ $_button-transition:
 // (its button element styles, or the button-mixins).
 // ==========================================================================
 @include button-surfaces {
-	--icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
-	--button-block-gap: var(--wp--preset--spacing--30, 0.67rem);
+    --icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
+    --button-block-gap: var(--wp--custom--button--icon-gap, 0.67rem);
 
-	cursor: pointer;
-	display: inline-flex;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-	text-align: center;
-	transition: $_button-transition;
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    transition: $_button-transition;
 
-	// Links inside button label (e.g. variable tags) inherit surface color.
-	a {
-		color: inherit;
-		text-decoration: none;
+    // Links inside button label (e.g. variable tags) inherit surface color.
+    a {
+        color: inherit;
+        text-decoration: none;
 
-		&:hover,
-		&:focus,
-		&:visited,
-		&:active {
-			color: inherit;
-			text-decoration: none;
-		}
-	}
+        &:hover,
+        &:focus,
+        &:visited,
+        &:active {
+            color: inherit;
+            text-decoration: none;
+        }
+    }
 
-	.wp-block-polaris-icon {
-		--icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
-	}
+    .wp-block-polaris-icon {
+        --icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
+    }
 }
 
 // ==========================================================================
 // 3. Button size variants
 // ==========================================================================
 @include button-surfaces {
-	// The default size sets no font size: the button keeps the theme's own
-	// (a theme's default-style mixin sets it from the button tokens).
-	// Text links take the surrounding font size unless a size is chosen
-	// (the size rules below come later and win).
-	&.is-style-text-link {
-		font-size: inherit;
-	}
+    // The default size sets no font size: the button keeps the theme's own
+    // (a theme's default-style mixin sets it from the button tokens).
+    // Text links take the surrounding font size unless a size is chosen
+    // (the size rules below come later and win).
+    &.is-style-text-link {
+        font-size: inherit;
+    }
 
-	&.is-size-small {
-		--icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
-		--button-block-gap: var(--wp--custom--button--block-gap, 0.25rem);
-		padding: var(
-				--wp--custom--button--padding-y-small,
-				calc(#{$pad-y} / 1.5)
-			)
-			var(
-				--wp--custom--button--padding-x-small,
-				calc(#{$pad-x} / 2)
-			);
-		font-size: var(--wp--custom--button--font-size-small, 0.875em);
+    &.is-size-small {
+        --icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
+        --button-block-gap: var(--wp--custom--button--block-gap, 0.25rem);
+        padding: var(
+                --wp--custom--button--padding-y-small,
+                calc(#{$pad-y} / 1.5)
+            )
+            var(--wp--custom--button--padding-x-small, calc(#{$pad-x} / 2));
+        font-size: var(--wp--custom--button--font-size-small, 0.875em);
 
-		.wp-block-polaris-icon {
-			--icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
-		}
-	}
+        .wp-block-polaris-icon {
+            --icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
+        }
+    }
 
-	&.is-size-large {
-		--icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
-		--button-block-gap: var(--wp--preset--spacing--40, 1rem);
-		padding: var(
-				--wp--custom--button--padding-y-large,
-				calc(#{$pad-y} * 1.5)
-			)
-			var(
-				--wp--custom--button--padding-x-large,
-				calc(#{$pad-x} * 1.5)
-			);
-		font-size: var(--wp--custom--button--font-size-large, 1.25em);
+    &.is-size-large {
+        --icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
+        --button-block-gap: 1rem;
+        padding: var(
+                --wp--custom--button--padding-y-large,
+                calc(#{$pad-y} * 1.5)
+            )
+            var(--wp--custom--button--padding-x-large, calc(#{$pad-x} * 1.5));
+        font-size: var(--wp--custom--button--font-size-large, 1.25em);
 
-		.wp-block-polaris-icon {
-			--icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
-		}
-	}
+        .wp-block-polaris-icon {
+            --icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
+        }
+    }
 }
 
 // ==========================================================================
@@ -144,35 +138,42 @@ $_tint: color-mix(in srgb, currentColor 10%, transparent);
 $_tint-hover: color-mix(in srgb, currentColor 20%, transparent);
 
 $_neutral-variants: (
-	"secondary": variant-colors(
-		$background: var(--wp--custom--button--secondary--background, #000),
-		$text: var(--wp--custom--button--secondary--text, #fff)
-	),
-	"tertiary": variant-colors(
-		$background: var(--wp--custom--button--tertiary--background, $_tint),
-		$text: var(--wp--custom--button--tertiary--text, currentColor),
-		$border: transparent,
-		$hover-background: var(--wp--custom--button--tertiary--background, $_tint-hover),
-		$hover-text: var(--wp--custom--button--tertiary--text, currentColor),
-		$outline-border: currentColor,
-		$outline-hover-background: var(--wp--custom--button--tertiary--background, $_tint),
-		$outline-hover-border: currentColor
-	)
+    "secondary": variant-colors(
+            $background: var(--wp--custom--button--secondary--background, #000),
+            $text: var(--wp--custom--button--secondary--text, #fff),
+        ),
+    "tertiary": variant-colors(
+            $background: var(--wp--custom--button--tertiary--background, $_tint),
+            $text: var(--wp--custom--button--tertiary--text, currentColor),
+            $border: transparent,
+            $hover-background: var(
+                    --wp--custom--button--tertiary--background,
+                    $_tint-hover
+                ),
+            $hover-text: var(--wp--custom--button--tertiary--text, currentColor),
+            $outline-border: currentColor,
+            $outline-hover-background: var(
+                    --wp--custom--button--tertiary--background,
+                    $_tint
+                ),
+            $outline-hover-border: currentColor,
+        ),
 );
 
 @each $name, $colors in $_neutral-variants {
-	@include button-paint-surfaces {
-		&:where(.is-style-#{$name}) {
-			@include variant-vars($name, $colors);
-			@include paint;
-		}
-	}
+    @include button-paint-surfaces {
+        &:where(.is-style-#{$name}) {
+            @include variant-vars($name, $colors);
+            @include paint;
+        }
+    }
 
-	// core/button: block style classes live on the wrapper, not the link.
-	:where(.wp-block-button.is-style-#{$name}) .wp-block-button__link:is(a, button, span, div) {
-		@include variant-vars($name, $colors);
-		@include paint;
-	}
+    // core/button: block style classes live on the wrapper, not the link.
+    :where(.wp-block-button.is-style-#{$name})
+        .wp-block-button__link:is(a, button, span, div) {
+        @include variant-vars($name, $colors);
+        @include paint;
+    }
 }
 
 // ==========================================================================
@@ -182,85 +183,85 @@ $_neutral-variants: (
 // ==========================================================================
 /// Outline appearance: transparent fill, the variant's outline colours.
 @mixin button-outline-vars {
-	--_button-bg: transparent;
-	--_button-fg: currentColor;
-	--_button-border: var(--_button-v-outline-border, currentColor);
-	--_button-hover-bg: var(--_button-v-outline-hover-bg, transparent);
-	--_button-hover-fg: var(--_button-v-outline-hover-fg, currentColor);
-	--_button-hover-border: var(--_button-v-outline-hover-border, currentColor);
+    --_button-bg: transparent;
+    --_button-fg: currentColor;
+    --_button-border: var(--_button-v-outline-border, currentColor);
+    --_button-hover-bg: var(--_button-v-outline-hover-bg, transparent);
+    --_button-hover-fg: var(--_button-v-outline-hover-fg, currentColor);
+    --_button-hover-border: var(--_button-v-outline-hover-border, currentColor);
 
-	@include paint-declarations;
+    @include paint-declarations;
 }
 
 @include button-surfaces {
-	&.is-appearance-outline {
-		@include button-outline-vars;
-	}
+    &.is-appearance-outline {
+        @include button-outline-vars;
+    }
 }
 
 .wp-block-button.is-style-outline .wp-block-button__link {
-	@include button-outline-vars;
+    @include button-outline-vars;
 }
 
 @include button-surfaces {
-	&.is-style-text-link {
-		--_button-bg: transparent;
-		--_button-fg: currentColor;
-		--_button-border: transparent;
-		--_button-hover-bg: transparent;
-		--_button-hover-fg: currentColor;
-		--_button-hover-border: transparent;
+    &.is-style-text-link {
+        --_button-bg: transparent;
+        --_button-fg: currentColor;
+        --_button-border: transparent;
+        --_button-hover-bg: transparent;
+        --_button-hover-fg: currentColor;
+        --_button-hover-border: transparent;
 
-		@include paint-declarations;
+        @include paint-declarations;
 
-		text-decoration: underline;
-		padding: $pad-y 0;
-		transition: opacity var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, ease-in-out);
+        text-decoration: underline;
+        padding: $pad-y 0;
+        transition: opacity var(--wp--custom--transition--duration-base, 200ms)
+            var(--wp--custom--transition--easing-default, ease-in-out);
 
-		&:is(:hover, :focus),
-		:where(.is-accessible-card:hover) & {
-			opacity: 0.7;
-			text-decoration: none;
-		}
+        &:is(:hover, :focus),
+        :where(.is-accessible-card:hover) & {
+            opacity: 0.7;
+            text-decoration: none;
+        }
 
-		&:not(:first-child) {
-			margin-left: var(--wp--preset--spacing--30, 0.67rem);
-		}
+        &:not(:first-child) {
+            margin-left: 0.67rem;
+        }
 
-		&:not(:last-child) {
-			margin-right: var(--wp--preset--spacing--30, 0.67rem);
-		}
-	}
+        &:not(:last-child) {
+            margin-right: 0.67rem;
+        }
+    }
 }
 
 // ==========================================================================
 // 6. Button icon styles (polaris/button only)
 // ==========================================================================
 .wp-block-polaris-button {
-	&__icon {
-		display: inline-flex;
-		align-items: center;
-	}
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+    }
 
-	.wp-block-polaris-button__icon,
-	.wp-block-polaris-button__icon .wp-block-polaris-icon,
-	.wp-block-polaris-button__icon .wp-block-polaris-icon svg,
-	.icon-item,
-	.icon-item__wrap,
-	.icon-item__wrap svg {
-		height: var(--icon-size, 2.75rem);
-		width: var(--icon-size, 2.75rem);
-		flex-shrink: 0;
-	}
+    .wp-block-polaris-button__icon,
+    .wp-block-polaris-button__icon .wp-block-polaris-icon,
+    .wp-block-polaris-button__icon .wp-block-polaris-icon svg,
+    .icon-item,
+    .icon-item__wrap,
+    .icon-item__wrap svg {
+        height: var(--icon-size, 2.75rem);
+        width: var(--icon-size, 2.75rem);
+        flex-shrink: 0;
+    }
 
-	&:has(.wp-block-polaris-button__icon) {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--button-block-gap);
+    &:has(.wp-block-polaris-button__icon) {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--button-block-gap);
 
-		.wp-block-polaris-button__text {
-			display: inline;
-		}
-	}
+        .wp-block-polaris-button__text {
+            display: inline;
+        }
+    }
 }

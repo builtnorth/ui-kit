@@ -13,9 +13,11 @@ Global Slider Styles
 	border: var(--wp--custom--border-width--small, 2px) solid
 		var(--wp--custom--color--border-medium, color-mix(in srgb, currentColor 25%, transparent));
 	background: var(--wp--preset--color--base, #fff);
-	height: var(--wp--custom--slider--arrow-size, 24px);
-	width: var(--wp--custom--slider--arrow-size, 24px);
-	padding: var(--wp--preset--spacing--30, 0.67rem);
+	// The control size is the whole button; the chevron fills what is left.
+	box-sizing: border-box;
+	height: var(--wp--custom--control--size, 2rem);
+	width: var(--wp--custom--control--size, 2rem);
+	padding: 0.375rem;
 	border-radius: var(
 		--swiper-navigation-border-radius,
 		var(--wp--custom--border-radius--tile, var(--wp--preset--border-radius--medium, 0))
@@ -94,12 +96,11 @@ swiper-container {
 	}
 }
 
-// The same arrow on a plain <button> (Swiper's own defaults included: a
-// content-box square, the theme colour, dimmed when disabled). Put Swiper's
-// chevron SVG inside; --prev flips it.
+// The same arrow on a plain <button> (Swiper's own defaults included: the
+// theme colour, dimmed when disabled). Put Swiper's chevron SVG inside;
+// --prev flips it.
 .polaris-slider-arrow {
 	@include slider-arrow;
-	box-sizing: content-box;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -163,14 +164,20 @@ swiper-slide {
 		}
 
 		&::part(button-next) {
-			left: var(--wp--custom--slider--next-offset, 60px);
+			left: var(
+				--wp--custom--slider--next-offset,
+				calc(var(--wp--custom--control--size, 2rem) + var(--wp--custom--inline-gap, 0.5rem))
+			);
 		}
 
 		&::part(pagination) {
 			display: flex;
 			justify-content: flex-end;
 			align-items: center;
-			left: var(--wp--custom--slider--pagination-offset, 120px);
+			left: var(
+				--wp--custom--slider--pagination-offset,
+				calc((var(--wp--custom--control--size, 2rem) + var(--wp--custom--inline-gap, 0.5rem)) * 2)
+			);
 			right: 0;
 			width: auto;
 			bottom: var(--wp--custom--slider--pagination-bottom, 0.5rem);

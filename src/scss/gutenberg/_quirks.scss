@@ -15,27 +15,27 @@
 // they sit in the content column — cancel that AND the has-global-padding root
 // padding so the host spans the canvas like an alignfull section would.
 .editor-styles-wrapper
-	.is-root-container
-	> .wp-block-template-part:not(header, footer),
+    .is-root-container
+    > .wp-block-template-part:not(header, footer),
 .editor-styles-wrapper .wp-block-template-part:not(header, footer),
 body.site-editor-php .wp-block-template-part:not(header, footer) {
-	display: block;
-	box-sizing: border-box;
-	width: calc(
-		100% + var(--wp--style--root--padding-left, 0px) +
-			var(--wp--style--root--padding-right, 0px)
-	) !important;
-	max-width: none !important;
-	margin-block: 0;
-	padding: 0;
-	border: 0;
-	background: transparent;
-	margin-left: calc(
-		var(--wp--style--root--padding-left, 0px) * -1
-	) !important;
-	margin-right: calc(
-		var(--wp--style--root--padding-right, 0px) * -1
-	) !important;
+    display: block;
+    box-sizing: border-box;
+    width: calc(
+        100% + var(--wp--style--root--padding-left, 0px) +
+            var(--wp--style--root--padding-right, 0px)
+    ) !important;
+    max-width: none !important;
+    margin-block: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    margin-left: calc(
+        var(--wp--style--root--padding-left, 0px) * -1
+    ) !important;
+    margin-right: calc(
+        var(--wp--style--root--padding-right, 0px) * -1
+    ) !important;
 }
 
 // Allow post content to break out of its container for alignfull blocks.
@@ -95,7 +95,6 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 // WP layout (wp-container-* rules) handles justify-content / align-items / flex-direction.
 @mixin polaris-flex-container-children {
     &:not(.is-horizontal) {
-
         // Reset margins so no child escapes the column.
         > :where(
             :not(
@@ -204,7 +203,6 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
     }
 
     &.is-horizontal {
-
         > :where(
             :not(
                 .alignfull,
@@ -248,11 +246,13 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
     // Layout width: the section content-size token, then the theme's wide
     // size, then 1200px. A theme's content size is often a narrow reading
     // measure, so it is not the default; a theme that wants it sets the token.
-    max-width: var(--wp--custom--section--content-size, var(--wp--style--global--wide-size, 1200px));
+    max-width: var(
+        --wp--custom--section--content-size,
+        var(--wp--style--global--wide-size, 1200px)
+    );
     margin-left: auto;
     margin-right: auto;
     flex-grow: 1;
-
 }
 
 .wp-block-polaris-section__inner.is-layout-flex,
@@ -327,62 +327,46 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 // Default block spacing.
 // Structural padding and margins for the layout blocks, at zero specificity:
 // a theme's theme.json per-block styles, and a user's own spacing, win.
-// Each value reads its token first, then a core preset, then a literal.
+// Each value reads its token first, then a fixed value (a theme maps its own
+// spacing scale onto the token).
 :where(.wp-block-polaris-section) {
-	padding-top: var(
-		--wp--custom--spacing--section-padding,
-		var(--wp--preset--spacing--70, 3.38rem)
-	);
-	padding-bottom: var(
-		--wp--custom--spacing--section-padding,
-		var(--wp--preset--spacing--70, 3.38rem)
-	);
+    padding-top: var(--wp--custom--spacing--section-padding, 3.38rem);
+    padding-bottom: var(--wp--custom--spacing--section-padding, 3.38rem);
 }
 
 :where(.wp-block-polaris-hero) {
-	padding-top: var(
-		--wp--custom--spacing--hero-padding,
-		var(--wp--preset--spacing--70, 3.38rem)
-	);
-	padding-bottom: var(
-		--wp--custom--spacing--hero-padding,
-		var(--wp--preset--spacing--70, 3.38rem)
-	);
+    padding-top: var(--wp--custom--spacing--hero-padding, 3.38rem);
+    padding-bottom: var(--wp--custom--spacing--hero-padding, 3.38rem);
 }
 
 :where(.wp-block-polaris-split-section) {
-	margin-top: var(
-		--wp--custom--spacing--section-margin,
-		var(--wp--preset--spacing--70, 3.38rem)
-	);
-	margin-bottom: var(
-		--wp--custom--spacing--section-margin,
-		var(--wp--preset--spacing--70, 3.38rem)
-	);
+    margin-top: var(--wp--custom--spacing--section-margin, 3.38rem);
+    margin-bottom: var(--wp--custom--spacing--section-margin, 3.38rem);
 }
 
 :where(.wp-block-polaris-split-section-content) {
-	padding: var(
-			--wp--custom--spacing--section-padding,
-			var(--wp--preset--spacing--70, 3.38rem)
-		)
-		var(--wp--style--block-gap, 1.5rem);
+    padding: var(--wp--custom--spacing--section-padding, 3.38rem) var(--wp--style--block-gap, 1.5rem);
 }
 
 :where(.wp-block-polaris-header) {
-	padding-top: var(--wp--preset--spacing--40, 1rem);
-	padding-bottom: var(--wp--preset--spacing--40, 1rem);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 :where(.wp-block-polaris-footer) {
-	padding-top: var(
-		--wp--custom--spacing--section-padding,
-		var(--wp--preset--spacing--70, 3.38rem)
-	);
-	padding-bottom: var(--wp--style--block-gap, 1.5rem);
+    padding-top: var(--wp--custom--spacing--section-padding, 3.38rem);
+    padding-bottom: var(--wp--style--block-gap, 1.5rem);
 }
 
-:where(.wp-block-polaris-breadcrumbs) {
-	padding: var(--wp--preset--spacing--20, 0.44rem)
-		var(--wp--preset--spacing--40, 1rem);
+// Default text size for the small utility blocks, at zero specificity: a
+// theme's theme.json per-block size, and a size chosen on the block, win.
+:where(
+    .wp-block-polaris-breadcrumbs,
+    .wp-block-polaris-copyright,
+    .wp-block-polaris-utility-links,
+    .wp-block-polaris-social-media,
+    .wp-block-polaris-whitelabel-meta,
+    .wp-block-polaris-query-sort
+) {
+    font-size: var(--wp--custom--small-text--font-size, var(--wp--preset--font-size--tiny, 0.875em));
 }

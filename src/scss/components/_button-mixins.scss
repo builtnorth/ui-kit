@@ -40,11 +40,11 @@ $button-paint-selectors: (
 
 $pad-y: var(
 	--wp--custom--button--padding-y,
-	var(--wp--preset--spacing--30, 0.67rem)
+	0.67rem
 );
 $pad-x: var(
 	--wp--custom--button--padding-x,
-	var(--wp--preset--spacing--40, 1rem)
+	1rem
 );
 
 // Variants declared in this compilation, for invert-on().

@@ -64,7 +64,12 @@
 
 /// Checkboxes and radios (shared box); add form-checkbox or form-radio.
 @mixin form-choice {
-	margin-top: $form-choice-spacing;
+	// Centre the box on the first line of its label, whatever the text size
+	// or line height. `lh` is the box's own line height, so match the label's.
+	font-size: inherit;
+	line-height: inherit;
+	margin-top: 0.25em;
+	margin-top: max(0px, calc((1lh - #{$form-choice-size}) / 2));
 	width: $form-choice-size;
 	height: $form-choice-size;
 	appearance: none;
