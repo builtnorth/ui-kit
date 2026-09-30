@@ -1,4 +1,6 @@
+@forward "./button-mixins";
 @use "../config" as *;
+@use "./button-mixins" as *;
 
 /*
  * Button Component Styles
@@ -9,80 +11,25 @@
  * (and -large).
  *
  * Structure:
- * 1. Mixins
- * 2. Button containers
- * 3. Button base styles (all surfaces)
- * 4. Button size variants
- * 5. Button style variants
+ * 1. Button containers
+ * 2. Button base styles (all surfaces)
+ * 3. Button size variants
+ * 4. Neutral style variants
+ * 5. Appearances (outline, text link)
  * 6. Button icon styles (polaris only)
- * 7. Same-background contrast
+ *
+ * No theme colours here. The default button is never painted: it keeps the
+ * theme's own button element styles (wp-element-button) unless the theme
+ * declares a "primary" variant with the mixins in ./button-mixins. Secondary
+ * and tertiary ship neutral and read --wp--custom--button--{variant}--background
+ * / --text first; a theme's variant() out-ranks them.
  *
  * Colours are read from --polaris-button-{variant}-* custom properties with
- * the defaults as fallbacks. Coloured surfaces set those properties (section 8)
- * and buttons inherit them, so the nearest coloured surface wins without a
- * selector per button type × state × surface.
+ * the variant's own colours as fallbacks. Coloured surfaces set those
+ * properties (button-mixins invert-on) and buttons inherit them, so the
+ * nearest coloured surface wins without a selector per button type × state ×
+ * surface.
  */
-
-$_button-pad-y: var(
-	--wp--custom--button--padding-y,
-	var(--wp--preset--spacing--30, 0.44rem)
-);
-$_button-pad-x: var(
-	--wp--custom--button--padding-x,
-	var(--wp--preset--spacing--40, 0.67rem)
-);
-
-// ==========================================================================
-// 1. Mixins & tokens
-// ==========================================================================
-
-/// Elements that share Polaris button appearance. Structure, sizes and
-/// variants use these selectors, so themes and design skins override them
-/// with the same selector. Extend via @use ... with (...).
-$button-surface-selectors: (
-	".wp-block-polaris-button",
-	".wp-block-button .wp-block-button__link",
-	"button.form-button",
-	"button.form__btn-prev",
-	"button.form__btn-next"
-) !default;
-
-/// The same elements for colour painting only. Each entry is at least (0,1,1)
-/// so it beats theme.json link/button element styles, which print after block
-/// styles at (0,1,0).
-$button-paint-selectors: (
-	".wp-block-polaris-button:is(a, button, span, div)",
-	".wp-block-button .wp-block-button__link",
-	"button.form-button",
-	"button.form__btn-prev",
-	"button.form__btn-next"
-) !default;
-
-@mixin button-surfaces {
-	#{$button-surface-selectors} {
-		@content;
-	}
-}
-
-@mixin button-paint-surfaces {
-	#{$button-paint-selectors} {
-		@content;
-	}
-}
-
-$_n2: var(
-	--wp--preset--color--neutral-2,
-	var(--wp--preset--color--neutral-1, #eeece2)
-);
-// Dark literal fallback: this text sits on the light neutral-2 fill.
-$_n2-contrast-light: var(
-	--wp--preset--color--neutral-2-contrast,
-	var(--wp--preset--color--neutral-1-contrast, #1c1917)
-);
-$_n2-contrast-dark: var(
-	--wp--preset--color--neutral-2-contrast,
-	var(--wp--preset--color--neutral-1-contrast, #1c1917)
-);
 
 $_button-transition:
 	background-color var(--wp--custom--transition--duration-base, 200ms)
@@ -92,53 +39,8 @@ $_button-transition:
 	border-color var(--wp--custom--transition--duration-base, 200ms)
 		var(--wp--custom--transition--easing-default, ease-in-out);
 
-/// Variant colours as private vars, read from --polaris-button-{$variant}-*
-/// (set by coloured surfaces, section 8) with the defaults as fallbacks.
-@mixin button-variant-vars($variant, $bg, $fg, $border, $hover-bg, $hover-fg, $hover-border, $o-border, $o-hover-bg, $o-hover-fg, $o-hover-border) {
-	--_button-v-bg: var(--polaris-button-#{$variant}-bg, #{$bg});
-	--_button-v-fg: var(--polaris-button-#{$variant}-fg, #{$fg});
-	--_button-v-border: var(--polaris-button-#{$variant}-border, #{$border});
-	--_button-v-hover-bg: var(--polaris-button-#{$variant}-hover-bg, #{$hover-bg});
-	--_button-v-hover-fg: var(--polaris-button-#{$variant}-hover-fg, #{$hover-fg});
-	--_button-v-hover-border: var(--polaris-button-#{$variant}-hover-border, #{$hover-border});
-	--_button-v-outline-border: var(--polaris-button-#{$variant}-outline-border, #{$o-border});
-	--_button-v-outline-hover-bg: var(--polaris-button-#{$variant}-outline-hover-bg, #{$o-hover-bg});
-	--_button-v-outline-hover-fg: var(--polaris-button-#{$variant}-outline-hover-fg, #{$o-hover-fg});
-	--_button-v-outline-hover-border: var(--polaris-button-#{$variant}-outline-hover-border, #{$o-hover-border});
-}
-
-$_primary: var(--wp--preset--color--primary, #c4540e);
-$_primary-contrast: var(--wp--preset--color--primary-contrast, #fff);
-$_secondary: var(--wp--preset--color--secondary, #108379);
-$_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
-
-@mixin button-primary-vars {
-	@include button-variant-vars("primary", $_primary, $_primary-contrast, $_primary, $_primary-contrast, $_primary, $_primary,
-		$_primary, $_primary, var(--wp--preset--color--primary-contrast, #f5f5f4), $_primary);
-}
-
-@mixin button-secondary-vars {
-	@include button-variant-vars("secondary", $_secondary, $_secondary-contrast, $_secondary, $_secondary-contrast, $_secondary, $_secondary,
-		$_secondary, $_secondary, $_secondary-contrast, $_secondary);
-}
-
-@mixin button-tertiary-vars {
-	@include button-variant-vars("tertiary", $_n2, $_n2-contrast-light, $_n2, $_n2-contrast-light, $_n2, $_n2,
-		var(--wp--preset--color--neutral-2, #c9d3da), $_n2-contrast-light, $_n2, $_n2);
-}
-
-/// Outline appearance: transparent fill, the variant's outline colours.
-@mixin button-outline-vars {
-	--_button-bg: transparent;
-	--_button-fg: currentColor;
-	--_button-border: var(--_button-v-outline-border);
-	--_button-hover-bg: var(--_button-v-outline-hover-bg);
-	--_button-hover-fg: var(--_button-v-outline-hover-fg);
-	--_button-hover-border: var(--_button-v-outline-hover-border);
-}
-
 // ==========================================================================
-// 3. Button containers
+// 1. Button containers
 // ==========================================================================
 .wp-block-polaris-buttons,
 .wp-block-buttons {
@@ -148,9 +50,9 @@ $_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
 }
 
 // ==========================================================================
-// 4. Button base styles
-// Variants below only set --_button-* vars; this one rule paints them, so
-// no rule needs a :not() chain to stay out of another variant's way.
+// 2. Button base styles
+// Layout only. Colour, border, radius and default size come from the theme
+// (its button element styles, or the button-mixins).
 // ==========================================================================
 @include button-surfaces {
 	--icon-size: var(--wp--custom--button--icon-size-default, 1.5rem);
@@ -161,8 +63,6 @@ $_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
 	flex-shrink: 0;
 	align-items: center;
 	justify-content: center;
-	border: var(--wp--custom--border-width--x-small, 1px) solid transparent;
-	border-radius: $button-border-radius;
 	box-sizing: border-box;
 	text-align: center;
 	transition: $_button-transition;
@@ -186,56 +86,16 @@ $_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
 	}
 }
 
-// Colour painting. Variants below only set --_button-* vars (at the surface
-// selector plus one class, which out-ranks these defaults), so no rule needs
-// a :not() chain to stay out of another variant's way.
-@include button-paint-surfaces {
-	@include button-primary-vars;
-	--_button-bg: var(--_button-v-bg);
-	--_button-fg: var(--_button-v-fg);
-	--_button-border: var(--_button-v-border);
-	--_button-hover-bg: var(--_button-v-hover-bg);
-	--_button-hover-fg: var(--_button-v-hover-fg);
-	--_button-hover-border: var(--_button-v-hover-border);
-
-	text-decoration: none;
-	background-color: var(--_button-bg);
-	color: var(--_button-fg);
-	border-color: var(--_button-border);
-
-	&:is(:hover, :focus),
-	:where(.is-accessible-card:hover) & {
-		background-color: var(--_button-hover-bg);
-		color: var(--_button-hover-fg);
-		border-color: var(--_button-hover-border);
-	}
-}
-
 // ==========================================================================
-// 5. Button size variants
+// 3. Button size variants
 // ==========================================================================
-// Default size at (0,1,1): beats theme.json button element styles, which
-// print later at (0,1,0). The size classes below are one class higher.
-@include button-paint-surfaces {
-	font-size: var(
-		--wp--custom--button--font-size-default,
-		var(--wp--preset--font-size--x-small, 1.25rem)
-	);
-	padding: $_button-pad-y $_button-pad-x;
-}
-
 @include button-surfaces {
+	// The default size sets no font size: the button keeps the theme's own
+	// (a theme's default-style mixin sets it from the button tokens).
 	// Text links take the surrounding font size unless a size is chosen
 	// (the size rules below come later and win).
 	&.is-style-text-link {
 		font-size: inherit;
-	}
-
-	&.is-size-default {
-		font-size: var(
-			--wp--custom--button--font-size-default,
-			var(--wp--preset--font-size--x-small, 1.25rem)
-		);
 	}
 
 	&.is-size-small {
@@ -243,16 +103,13 @@ $_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
 		--button-block-gap: var(--wp--custom--button--block-gap, 0.25rem);
 		padding: var(
 				--wp--custom--button--padding-y-small,
-				calc(#{$_button-pad-y} / 1.5)
+				calc(#{$pad-y} / 1.5)
 			)
 			var(
 				--wp--custom--button--padding-x-small,
-				calc(#{$_button-pad-x} / 2)
+				calc(#{$pad-x} / 2)
 			);
-		font-size: var(
-			--wp--custom--button--font-size-small,
-			var(--wp--preset--font-size--xx-small, 1rem)
-		);
+		font-size: var(--wp--custom--button--font-size-small, 0.875em);
 
 		.wp-block-polaris-icon {
 			--icon-size: var(--wp--custom--button--icon-size-small, 1.25rem);
@@ -261,19 +118,16 @@ $_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
 
 	&.is-size-large {
 		--icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
-		--button-block-gap: var(--wp--preset--spacing--40, 0.83rem);
+		--button-block-gap: var(--wp--preset--spacing--40, 1rem);
 		padding: var(
 				--wp--custom--button--padding-y-large,
-				calc(#{$_button-pad-y} * 1.5)
+				calc(#{$pad-y} * 1.5)
 			)
 			var(
 				--wp--custom--button--padding-x-large,
-				calc(#{$_button-pad-x} * 1.5)
+				calc(#{$pad-x} * 1.5)
 			);
-		font-size: var(
-			--wp--custom--button--font-size-large,
-			var(--wp--preset--font-size--small, 1.563rem)
-		);
+		font-size: var(--wp--custom--button--font-size-large, 1.25em);
 
 		.wp-block-polaris-icon {
 			--icon-size: var(--wp--custom--button--icon-size-large, 1.75rem);
@@ -282,26 +136,60 @@ $_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
 }
 
 // ==========================================================================
-// 6. Button style variants
-// Source order decides ties: variant → outline → text link.
+// 4. Neutral style variants
+// At (0,1,1): above theme.json button element styles (0,1,0), below a
+// theme's variant() (surface selector plus class) and the appearances.
 // ==========================================================================
-@include button-surfaces {
-	&.is-style-secondary {
-		@include button-secondary-vars;
+$_tint: color-mix(in srgb, currentColor 10%, transparent);
+$_tint-hover: color-mix(in srgb, currentColor 20%, transparent);
+
+$_neutral-variants: (
+	"secondary": variant-colors(
+		$background: var(--wp--custom--button--secondary--background, #000),
+		$text: var(--wp--custom--button--secondary--text, #fff)
+	),
+	"tertiary": variant-colors(
+		$background: var(--wp--custom--button--tertiary--background, $_tint),
+		$text: var(--wp--custom--button--tertiary--text, currentColor),
+		$border: transparent,
+		$hover-background: var(--wp--custom--button--tertiary--background, $_tint-hover),
+		$hover-text: var(--wp--custom--button--tertiary--text, currentColor),
+		$outline-border: currentColor,
+		$outline-hover-background: var(--wp--custom--button--tertiary--background, $_tint),
+		$outline-hover-border: currentColor
+	)
+);
+
+@each $name, $colors in $_neutral-variants {
+	@include button-paint-surfaces {
+		&:where(.is-style-#{$name}) {
+			@include variant-vars($name, $colors);
+			@include paint;
+		}
 	}
 
-	&.is-style-tertiary {
-		@include button-tertiary-vars;
+	// core/button: block style classes live on the wrapper, not the link.
+	:where(.wp-block-button.is-style-#{$name}) .wp-block-button__link:is(a, button, span, div) {
+		@include variant-vars($name, $colors);
+		@include paint;
 	}
 }
 
-// core/button: block style classes live on the wrapper, not the link.
-.wp-block-button.is-style-secondary .wp-block-button__link {
-	@include button-secondary-vars;
-}
+// ==========================================================================
+// 5. Appearances
+// Source order decides ties: outline → text link. Each paints itself, so it
+// also works on a default button the theme paints.
+// ==========================================================================
+/// Outline appearance: transparent fill, the variant's outline colours.
+@mixin button-outline-vars {
+	--_button-bg: transparent;
+	--_button-fg: currentColor;
+	--_button-border: var(--_button-v-outline-border, currentColor);
+	--_button-hover-bg: var(--_button-v-outline-hover-bg, transparent);
+	--_button-hover-fg: var(--_button-v-outline-hover-fg, currentColor);
+	--_button-hover-border: var(--_button-v-outline-hover-border, currentColor);
 
-.wp-block-button.is-style-tertiary .wp-block-button__link {
-	@include button-tertiary-vars;
+	@include paint-declarations;
 }
 
 @include button-surfaces {
@@ -322,8 +210,11 @@ $_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
 		--_button-hover-bg: transparent;
 		--_button-hover-fg: currentColor;
 		--_button-hover-border: transparent;
+
+		@include paint-declarations;
+
 		text-decoration: underline;
-		padding: $_button-pad-y 0;
+		padding: $pad-y 0;
 		transition: opacity var(--wp--custom--transition--duration-base, 200ms)
 			var(--wp--custom--transition--easing-default, ease-in-out);
 
@@ -334,17 +225,17 @@ $_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
 		}
 
 		&:not(:first-child) {
-			margin-left: var(--wp--preset--spacing--30, 0.5rem);
+			margin-left: var(--wp--preset--spacing--30, 0.67rem);
 		}
 
 		&:not(:last-child) {
-			margin-right: var(--wp--preset--spacing--30, 0.5rem);
+			margin-right: var(--wp--preset--spacing--30, 0.67rem);
 		}
 	}
 }
 
 // ==========================================================================
-// 7. Button icon styles (polaris/button only)
+// 6. Button icon styles (polaris/button only)
 // ==========================================================================
 .wp-block-polaris-button {
 	&__icon {
@@ -372,64 +263,4 @@ $_secondary-contrast: var(--wp--preset--color--secondary-contrast, #fff);
 			display: inline;
 		}
 	}
-}
-
-// ==========================================================================
-// 8. Same-background contrast
-// A button whose fill matches its surface inverts on that surface. Surfaces
-// set the variant's --polaris-button-* properties and buttons inherit them;
-// a nested coloured wrapper (e.g. a form card on a hero) resets them, so the
-// nearest surface always wins.
-//
-// Buttons themselves are excluded (:where() adds no specificity): a button
-// with its own background colour class must not invert itself.
-// ==========================================================================
-$_surface: ':where(:not(.wp-block-polaris-button, .wp-block-button__link, button))';
-
-@mixin button-surface-vars($variant, $color, $contrast) {
-	--polaris-button-#{$variant}-bg: #{$contrast};
-	--polaris-button-#{$variant}-fg: #{$color};
-	--polaris-button-#{$variant}-border: #{$contrast};
-	--polaris-button-#{$variant}-hover-bg: #{$color};
-	--polaris-button-#{$variant}-hover-fg: #{$contrast};
-	--polaris-button-#{$variant}-hover-border: #{$contrast};
-	--polaris-button-#{$variant}-outline-border: #{$contrast};
-	--polaris-button-#{$variant}-outline-hover-bg: #{$contrast};
-	--polaris-button-#{$variant}-outline-hover-fg: #{$color};
-	--polaris-button-#{$variant}-outline-hover-border: #{$contrast};
-}
-
-// Nested coloured wrapper: drop any surface overrides inherited from outside.
-[class*="-background-color"].has-background#{$_surface} {
-	@each $variant in ("primary", "secondary", "tertiary") {
-		@each $prop in ("bg", "fg", "border", "hover-bg", "hover-fg", "hover-border", "outline-border", "outline-hover-bg", "outline-hover-fg", "outline-hover-border") {
-			--polaris-button-#{$variant}-#{$prop}: initial;
-		}
-	}
-}
-
-// Matching surfaces. The second selector out-ranks the reset above when the
-// wrapper is itself the matching colour.
-.has-primary-background-color#{$_surface},
-[class*="-background-color"].has-background.has-primary-background-color#{$_surface} {
-	@include button-surface-vars(
-		"primary",
-		var(--wp--preset--color--primary, #c4540e),
-		var(--wp--preset--color--primary-contrast, #fff)
-	);
-}
-
-.has-secondary-background-color#{$_surface},
-[class*="-background-color"].has-background.has-secondary-background-color#{$_surface} {
-	@include button-surface-vars(
-		"secondary",
-		var(--wp--preset--color--secondary, #108379),
-		var(--wp--preset--color--secondary-contrast, #fff)
-	);
-}
-
-// Tertiary fill uses neutral-2; invert only on that same surface (not neutral-1/base).
-.has-neutral-2-background-color#{$_surface},
-[class*="-background-color"].has-background.has-neutral-2-background-color#{$_surface} {
-	@include button-surface-vars("tertiary", $_n2, $_n2-contrast-dark);
 }

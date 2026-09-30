@@ -14,81 +14,27 @@ background ancestor, not from intermediate wrappers or outer sections.
 ****************************************************/
 
 // CSS can't derive a "{slug}-contrast" preset var name from "{slug}" at
-// runtime (no string concatenation), so every color pair a site's theme.json
-// defines must be listed explicitly, either here or via a theme's own
-// @include polaris-color-contrast-rules((...)) call (see mixin below) — a
-// site adding a new palette color with a matching "{slug}-contrast" entry
-// (e.g. "brand"/"brand-contrast") needs both directions listed somewhere, or
-// elements using that background never get --polaris-auto-text-color set and
-// fall through to an ancestor's color.
-$background-contrast-pairs: (
-	"base": "contrast",
-	"contrast": "base",
-	"primary": "primary-contrast",
-	"primary-contrast": "primary",
-	"secondary": "secondary-contrast",
-	"secondary-contrast": "secondary",
-	"tertiary": "tertiary-contrast",
-	"tertiary-contrast": "tertiary",
-	"white": "white-contrast",
-	"white-contrast": "white",
-	"black": "black-contrast",
-	"black-contrast": "black",
-	"neutral-1": "neutral-1-contrast",
-	"neutral-1-contrast": "neutral-1",
-	"neutral-2": "neutral-2-contrast",
-	"neutral-2-contrast": "neutral-2",
-	"neutral-3": "neutral-3-contrast",
-	"neutral-3-contrast": "neutral-3",
-	"neutral-4": "neutral-4-contrast",
-	"neutral-4-contrast": "neutral-4",
-	"neutral-5": "neutral-5-contrast",
-	"neutral-5-contrast": "neutral-5",
-	"neutral-6": "neutral-6-contrast",
-	"neutral-6-contrast": "neutral-6",
-) !default;
+// runtime (no string concatenation), so every colour pair has to be listed.
+//
+// ui-kit lists none: palettes belong to themes. A theme declares its own
+// pairs, both directions, with the mixin below:
+//
+//   @use "@builtnorth/ui-kit/base/colors" as colors;
+//   @include colors.polaris-color-contrast-rules((
+//     "primary": "primary-contrast",
+//     "primary-contrast": "primary",
+//   ));
+//
+// The maps stay configurable (@use ... with) for a build that wants this
+// module to emit the rules itself.
+$background-contrast-pairs: () !default;
 
-// The rest of core's default palette: surfaces that only need their text
-// (and link) colour set. They skip the icon-chip rules the pairs above get,
-// which would add about 1.3 KB of CSS per colour to every page.
-$text-only-contrast-pairs: (
-	"cyan-bluish-gray": "cyan-bluish-gray-contrast",
-	"pale-pink": "pale-pink-contrast",
-	"vivid-red": "vivid-red-contrast",
-	"luminous-vivid-orange": "luminous-vivid-orange-contrast",
-	"luminous-vivid-amber": "luminous-vivid-amber-contrast",
-	"light-green-cyan": "light-green-cyan-contrast",
-	"vivid-green-cyan": "vivid-green-cyan-contrast",
-	"pale-cyan-blue": "pale-cyan-blue-contrast",
-	"vivid-cyan-blue": "vivid-cyan-blue-contrast",
-	"vivid-purple": "vivid-purple-contrast",
-) !default;
+// Surfaces that only need their text (and link) colour set. They skip the
+// icon-chip rules the pairs above get.
+$text-only-contrast-pairs: () !default;
 
-// Core's default palette has no "-contrast" partners. Without a fallback the
-// contrast var is undefined, the `color` declaration is invalid, and text
-// inherits an outer surface's colour (e.g. light text from a dark header on a
-// white dropdown). Each core colour falls back to black or white text,
-// whichever has the higher WCAG contrast ratio on it. A theme that defines
-// the preset still wins.
-$_on-light: "var(--wp--preset--color--black, #000)";
-$_on-dark: "var(--wp--preset--color--white, #fff)";
-
-$preset-fallbacks: (
-	"white": "#fff",
-	"white-contrast": $_on-light,
-	"black": "#000",
-	"black-contrast": $_on-dark,
-	"cyan-bluish-gray-contrast": $_on-light,
-	"pale-pink-contrast": $_on-light,
-	"vivid-red-contrast": $_on-dark,
-	"luminous-vivid-orange-contrast": $_on-light,
-	"luminous-vivid-amber-contrast": $_on-light,
-	"light-green-cyan-contrast": $_on-light,
-	"vivid-green-cyan-contrast": $_on-light,
-	"pale-cyan-blue-contrast": $_on-light,
-	"vivid-cyan-blue-contrast": $_on-light,
-	"vivid-purple-contrast": $_on-light,
-) !default;
+// Optional literal fallback per preset slug.
+$preset-fallbacks: () !default;
 
 @function preset-color($slug) {
 	$fallback: map.get($preset-fallbacks, $slug);
@@ -99,15 +45,6 @@ $preset-fallbacks: (
 }
 
 // Generates the background/contrast ruleset for one background-contrast map.
-// A theme adding palette colors ui-kit doesn't know about (e.g. a custom
-// "brand"/"brand-contrast" pair) can call this directly instead of forking
-// ui-kit's map:
-//
-//   @use "@builtnorth/ui-kit/base/colors" as polaris-colors;
-//   @include polaris-colors.polaris-color-contrast-rules((
-//     "brand": "brand-contrast",
-//     "brand-contrast": "brand",
-//   ));
 // Elements carrying an icon-chip colour are chips, not surfaces.
 $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 
@@ -152,23 +89,25 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 		}
 	}
 
-	// Nested coloured wrappers drop any inversion inherited from an outer
-	// surface, so chips follow the nearest surface.
-	[class*="-background-color"].has-background#{$_not-chip} {
-		@each $background, $contrast in $pairs {
-			--polaris-icon-#{$background}-color: initial;
-			--polaris-icon-#{$background}-bg: initial;
+	@if list.length(map.keys($pairs)) > 0 {
+		// Nested coloured wrappers drop any inversion inherited from an outer
+		// surface, so chips follow the nearest surface.
+		[class*="-background-color"].has-background#{$_not-chip} {
+			@each $background, $contrast in $pairs {
+				--polaris-icon-#{$background}-color: initial;
+				--polaris-icon-#{$background}-bg: initial;
+			}
 		}
-	}
 
-	// Chip glyph colour — identical for every pair, so emitted once.
-	$chips: ();
-	@each $background, $contrast in $pairs {
-		$chips: list.append($chips, ".has-#{$background}-icon-background-color", $separator: comma);
-	}
+		// Chip glyph colour — identical for every pair, so emitted once.
+		$chips: ();
+		@each $background, $contrast in $pairs {
+			$chips: list.append($chips, ".has-#{$background}-icon-background-color", $separator: comma);
+		}
 
-	:is(#{$chips}):not([style*="--icon-color"]) svg {
-		color: var(--icon-color);
+		:is(#{$chips}):not([style*="--icon-color"]) svg {
+			color: var(--icon-color);
+		}
 	}
 
 	// Link + map rules are identical for every background — emit them once.
@@ -179,40 +118,42 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 		$surfaces: list.append($surfaces, ".has-#{$background}-background-color", $separator: comma);
 	}
 
-	// Anchors that are button surfaces set their own colour (filled) or are
-	// handled by the button rule below (outline / text-link).
-	$_button-anchors: ".wp-block-polaris-button, .wp-block-button__link, .form-button, .form__btn-prev, .form__btn-next";
+	@if list.length($surfaces) > 0 {
+		// Anchors that are button surfaces set their own colour (filled) or are
+		// handled by the button rule below (outline / text-link).
+		$_button-anchors: ".wp-block-polaris-button, .wp-block-button__link, .form-button, .form__btn-prev, .form__btn-next";
 
-	// Plain links take the surface's contrast colour. (0,1,1): beats theme.json
-	// element link colour, but a link colour the user sets on a block (core's
-	// .wp-elements-* a, printed later) or on the link itself still wins.
-	:is(#{$surfaces}) a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, #{$_button-anchors})) {
-		color: var(--polaris-auto-text-color);
-	}
-
-	// Outline and text-link buttons use currentColor, so they take the
-	// surface contrast too. Kept above the button colour rules in
-	// components/_buttons.scss until those are restructured.
-	:is(#{$surfaces})
-		a:is(
-			.wp-block-polaris-button:is(.is-appearance-outline, .is-style-text-link),
-			.wp-block-button.is-style-outline .wp-block-button__link
-		):not([class*="has-background"]):not(.has-text-color):not(.has-link-color) {
-		color: var(--polaris-auto-text-color);
-	}
-
-	// Map blocks manage their own text (popups, attribution, controls).
-	// Emitted after the link rule, one class higher, so it wins inside maps.
-	:is(#{$surfaces}) :is(.wp-block-polaris-map, .wp-block-polaris-service-area-map) {
-		color: initial;
-		--polaris-auto-text-color: initial;
-
-		a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, #{$_button-anchors})) {
-			color: initial;
+		// Plain links take the surface's contrast colour. (0,1,1): beats theme.json
+		// element link colour, but a link colour the user sets on a block (core's
+		// .wp-elements-* a, printed later) or on the link itself still wins.
+		:is(#{$surfaces}) a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, #{$_button-anchors})) {
+			color: var(--polaris-auto-text-color);
 		}
 
-		.wp-block-polaris-button.is-style-text-link {
-			color: currentColor;
+		// Outline and text-link buttons use currentColor, so they take the
+		// surface contrast too. Kept above the button colour rules in
+		// components/_buttons.scss until those are restructured.
+		:is(#{$surfaces})
+			a:is(
+				.wp-block-polaris-button:is(.is-appearance-outline, .is-style-text-link),
+				.wp-block-button.is-style-outline .wp-block-button__link
+			):not([class*="has-background"]):not(.has-text-color):not(.has-link-color) {
+			color: var(--polaris-auto-text-color);
+		}
+
+		// Map blocks manage their own text (popups, attribution, controls).
+		// Emitted after the link rule, one class higher, so it wins inside maps.
+		:is(#{$surfaces}) :is(.wp-block-polaris-map, .wp-block-polaris-service-area-map) {
+			color: initial;
+			--polaris-auto-text-color: initial;
+
+			a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, #{$_button-anchors})) {
+				color: initial;
+			}
+
+			.wp-block-polaris-button.is-style-text-link {
+				color: currentColor;
+			}
 		}
 	}
 }

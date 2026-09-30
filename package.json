@@ -30,6 +30,7 @@
 		"./base/icon-sizes": "./src/scss/base/_icon-sizes.scss",
 		"./components": "./src/scss/components/index.scss",
 		"./components/buttons": "./src/scss/components/_buttons.scss",
+		"./components/button-mixins": "./src/scss/components/_button-mixins.scss",
 		"./components/slider": "./src/scss/components/_slider.scss",
 		"./forms": "./src/scss/forms/_index.scss",
 		"./forms/shared": "./src/scss/forms/_shared.scss",

@@ -6,11 +6,11 @@
     .wp-element-caption,
     [class$="__caption"] {
         position: absolute;
-        bottom: var(--wp--preset--spacing--30, 0.5rem);
-        left: var(--wp--preset--spacing--30, 0.5rem);
-        font-size: var(--wp--preset--font-size--tiny, 0.75rem);
-        padding: var(--wp--preset--spacing--20, 0.25rem) var(--wp--preset--spacing--30, 0.5rem);
-        background-color: var(--wp--preset--color--base, #f2f5f7);
-        color: var(--wp--preset--color--contrast, #08172f);
+        bottom: var(--wp--preset--spacing--30, 0.67rem);
+        left: var(--wp--preset--spacing--30, 0.67rem);
+        font-size: var(--wp--preset--font-size--tiny, 0.875em);
+        padding: var(--wp--preset--spacing--20, 0.44rem) var(--wp--preset--spacing--30, 0.67rem);
+        background-color: var(--wp--preset--color--base, #fff);
+        color: var(--wp--preset--color--contrast, #000);
     }
 }

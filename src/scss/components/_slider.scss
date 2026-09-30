@@ -11,14 +11,14 @@ Global Slider Styles
 // (.polaris-slider-arrow), so every arrow is styled in one place.
 @mixin slider-arrow {
 	border: var(--wp--custom--border-width--small, 2px) solid
-		var(--wp--custom--color--border-medium, rgba(0, 0, 0, 0.25));
+		var(--wp--custom--color--border-medium, color-mix(in srgb, currentColor 25%, transparent));
 	background: var(--wp--preset--color--base, #fff);
 	height: var(--wp--custom--slider--arrow-size, 24px);
 	width: var(--wp--custom--slider--arrow-size, 24px);
 	padding: var(--wp--preset--spacing--30, 0.67rem);
 	border-radius: var(
 		--swiper-navigation-border-radius,
-		var(--wp--custom--border-radius--tile, 1rem)
+		var(--wp--custom--border-radius--tile, var(--wp--preset--border-radius--medium, 0))
 	);
 
 	&:hover,
@@ -32,12 +32,9 @@ swiper-container {
 	// Space between slides: a slider's Block spacing (--polaris-slider-gap,
 	// set in render.php), else the theme's block gap. The slider script reads
 	// the resolved length from column-gap and passes it to Swiper.
-	column-gap: var(--polaris-slider-gap, var(--wp--style--block-gap, 2rem));
-	--swiper-theme-color: var(--wp--preset--color--contrast, #000);
-	--swiper-pagination-bullet-border-radius: var(
-		--wp--custom--border-radius--chip,
-		9999px
-	);
+	column-gap: var(--polaris-slider-gap, var(--wp--style--block-gap, 1.5rem));
+	--swiper-theme-color: var(--wp--preset--color--contrast, currentColor);
+	--swiper-pagination-bullet-border-radius: var(--wp--custom--slider--bullet-radius, 9999px);
 	--swiper-pagination-bullet-width: 20px;
 	--swiper-pagination-bullet-height: 8px;
 	--swiper-pagination-bottom: -0.5rem;
@@ -52,21 +49,18 @@ swiper-container {
 		currentColor 12.5%,
 		transparent
 	);
-	--swiper-navigation-border-radius: var(
-		--wp--custom--border-radius--tile,
-		1rem
-	);
+	--swiper-navigation-border-radius: var(--wp--custom--border-radius--tile, var(--wp--preset--border-radius--medium, 0));
 
 	&::part(container) {
-		padding-bottom: var(--wp--style--block-gap, 2rem);
-		margin-bottom: var(--wp--style--block-gap, 2rem);
+		padding-bottom: var(--wp--style--block-gap, 1.5rem);
+		margin-bottom: var(--wp--style--block-gap, 1.5rem);
 	}
 
 	&::part(button-prev),
 	&::part(button-next) {
 		@include slider-arrow;
 		/* adjust for padding on container */
-		margin-top: calc(var(--wp--style--block-gap, 2rem) * -1);
+		margin-top: calc(var(--wp--style--block-gap, 1.5rem) * -1);
 	}
 
 	&::part(bullet),
@@ -78,8 +72,8 @@ swiper-container {
 
 	&::part(bullet-active) {
 		background-color: var(
-			--wp--preset--color--secondary,
-			rgba(128, 128, 128, 0.75)
+			--wp--custom--slider--bullet-active-color,
+			currentColor
 		);
 	}
 
@@ -184,15 +178,3 @@ swiper-slide {
 	}
 }
 
-/* Secondary Background 
-------------------------------------------------------------------*/
-.has-secondary-background-color {
-	swiper-container {
-		&::part(bullet-active) {
-			background-color: var(
-				--wp--preset--color--contrast,
-				rgba(128, 128, 128, 0.75)
-			);
-		}
-	}
-}

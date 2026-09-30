@@ -75,6 +75,12 @@ For package-specific overrides:
 // Components (with namespace)
 @use "@builtnorth/ui-kit/components" as ui;
 @use "@builtnorth/ui-kit/components/buttons" as ui;
+
+// Buttons: mixins only (outputs no CSS), for a theme's button colours
+@use "@builtnorth/ui-kit/components/button-mixins" as button;
+// @include button.default-style;
+// @include button.variant("primary", $background: ..., $text: ...);
+// @include button.invert-on("primary", $variant: "primary");
 @use "@builtnorth/ui-kit/components/slider" as ui;
 
 // Forms: global element styles (every field on the page)
