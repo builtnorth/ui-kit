@@ -185,20 +185,42 @@ Classes to quickly add utility styles to your components.
 	}
 }
 
-/* Background Padding when .has-background is used
+/* Padding for a box with a background or a border
+  ------------------------------------------------------------------
+  One class of specificity: theme.json per-block padding (printed later) and
+  padding set on the block win. Blocks that keep an image flush (image card,
+  gallery) or pad their own parts (timeline item, accordion, tabs) do it in
+  their own styles.
   ------------------------------------------------------------------*/
 
-.wp-block-polaris-columns:not(.wp-block-polaris-split-section),
-.wp-block-polaris-column,
-.wp-block-polaris-price-card,
-.wp-block-polaris-contact-information,
-.wp-block-polaris-icon-card,
-.wp-block-polaris-stat,
-.wp-block-group,
-.wp-block-polaris-review-card {
-	&.has-background {
-		padding: var(--wp--custom--card--padding, 2rem);
-	}
+$_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='border-top-width'], [style*='border-right-width'], [style*='border-bottom-width'], [style*='border-left-width']";
+
+// Cards.
+:where(
+	.wp-block-polaris-columns:not(.wp-block-polaris-split-section),
+	.wp-block-polaris-column,
+	.wp-block-polaris-price-card,
+	.wp-block-polaris-contact-information,
+	.wp-block-polaris-icon-card,
+	.wp-block-polaris-stat,
+	.wp-block-polaris-stat-content,
+	.wp-block-polaris-feature,
+	.wp-block-polaris-card-content,
+	.wp-block-polaris-slide,
+	.wp-block-group,
+	.wp-block-polaris-review-card
+):is(#{$_boxed}) {
+	padding: var(--wp--custom--card--padding, 2rem);
+}
+
+// Panels.
+:where(
+	.wp-block-polaris-form,
+	.wp-block-polaris-query-filters,
+	.wp-block-polaris-business-hours,
+	.wp-block-polaris-review-overview
+):is(#{$_boxed}) {
+	padding: var(--wp--custom--panel--padding-y, 1rem) var(--wp--custom--panel--padding-x, 2rem);
 }
 
 /* Card template text: role sizes. A size chosen on the block wins (core's
