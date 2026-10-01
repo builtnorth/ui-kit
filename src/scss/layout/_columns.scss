@@ -142,25 +142,4 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 			}
 		}
 	}
-
-	&.wp-block-polaris-split-section {
-		&:not(.alignfull) > .wp-block-polaris-column {
-			flex-grow: 0;
-			min-width: 0;
-		}
-
-		// Split-section columns sit flush (no gap), so size spans with a zero
-		// gap — otherwise complementary spans sum to 100% minus one block-gap.
-		// Doubled column class: must outrank the :not(.alignfull) flex-grow reset
-		// above, or spans collapse to their 0 flex-basis.
-		@include gt-stack() {
-			@for $i from 1 through 12 {
-				> .wp-block-polaris-column.wp-block-polaris-column--span-#{$i} {
-					flex: #{$i} #{$i} 0;
-					min-width: 0;
-					max-width: column-width($i, 12, 0px);
-				}
-			}
-		}
-	}
 }
