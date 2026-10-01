@@ -14,26 +14,6 @@ Misc
 // 	}
 // }
 
-/* Hide excerpt read more link
-------------------------------------------------------------------
-*/
-.wp-block-post-excerpt__more-link {
-	display: none !important;
-}
-
-/* Input Control Suffix as Prefix - Temp until prefix works
------------------------------------------------------------------*/
-.builtnorth-input-control-suffix-as-prefix {
-	input {
-		padding-left: 30px !important;
-	}
-	.components-input-control__suffix {
-		position: absolute;
-		top: 7px;
-		left: 4px;
-	}
-}
-
 /* Hide the drag handle for core/image blocks - keeping this is the better option
 -----------------------------------------------------------------*/
 // .wp-block-polaris-image-card,
@@ -56,8 +36,9 @@ Misc
 	}
 }
 
-/* Panel Body */
-.components-panel__body {
+/* Panel Body: our panels opt in with className="polaris-panel" (core and
+   other plugins' panels keep their own spacing). */
+.components-panel__body.polaris-panel {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
