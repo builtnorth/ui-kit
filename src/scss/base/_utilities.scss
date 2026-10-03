@@ -105,6 +105,8 @@ Classes to quickly add utility styles to your components.
   ------------------------------------------------------------------*/
 .has-pattern {
 	position: relative;
+	// A large or offset pattern must not spill into neighbours or cause sideways scroll.
+	overflow: clip;
 
 	// Ensure that content displays above the pattern
 	> *:not(.section-pattern):not(.background) {
@@ -112,59 +114,96 @@ Classes to quickly add utility styles to your components.
 		z-index: 1;
 	}
 
+	/*
+	 * Optional inline vars set by the block:
+	 * --pattern-offset-x  distance from the anchored left/right edge (negative bleeds off)
+	 * --pattern-offset-y  distance from the anchored top/bottom edge (negative bleeds off)
+	 * --pattern-size      scale factor; grows out of the anchor via transform-origin
+	 * Centring uses `translate` (not `transform`) so it composes with `scale`.
+	 */
 	.section-pattern {
+		--_offset-x: var(--pattern-offset-x, 0px);
+		--_offset-y: var(--pattern-offset-y, 0px);
 		margin-top: 0;
 		position: absolute;
 		pointer-events: none;
 		z-index: 0;
+		scale: var(--pattern-size, 1);
+
+		// Flip the graphic in place, independent of the anchor.
+		> * {
+			scale: var(--_pattern-flip-x, 1) var(--_pattern-flip-y, 1);
+		}
+		&.pattern-flip--x {
+			--_pattern-flip-x: -1;
+		}
+		&.pattern-flip--y {
+			--_pattern-flip-y: -1;
+		}
 
 		// Top row
 		&.pattern-align--top-left {
-			top: 0;
-			left: 0;
+			top: var(--_offset-y);
+			left: var(--_offset-x);
+			transform-origin: top left;
 		}
 		&.pattern-align--top-center {
-			top: 0;
+			top: var(--_offset-y);
 			left: 50%;
-			transform: translateX(-50%);
+			translate: -50% 0;
+			transform-origin: top center;
 		}
 		&.pattern-align--top-right {
-			top: 0;
-			right: 0;
+			top: var(--_offset-y);
+			right: var(--_offset-x);
+			transform-origin: top right;
 		}
 
 		// Middle row
 		&.pattern-align--center-left {
 			top: 50%;
-			left: 0;
-			transform: translateY(-50%);
+			left: var(--_offset-x);
+			translate: 0 -50%;
+			transform-origin: center left;
 		}
 		&.pattern-align--center-center {
 			top: 50%;
 			left: 50%;
-			transform: translate(-50%, -50%);
+			translate: -50% -50%;
+			transform-origin: center;
 		}
 		&.pattern-align--center-right {
 			top: 50%;
-			right: 0;
-			transform: translateY(-50%);
+			right: var(--_offset-x);
+			translate: 0 -50%;
+			transform-origin: center right;
 		}
 
 		// Bottom row
 		&.pattern-align--bottom-left {
-			bottom: 0;
-			left: 0;
+			bottom: var(--_offset-y);
+			left: var(--_offset-x);
+			transform-origin: bottom left;
 		}
 		&.pattern-align--bottom-center {
-			bottom: 0;
+			bottom: var(--_offset-y);
 			left: 50%;
-			transform: translateX(-50%);
+			translate: -50% 0;
+			transform-origin: bottom center;
 		}
 		&.pattern-align--bottom-right {
-			bottom: 0;
-			right: 0;
+			bottom: var(--_offset-y);
+			right: var(--_offset-x);
+			transform-origin: bottom right;
 		}
 	}
+}
+
+// Editor: the theme draws a divider "bridge" ::before above a section that follows a
+// divider section; clip sideways only so that bridge survives.
+.editor-styles-wrapper .has-pattern {
+	overflow: visible;
+	overflow-x: clip;
 }
 
 // Apply to the section immediately before .has-pattern
