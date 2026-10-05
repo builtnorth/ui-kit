@@ -14,3 +14,6 @@
 // Gutenberg Quiks
 @use "gutenberg/quirks" as *;
 @use "gutenberg/group-layout" as *;
+
+// Core's image lightbox on the control tokens (loads wherever a lightbox can).
+@use "components/lightbox" as *;
