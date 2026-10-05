@@ -8,11 +8,9 @@ Global Slider Styles
 */
 
 // Slider arrow — shared by Swiper's navigation parts and plain buttons
-// (.polaris-slider-arrow), so every arrow is styled in one place.
+// (.polaris-slider-arrow), so every arrow is sized in one place. Add one of
+// the colour mixins below.
 @mixin slider-arrow {
-	border: var(--wp--custom--border-width--x-small, 2px) solid
-		var(--wp--custom--color--border-medium, color-mix(in srgb, currentColor 25%, transparent));
-	background: var(--wp--preset--color--base, #fff);
 	// The control size is the whole button; the padding leaves the chevron
 	// (which fills the content box) at the control icon size.
 	box-sizing: border-box;
@@ -22,15 +20,54 @@ Global Slider Styles
 		(var(--wp--custom--control--size, 2.75rem) - var(--wp--custom--control--icon-size, 0.875rem)) / 2
 			- var(--wp--custom--border-width--x-small, 2px)
 	);
+	border: var(--wp--custom--border-width--x-small, 2px) solid;
 	border-radius: var(
 		--swiper-navigation-border-radius,
 		var(--wp--custom--control--radius, 0)
 	);
+}
+
+// Arrow on the section (below the slides): the inline control tokens, built
+// from the text colour. The full-colour border keeps the button's edge at the
+// text's contrast (WCAG 1.4.11 needs 3:1).
+@mixin slider-arrow-inline {
+	border-color: var(--wp--custom--control--border, currentColor);
+	background: var(--wp--custom--control--background, transparent);
+	color: var(--wp--custom--control--color, currentColor);
+	backdrop-filter: none;
 
 	&:hover,
 	&:focus {
-		background: var(--wp--preset--color--contrast, #000);
-		color: var(--wp--preset--color--base, #fff);
+		background: var(--wp--custom--control--background-hover, var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent)));
+	}
+}
+
+// Arrow over the slides: the overlay control tokens (as the media pause
+// button), a dark fill with a light edge and icon, readable on any image.
+@mixin slider-arrow-overlay {
+	border-color: var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%));
+	background: var(--wp--custom--control--overlay-background, rgb(0 0 0 / 60%));
+	color: var(--wp--custom--control--overlay-color, #fff);
+	backdrop-filter: blur(4px);
+
+	&:hover,
+	&:focus {
+		background: var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%));
+	}
+}
+
+// Swiper's chevron is a hairline path; this stroke brings it to the weight
+// of the other control icons. For plain arrow buttons; Swiper's own arrows
+// are inside the slider's shadow root, so the same rule is injected there
+// (polaris-blocks swiper-slider.js, wp-blocks register-swiper-elements.js).
+@mixin slider-arrow-icon-weight {
+	overflow: visible;
+
+	path {
+		stroke: currentColor;
+		stroke-width: 1.25px;
+		stroke-linejoin: round;
+		vector-effect: non-scaling-stroke;
 	}
 }
 
@@ -65,6 +102,7 @@ swiper-container {
 	&::part(button-prev),
 	&::part(button-next) {
 		@include slider-arrow;
+		@include slider-arrow-overlay;
 		/* adjust for padding on container */
 		margin-top: calc(var(--wp--style--block-gap, 1.5rem) * -1);
 	}
@@ -77,7 +115,7 @@ swiper-container {
 	}
 
 	&::part(bullet-active) {
-		background-color: var(--wp--custom--slider--bullet-active-color, var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000)));
+		background-color: var(--wp--custom--control--active, var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000)));
 	}
 
 	&::part(bullet) {
@@ -97,17 +135,16 @@ swiper-container {
 	}
 }
 
-// The same arrow on a plain <button> (Swiper's own defaults included: the
-// theme colour, dimmed when disabled). Put Swiper's chevron SVG inside;
-// --prev flips it.
+// The same arrow on a plain <button> (Swiper's own default included: dimmed
+// when disabled). Put Swiper's chevron SVG inside; --prev flips it.
 .polaris-slider-arrow {
 	@include slider-arrow;
+	@include slider-arrow-inline;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	flex: 0 0 auto;
 	margin: 0;
-	color: var(--swiper-navigation-color, var(--wp--preset--color--contrast, #000));
 	cursor: pointer;
 	transition: all var(--wp--custom--transition--duration-base, 200ms)
 		var(--wp--custom--transition--easing-default, ease-in-out);
@@ -116,6 +153,7 @@ swiper-container {
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
+		@include slider-arrow-icon-weight;
 	}
 
 	&--prev svg {
@@ -153,8 +191,10 @@ swiper-slide {
 			padding-bottom: var(--wp--custom--slider--controls-height, 4.5rem);
 		}
 
+		// Below the slides, so on the section: inline colours.
 		&::part(button-prev),
 		&::part(button-next) {
+			@include slider-arrow-inline;
 			top: auto;
 			bottom: 0;
 			right: auto;
