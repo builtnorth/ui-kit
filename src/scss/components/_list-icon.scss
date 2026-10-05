@@ -1,0 +1,68 @@
+/*
+------------------------------------------------------------------
+List Icon
+
+A list's bullets drawn with an icon from the icon library (core/list,
+polaris-blocks ListIconHook): the list carries has-polaris-list-icon and the
+icon as a data URI in --polaris-list-icon.
+
+Sized in em, so the icon follows the item's font size. The items and icon
+have zero specificity (:where), so a theme list style wins; the list itself
+needs class specificity to beat the reset's ul indent.
+
+Colours as the Icon block: --polaris-icon-color for the icon (else the text
+colour) and, with has-polaris-list-icon-background, a chip in
+--polaris-icon-background-color with the icon at 0.72em inside. ui-kit's
+has-{slug}-icon-background-color rules (base/_colors.scss) set both for a
+preset background, inverting on a matching surface.
+------------------------------------------------------------------
+*/
+
+.has-polaris-list-icon {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+:where(.has-polaris-list-icon) > :where(li) {
+	--_list-icon-size: 1em;
+	--_list-icon-gap: 0.35em;
+	--_list-icon-offset: 0.24em;
+
+	position: relative;
+	padding-left: calc(var(--_list-icon-size) + var(--_list-icon-gap));
+
+	&::marker {
+		content: none;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: var(--_list-icon-offset);
+		left: 0;
+		width: var(--_list-icon-size);
+		height: var(--_list-icon-size);
+		background-color: var(--polaris-icon-color, currentColor);
+		-webkit-mask: var(--polaris-list-icon) center / contain no-repeat;
+		mask: var(--polaris-list-icon) center / contain no-repeat;
+	}
+}
+
+// Chip: the background on ::before, the icon centred inside at 0.72em.
+:where(.has-polaris-list-icon-background) > :where(li) {
+	&::before {
+		content: "";
+		position: absolute;
+		top: var(--_list-icon-offset);
+		left: 0;
+		width: var(--_list-icon-size);
+		height: var(--_list-icon-size);
+		border-radius: var(--wp--custom--border-radius--icon, 0);
+		background-color: var(--polaris-icon-background-color, var(--polaris-icon-background-preset, transparent));
+	}
+
+	&::after {
+		-webkit-mask-size: 0.72em;
+		mask-size: 0.72em;
+	}
+}

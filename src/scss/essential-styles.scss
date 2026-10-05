@@ -17,3 +17,6 @@
 
 // Core's image lightbox on the control tokens (loads wherever a lightbox can).
 @use "components/lightbox" as *;
+
+// Icon list bullets (core/list extension; front end and editor canvas).
+@use "components/list-icon" as *;
