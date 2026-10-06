@@ -101,6 +101,32 @@ Classes to quickly add utility styles to your components.
 	}
 }
 
+/*
+ * Fixed background: the image stays put while the content scrolls over it.
+ * The <img> is fixed to the viewport and clipped to the block by the
+ * wrapper's clip-path, so srcset, focal point and lazy loading still apply
+ * (unlike background-attachment: fixed, which iOS ignores). Off for
+ * reduced motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+	.has-fixed-background > .background {
+		display: block;
+		position: absolute;
+		inset: 0;
+		// Below the content: a pattern's `> *` rule would lift it to 1.
+		z-index: 0;
+		clip-path: inset(0);
+
+		img {
+			position: fixed;
+			inset: 0;
+			width: 100%;
+			height: 100vh;
+			height: 100lvh;
+		}
+	}
+}
+
 /* Section Patterns
   ------------------------------------------------------------------*/
 .has-pattern {
