@@ -66,3 +66,24 @@ preset background, inverting on a matching surface.
 		mask-size: 0.72em;
 	}
 }
+
+// Editor: each item is a block, and core draws its selection, highlight, focus
+// and drag overlays on the block's ::after, the icon's pseudo-element. Keep the
+// icon in place (core's overlays don't show on these items; the block toolbar
+// still marks the selection). Doubled classes outrank core's (0,4,1) overlay
+// selectors; content needs !important against the drag rule's.
+.block-editor-block-list__layout
+	.has-polaris-list-icon.has-polaris-list-icon
+	> .block-editor-block-list__block.block-editor-block-list__block::after {
+	content: "" !important;
+	top: var(--_list-icon-offset);
+	right: auto;
+	bottom: auto;
+	left: 0;
+	z-index: auto;
+	background: var(--polaris-icon-color, currentColor);
+	opacity: 1;
+	outline: none;
+	box-shadow: none;
+	animation: none;
+}
