@@ -101,8 +101,12 @@ button {
 /* Links
 ----------------------------------------------------------------*/
 :has(:target) {
-    // Offset anchor targets below a sticky header.
-    scroll-padding-top: var(--wp--custom--scroll-padding-top, 3rem);
+    // Offset anchor targets below a sticky header. The header height is
+    // measured by polaris-blocks' sticky position script (0px without one).
+    scroll-padding-top: calc(
+        var(--polaris-sticky-header-height, 0px) +
+            var(--wp--custom--scroll-padding-top, 3rem)
+    );
 }
 
 .wp-block-site-title {
