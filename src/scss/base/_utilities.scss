@@ -294,7 +294,7 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 
 .post-card .wp-block-post-excerpt,
 .post-card > .wp-block-group > p:not(.is-style-label, .is-style-subheading) {
-	font-size: var(--wp--custom--description--font-size);
+	font-size: var(--wp--custom--description--font-size, 1em);
 }
 
 .post-card .post-card__terms {
