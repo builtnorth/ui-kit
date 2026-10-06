@@ -1,16 +1,20 @@
 // Flexible figure and caption styles that work with any prefix
 .wp-block-image,
+.wp-block-embed,
+.wp-block-video,
+.image__figure,
 [class$="__figure"] {
     position: relative;
+}
 
-    .wp-element-caption,
-    [class$="__caption"] {
-        position: absolute;
-        bottom: 0.67rem;
-        left: 0.67rem;
-        font-size: var(--wp--custom--small-text--font-size, 0.875em);
-        padding: 0.44rem 0.67rem;
-        background-color: var(--wp--preset--color--base, #fff);
-        color: var(--wp--preset--color--contrast, #000);
-    }
+.wp-element-caption,
+[class$="__caption"] {
+    position: var(--wp--custom--caption-position, absolute);
+    bottom: var(--wp--custom--caption-bottom, 0.67rem);
+    left: var(--wp--custom--caption-left, 0.67rem);
+    margin-right: var(--wp--custom--caption-left, 0.67rem);
+    font-size: var(--wp--custom--caption-font-size, 0.875rem);
+    padding: var(--wp--custom--caption-padding, 0.25rem 0.5rem);
+    background-color: var(--wp--custom--caption-background-color, #fff);
+    color: var(--wp--custom--caption-color, #000);
 }
