@@ -8,7 +8,7 @@ Helpers: Media Queries
 */
 
 // Values come from ../config's $breakpoint-* (the package's documented
-// override surface via `@use "@builtnorth/ui-kit" with (...)`) — override
+// override surface via `@use "@builtnorth/ui-kit/config" with (...)`) — override
 // there, not here.
 @use "../config" as config;
 

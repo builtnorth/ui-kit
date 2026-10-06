@@ -9,7 +9,8 @@
 //   form.choice  → checkboxes, radios
 //   form.file    → file inputs, drop zones, selected-file rows
 //
-// @use "@builtnorth/ui-kit" with ( $form-field-padding-x: 1rem );
+// Configure before any other ui-kit @use (Sass configures a module on first load):
+// @use "@builtnorth/ui-kit/config" with ( $form-field-padding-x: 1rem );
 
 // form.field
 // ----------------------------------------------------------------------------
@@ -110,7 +111,7 @@ $container-max-width: var(
 // This is the source of truth for helpers/_media-queries.scss's
 // gt-*/lt-*/only-* mixins (which drive layout/_columns.scss,
 // layout/_stack-inline.scss, layout/_grid.scss, etc.) — override here via
-// `@use "@builtnorth/ui-kit" with (...)`, not by editing media-queries.scss.
+// `@use "@builtnorth/ui-kit/config" with (...)`, not by editing media-queries.scss.
 $breakpoint-xxs: 320px !default;
 $breakpoint-xs: 480px !default;
 $breakpoint-sm: 640px !default;

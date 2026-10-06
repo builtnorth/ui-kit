@@ -47,10 +47,12 @@ Configure ui-kit in your theme's `theme.json` - applies to ALL plugins automatic
 For package-specific overrides:
 
 ```scss
-@use "@builtnorth/ui-kit" with (
-	$form-field-padding: 1rem,
+// Configure the config module first, before any other ui-kit @use.
+@use "@builtnorth/ui-kit/config" with (
+	$form-field-padding-x: 1rem,
 	$form-field-border-radius: 0.5rem
 );
+@use "@builtnorth/ui-kit";
 ```
 
 **📚 See [CONFIGURATION.md](./CONFIGURATION.md) for SCSS configuration details.**
