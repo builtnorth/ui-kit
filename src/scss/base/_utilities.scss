@@ -225,13 +225,6 @@ Classes to quickly add utility styles to your components.
 	}
 }
 
-// Editor: the theme draws a divider "bridge" ::before above a section that follows a
-// divider section; clip sideways only so that bridge survives.
-.editor-styles-wrapper .has-pattern {
-	overflow: visible;
-	overflow-x: clip;
-}
-
 // Apply to the section immediately before .has-pattern
 // Ensure that content displays above the pattern
 .has-pattern + * {
