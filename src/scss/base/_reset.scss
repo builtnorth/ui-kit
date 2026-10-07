@@ -98,6 +98,17 @@ button {
     padding: 0;
 }
 
+/* Scroll lock
+----------------------------------------------------------------*/
+// A dialog or overlay that stops the page scrolling (overflow: hidden) adds
+// .is-scroll-locked to <html>, only when the page had a scrollbar. The
+// gutter then takes the scrollbar's place, so the page and fixed elements
+// don't shift sideways. No effect with overlay scrollbars (phones, default
+// macOS), which take no space.
+html.is-scroll-locked {
+    scrollbar-gutter: stable;
+}
+
 /* Links
 ----------------------------------------------------------------*/
 :has(:target) {
