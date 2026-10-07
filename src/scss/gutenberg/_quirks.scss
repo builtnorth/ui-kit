@@ -15,14 +15,15 @@
 
 /* Polaris layout blocks (full-width sections, hero, header, footer, alert
    bar) stack flush: no layout gap above them. Other full-width blocks keep
-   core's. */
+   core's. The front-end selector uses :where() so it stays as weak as
+   .alignfull and the theme's divider overlap margins still win. */
 $_polaris-layout-blocks: ".wp-block-polaris-section, .wp-block-polaris-hero, .wp-block-polaris-split-section, .wp-block-polaris-header, .wp-block-polaris-footer, .wp-block-polaris-alert-bar";
 
 :root
     :where(.editor-styles-wrapper)
     :where(.is-layout-constrained)
     > :is(#{$_polaris-layout-blocks}).alignfull,
-:is(#{$_polaris-layout-blocks}).alignfull {
+:where(#{$_polaris-layout-blocks}).alignfull {
     margin-block-start: 0;
 }
 
