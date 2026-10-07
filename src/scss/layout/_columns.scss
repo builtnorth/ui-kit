@@ -54,16 +54,6 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 		}
 	}
 
-	&.is-nowrap:not(.no-stack-on-mobile)#{$polaris-columns-not-post-feed} {
-		@include lt-stack() {
-			flex-direction: column !important;
-
-			.wp-block-polaris-column {
-				width: 100% !important;
-			}
-		}
-	}
-
 	.wp-block-polaris-stat,
 	.wp-block-polaris-icon-card,
 	.wp-block-polaris-image-card {
@@ -121,24 +111,6 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 
 			@include lt-stack() {
 				flex-direction: row !important;
-			}
-		}
-
-		&.is-nowrap:not(.no-stack-on-mobile) {
-			@container polaris-column (max-width: #{$columns-stack-container-max}) {
-				flex-direction: column !important;
-
-				> .wp-block-polaris-column {
-					width: 100% !important;
-				}
-			}
-
-			@include lt-stack() {
-				flex-direction: column !important;
-
-				> .wp-block-polaris-column {
-					width: 100% !important;
-				}
 			}
 		}
 	}

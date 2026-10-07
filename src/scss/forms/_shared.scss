@@ -46,17 +46,6 @@ input[type="radio"] {
 	@include form-radio;
 }
 
-// Choice rows (see forms/_checkbox): control size. The form-choice mixin
-// centres it on the label's first line.
-:where(:has(> label[for] ~ input[type="checkbox"])),
-:where(:has(> label[for] ~ input[type="radio"])) {
-	> input[type="checkbox"],
-	> input[type="radio"] {
-		width: $form-choice-size;
-		height: $form-choice-size;
-	}
-}
-
 // Help text after a field or choice row.
 :where(:has(> label[for] ~ input[type="checkbox"])) + p,
 :where(:has(> label[for] ~ input[type="radio"])) + p,
