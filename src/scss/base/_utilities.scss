@@ -282,16 +282,12 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 }
 
 /* Card template text: role sizes. A size chosen on the block wins (core's
-  has-*-font-size classes are !important).
+  has-*-font-size classes are !important). Titles keep the theme's heading
+  sizes.
   ------------------------------------------------------------------*/
 
-// Any card template: its post title, and its description (the excerpt, or a
-// paragraph directly in the card's content group; chips keep their size).
-.post-card .wp-block-post-title,
-.no-results__title {
-	font-size: var(--wp--custom--title--font-size, 1.25em);
-}
-
+// Any card template: its description (the excerpt, or a paragraph directly
+// in the card's content group; chips keep their size).
 .post-card .wp-block-post-excerpt,
 .post-card > .wp-block-group > p:not(.is-style-label, .is-style-subheading) {
 	font-size: var(--wp--custom--description--font-size, 1em);

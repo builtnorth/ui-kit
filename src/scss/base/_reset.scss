@@ -121,12 +121,4 @@ html.is-scroll-locked {
 
 .wp-block-site-title {
     margin-bottom: 0;
-    a {
-        text-decoration: none;
-
-        &:hover,
-        &:focus {
-            text-decoration: underline;
-        }
-    }
 }

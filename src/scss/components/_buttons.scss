@@ -139,8 +139,14 @@ $_tint-hover: color-mix(in srgb, currentColor 20%, transparent);
 
 $_neutral-variants: (
     "secondary": variant-colors(
-            $background: var(--wp--custom--button--secondary--background, #000),
-            $text: var(--wp--custom--button--secondary--text, #fff),
+            $background: var(
+                    --wp--custom--button--secondary--background,
+                    var(--wp--preset--color--contrast, #000)
+                ),
+            $text: var(
+                    --wp--custom--button--secondary--text,
+                    var(--wp--preset--color--base, #fff)
+                ),
         ),
     "tertiary": variant-colors(
             $background: var(--wp--custom--button--tertiary--background, $_tint),
@@ -214,24 +220,10 @@ $_neutral-variants: (
 
         @include paint-declarations;
 
+        // Looks like a link: underlined, no button padding at the sides.
+        // Hover is left to the theme; spacing comes from the Buttons gap.
         text-decoration: underline;
         padding: $pad-y 0;
-        transition: opacity var(--wp--custom--transition--duration-base, 200ms)
-            var(--wp--custom--transition--easing-default, ease-in-out);
-
-        &:is(:hover, :focus),
-        :where(.is-accessible-card:hover) & {
-            opacity: 0.7;
-            text-decoration: none;
-        }
-
-        &:not(:first-child) {
-            margin-left: 0.67rem;
-        }
-
-        &:not(:last-child) {
-            margin-right: 0.67rem;
-        }
     }
 }
 

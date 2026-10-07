@@ -84,7 +84,7 @@ body .wp-lightbox-container .lightbox-trigger {
 		background: var(--wp--custom--control--overlay-background, rgb(0 0 0 / 60%));
 		box-shadow: 0 0 0 1px var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%));
 		color: var(--wp--custom--control--overlay-color, #fff);
-		backdrop-filter: blur(4px);
+		backdrop-filter: var(--wp--custom--control--overlay-blur, none);
 	}
 
 	&:hover,

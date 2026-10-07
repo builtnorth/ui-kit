@@ -78,8 +78,8 @@ swiper-container {
 	column-gap: var(--polaris-slider-gap, var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem)));
 	--swiper-theme-color: var(--wp--preset--color--contrast, currentColor);
 	--swiper-pagination-bullet-border-radius: var(--wp--custom--border-radius--chip, 0);
-	--swiper-pagination-bullet-width: 20px;
-	--swiper-pagination-bullet-height: 8px;
+	--swiper-pagination-bullet-width: var(--wp--custom--slider--bullet-width, 20px);
+	--swiper-pagination-bullet-height: var(--wp--custom--slider--bullet-height, 8px);
 	--swiper-pagination-bottom: -0.5rem;
 	--swiper-pagination-bullet-inactive-opacity: 1;
 	--swiper-pagination-bullet-border-color: color-mix(
@@ -146,8 +146,9 @@ swiper-container {
 	flex: 0 0 auto;
 	margin: 0;
 	cursor: pointer;
-	transition: all var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, ease-in-out);
+	transition-property: background-color, color, border-color, opacity;
+	transition-duration: var(--wp--custom--transition--duration-base, 200ms);
+	transition-timing-function: var(--wp--custom--transition--easing-default, ease-in-out);
 
 	svg {
 		width: 100%;
