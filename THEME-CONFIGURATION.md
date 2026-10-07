@@ -10,89 +10,46 @@ UI Kit uses **CSS custom properties** that map to WordPress theme.json settings.
 
 ## How It Works
 
-1. Your **theme** defines values in `theme.json`
-2. WordPress outputs these as CSS custom properties (CSS variables)
-3. **ALL plugins** using ui-kit read from these same CSS variables
-4. Changes in theme.json **instantly apply everywhere**
+1. Your **theme** defines values in `theme.json` under `settings.custom`
+2. WordPress outputs them as CSS custom properties: `settings.custom.form.field.padding-x` becomes `--wp--custom--form--field--padding-x`
+3. **All plugins** using ui-kit read the same custom properties
+4. Changes in theme.json **apply everywhere** at once
 
-## Complete theme.json Configuration
+Every value has a fallback, so leave out anything you don't want to change.
 
-Add this to your theme's `theme.json`:
+## Form Configuration
 
 ```json
 {
 	"version": 3,
-	"settings": {
-		"custom": {
-			"spacing": {
-				"form-field": "1rem",
-				"form-column-gap": "1.5rem",
-				"form-choice-gap": "0.75rem"
-			},
-			"border-width": {
-				"form-field": "2px"
-			},
-			"border-radius": {
-				"form-field": "0.5rem",
-				"form-choice": "0.375rem"
-			},
-			"color": {
-				"form-field-border": "rgba(0, 0, 0, 0.2)"
-			},
-			"form-choice-size": "1.25rem"
-		}
-	}
-}
-```
-
-## Available Configuration Options
-
-### Form Fields
-
-Configure text inputs, selects, and textareas:
-
-```json
-{
-	"settings": {
-		"custom": {
-			"spacing": {
-				"form-field": "1rem" // Padding inside form fields
-			},
-			"border-width": {
-				"form-field": "2px" // Border thickness
-			},
-			"border-radius": {
-				"form-field": "0.5rem" // Rounded corners
-			},
-			"color": {
-				"form-field-border": "#e0e0e0" // Border color
-			}
-		}
-	}
-}
-```
-
-**CSS Variables Created:**
-
-- `--wp--custom--spacing--form-field`
-- `--wp--custom--border-width--form-field`
-- `--wp--custom--border-radius--form-field`
-- `--wp--custom--color--form-field-border`
-
-### Form Surfaces (Textareas, Choice Cards)
-
-Use a separate radius when line inputs are square but cards and textareas should be rounded:
-
-```json
-{
 	"settings": {
 		"custom": {
 			"form": {
 				"field": {
-					"border-radius": "0"
+					"spacing": "0.5rem",
+					"padding-x": "0.75rem",
+					"padding-y": "0.5rem",
+					"height": "3rem",
+					"border-width": "1px",
+					"border-color": "rgba(0, 0, 0, 0.2)",
+					"border-radius": "0.5rem",
+					"background-color": "#fff",
+					"color": "#000"
 				},
-				"surface": {
-					"border-radius": "var(--wp--custom--border-radius--small)"
+				"label": {
+					"font-size": "1em",
+					"spacing": "0.5rem"
+				},
+				"choice": {
+					"size": "1.125rem",
+					"spacing": "0.5rem",
+					"border-radius": "0.25rem",
+					"checked-color": "var(--wp--preset--color--primary)"
+				},
+				"file": {
+					"min-height": "8rem",
+					"border-style": "dashed",
+					"border-color": "rgba(0, 0, 0, 0.25)"
 				}
 			}
 		}
@@ -100,204 +57,100 @@ Use a separate radius when line inputs are square but cards and textareas should
 }
 ```
 
-**CSS variable:** `--wp--custom--form--surface--border-radius`  
-**SCSS variable:** `$form-surface-border-radius`
+### Form fields (`form.field`)
 
-### Checkboxes & Radio Buttons
+Text inputs, selects and textareas.
 
-```json
-{
-	"settings": {
-		"custom": {
-			"form-choice-size": "1.5rem", // Size of checkbox/radio
-			"border-radius": {
-				"form-choice": "0.5rem" // Rounded corners for checkbox
-			},
-			"spacing": {
-				"form-choice-gap": "1rem" // Gap between choice and label
-			}
-		}
-	}
-}
-```
+| theme.json key | CSS variable | Default |
+|---|---|---|
+| `form.field.spacing` | `--wp--custom--form--field--spacing` | `0.5rem` (space between fields) |
+| `form.field.padding-x` | `--wp--custom--form--field--padding-x` | `0.75rem` |
+| `form.field.padding-y` | `--wp--custom--form--field--padding-y` | `0.5rem` |
+| `form.field.height` | `--wp--custom--form--field--height` | `3rem` |
+| `form.field.border-width` | `--wp--custom--form--field--border-width` | `border-width.tiny`, else `1px` |
+| `form.field.border-color` | `--wp--custom--form--field--border-color` | `color.border-light`, else 12.5% of the text colour |
+| `form.field.border-radius` | `--wp--custom--form--field--border-radius` | `0` |
+| `form.field.background-color` | `--wp--custom--form--field--background-color` | the `base` colour preset, else `#fff` |
+| `form.field.color` | `--wp--custom--form--field--color` | `currentColor` |
 
-**CSS Variables Created:**
+The focus outline uses `color.focus` (`--wp--custom--color--focus`), else `currentColor`.
 
-- `--wp--custom--form-choice-size`
-- `--wp--custom--border-radius--form-choice`
-- `--wp--custom--spacing--form-choice-gap`
+### Labels (`form.label`)
 
-### Colors
+| theme.json key | CSS variable | Default |
+|---|---|---|
+| `form.label.font-size` | `--wp--custom--form--label--font-size` | `1em` |
+| `form.label.spacing` | `--wp--custom--form--label--spacing` | `0.5rem` (between a label and its field) |
 
-Use WordPress color presets for consistency:
+Help text uses `small-text.font-size` (`--wp--custom--small-text--font-size`), else `0.875em`.
 
-```json
-{
-	"settings": {
-		"color": {
-			"palette": [
-				{
-					"slug": "primary",
-					"color": "#0066cc",
-					"name": "Primary"
-				}
-			]
-		}
-	}
-}
-```
+### Checkboxes and radios (`form.choice`)
 
-**CSS Variables Created:**
+| theme.json key | CSS variable | Default |
+|---|---|---|
+| `form.choice.size` | `--wp--custom--form--choice--size` | `1.125rem` |
+| `form.choice.spacing` | `--wp--custom--form--choice--spacing` | `0.44rem` (between a choice and its label) |
+| `form.choice.border-radius` | `--wp--custom--form--choice--border-radius` | `0` (checkboxes; radios are round) |
+| `form.choice.checked-color` | `--wp--custom--form--choice--checked-color` | `color.primary`, else the `contrast` preset |
 
-- `--wp--preset--color--primary` (used for focus states, checked states)
+### File inputs (`form.file`)
 
-### Spacing Scale
+| theme.json key | CSS variable | Default |
+|---|---|---|
+| `form.file.min-height` | `--wp--custom--form--file--min-height` | `8rem` |
+| `form.file.border-style` | `--wp--custom--form--file--border-style` | `dashed` |
+| `form.file.border-color` | `--wp--custom--form--file--border-color` | `color.border-medium`, else 25% of the text colour |
 
-Define your spacing system once:
+### Rounded surfaces (textareas, choice cards)
 
-```json
-{
-	"settings": {
-		"spacing": {
-			"spacingSizes": [
-				{
-					"slug": "20",
-					"size": "0.5rem",
-					"name": "X-Small"
-				},
-				{
-					"slug": "30",
-					"size": "0.75rem",
-					"name": "Small"
-				},
-				{
-					"slug": "40",
-					"size": "1rem",
-					"name": "Medium"
-				}
-			]
-		}
-	}
-}
-```
+Textareas and choice cards use the shared tile radius, so line inputs can stay
+square while panels are rounded:
 
-**CSS Variables Created:**
-
-- `--wp--preset--spacing--20`
-- `--wp--preset--spacing--30`
-- `--wp--preset--spacing--40`
-
-## Real-World Example
-
-Here's a complete theme.json with form customization:
-
-```json
-{
-	"version": 3,
-	"settings": {
-		"color": {
-			"palette": [
-				{
-					"slug": "primary",
-					"color": "#2563eb",
-					"name": "Primary Blue"
-				},
-				{
-					"slug": "white",
-					"color": "#ffffff",
-					"name": "White"
-				}
-			]
-		},
-		"spacing": {
-			"spacingSizes": [
-				{
-					"slug": "20",
-					"size": "0.5rem",
-					"name": "2X-Small"
-				},
-				{
-					"slug": "30",
-					"size": "0.75rem",
-					"name": "X-Small"
-				},
-				{
-					"slug": "40",
-					"size": "1rem",
-					"name": "Small"
-				},
-				{
-					"slug": "50",
-					"size": "1.5rem",
-					"name": "Medium"
-				}
-			]
-		},
-		"custom": {
-			"spacing": {
-				"form-field": "1rem",
-				"form-column-gap": "1.5rem",
-				"form-choice-gap": "0.75rem"
-			},
-			"border-width": {
-				"form-field": "1px"
-			},
-			"border-radius": {
-				"form-field": "0.5rem",
-				"form-choice": "0.375rem"
-			},
-			"color": {
-				"form-field-border": "#d1d5db"
-			},
-			"form-choice-size": "1.25rem"
-		}
-	}
-}
-```
+| theme.json key | CSS variable | Default |
+|---|---|---|
+| `border-radius.tile` | `--wp--custom--border-radius--tile` | `0` |
 
 ## Testing Your Configuration
 
 After updating theme.json:
 
-1. **Clear cache** (if using caching)
-2. **Inspect a form field** in browser DevTools
-3. **Check computed styles** - you should see your custom property values
-
-Example in DevTools:
+1. **Clear caches** (page cache, if any)
+2. **Inspect a form field** in your browser's DevTools
+3. **Check the computed styles**: you should see your values
 
 ```css
 input {
-	padding: var(--wp--custom--spacing--form-field, 0.11rem); /* Your value! */
-	border-width: var(--wp--custom--border-width--form-field, 1px);
+	padding: var(--wp--custom--form--field--padding-y, 0.5rem) var(--wp--custom--form--field--padding-x, 0.75rem);
+	border-radius: var(--wp--custom--form--field--border-radius, 0);
 }
 ```
 
 ## Advanced: CSS Override
 
-You can also override in custom CSS if needed:
+You can also set the custom properties in CSS:
 
 ```css
-/* In your theme's style.css or custom CSS */
+/* Site-wide */
 :root {
-	--wp--custom--spacing--form-field: 1.25rem;
-	--wp--custom--border-radius--form-field: 0.75rem;
+	--wp--custom--form--field--padding-x: 1rem;
+	--wp--custom--form--field--border-radius: 0.75rem;
 }
 
-/* Or scope to specific forms */
+/* Or one form */
 .my-special-form {
-	--wp--custom--spacing--form-field: 2rem;
+	--wp--custom--form--field--padding-x: 1.5rem;
 }
 ```
 
 ## Why This Works Across Plugins
 
 ```
-┌─────────────────────────────────────┐
-│ Theme theme.json                     │
-│ Defines: --wp--custom--spacing--... │
-└──────────────┬──────────────────────┘
+┌───────────────────────────────────────┐
+│ Theme theme.json                       │
+│ Defines: --wp--custom--form--field--… │
+└──────────────┬────────────────────────┘
                │
-               │ CSS Variables cascade globally
+               │ CSS variables cascade globally
                │
        ┌───────┴───────┬────────────────┬──────────────┐
        │               │                │              │
@@ -308,11 +161,9 @@ You can also override in custom CSS if needed:
 └─────────────┘ └─────────────┘ └─────────────┘ └──────────┘
 ```
 
-All packages read from the **same CSS variables** defined once in your theme!
+All packages read the **same CSS variables**, defined once in your theme.
 
 ## Migration from Hardcoded Values
-
-If you have plugins with hardcoded form styles:
 
 **Before:**
 
@@ -326,7 +177,7 @@ input {
 
 ```scss
 @use "@builtnorth/ui-kit/forms" as *;
-// Automatically uses theme.json values!
+// Reads the theme.json values automatically
 ```
 
-No configuration needed in the plugin - theme controls everything! 🎉
+No configuration needed in the plugin: the theme controls everything.

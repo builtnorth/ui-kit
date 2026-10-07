@@ -127,8 +127,8 @@ $color-primary: var(
     var(--wp--preset--color--contrast, #000)
 ) !default;
 $color-secondary: var(
-    --wp--custom--color--primary,
-    var(--wp--preset--color--contrast, #000)
+    --wp--custom--color--secondary,
+    var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000))
 ) !default;
 $color-base: var(--wp--preset--color--base, #fff) !default;
 $color-contrast: var(--wp--preset--color--contrast, #000) !default;

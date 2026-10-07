@@ -59,7 +59,7 @@ The groups are:
 
 - **Form fields**: `$form-field-spacing`, `$form-field-padding-x`, `$form-field-padding-y`, `$form-field-height`, `$form-field-border-width`, `$form-field-border-color`, `$form-field-border-radius`, `$form-field-background-color`, `$form-field-color`, `$form-field-focus-color`
 - **Form labels**: `$form-label-text-size`, `$form-label-spacing`, `$form-label-help-text-size`
-- **Form surfaces** (textareas, choice cards): `$form-surface-border-radius` (theme.json `settings.custom.form.surface.border-radius`)
+- **Form surfaces** (textareas, choice cards): `$form-surface-border-radius` (theme.json `settings.custom.border-radius.tile`)
 - **Form choices** (checkbox/radio): `$form-choice-size`, `$form-choice-spacing`, `$form-choice-border-radius`, `$form-choice-checked-color`
 - **File inputs**: `$form-file-min-height`, `$form-file-padding`, `$form-file-border-width`, `$form-file-border-style`, `$form-file-border-color`
 - **Buttons**: `$button-padding-y`, `$button-padding-x`, `$button-border-radius`, `$button-font-weight`

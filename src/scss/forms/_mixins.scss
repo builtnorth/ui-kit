@@ -40,13 +40,32 @@
 	}
 }
 
-/// Chevron for a select; use with form-field.
+/// Chevron for a select; use with form-field. Two diagonal strokes drawn
+/// with gradients in the field's text colour (an SVG in a data URI can't
+/// use currentColor, so it was always black).
 @mixin form-select {
+	--_chevron-size: 0.4em;
+	--_chevron-stroke: 0.1em;
+
 	appearance: none;
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+	background-image:
+		linear-gradient(
+			to top right,
+			transparent calc(50% - var(--_chevron-stroke)),
+			currentColor calc(50% - var(--_chevron-stroke)) calc(50% + var(--_chevron-stroke)),
+			transparent calc(50% + var(--_chevron-stroke))
+		),
+		linear-gradient(
+			to top left,
+			transparent calc(50% - var(--_chevron-stroke)),
+			currentColor calc(50% - var(--_chevron-stroke)) calc(50% + var(--_chevron-stroke)),
+			transparent calc(50% + var(--_chevron-stroke))
+		);
 	background-repeat: no-repeat;
-	background-position: right $form-field-padding-x center;
-	background-size: auto;
+	background-position:
+		right calc(#{$form-field-padding-x} + var(--_chevron-size)) center,
+		right $form-field-padding-x center;
+	background-size: var(--_chevron-size) var(--_chevron-size);
 	padding-right: calc(#{$form-field-padding-x} * 3);
 }
 

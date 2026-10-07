@@ -27,11 +27,11 @@ Configure ui-kit in your theme's `theme.json` - applies to ALL plugins automatic
 	"version": 3,
 	"settings": {
 		"custom": {
-			"spacing": {
-				"form-field": "1rem"
-			},
-			"border-radius": {
-				"form-field": "0.5rem"
+			"form": {
+				"field": {
+					"padding-x": "1rem",
+					"border-radius": "0.5rem"
+				}
 			}
 		}
 	}
