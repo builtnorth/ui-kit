@@ -7,22 +7,6 @@ Misc
 ------------------------------------------------------------------
 */
 
-/* Can't do this, as itmesses up footer and too many layouts */
-// .wp-block-group {
-// 	&.has-background {
-// 		padding: 1.5rem;
-// 	}
-// }
-
-/* Hide the drag handle for core/image blocks - keeping this is the better option
------------------------------------------------------------------*/
-// .wp-block-polaris-image-card,
-// .wp-block-polaris-hero {
-// 	.wp-block-image .components-resizable-box__handle {
-// 		display: none !important;
-// 	}
-// }
-
 /* Full width button */
 .components-button.is-full-width {
 	justify-content: center;

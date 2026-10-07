@@ -1,11 +1,7 @@
-// icon-sizes: not forwarded here — consumers import explicitly
-// (@builtnorth/ui-kit/base/icon-sizes) from block styles (icon, term-icon,
-// back-to-top) so essentials does not ship duplicate tokens sitewide.
+// icon-sizes: not forwarded here; essential-styles.scss includes it once
+// (shared by icon, term-icon, back-to-top and icon chips).
 @forward "./accessibility";
 @forward "./reset";
 @forward "./utilities";
 @forward "./images";
 @forward "./colors";
-// typography-leading.scss is intentionally not forwarded — every rule in it
-// is commented out (WIP text-box-trim experiment), so forwarding it compiles
-// to nothing. See that file for context if picking the idea back up.
