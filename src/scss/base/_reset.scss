@@ -16,11 +16,12 @@ This ensures that all browsers render elements consistently.
 
 body {
     min-height: 100vh;
-    text-rendering: optimizeSpeed;
 }
 
 /* Typography
 ----------------------------------------------------------------*/
+// On every element: smoothing set on body doesn't reach content slotted
+// into web components (sliders).
 * {
     -webkit-font-smoothing: antialiased;
 }
@@ -46,11 +47,6 @@ p {
 blockquote {
     margin: 0;
     quotes: inherit;
-}
-
-mark {
-    background-color: transparent;
-    color: inherit;
 }
 
 /* Lists
@@ -109,7 +105,8 @@ html.is-scroll-locked {
 
 /* Links
 ----------------------------------------------------------------*/
-:has(:target) {
+// On the root only: an unanchored :has() matches every ancestor of the target.
+html:has(:target) {
     // Offset anchor targets below a sticky header. The header height is
     // measured by polaris-blocks' sticky position script (0px without one).
     scroll-padding-top: calc(

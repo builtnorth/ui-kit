@@ -34,33 +34,24 @@ Classes to quickly add utility styles to your components.
 	These are defaults in the editor. Need to manually add.
 ------------------------------------------------------------------*/
 
-// Still want padding for wide alignments
-// Not in editor though as it duplicates the padding on the block.
-.alignwide {
-	padding-left: var(--wp--custom--spacing--gutter, 1rem);
-	padding-right: var(--wp--custom--spacing--gutter, 1rem);
-}
-.editor-styles-wrapper {
-	.alignwide {
-		padding-left: 0;
-		padding-right: 0;
-	}
-}
 
-.aligncenter {
+// Polaris blocks with alignment support (Lottie, Timer, Counter, …): left,
+// centre or right in their row. Core blocks keep core's alignment (floats
+// for left/right images, so text wraps around them).
+[class*="wp-block-polaris-"].aligncenter {
 	margin-left: auto !important;
 	margin-right: auto !important;
 	display: flex !important;
 	width: auto !important;
 	justify-self: center;
 }
-.alignleft {
+[class*="wp-block-polaris-"].alignleft {
 	float: none !important;
 	display: flex !important;
 	align-self: flex-start;
 	width: auto !important;
 }
-.alignright {
+[class*="wp-block-polaris-"].alignright {
 	float: none !important;
 	display: flex !important;
 	align-self: flex-end;
@@ -265,7 +256,6 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 	.wp-block-polaris-feature,
 	.wp-block-polaris-card-content,
 	.wp-block-polaris-slide,
-	.wp-block-group,
 	.wp-block-polaris-review-card
 ):is(#{$_boxed}) {
 	padding: var(--wp--custom--card--padding, 2rem);

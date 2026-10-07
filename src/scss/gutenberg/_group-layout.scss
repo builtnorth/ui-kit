@@ -4,8 +4,9 @@
  * group's own Block spacing.
  *
  * Standard (flow/constrained) groups do NOT use gap on the wrapper — WP applies
- * blockGap as margin-block-start on direct children. theme.json margin:0 on p/heading
- * loads later at equal specificity and cancels that spacing; restore it below.
+ * blockGap as margin-block-start on direct children (the group's own Block
+ * spacing, else the theme's). Themes shouldn't set heading/paragraph margins
+ * in theme.json: they print after that spacing and cancel it.
  */
 
 .wp-block-group {
@@ -16,10 +17,4 @@
 	// 	flex-direction: column;
 	// }
 
-	&.wp-block-group-is-layout-constrained,
-	&.wp-block-group-is-layout-flow {
-		> * + * {
-			margin-block-start: var(--wp--style--block-gap, 1.5rem);
-		}
-	}
 }

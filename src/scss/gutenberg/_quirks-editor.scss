@@ -1,0 +1,71 @@
+// Editor-only layout quirks (editor canvas). Loaded through the gutenberg
+// index (the editor bundle), not the front-end essentials.
+
+// Editor: keep a clickable host, but make it layout-transparent so it does not
+// trap alignfull / constrained direct-child rules around CPT heroes (which are
+// already a <section>). Without this, the host is a second layout parent and
+// section/hero styling looks double-wrapped.
+//
+// The editor root container forces non-alignfull children to content-size with
+// `margin-left/right: auto !important`. Template parts are not alignfull, so
+// they sit in the content column — cancel that AND the has-global-padding root
+// padding so the host spans the canvas like an alignfull section would.
+.editor-styles-wrapper
+    .is-root-container
+    > .wp-block-template-part:not(header, footer),
+.editor-styles-wrapper .wp-block-template-part:not(header, footer),
+body.site-editor-php .wp-block-template-part:not(header, footer) {
+    display: block;
+    box-sizing: border-box;
+    width: calc(
+        100% + var(--wp--style--root--padding-left, 0px) +
+            var(--wp--style--root--padding-right, 0px)
+    ) !important;
+    max-width: none !important;
+    margin-block: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    margin-left: calc(
+        var(--wp--style--root--padding-left, 0px) * -1
+    ) !important;
+    margin-right: calc(
+        var(--wp--style--root--padding-right, 0px) * -1
+    ) !important;
+}
+
+// Editor only: sections/heroes are flush by design on the FRONTEND (theme.json sets
+// margin-top:0 on polaris/section so full-bleed sections stack seamlessly). In the
+// CANVAS that same flush boundary leaves Gutenberg no "between" band: hovering a
+// full-height section always resolves to "drop inside this section", the inserter
+// shows no insertion point between sections, and you cannot drop a block between
+// them. Restore WP's block-gap between top-level sections in the editor purely as a
+// drop affordance — the frontend stays flush. Wave-divider sections re-bridge this
+// gap visually (theme editor divider rules) so the divider still looks seamless.
+.editor-styles-wrapper
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-section,
+.editor-styles-wrapper :where(.is-layout-constrained) > .wp-block-polaris-hero,
+.editor-styles-wrapper
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-split-section,
+.editor-styles-wrapper
+    :where(.is-layout-constrained)
+    > .wp-block-template-part:not(header, footer) {
+    margin-block-start: var(--wp--style--block-gap, 1.5rem);
+}
+
+.editor-styles-wrapper
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-section:first-child,
+.editor-styles-wrapper
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-hero:first-child,
+.editor-styles-wrapper
+    :where(.is-layout-constrained)
+    > .wp-block-polaris-split-section:first-child,
+.editor-styles-wrapper
+    :where(.is-layout-constrained)
+    > .wp-block-template-part:not(header, footer):first-child {
+    margin-block-start: 0;
+}

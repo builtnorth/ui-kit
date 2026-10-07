@@ -42,8 +42,8 @@ $_button-transition:
 // ==========================================================================
 // 1. Button containers
 // ==========================================================================
-.wp-block-polaris-buttons,
-.wp-block-buttons {
+// Polaris Buttons only; core Buttons keep core's layout.
+.wp-block-polaris-buttons {
     display: flex;
     align-items: center;
     gap: var(--wp--custom--component--gap, 1rem);
