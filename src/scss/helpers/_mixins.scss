@@ -48,6 +48,25 @@ Helpers: Mixins
 	}
 }
 
+// A pressable area of at least $size around a small control, centred on it,
+// without changing how it looks (WCAG 2.5.8 target size). Uses ::after; the
+// control needs a positioned box (relative unless it already has one).
+@mixin hit-area($size: 2.75rem, $position: relative) {
+	@if $position {
+		position: $position;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		inset-block-start: 50%;
+		inset-inline-start: 50%;
+		width: max(100%, #{$size});
+		height: max(100%, #{$size});
+		transform: translate(-50%, -50%);
+	}
+}
+
 // Press feedback for buttons and controls (touch screens get no hover). The
 // element's transition list adds transform, under prefers-reduced-motion:
 // no-preference, to animate it.
