@@ -247,6 +247,17 @@ $_neutral-variants: (
         align-items: center;
     }
 
+    // The label trimmed to its capitals and baseline (a flex item, so the
+    // trim applies), with the trimmed space given back evenly above and below:
+    // the button keeps its height and the text sits optically centred in any
+    // font. Browsers without text-box keep the full line height.
+    @supports (text-box: trim-both cap alphabetic) {
+        &__text {
+            text-box: trim-both cap alphabetic;
+            margin-block: calc((1lh - 1cap) / 2);
+        }
+    }
+
     .wp-block-polaris-button__icon,
     .wp-block-polaris-button__icon .wp-block-polaris-icon,
     .wp-block-polaris-button__icon .wp-block-polaris-icon svg,
