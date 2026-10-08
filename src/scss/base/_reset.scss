@@ -105,10 +105,12 @@ html.is-scroll-locked {
 
 /* Links
 ----------------------------------------------------------------*/
-// On the root only: an unanchored :has() matches every ancestor of the target.
-html:has(:target) {
-    // Offset anchor targets below a sticky header. The header height is
-    // measured by polaris-blocks' sticky position script (0px without one).
+// Keep anchor targets and keyboard-focused elements clear of a sticky header
+// (WCAG 2.4.11): scroll padding applies to every scroll-into-view, including
+// the one focus triggers when tabbing.
+html {
+    // The header height is measured by polaris-blocks' sticky position script
+    // (0px without one).
     scroll-padding-top: calc(
         var(--polaris-sticky-header-height, 0px) +
             var(--wp--custom--scroll-padding-top, 3rem)

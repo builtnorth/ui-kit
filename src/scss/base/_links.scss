@@ -34,3 +34,9 @@ uiLink.hoverDecoration for the ui-link mixin.
 	outline-color: currentColor;
 	outline-offset: calc(-1 * (var(--wp--custom--focus--width, 2px) + 2px));
 }
+
+// Text-link buttons have no fill or inline padding: an inset ring would cut
+// through the text, so the ring goes outside.
+:where(.is-style-text-link, .is-style-text-link .wp-block-button__link):focus-visible {
+	outline-offset: var(--wp--custom--focus--offset, 2px);
+}

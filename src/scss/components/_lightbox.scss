@@ -79,7 +79,9 @@ body .wp-lightbox-container .lightbox-trigger {
 		box-sizing: border-box;
 		width: var(--wp--custom--control--size, 2.75rem);
 		height: var(--wp--custom--control--size, 2.75rem);
-		border: 0;
+		// Transparent, not none: forced colours drop the box-shadow ring but
+		// draw a border, so the button keeps its edge there.
+		border: 1px solid transparent;
 		border-radius: var(--wp--custom--control--radius, 0);
 		background: var(--wp--custom--control--overlay-background, rgb(0 0 0 / 60%));
 		box-shadow: 0 0 0 1px var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%));

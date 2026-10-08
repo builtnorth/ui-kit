@@ -118,6 +118,15 @@ swiper-container {
 		background-color: var(--wp--custom--control--active, var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000)));
 	}
 
+	// The global focus ring can't reach into Swiper's shadow DOM.
+	&::part(button-prev):focus-visible,
+	&::part(button-next):focus-visible,
+	&::part(bullet):focus-visible,
+	&::part(bullet-active):focus-visible {
+		outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
+		outline-offset: var(--wp--custom--focus--offset, 2px);
+	}
+
 	&::part(bullet) {
 		&::after {
 			content: "";

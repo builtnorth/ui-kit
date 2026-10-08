@@ -42,6 +42,13 @@
 	width: 100%;
 	color: $form-field-color;
 
+	// Placeholder text stays readable on tinted fields (the browser default
+	// grey can drop below 4.5:1).
+	&::placeholder {
+		color: color-mix(in srgb, currentColor 70%, transparent);
+		opacity: 1;
+	}
+
 	&:focus,
 	&:focus-within {
 		@include form-focus;
@@ -58,6 +65,13 @@
 	background-color: $form-field-background-color;
 	width: 100%;
 	color: $form-field-color;
+
+	// Placeholder text stays readable on tinted fields (the browser default
+	// grey can drop below 4.5:1).
+	&::placeholder {
+		color: color-mix(in srgb, currentColor 70%, transparent);
+		opacity: 1;
+	}
 
 	&:focus,
 	&:focus-within {
@@ -139,6 +153,13 @@
 
 	&:focus-visible {
 		@include form-focus($inset: false);
+	}
+
+	// Forced colours (Windows High Contrast) replace the fill, which would
+	// leave the white tick invisible: use the native control there.
+	@media (forced-colors: active) {
+		appearance: auto;
+		background-image: none;
 	}
 }
 
