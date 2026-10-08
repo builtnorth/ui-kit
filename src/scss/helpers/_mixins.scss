@@ -19,6 +19,20 @@ Helpers: Mixins
 	padding: 0;
 }
 
+// Interface link (contact, social, breadcrumbs): no underline at rest,
+// underlined on hover and keyboard focus. Text links in sentences keep their
+// underline (base/links). Themes change every interface link at once with
+// theme.json settings.custom.uiLink.decoration / .hoverDecoration (any
+// text-decoration-line value, e.g. "none").
+@mixin ui-link() {
+	text-decoration-line: var(--wp--custom--ui-link--decoration, none);
+
+	&:hover,
+	&:focus-visible {
+		text-decoration-line: var(--wp--custom--ui-link--hover-decoration, underline);
+	}
+}
+
 // List Reset
 @mixin list_reset() {
 	list-style: none;

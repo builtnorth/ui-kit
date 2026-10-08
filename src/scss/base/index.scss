@@ -1,6 +1,7 @@
 // icon-sizes: not forwarded here; essential-styles.scss includes it once
 // (shared by icon, term-icon, back-to-top and icon chips).
 @forward "./accessibility";
+@forward "./links";
 @forward "./reset";
 @forward "./utilities";
 @forward "./images";

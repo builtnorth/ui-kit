@@ -1,0 +1,35 @@
+/*
+------------------------------------------------------------------
+Base: Links and focus
+
+Text links keep the browser underline (WCAG 1.4.1: a link in a sentence
+can't rely on colour alone); this only shapes it. Interface links (contact,
+social, breadcrumbs) drop it at rest with the ui-link mixin
+(helpers/mixins). Every focusable element gets a visible keyboard focus
+outline (WCAG 2.4.7).
+
+Zero specificity throughout, so skins and blocks override freely. Tune with
+theme.json settings.custom: link.underlineOffset, link.underlineThickness,
+focus.width, focus.offset, color.focus, and uiLink.decoration /
+uiLink.hoverDecoration for the ui-link mixin.
+------------------------------------------------------------------
+*/
+
+:where(a) {
+	text-underline-offset: var(--wp--custom--link--underline-offset, 0.15em);
+	text-decoration-thickness: var(--wp--custom--link--underline-thickness, from-font);
+}
+
+// tabindex="-1" elements take focus only from script or a click (e.g. a
+// skip-link target), so they get no ring.
+:where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+	outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
+	outline-offset: var(--wp--custom--focus--offset, 2px);
+}
+
+// Filled buttons: the ring goes inside, in the button's text colour, which
+// contrasts with the button's own background. Outside, that colour can match
+// the section (a light ring around a dark button on a light section).
+:where(.wp-element-button, .wp-block-button__link):focus-visible {
+	outline-offset: calc(-1 * (var(--wp--custom--focus--width, 2px) + 2px));
+}
