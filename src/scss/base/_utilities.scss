@@ -261,6 +261,32 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 	padding: var(--wp--custom--card--padding, 2rem);
 }
 
+// Images inside a padded card: corners concentric with the card's (its
+// radius less the padding), never tighter than the small radius, so nested
+// corners don't look rounder than the card's. Tuned through the tile, card
+// padding and small radius tokens.
+:where(
+	.wp-block-polaris-columns:not(.wp-block-polaris-split-section),
+	.wp-block-polaris-column,
+	.wp-block-polaris-price-card,
+	.wp-block-polaris-icon-card,
+	.wp-block-polaris-feature,
+	.wp-block-polaris-card-content,
+	.wp-block-polaris-slide,
+	.wp-block-polaris-review-card
+):is(#{$_boxed}),
+.post-card {
+	--polaris-nested-radius: max(
+		var(--wp--custom--border-radius--small, 0.5rem),
+		calc(var(--wp--custom--border-radius--tile, 1rem) - var(--wp--custom--card--padding, 2rem))
+	);
+
+	:is(.wp-block-polaris-featured-image, .wp-block-post-featured-image),
+	:where(.wp-block-image, .wp-block-polaris-featured-image, .wp-block-post-featured-image) img {
+		border-radius: var(--polaris-nested-radius);
+	}
+}
+
 // Panels.
 :where(
 	.wp-block-polaris-form,
