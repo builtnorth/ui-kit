@@ -31,5 +31,6 @@ uiLink.hoverDecoration for the ui-link mixin.
 // contrasts with the button's own background. Outside, that colour can match
 // the section (a light ring around a dark button on a light section).
 :where(.wp-element-button, .wp-block-button__link):focus-visible {
+	outline-color: currentColor;
 	outline-offset: calc(-1 * (var(--wp--custom--focus--width, 2px) + 2px));
 }

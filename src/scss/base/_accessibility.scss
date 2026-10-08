@@ -89,6 +89,7 @@ $_card-primary-links: ".polaris-card-link, .wp-block-post-title a, .wp-block-pol
 	position: absolute;
 	width: 1px;
 	word-wrap: normal;
+	white-space: nowrap;
 	//left: -99999px; // Messes up Gutenberg skip to link
 }
 
