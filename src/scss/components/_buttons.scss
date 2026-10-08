@@ -258,6 +258,12 @@ $_neutral-variants: (
         }
     }
 
+    // In a <button> the label ignores the pointer, so click events target the
+    // button itself (scripts that check event.target).
+    &:is(button) &__text {
+        pointer-events: none;
+    }
+
     .wp-block-polaris-button__icon,
     .wp-block-polaris-button__icon .wp-block-polaris-icon,
     .wp-block-polaris-button__icon .wp-block-polaris-icon svg,
@@ -277,5 +283,15 @@ $_neutral-variants: (
         .wp-block-polaris-button__text {
             display: inline;
         }
+    }
+}
+
+// Core button labels (wrapped by polaris-blocks at render time) get the same
+// trim; core's link is inline-block, so the label becomes a block to take it.
+@supports (text-box: trim-both cap alphabetic) {
+    .wp-block-button__text {
+        display: block;
+        text-box: trim-both cap alphabetic;
+        margin-block: calc((1lh - 1cap) / 2);
     }
 }
