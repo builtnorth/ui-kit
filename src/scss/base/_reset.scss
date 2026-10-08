@@ -14,8 +14,18 @@ This ensures that all browsers render elements consistently.
     box-sizing: border-box;
 }
 
+html {
+    // Long words and URLs break instead of overflowing narrow columns.
+    overflow-wrap: break-word;
+    // iOS doesn't enlarge text in landscape.
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 body {
     min-height: 100vh;
+    // The small viewport: content stays clear of mobile browser toolbars.
+    min-height: 100svh;
 }
 
 /* Typography
@@ -24,6 +34,7 @@ body {
 // into web components (sliders).
 * {
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
@@ -42,6 +53,14 @@ p {
     text-wrap: pretty;
     margin: 0;
     padding: 0;
+}
+
+// Better line breaks (no single word on the last line) in running text.
+li,
+dd,
+figcaption,
+blockquote {
+    text-wrap: pretty;
 }
 
 blockquote {
@@ -82,6 +101,14 @@ button,
 textarea,
 select {
     font: inherit;
+}
+
+// No double-tap zoom delay on controls.
+a,
+button,
+summary,
+[role="button"] {
+    touch-action: manipulation;
 }
 
 button {
