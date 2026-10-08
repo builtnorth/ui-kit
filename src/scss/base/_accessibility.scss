@@ -46,11 +46,21 @@ $_card-primary-links: ".polaris-card-link, .wp-block-post-title a, .wp-block-pol
 		z-index: 2;
 	}
 
-	// Keyboard focus is shown around the whole card, not just the link text.
+	// Keyboard focus is shown around the whole card, not just the link text:
+	// on the card itself, so it follows the card's rounded corners. Inset, so
+	// a slider or overflow-hidden parent doesn't clip it.
 	:is(#{$_card-primary-links}):focus-visible {
 		outline: none;
+	}
 
-		&::after {
+	&:has(:is(#{$_card-primary-links}):focus-visible) {
+		outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
+		outline-offset: calc(-1 * var(--wp--custom--focus--width, 2px));
+	}
+
+	// Browsers without :has(): square outline on the stretched link.
+	@supports not selector(:has(*)) {
+		:is(#{$_card-primary-links}):focus-visible::after {
 			outline: 2px solid currentColor;
 			outline-offset: -2px;
 		}
