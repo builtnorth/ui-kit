@@ -33,11 +33,13 @@ $form-field-border-width: var(
     --wp--custom--form--field--border-width,
     var(--wp--custom--border-width--tiny, 1px)
 ) !default;
+// Field and checkbox/radio outlines must reach 3:1 against the field (WCAG
+// 1.4.11): default to the dark border, not the light divider colour.
 $form-field-border-color: var(
     --wp--custom--form--field--border-color,
     var(
-        --wp--custom--color--border-light,
-        color-mix(in srgb, currentColor 12.5%, transparent)
+        --wp--custom--color--border-dark,
+        color-mix(in srgb, currentColor 50%, transparent)
     )
 ) !default;
 $form-field-border-radius: var(
