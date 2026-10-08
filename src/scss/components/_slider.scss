@@ -78,8 +78,10 @@ swiper-container {
 	column-gap: var(--polaris-slider-gap, var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem)));
 	--swiper-theme-color: var(--wp--preset--color--contrast, currentColor);
 	--swiper-pagination-bullet-border-radius: var(--wp--custom--border-radius--chip, 0);
-	--swiper-pagination-bullet-width: var(--wp--custom--slider--bullet-width, 20px);
-	--swiper-pagination-bullet-height: var(--wp--custom--slider--bullet-height, 8px);
+	// Dots big and spaced enough to hit (WCAG 2.5.8 target size).
+	--swiper-pagination-bullet-width: var(--wp--custom--slider--bullet-width, 24px);
+	--swiper-pagination-bullet-height: var(--wp--custom--slider--bullet-height, 12px);
+	--swiper-pagination-bullet-horizontal-gap: var(--wp--custom--slider--bullet-gap, 8px);
 	--swiper-pagination-bottom: -0.5rem;
 	--swiper-pagination-bullet-inactive-opacity: 1;
 	--swiper-pagination-bullet-border-color: color-mix(

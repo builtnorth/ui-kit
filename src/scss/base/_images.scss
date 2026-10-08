@@ -7,14 +7,5 @@
     position: relative;
 }
 
-.wp-element-caption,
-[class$="__caption"] {
-    position: var(--wp--custom--caption-position, absolute);
-    bottom: var(--wp--custom--caption-bottom, 0.67rem);
-    left: var(--wp--custom--caption-left, 0.67rem);
-    margin-right: var(--wp--custom--caption-left, 0.67rem);
-    font-size: var(--wp--custom--caption-font-size, 0.875rem);
-    padding: var(--wp--custom--caption-padding, 0.25rem 0.5rem);
-    background-color: var(--wp--custom--caption-background-color, #fff);
-    color: var(--wp--custom--caption-color, #000);
-}
+// Captions sit under their image in normal flow and take the theme's caption
+// element styles (theme.json styles.elements.caption): nothing overlaid.
