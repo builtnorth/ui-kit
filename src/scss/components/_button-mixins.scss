@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "../config" as *;
+@use "../helpers/mixins" as helpers;
 
 // Button mixins
 //
@@ -123,12 +124,21 @@ $_surface: ':where(:not(.wp-block-polaris-button, .wp-block-button__link, button
 	border: var(--wp--custom--border-width--tiny, 1px) solid
 		var(--_button-border);
 
-	&:is(:hover, :focus),
-	:where(.is-accessible-card:hover) & {
-		background-color: var(--_button-hover-bg);
-		color: var(--_button-hover-fg);
-		border-color: var(--_button-hover-border);
+	@include helpers.hover($focus: true) {
+		@include _paint-hover;
 	}
+
+	@media (hover: hover) and (pointer: fine) {
+		:where(.is-accessible-card:hover) & {
+			@include _paint-hover;
+		}
+	}
+}
+
+@mixin _paint-hover {
+	background-color: var(--_button-hover-bg);
+	color: var(--_button-hover-fg);
+	border-color: var(--_button-hover-border);
 }
 
 /// Declare a button variant.

@@ -27,9 +27,33 @@ Helpers: Mixins
 @mixin ui-link() {
 	text-decoration-line: var(--wp--custom--ui-link--decoration, none);
 
-	&:hover,
-	&:focus-visible {
+	@include hover($focus: true) {
 		text-decoration-line: var(--wp--custom--ui-link--hover-decoration, underline);
+	}
+}
+
+// Hover styles only where a hover exists: on a touch screen a tap would leave
+// them stuck. With $focus: true, keyboard focus gets the same styles.
+@mixin hover($focus: false) {
+	@if $focus {
+		&:focus-visible {
+			@content;
+		}
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		&:hover {
+			@content;
+		}
+	}
+}
+
+// Press feedback for buttons and controls (touch screens get no hover). The
+// element's transition list adds transform, under prefers-reduced-motion:
+// no-preference, to animate it.
+@mixin press() {
+	&:active:not(:disabled, [aria-disabled="true"]) {
+		transform: scale(0.97);
 	}
 }
 

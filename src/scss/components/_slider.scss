@@ -7,6 +7,8 @@ Global Slider Styles
 ------------------------------------------------------------------
 */
 
+@use "../helpers/mixins" as helpers;
+
 // Slider arrow — shared by Swiper's navigation parts and plain buttons
 // (.polaris-slider-arrow), so every arrow is sized in one place. Add one of
 // the colour mixins below.
@@ -36,8 +38,7 @@ Global Slider Styles
 	color: var(--wp--custom--control--color, currentColor);
 	backdrop-filter: none;
 
-	&:hover,
-	&:focus {
+	@include helpers.hover($focus: true) {
 		background: var(--wp--custom--control--background-hover, var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent)));
 	}
 }
@@ -50,8 +51,7 @@ Global Slider Styles
 	color: var(--wp--custom--control--overlay-color, #fff);
 	backdrop-filter: blur(4px);
 
-	&:hover,
-	&:focus {
+	@include helpers.hover($focus: true) {
 		background: var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%));
 	}
 }
@@ -160,6 +160,11 @@ swiper-container {
 	transition-property: background-color, color, border-color, opacity;
 	transition-duration: var(--wp--custom--transition--duration-base, 200ms);
 	transition-timing-function: var(--wp--custom--transition--easing-default, ease-in-out);
+	@include helpers.press;
+
+	@media (prefers-reduced-motion: no-preference) {
+		transition-property: background-color, color, border-color, opacity, transform;
+	}
 
 	svg {
 		width: 100%;
