@@ -9,9 +9,8 @@ Global Slider Styles
 
 @use "../helpers/mixins" as helpers;
 
-// Slider arrow — shared by Swiper's navigation parts and plain buttons
-// (.polaris-slider-arrow), so every arrow is sized in one place. Add one of
-// the colour mixins below.
+// Slider arrow — the carousel's and timeline's arrows (.polaris-slider-arrow),
+// so every arrow is sized in one place. Add one of the colour mixins below.
 @mixin slider-arrow {
 	// The control size is the whole button; the padding leaves the chevron
 	// (which fills the content box) at the control icon size.
@@ -23,10 +22,7 @@ Global Slider Styles
 			- var(--wp--custom--border-width--x-small, 2px)
 	);
 	border: var(--wp--custom--border-width--x-small, 2px) solid;
-	border-radius: var(
-		--swiper-navigation-border-radius,
-		var(--wp--custom--control--radius, 0)
-	);
+	border-radius: var(--wp--custom--control--radius, 0);
 }
 
 // Arrow on the section (below the slides): the inline control tokens, built
@@ -56,10 +52,8 @@ Global Slider Styles
 	}
 }
 
-// Swiper's chevron is a hairline path; this stroke brings it to the weight
-// of the other control icons. For plain arrow buttons; Swiper's own arrows
-// are inside the slider's shadow root, so the same rule is injected there
-// (polaris-blocks swiper-slider.js, wp-blocks register-swiper-elements.js).
+// The arrow chevron is a hairline path; this stroke brings it to the weight
+// of the other control icons.
 @mixin slider-arrow-icon-weight {
 	overflow: visible;
 
@@ -71,138 +65,8 @@ Global Slider Styles
 	}
 }
 
-// Every slider puts its controls below the slides, on the section: the
-// arrows, then the dots straight after them. All of it is drawn in the
-// text colour (as the inline arrow), so it reads on any background.
-swiper-container {
-	// Space between slides: a slider's Block spacing (--polaris-slider-gap,
-	// set in render.php), else the column gap. The slider script reads
-	// the resolved length from column-gap and passes it to Swiper.
-	column-gap: var(--polaris-slider-gap, var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem)));
-	--swiper-theme-color: currentColor;
-	--swiper-navigation-border-radius: var(--wp--custom--control--radius, 0);
-
-	&::part(container) {
-		// Room below the slides for the arrows and dots.
-		padding-bottom: var(--wp--custom--slider--controls-height, 4.5rem);
-		margin-bottom: var(--wp--style--block-gap, 1.5rem);
-	}
-
-	// No arrows and no dots: no room needed.
-	&[navigation="false"][pagination="false"]::part(container) {
-		padding-bottom: 0;
-	}
-
-	&::part(button-prev),
-	&::part(button-next) {
-		@include slider-arrow;
-		@include slider-arrow-inline;
-		top: auto;
-		bottom: 0;
-		left: auto;
-		right: auto;
-		margin: 0;
-	}
-
-	&::part(button-prev) {
-		inset-inline-start: 0;
-	}
-
-	&::part(button-next) {
-		inset-inline-start: var(
-			--wp--custom--slider--next-offset,
-			calc(var(--wp--custom--control--size, 2.75rem) + var(--wp--custom--inline-gap, 0.5rem))
-		);
-	}
-
-	// The dots, as tall as the arrows so they line up on one row.
-	&::part(pagination) {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: flex-start;
-		align-items: center;
-		top: auto;
-		bottom: 0;
-		left: auto;
-		right: auto;
-		// After both arrows, with a wider gap than the one between them.
-		inset-inline-start: calc(
-			var(--wp--custom--control--size, 2.75rem) * 2 + var(--wp--custom--inline-gap, 0.5rem)
-				+ var(--wp--custom--slider--pagination-gap, 1rem)
-		);
-		inset-inline-end: 0;
-		width: auto;
-		min-height: var(--wp--custom--control--size, 2.75rem);
-	}
-
-	// Arrows hidden: the dots take their place.
-	&[navigation="false"]::part(pagination) {
-		inset-inline-start: 0;
-	}
-
-	// Each dot is a 24px target (WCAG 2.5.8) around a smaller bar: an
-	// outline for the other slides, filled and longer for the current one.
-	&::part(bullet),
-	&::part(bullet-active) {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		box-sizing: border-box;
-		width: auto;
-		min-width: 24px;
-		height: 24px;
-		margin: 0;
-		padding: 0 0.25rem;
-		border-radius: var(--wp--custom--control--radius, 0);
-		background: transparent;
-		color: inherit;
-		opacity: 1;
-		cursor: pointer;
-	}
-
-	&::part(bullet)::after,
-	&::part(bullet-active)::after {
-		content: "";
-		box-sizing: border-box;
-		width: var(--wp--custom--slider--dot-width, 1.5rem);
-		height: var(--wp--custom--slider--dot-size, 0.75rem);
-		border: var(--wp--custom--border-width--x-small, 2px) solid currentColor;
-		border-radius: var(--wp--custom--control--radius, 0);
-		background-color: transparent;
-	}
-
-	&::part(bullet-active)::after {
-		width: var(--wp--custom--slider--dot-active-width, 2.75rem);
-		background-color: currentColor;
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		&::part(bullet):hover::after {
-			background-color: var(--wp--custom--control--background-hover, var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent)));
-		}
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		&::part(bullet)::after,
-		&::part(bullet-active)::after {
-			transition-property: width, background-color;
-			transition-duration: var(--wp--custom--transition--duration-base, 200ms);
-			transition-timing-function: var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
-		}
-	}
-
-	// The global focus ring can't reach into Swiper's shadow DOM.
-	&::part(button-prev):focus-visible,
-	&::part(button-next):focus-visible,
-	&::part(bullet):focus-visible,
-	&::part(bullet-active):focus-visible {
-		outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
-		outline-offset: var(--wp--custom--focus--offset, 2px);
-	}
-}
-
-// The same arrow on a plain <button> (Swiper's own default included: dimmed
-// when disabled). Put Swiper's chevron SVG inside; --prev flips it.
+// The arrow on a plain <button>, dimmed at the end of its row. Put the
+// chevron SVG inside; --prev flips it.
 .polaris-slider-arrow {
 	@include slider-arrow;
 	@include slider-arrow-inline;
@@ -246,19 +110,13 @@ swiper-container {
 	}
 }
 
-swiper-slide {
-	/* for equal height slides */
-	display: flex;
-	height: auto;
-}
-
 // ==========================================================================
 // Carousel on native scroll (navas-utility ItemLayout::carousel())
 // ==========================================================================
 // A scroll-snap row: one slide per view in a narrow container, the medium
 // count (default: the block's columns) from 40rem, the block's columns from
-// 60rem. The controls row below matches the Swiper slider's:
-// the arrows, then the dots.
+// 60rem. Below the slides, a controls row in the text colour (so it reads on
+// any background): the arrows, then the dots.
 .polaris-carousel {
 	--_carousel-gap: var(--polaris-slider-gap, var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem)));
 	--_carousel-columns: 1;
@@ -332,7 +190,7 @@ swiper-slide {
 	flex-wrap: wrap;
 	align-items: center;
 	gap: var(--wp--custom--inline-gap, 0.5rem);
-	// The same space below the slides as the Swiper slider's controls row.
+	// Space below the slides: the slider controls height less the controls.
 	margin-block: calc(var(--wp--custom--slider--controls-height, 4.5rem) - var(--wp--custom--control--size, 2.75rem)) var(--wp--style--block-gap, 1.5rem);
 
 	&[hidden] {
