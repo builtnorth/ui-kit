@@ -52,6 +52,10 @@ $form-field-background-color: var(
 // (color-mix(in srgb, $form-field-color 55%, …)), where inherit is invalid.
 $form-field-color: var(--wp--custom--form--field--color, currentColor) !default;
 $form-field-focus-color: var(--wp--custom--color--focus, currentColor) !default;
+// Field focus ring: the field's own text colour, which contrasts with the
+// field background by design (the site focus colour may not, e.g. currentColor
+// on a control that doesn't set its own colour).
+$form-field-focus-ring-color: var(--wp--custom--form--field--focus-color, #{$form-field-color}) !default;
 
 // form.surface — rounded panels independent of field border-radius (e.g. sharp inputs, soft cards)
 // ----------------------------------------------------------------------------

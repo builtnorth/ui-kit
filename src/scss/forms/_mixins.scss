@@ -4,6 +4,31 @@
 // (e.g. `.my-filters select { @include form-field; @include form-select; }`)
 // without loading the global element rules in forms/shared.
 
+/// Focus ring for a field, drawn inside it: the border plus an inset outline
+/// in the focus colour, against the field's own background. A ring outside
+/// sits on the section behind the field and can vanish there (navy on navy);
+/// inside, it always has the field's text-on-background contrast.
+/// $inset: false for checkboxes, radios and file inputs (too small for an
+/// inset ring, or no background of their own): the ring sits outside.
+@mixin form-focus($inset: true) {
+	outline: var(--wp--custom--focus--width, 2px) solid $form-field-focus-ring-color;
+
+	@if $inset {
+		// Just inside the border, so border + outline read as one thick ring.
+		outline-offset: calc(-1 * (var(--wp--custom--focus--width, 2px) + #{$form-field-border-width}));
+		border-color: $form-field-focus-ring-color;
+		// Two-colour ring (WCAG C40): a halo in the field's background colour
+		// outside it, so the dark ring has light on both sides and never
+		// blends into a dark section behind the field.
+		box-shadow: 0 0 0 var(--wp--custom--focus--width, 2px) $form-field-background-color;
+	} @else {
+		// Outside, past a halo in the field's background colour that hugs
+		// the control: the same two-colour ring, without covering a tick.
+		outline-offset: var(--wp--custom--focus--width, 2px);
+		box-shadow: 0 0 0 var(--wp--custom--focus--width, 2px) $form-field-background-color;
+	}
+}
+
 /// Text inputs and selects.
 @mixin form-field {
 	margin: 0;
@@ -19,7 +44,7 @@
 
 	&:focus,
 	&:focus-within {
-		outline-color: $form-field-focus-color;
+		@include form-focus;
 	}
 }
 
@@ -36,7 +61,7 @@
 
 	&:focus,
 	&:focus-within {
-		outline-color: $form-field-focus-color;
+		@include form-focus;
 	}
 }
 
@@ -79,6 +104,10 @@
 	background: transparent;
 	accent-color: $form-field-focus-color;
 	cursor: pointer;
+
+	&:focus-visible {
+		@include form-focus($inset: false);
+	}
 }
 
 /// Checkboxes and radios (shared box); add form-checkbox or form-radio.
@@ -108,8 +137,8 @@
 		border-color: $form-field-border-color;
 	}
 
-	&:focus {
-		outline-color: $form-field-focus-color;
+	&:focus-visible {
+		@include form-focus($inset: false);
 	}
 }
 
@@ -160,8 +189,7 @@
 		border-color: $form-field-focus-color;
 	}
 
-	&:focus,
 	&:focus-visible {
-		outline-color: $form-field-focus-color;
+		@include form-focus($inset: false);
 	}
 }
