@@ -78,7 +78,7 @@ Global Slider Styles
 	cursor: pointer;
 	transition-property: background-color, color, border-color, opacity;
 	transition-duration: var(--wp--custom--transition--duration-base, 200ms);
-	transition-timing-function: var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
+	transition-timing-function: var(--wp--custom--transition--easing-default, ease-in-out);
 	@include helpers.press;
 
 	@media (prefers-reduced-motion: no-preference) {
@@ -259,9 +259,8 @@ Global Slider Styles
 	@media (prefers-reduced-motion: no-preference) {
 		&::after {
 			transition-property: width, background-color;
-			// Slower than other controls, so the active dot is seen to grow.
-			transition-duration: calc(var(--wp--custom--transition--duration-slow, 300ms) * 1.5);
-			transition-timing-function: var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
+			transition-duration: var(--wp--custom--transition--duration-slow, 300ms);
+			transition-timing-function: var(--wp--custom--transition--easing-default, ease-in-out);
 		}
 	}
 

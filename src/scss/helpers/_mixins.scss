@@ -71,6 +71,10 @@ Helpers: Mixins
 // element's transition list adds transform, under prefers-reduced-motion:
 // no-preference, to animate it.
 @mixin press() {
+	// The press scale is the tap feedback, so the browser's grey tap box
+	// (touch screens) is not drawn on top of it.
+	-webkit-tap-highlight-color: transparent;
+
 	&:active:not(:disabled, [aria-disabled="true"]) {
 		transform: scale(0.97);
 	}
@@ -87,21 +91,21 @@ Helpers: Mixins
 @mixin transition-interactive() {
 	transition:
 		background-color var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1)),
+			var(--wp--custom--transition--easing-default, ease-in-out),
 		color var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1)),
+			var(--wp--custom--transition--easing-default, ease-in-out),
 		border-color var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
+			var(--wp--custom--transition--easing-default, ease-in-out);
 }
 
 @mixin transition-opacity() {
 	transition: opacity var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
+		var(--wp--custom--transition--easing-default, ease-in-out);
 }
 
 @mixin transition-transform() {
 	transition: transform var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
+		var(--wp--custom--transition--easing-default, ease-in-out);
 }
 
 @mixin transition-height-opacity() {
@@ -110,16 +114,16 @@ Helpers: Mixins
 	// vertically instead of animating max-height.
 	transition:
 		clip-path var(--wp--custom--transition--duration-slow, 300ms)
-			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1)),
+			var(--wp--custom--transition--easing-default, ease-in-out),
 		opacity var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
+			var(--wp--custom--transition--easing-default, ease-in-out);
 }
 
 // Transition
 @mixin transition(
 	$property: all,
 	$duration: var(--wp--custom--transition--duration-base, 200ms),
-	$timing-function: var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1))
+	$timing-function: var(--wp--custom--transition--easing-default, ease-in-out)
 ) {
 	transition: $property $duration $timing-function;
 }

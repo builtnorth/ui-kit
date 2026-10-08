@@ -172,7 +172,7 @@ $transition-duration-slow: var(
 ) !default;
 $transition-easing-default: var(
     --wp--custom--transition--easing-default,
-    cubic-bezier(0.23, 1, 0.32, 1)
+    ease-in-out
 ) !default;
 $transition-base: all $transition-duration-base $transition-easing-default !default;
 $transition-fast: all $transition-duration-fast $transition-easing-default !default;
