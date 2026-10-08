@@ -71,53 +71,124 @@ Global Slider Styles
 	}
 }
 
+// Every slider puts its controls below the slides, on the section: the
+// arrows, then the dots straight after them. All of it is drawn in the
+// text colour (as the inline arrow), so it reads on any background.
 swiper-container {
 	// Space between slides: a slider's Block spacing (--polaris-slider-gap,
 	// set in render.php), else the column gap. The slider script reads
 	// the resolved length from column-gap and passes it to Swiper.
 	column-gap: var(--polaris-slider-gap, var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem)));
-	--swiper-theme-color: var(--wp--preset--color--contrast, currentColor);
-	--swiper-pagination-bullet-border-radius: var(--wp--custom--border-radius--chip, 0);
-	// Dots big and spaced enough to hit (WCAG 2.5.8 target size).
-	--swiper-pagination-bullet-width: var(--wp--custom--slider--bullet-width, 24px);
-	--swiper-pagination-bullet-height: var(--wp--custom--slider--bullet-height, 12px);
-	--swiper-pagination-bullet-horizontal-gap: var(--wp--custom--slider--bullet-gap, 8px);
-	--swiper-pagination-bottom: -0.5rem;
-	--swiper-pagination-bullet-inactive-opacity: 1;
-	--swiper-pagination-bullet-border-color: color-mix(
-		in srgb,
-		currentColor 50%,
-		transparent
-	);
-	--swiper-pagination-bullet-inactive-color: color-mix(
-		in srgb,
-		currentColor 12.5%,
-		transparent
-	);
+	--swiper-theme-color: currentColor;
 	--swiper-navigation-border-radius: var(--wp--custom--control--radius, 0);
 
 	&::part(container) {
-		padding-bottom: var(--wp--style--block-gap, 1.5rem);
+		// Room below the slides for the arrows and dots.
+		padding-bottom: var(--wp--custom--slider--controls-height, 4.5rem);
 		margin-bottom: var(--wp--style--block-gap, 1.5rem);
+	}
+
+	// No arrows and no dots: no room needed.
+	&[navigation="false"][pagination="false"]::part(container) {
+		padding-bottom: 0;
 	}
 
 	&::part(button-prev),
 	&::part(button-next) {
 		@include slider-arrow;
-		@include slider-arrow-overlay;
-		/* adjust for padding on container */
-		margin-top: calc(var(--wp--style--block-gap, 1.5rem) * -1);
+		@include slider-arrow-inline;
+		top: auto;
+		bottom: 0;
+		left: auto;
+		right: auto;
+		margin: 0;
 	}
 
+	&::part(button-prev) {
+		inset-inline-start: 0;
+	}
+
+	&::part(button-next) {
+		inset-inline-start: var(
+			--wp--custom--slider--next-offset,
+			calc(var(--wp--custom--control--size, 2.75rem) + var(--wp--custom--inline-gap, 0.5rem))
+		);
+	}
+
+	// The dots, as tall as the arrows so they line up on one row.
+	&::part(pagination) {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		align-items: center;
+		top: auto;
+		bottom: 0;
+		left: auto;
+		right: auto;
+		// After both arrows, with a wider gap than the one between them.
+		inset-inline-start: calc(
+			var(--wp--custom--control--size, 2.75rem) * 2 + var(--wp--custom--inline-gap, 0.5rem)
+				+ var(--wp--custom--slider--pagination-gap, 1rem)
+		);
+		inset-inline-end: 0;
+		width: auto;
+		min-height: var(--wp--custom--control--size, 2.75rem);
+	}
+
+	// Arrows hidden: the dots take their place.
+	&[navigation="false"]::part(pagination) {
+		inset-inline-start: 0;
+	}
+
+	// Each dot is a 24px target (WCAG 2.5.8) around a smaller bar: an
+	// outline for the other slides, filled and longer for the current one.
 	&::part(bullet),
 	&::part(bullet-active) {
-		position: relative;
-		border: var(--wp--custom--border-width--x-small, 2px) solid
-			var(--swiper-pagination-bullet-border-color);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		width: auto;
+		min-width: 24px;
+		height: 24px;
+		margin: 0;
+		padding: 0 0.25rem;
+		border-radius: var(--wp--custom--control--radius, 0);
+		background: transparent;
+		color: inherit;
+		opacity: 1;
+		cursor: pointer;
 	}
 
-	&::part(bullet-active) {
-		background-color: var(--wp--custom--control--active, var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000)));
+	&::part(bullet)::after,
+	&::part(bullet-active)::after {
+		content: "";
+		box-sizing: border-box;
+		width: var(--wp--custom--slider--dot-width, 1.5rem);
+		height: var(--wp--custom--slider--dot-size, 0.75rem);
+		border: var(--wp--custom--border-width--x-small, 2px) solid currentColor;
+		border-radius: var(--wp--custom--control--radius, 0);
+		background-color: transparent;
+	}
+
+	&::part(bullet-active)::after {
+		width: var(--wp--custom--slider--dot-active-width, 2.75rem);
+		background-color: currentColor;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		&::part(bullet):hover::after {
+			background-color: var(--wp--custom--control--background-hover, var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent)));
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		&::part(bullet)::after,
+		&::part(bullet-active)::after {
+			transition-property: width, background-color;
+			transition-duration: var(--wp--custom--transition--duration-base, 200ms);
+			transition-timing-function: var(--wp--custom--transition--easing-default, ease-in-out);
+		}
 	}
 
 	// The global focus ring can't reach into Swiper's shadow DOM.
@@ -127,22 +198,6 @@ swiper-container {
 	&::part(bullet-active):focus-visible {
 		outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
 		outline-offset: var(--wp--custom--focus--offset, 2px);
-	}
-
-	&::part(bullet) {
-		&::after {
-			content: "";
-			background-color: var(--swiper-pagination-bullet-inactive-color);
-			border-color: var(--wp--preset--color--base, #fff);
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			z-index: -1;
-			opacity: var(--swiper-pagination-bullet-inactive-opacity, 0.3);
-			pointer-events: none;
-		}
 	}
 }
 
@@ -196,51 +251,3 @@ swiper-slide {
 	display: flex;
 	height: auto;
 }
-
-.wp-block-polaris-slider,
-.wp-block-polaris-post-feed--slider,
-.wp-block-polaris-logos.is-display-slider,
-.page-query--slider {
-	swiper-container {
-		--swiper-pagination-bottom: 20px;
-
-		&::part(container) {
-			// Room below the slides for the arrows and dots.
-			padding-bottom: var(--wp--custom--slider--controls-height, 4.5rem);
-		}
-
-		// Below the slides, so on the section: inline colours.
-		&::part(button-prev),
-		&::part(button-next) {
-			@include slider-arrow-inline;
-			top: auto;
-			bottom: 0;
-			right: auto;
-		}
-
-		&::part(button-prev) {
-			left: 0;
-		}
-
-		&::part(button-next) {
-			left: var(
-				--wp--custom--slider--next-offset,
-				calc(var(--wp--custom--control--size, 2.75rem) + var(--wp--custom--inline-gap, 0.5rem))
-			);
-		}
-
-		&::part(pagination) {
-			display: flex;
-			justify-content: flex-end;
-			align-items: center;
-			left: var(
-				--wp--custom--slider--pagination-offset,
-				calc((var(--wp--custom--control--size, 2.75rem) + var(--wp--custom--inline-gap, 0.5rem)) * 2)
-			);
-			right: 0;
-			width: auto;
-			bottom: var(--wp--custom--slider--pagination-bottom, 0.5rem);
-		}
-	}
-}
-
