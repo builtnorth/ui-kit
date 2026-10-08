@@ -251,3 +251,140 @@ swiper-slide {
 	display: flex;
 	height: auto;
 }
+
+// ==========================================================================
+// Carousel on native scroll (navas-utility ItemLayout::carousel())
+// ==========================================================================
+// A scroll-snap row: one slide per view in a narrow container, the block's
+// columns from 40rem up. The controls row below matches the Swiper slider's:
+// the arrows, then the dots.
+.polaris-carousel {
+	--_carousel-gap: var(--polaris-slider-gap, var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem)));
+	--_carousel-columns: 1;
+	container-type: inline-size;
+
+	@container (min-width: 40rem) {
+		.polaris-carousel__track {
+			--_carousel-columns: var(--polaris-carousel-columns, 1);
+		}
+	}
+}
+
+.polaris-carousel__track {
+	display: flex;
+	gap: var(--_carousel-gap);
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x mandatory;
+	// The arrows and dots stand in for the scrollbar.
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	// No arrows or dots: the scrollbar shows the row scrolls.
+	.has-no-controls > & {
+		scrollbar-width: thin;
+
+		&::-webkit-scrollbar {
+			display: initial;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		scroll-behavior: smooth;
+	}
+
+	&:focus-visible {
+		outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
+		outline-offset: var(--wp--custom--focus--offset, 2px);
+	}
+}
+
+// Equal-height slides, `columns` to a view.
+.polaris-carousel__slide {
+	display: flex;
+	flex: 0 0 calc((100% - (var(--_carousel-columns) - 1) * var(--_carousel-gap)) / var(--_carousel-columns));
+	min-width: 0;
+	scroll-snap-align: start;
+}
+
+.polaris-carousel__controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--custom--inline-gap, 0.5rem);
+	// The same space below the slides as the Swiper slider's controls row.
+	margin-block: calc(var(--wp--custom--slider--controls-height, 4.5rem) - var(--wp--custom--control--size, 2.75rem)) var(--wp--style--block-gap, 1.5rem);
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+// The dots, as tall as the arrows so they line up on one row; after the
+// arrows with a wider gap than the one between them.
+.polaris-carousel__dots {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	min-height: var(--wp--custom--control--size, 2.75rem);
+
+	.polaris-carousel__next + & {
+		margin-inline-start: calc(var(--wp--custom--slider--pagination-gap, 1rem) - var(--wp--custom--inline-gap, 0.5rem));
+	}
+}
+
+// Each dot is a 24px target (WCAG 2.5.8) around a smaller bar: an outline
+// for the other positions, filled and longer for the current one.
+.polaris-carousel__dot {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-width: 24px;
+	height: 24px;
+	margin: 0;
+	padding: 0 0.25rem;
+	border: 0;
+	border-radius: var(--wp--custom--control--radius, 0);
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+
+	&::after {
+		content: "";
+		box-sizing: border-box;
+		width: var(--wp--custom--slider--dot-width, 1.5rem);
+		height: var(--wp--custom--slider--dot-size, 0.75rem);
+		border: var(--wp--custom--border-width--x-small, 2px) solid currentColor;
+		border-radius: var(--wp--custom--control--radius, 0);
+		background-color: transparent;
+	}
+
+	&[aria-current="true"]::after {
+		width: var(--wp--custom--slider--dot-active-width, 2.75rem);
+		background-color: currentColor;
+	}
+
+	@include helpers.hover {
+		&:not([aria-current="true"])::after {
+			background-color: var(--wp--custom--control--background-hover, var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent)));
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		&::after {
+			transition-property: width, background-color;
+			// Slower than other controls, so the active dot is seen to grow.
+			transition-duration: calc(var(--wp--custom--transition--duration-slow, 300ms) * 1.5);
+			transition-timing-function: var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
+		}
+	}
+
+	&:focus-visible {
+		outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
+		outline-offset: var(--wp--custom--focus--offset, 2px);
+	}
+}
