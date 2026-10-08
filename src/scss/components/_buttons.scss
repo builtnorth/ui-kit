@@ -34,11 +34,11 @@
 
 $_button-transition:
     background-color var(--wp--custom--transition--duration-base, 200ms)
-        var(--wp--custom--transition--easing-default, ease-in-out),
+        var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1)),
     color var(--wp--custom--transition--duration-base, 200ms)
-        var(--wp--custom--transition--easing-default, ease-in-out),
+        var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1)),
     border-color var(--wp--custom--transition--duration-base, 200ms)
-        var(--wp--custom--transition--easing-default, ease-in-out);
+        var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
 
 // ==========================================================================
 // 1. Button containers

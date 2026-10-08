@@ -68,21 +68,21 @@ Helpers: Mixins
 @mixin transition-interactive() {
 	transition:
 		background-color var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, ease-in-out),
+			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1)),
 		color var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, ease-in-out),
+			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1)),
 		border-color var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, ease-in-out);
+			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
 @mixin transition-opacity() {
 	transition: opacity var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, ease-in-out);
+		var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
 @mixin transition-transform() {
 	transition: transform var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, ease-in-out);
+		var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
 @mixin transition-height-opacity() {
@@ -91,16 +91,16 @@ Helpers: Mixins
 	// vertically instead of animating max-height.
 	transition:
 		clip-path var(--wp--custom--transition--duration-slow, 300ms)
-			var(--wp--custom--transition--easing-default, ease-in-out),
+			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1)),
 		opacity var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, ease-in-out);
+			var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
 // Transition
 @mixin transition(
 	$property: all,
 	$duration: var(--wp--custom--transition--duration-base, 200ms),
-	$timing-function: var(--wp--custom--transition--easing-default, ease-in-out)
+	$timing-function: var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1))
 ) {
 	transition: $property $duration $timing-function;
 }

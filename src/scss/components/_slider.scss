@@ -187,7 +187,7 @@ swiper-container {
 		&::part(bullet-active)::after {
 			transition-property: width, background-color;
 			transition-duration: var(--wp--custom--transition--duration-base, 200ms);
-			transition-timing-function: var(--wp--custom--transition--easing-default, ease-in-out);
+			transition-timing-function: var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
 		}
 	}
 
@@ -214,7 +214,7 @@ swiper-container {
 	cursor: pointer;
 	transition-property: background-color, color, border-color, opacity;
 	transition-duration: var(--wp--custom--transition--duration-base, 200ms);
-	transition-timing-function: var(--wp--custom--transition--easing-default, ease-in-out);
+	transition-timing-function: var(--wp--custom--transition--easing-default, cubic-bezier(0.23, 1, 0.32, 1));
 	@include helpers.press;
 
 	@media (prefers-reduced-motion: no-preference) {
