@@ -241,6 +241,13 @@ Global Slider Styles
 	&[aria-current="true"]::after {
 		width: var(--wp--custom--slider--dot-active-width, 2.75rem);
 		background-color: currentColor;
+
+		// Forced colours drop the fill, which marks the current dot.
+		@media (forced-colors: active) {
+			forced-color-adjust: none;
+			background-color: Highlight;
+			border-color: Highlight;
+		}
 	}
 
 	@include helpers.hover {
