@@ -255,15 +255,26 @@ swiper-slide {
 // ==========================================================================
 // Carousel on native scroll (navas-utility ItemLayout::carousel())
 // ==========================================================================
-// A scroll-snap row: one slide per view in a narrow container, the block's
-// columns from 40rem up. The controls row below matches the Swiper slider's:
+// A scroll-snap row: one slide per view in a narrow container, the medium
+// count (default: the block's columns) from 40rem, the block's columns from
+// 60rem. The controls row below matches the Swiper slider's:
 // the arrows, then the dots.
 .polaris-carousel {
 	--_carousel-gap: var(--polaris-slider-gap, var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem)));
 	--_carousel-columns: 1;
+	// A size container has no width of its own: fill the parent's, also in
+	// flex and grid wrappers.
 	container-type: inline-size;
+	width: 100%;
+	min-width: 0;
 
 	@container (min-width: 40rem) {
+		.polaris-carousel__track {
+			--_carousel-columns: var(--polaris-carousel-columns-medium, var(--polaris-carousel-columns, 1));
+		}
+	}
+
+	@container (min-width: 60rem) {
 		.polaris-carousel__track {
 			--_carousel-columns: var(--polaris-carousel-columns, 1);
 		}
@@ -308,6 +319,12 @@ swiper-slide {
 	flex: 0 0 calc((100% - (var(--_carousel-columns) - 1) * var(--_carousel-gap)) / var(--_carousel-columns));
 	min-width: 0;
 	scroll-snap-align: start;
+
+	// The slide's content fills it (equal-height cards).
+	> * {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
 }
 
 .polaris-carousel__controls {
