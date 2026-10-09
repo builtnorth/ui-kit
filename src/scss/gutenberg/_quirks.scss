@@ -17,7 +17,7 @@
    bar) stack flush: no layout gap above them. Other full-width blocks keep
    core's. The front-end selector uses :where() so it stays as weak as
    .alignfull and the theme's divider overlap margins still win. */
-$_polaris-layout-blocks: ".wp-block-polaris-section, .wp-block-polaris-hero, .wp-block-polaris-split-section, .wp-block-polaris-header, .wp-block-polaris-footer, .wp-block-polaris-alert-bar";
+$_polaris-layout-blocks: ".wp-block-polaris-section, .wp-block-polaris-hero, .wp-block-polaris-split-section, .wp-block-polaris-header, .wp-block-polaris-footer, .wp-block-polaris-alert-bar, .wp-block-polaris-marquee";
 
 :root
     :where(.editor-styles-wrapper)
@@ -241,7 +241,10 @@ $_polaris-layout-blocks: ".wp-block-polaris-section, .wp-block-polaris-hero, .wp
 // Top-level parts (header, main, footer) that start with a Polaris layout
 // block stack flush; other top-level blocks keep the theme's root gap.
 .wp-site-blocks > :has(> :is(#{$_polaris-layout-blocks}):first-child),
-.wp-site-blocks > :has(> .wp-block-post-content > :is(#{$_polaris-layout-blocks}):first-child) {
+.wp-site-blocks
+    > :has(
+        > .wp-block-post-content > :is(#{$_polaris-layout-blocks}):first-child
+    ) {
     margin-block-start: 0;
 }
 
@@ -271,7 +274,8 @@ $_polaris-layout-blocks: ".wp-block-polaris-section, .wp-block-polaris-hero, .wp
 }
 
 :where(.wp-block-polaris-split-section-content) {
-    padding: var(--wp--custom--spacing--section-padding, 3.38rem) var(--wp--style--block-gap, 1.5rem);
+    padding: var(--wp--custom--spacing--section-padding, 3.38rem)
+        var(--wp--style--block-gap, 1.5rem);
 }
 
 :where(.wp-block-polaris-header) {
