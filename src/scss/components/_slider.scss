@@ -8,6 +8,7 @@ Global Slider Styles
 */
 
 @use "../helpers/mixins" as helpers;
+@use "../helpers/media-queries" as mq;
 
 // Slider arrow — the carousel's and timeline's arrows (.polaris-slider-arrow),
 // so every arrow is sized in one place. Add one of the colour mixins below.
@@ -113,28 +114,33 @@ Global Slider Styles
 // ==========================================================================
 // Carousel on native scroll (navas-utility ItemLayout::carousel())
 // ==========================================================================
-// A scroll-snap row: one slide per view in a narrow container, the medium
-// count (default: the block's columns) from 40rem, the block's columns from
-// 60rem. Below the slides, a controls row in the text colour (so it reads on
-// any background): the arrows, then the dots.
+// A scroll-snap row, slides per view at the theme's breakpoints (theme.json
+// settings.viewport), as polaris/columns steps down: the block's columns on
+// desktop, the medium count on tablet (ItemLayout::carousel(): half for 4 or
+// more, else 1) and one on mobile. Below the slides, a controls row in the
+// text colour (so it reads on any background): the arrows, then the dots.
 .polaris-carousel {
 	--_carousel-gap: var(--polaris-slider-gap, var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem)));
-	--_carousel-columns: 1;
 	// A size container has no width of its own: fill the parent's, also in
 	// flex and grid wrappers.
 	container-type: inline-size;
 	width: 100%;
 	min-width: 0;
 
-	@container (min-width: 40rem) {
+	.polaris-carousel__track {
+		--_carousel-columns: var(--polaris-carousel-columns, 1);
+	}
+
+	// Theme breakpoints (placeholders Polaris swaps for the site's queries).
+	@include mq.viewport-tablet {
 		.polaris-carousel__track {
 			--_carousel-columns: var(--polaris-carousel-columns-medium, var(--polaris-carousel-columns, 1));
 		}
 	}
 
-	@container (min-width: 60rem) {
+	@include mq.viewport-mobile {
 		.polaris-carousel__track {
-			--_carousel-columns: var(--polaris-carousel-columns, 1);
+			--_carousel-columns: 1;
 		}
 	}
 }
