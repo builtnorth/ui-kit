@@ -210,3 +210,108 @@ Helpers: Mixins
 	object-fit: $fit;
 	object-position: $position;
 }
+
+// Play/pause control for blocks whose content moves by itself (WCAG 2.2.2
+// Pause, Stop, Hide): a small button in a corner, shared by Lottie
+// Animation, Coded Graphic, Marquee, Logos, Post Feed and the background
+// video.
+//
+// It sits on content of any colour, so it brings its own contrast instead of
+// using the theme palette: a translucent dark fill, a light 1px ring and a
+// white icon. Over a light background the fill gives the boundary its
+// contrast, over a dark one the ring does (each at least 3:1, WCAG 1.4.11);
+// the white icon on the fill stays above 4.5:1 on any background. Subtle by
+// size and translucency, never by lowering its opacity.
+//
+// Markup: <button aria-label="Play animation" aria-pressed="true|false">,
+// pressed while playing. It shows a pause icon while playing and a play
+// icon while paused.
+//
+// Themes can restyle it with the custom.control overlay tokens (theme.json
+// settings.custom.control), alongside the shared size, offset and radius:
+//   overlay-background        fill                     rgb(0 0 0 / 60%)
+//   overlay-background-hover  fill on hover            rgb(0 0 0 / 80%)
+//   overlay-color             icon and focus outline   #fff
+//   overlay-ring              1px edge                 rgb(255 255 255 / 60%)
+// Keep a dark fill with a light ring and icon (or the reverse) so it stays
+// readable on any background; the focus halo uses background-hover.
+@mixin media-toggle {
+	position: absolute;
+	z-index: 2;
+	right: var(--wp--custom--control--offset, 0.5rem);
+	bottom: var(--wp--custom--control--offset, 0.5rem);
+	box-sizing: border-box;
+	width: var(--wp--custom--control--size, 2.75rem);
+	height: var(--wp--custom--control--size, 2.75rem);
+	margin: 0;
+	padding: 0;
+	// Transparent, not none: forced colours drop the box-shadow ring but draw
+	// a border, so the button keeps its edge there.
+	border: 1px solid transparent;
+	border-radius: var(--wp--custom--control--radius, 0);
+	background: var(--wp--custom--control--overlay-background, rgb(0 0 0 / 60%));
+	box-shadow: 0 0 0 1px var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%));
+	color: var(--wp--custom--control--overlay-color, #fff);
+	cursor: pointer;
+	backdrop-filter: blur(4px);
+	transition: background-color var(--wp--custom--transition--duration-base, 200ms)
+		var(--wp--custom--transition--easing-default, ease-in-out);
+
+	@include hover {
+		background: var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%));
+	}
+
+	// A light ring inside a dark one: visible on any background.
+	&:focus-visible {
+		outline: 2px solid var(--wp--custom--control--overlay-color, #fff);
+		outline-offset: 2px;
+		box-shadow:
+			0 0 0 1px var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%)),
+			0 0 0 5px var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%));
+	}
+
+	// Play icon (paused).
+	&::before {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		box-sizing: border-box;
+		transform: translate(-40%, -50%);
+		border-style: solid;
+		border-width: calc(var(--wp--custom--control--icon-size, 0.875rem) / 2) 0 calc(var(--wp--custom--control--icon-size, 0.875rem) / 2) calc(var(--wp--custom--control--icon-size, 0.875rem) * 0.85);
+		border-color: transparent transparent transparent currentColor;
+	}
+
+	// Pause icon (playing).
+	&[aria-pressed="true"]::before {
+		transform: translate(-50%, -50%);
+		width: calc(var(--wp--custom--control--icon-size, 0.875rem) * 0.75);
+		height: var(--wp--custom--control--icon-size, 0.875rem);
+		border-width: 0 calc(var(--wp--custom--control--icon-size, 0.875rem) * 0.22);
+		border-color: currentColor;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+	}
+}
+
+// "Always show pause button" turned off: on devices with a mouse or
+// trackpad the control appears while the pointer is over $host, while it
+// has keyboard focus, and whenever the animation is paused (so Play can
+// always be found). Touch screens have no hover and always show it.
+// Hidden by opacity only: it stays in the tab order and appears at full
+// contrast, never faded.
+@mixin media-toggle-reveal($host) {
+	@media (hover: hover) and (pointer: fine) {
+		opacity: 0;
+		transition-property: opacity, background-color;
+
+		#{$host}:hover &,
+		&:focus-visible,
+		&[aria-pressed="false"] {
+			opacity: 1;
+		}
+	}
+}
