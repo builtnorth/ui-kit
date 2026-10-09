@@ -44,6 +44,44 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 		}
 	}
 
+	/* Tablet: narrow columns go two- or three-up before stacking on mobile.
+	   Quarters (span-3) take half the row and sixths (span-2) a third; one left
+	   alone on its line fills it. Rows of four or more equal-width columns show
+	   half as many per row, rounded up (4 → 2, 6 → 3, 8 → 4). Wider spans
+	   stack as on mobile. Top-level rows only: nested rows keep their parent
+	   column's container rule. Columns are counted with `of` so the editor's
+	   appender isn't one. */
+	&#{$polaris-columns-not-post-feed}:not(.no-stack-on-mobile):not(.wp-block-polaris-column > *) {
+		@include viewport-tablet() {
+			&:has(> .wp-block-polaris-column--span-2, > .wp-block-polaris-column--span-3) {
+				flex-direction: row !important;
+				flex-wrap: wrap !important;
+
+				> .wp-block-polaris-column--span-3 {
+					flex: 1 1 calc((100% - var(--_columns-gap)) / 2) !important;
+				}
+
+				> .wp-block-polaris-column--span-2 {
+					flex: 1 1 calc((100% - 2 * var(--_columns-gap)) / 3) !important;
+				}
+			}
+
+			// $k per row for rows of 2$k - 1 to 2$k equal-width columns (4 at least).
+			@for $k from 2 through 6 {
+				$fewest: if($k == 2, 4, 2 * $k - 1);
+
+				&:has(> :nth-child(#{$fewest} of .wp-block-polaris-column)):not(:has(> :nth-child(#{2 * $k + 1} of .wp-block-polaris-column))):not(:has(> .wp-block-polaris-column:not(.wp-block-polaris-column--auto))) {
+					flex-direction: row !important;
+					flex-wrap: wrap !important;
+
+					> .wp-block-polaris-column {
+						flex: 0 0 calc((100% - #{$k - 1} * var(--_columns-gap)) / #{$k}) !important;
+					}
+				}
+			}
+		}
+	}
+
 	&.is-flex-wrap {
 		flex-wrap: wrap;
 	}
