@@ -331,9 +331,19 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 	.wp-block-polaris-feature,
 	.wp-block-polaris-card-content,
 	.wp-block-polaris-slide,
+	.wp-block-group,
 	.wp-block-polaris-review-card
 ):is(#{$_boxed}) {
 	padding: var(--wp--custom--card--padding, 2rem);
+}
+
+// A boxed group nested in a root-padded container: core's nested
+// .has-global-padding reset zeroes its sides with the same specificity and
+// prints after these styles in the editor, so the sides take one more class.
+// Full-width groups keep the root padding.
+:where(.wp-block-group).has-global-padding:not(.alignfull):is(#{$_boxed}) {
+	padding-left: var(--wp--custom--card--padding, 2rem);
+	padding-right: var(--wp--custom--card--padding, 2rem);
 }
 
 // Images inside a padded card: corners concentric with the card's (its
