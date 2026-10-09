@@ -79,7 +79,8 @@ Classes to quickly add utility styles to your components.
 	position: relative;
 	overflow: hidden;
 
-	> *:not(.background):not(.section-pattern) {
+	// The background video's play/pause button positions itself in a corner.
+	> *:not(.background):not(.section-pattern):not(.background-video-toggle) {
 		position: relative;
 		z-index: 1;
 	}
@@ -89,6 +90,79 @@ Classes to quickly add utility styles to your components.
 		&__img {
 			@include background-image();
 		}
+		&__video {
+			@include background-image();
+		}
+	}
+}
+
+/*
+ * Background video: over the background image, shown once it plays (the
+ * image shows until then). The fades animate between transparent and each
+ * layer's own opacity (inline style). Never shown under reduced motion.
+ */
+.background__video:not(.is-playing) {
+	visibility: hidden;
+}
+
+.background__video.is-playing {
+	animation: polaris-background-video-in var(--wp--custom--transition--duration-slow, 300ms) ease-out;
+}
+
+@keyframes polaris-background-video-in {
+	from {
+		opacity: 0;
+	}
+}
+
+// The image is only the fallback: it crossfades out as the video fades in
+// (no step at the end when both are translucent). Kept under reduced
+// motion, where the video never plays.
+@media (prefers-reduced-motion: no-preference) {
+	// The block's own layers only (> .background), not a nested block's.
+	.has-background-image:has(> .background > .background__video.is-playing) > .background > img {
+		animation: polaris-background-image-out var(--wp--custom--transition--duration-slow, 300ms) ease-out forwards;
+	}
+}
+
+@keyframes polaris-background-image-out {
+	to {
+		opacity: 0;
+	}
+}
+
+// The video's own opening frame as the image: a straight swap, no fades.
+.has-background-image:has(> .background--video-poster) > .background > .background__video.is-playing {
+	animation: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.has-background-image:has(> .background--video-poster):has(> .background > .background__video.is-playing) > .background--video-poster > img {
+		animation: none;
+		visibility: hidden;
+	}
+}
+
+// Play/pause button (WCAG 2.2.2), bottom right of the block. Shown by the
+// script once the video can play.
+.background-video-toggle {
+	@include media-toggle;
+
+	&--reveal {
+		@include media-toggle-reveal(".has-background-image");
+	}
+
+	// Above a bottom section divider, which masks off the block's lower edge.
+	.has-divider--bottom > &,
+	.has-divider--both > & {
+		bottom: calc(var(--wp--custom--section-divider--height, 80px) + var(--wp--custom--control--offset, 0.5rem));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.background__video,
+	.background-video-toggle {
+		display: none;
 	}
 }
 
@@ -108,7 +182,8 @@ Classes to quickly add utility styles to your components.
 		z-index: 0;
 		clip-path: inset(0);
 
-		img {
+		img,
+		video {
 			position: fixed;
 			inset: 0;
 			width: 100%;
@@ -126,7 +201,7 @@ Classes to quickly add utility styles to your components.
 	overflow: clip;
 
 	// Ensure that content displays above the pattern
-	> *:not(.section-pattern):not(.background) {
+	> *:not(.section-pattern):not(.background):not(.background-video-toggle) {
 		position: relative;
 		z-index: 1;
 	}
