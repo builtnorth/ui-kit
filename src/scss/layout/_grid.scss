@@ -2,10 +2,17 @@
 
 /* Grid
 ---------------------------------------- */
-// Default gap matches columns (block gap). Zero specificity, so a block
-// spacing applied from the editor still wins.
+// Up to N equal columns (grid-has-N), fewer when the grid is too narrow for N
+// columns of at least --grid-min. No breakpoints: it follows the grid's own
+// width, so it behaves the same in a sidebar as in a full-width section.
+//
+// --grid-gap feeds both the gap and the column maths. Change spacing through
+// it, not `gap`, or a wider gap can drop a column early. Zero specificity, so
+// a block's own --grid-gap wins.
 :where(.grid) {
-	gap: var(--wp--style--block-gap, 1.5rem);
+	--grid-gap: var(--wp--style--block-gap, 1.5rem);
+	--grid-min: 16rem;
+	gap: var(--grid-gap);
 }
 
 .grid {
@@ -15,23 +22,16 @@
 
 	@for $i from 2 through 6 {
 		&.grid-has-#{$i} {
-			/* Container queries for responsive behavior */
-			@container (min-width: 40rem) {
-				grid-template-columns: repeat(2, 1fr);
-			}
-
-			@container (min-width: 60rem) {
-				grid-template-columns: repeat($i, 1fr);
-			}
-
-			/* Media queries as fallback */
-			@include gt-sm() {
-				grid-template-columns: repeat(2, 1fr);
-			}
-
-			@include gt-lg() {
-				grid-template-columns: repeat($i, 1fr);
-			}
+			// Each track is at least --grid-min (never wider than the grid) and at
+			// least 1/N of the row, so there are never more than N. auto-fill keeps
+			// a short row at 1/N widths instead of stretching it.
+			grid-template-columns: repeat(
+				auto-fill,
+				minmax(
+					max(min(100%, var(--grid-min)), calc((100% - #{$i - 1} * var(--grid-gap)) / #{$i})),
+					1fr
+				)
+			);
 		}
 	}
 }
