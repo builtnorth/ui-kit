@@ -18,10 +18,10 @@
 
 // post-feed's grid shares this class (to mirror polaris/columns's other
 // layout styling) but manages its own responsive column count via the
-// responsive-columns mixin instead of this file's binary 768px stack —
+// responsive-columns mixin instead of this file's binary tablet-and-below stack —
 // every viewport-driven stacking rule below must exclude it, or WordPress's
 // auto-added layout classes (is-nowrap, etc.) force it to 1 column at
-// 768px regardless of the block's actual --polaris-post-feed-columns breakpoints.
+// the tablet breakpoint regardless of the block's actual --polaris-post-feed-columns breakpoints.
 $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 
 .wp-block-polaris-columns {
@@ -39,7 +39,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 
 	/* Top-level rows: viewport only (not the width of a parent column). */
 	&#{$polaris-columns-not-post-feed} {
-		@include lt-stack() {
+		@include viewport-tablet-down() {
 			@include polaris-columns-stack-row;
 		}
 	}
@@ -49,7 +49,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 	}
 
 	&.no-stack-on-mobile {
-		@include lt-stack() {
+		@include viewport-tablet-down() {
 			flex-direction: row !important;
 		}
 	}
@@ -80,7 +80,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 			max-width: 100%;
 		}
 
-		@include gt-stack() {
+		@include viewport-desktop() {
 			@for $i from 1 through 12 {
 				&--span-#{$i} {
 					flex: #{$i} #{$i} 0;
@@ -98,7 +98,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 		}
 	}
 
-	/* Nested row: stack when parent column is narrower than $columns-stack-max. */
+	/* Nested row: stack when the parent column is narrower than $columns-stack-container-max, or on tablet and below. */
 	.wp-block-polaris-column > & {
 		@include polaris-stack-when-narrow-in-container(polaris-column) {
 			@include polaris-columns-stack-row;
@@ -109,7 +109,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 				flex-direction: row !important;
 			}
 
-			@include lt-stack() {
+			@include viewport-tablet-down() {
 				flex-direction: row !important;
 			}
 		}

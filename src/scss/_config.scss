@@ -114,10 +114,11 @@ $container-max-width: var(
 
 // Breakpoints
 // ----------------------------------------------------------------------------
-// This is the source of truth for helpers/_media-queries.scss's
-// gt-*/lt-*/only-* mixins (which drive layout/_columns.scss,
-// layout/_stack-inline.scss, layout/_grid.scss, etc.) — override here via
-// `@use "@builtnorth/ui-kit/config" with (...)`, not by editing media-queries.scss.
+// Fixed widths for helpers/_media-queries.scss's gt-*/lt-*/only-* mixins —
+// override here via `@use "@builtnorth/ui-kit/config" with (...)`, not by
+// editing media-queries.scss. Device breakpoints ("on a phone/tablet") are
+// NOT set here: they come from the theme's theme.json `settings.viewport`
+// through the viewport-* mixins.
 $breakpoint-xxs: 320px !default;
 $breakpoint-xs: 480px !default;
 $breakpoint-sm: 640px !default;

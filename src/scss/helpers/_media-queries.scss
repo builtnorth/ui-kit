@@ -88,14 +88,48 @@ $large-y: 53em !default;
 	}
 }
 
+// Deprecated: a fixed width that ignores the theme's breakpoints. Use
+// viewport-tablet-down / viewport-desktop for "on a phone/tablet" rules, or a
+// container query for rules about available space.
 @mixin lt-stack {
+	@warn "ui-kit: lt-stack is deprecated; use viewport-tablet-down or a container query.";
 	@media only screen and (max-width: $columns-stack-max) {
 		@content;
 	}
 }
 
 @mixin gt-stack {
+	@warn "ui-kit: gt-stack is deprecated; use viewport-desktop or a container query.";
 	@media only screen and (min-width: #{$columns-stack-max + 1px}) {
+		@content;
+	}
+}
+
+// Theme breakpoints (theme.json settings.viewport). These output placeholder
+// queries that Polaris swaps for the site's real ones, so they only work in a
+// stylesheet enqueued with `'viewport_styles' => true`; browsers ignore them
+// anywhere else. Use them at the top level or inside a selector, never inside
+// another @media, @supports or @container (Polaris skips nested ones).
+@mixin viewport-mobile {
+	@media (--polaris-mobile) {
+		@content;
+	}
+}
+
+@mixin viewport-tablet {
+	@media (--polaris-tablet) {
+		@content;
+	}
+}
+
+@mixin viewport-tablet-down {
+	@media (--polaris-tablet-down) {
+		@content;
+	}
+}
+
+@mixin viewport-desktop {
+	@media (--polaris-desktop) {
 		@content;
 	}
 }

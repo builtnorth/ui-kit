@@ -29,20 +29,22 @@
 	}
 }
 
-// Viewport only — top-level rows (footer, full-width sections).
+// Viewport only — top-level rows (footer, full-width sections). Tablet and below,
+// from the theme's breakpoints; needs a stylesheet enqueued with viewport_styles.
 @mixin polaris-stack-when-narrow {
-	@include lt-stack() {
+	@include viewport-tablet-down() {
 		@content;
 	}
 }
 
-// Nested in a layout column: container uses $columns-stack-container-max (tighter than viewport).
+// Nested in a layout column: container uses $columns-stack-container-max (tighter than viewport),
+// plus the tablet-and-below viewport rule (needs viewport_styles, as above).
 @mixin polaris-stack-when-narrow-in-container($container-name: polaris-column) {
 	@container #{$container-name} (max-width: #{$columns-stack-container-max}) {
 		@content;
 	}
 
-	@include lt-stack() {
+	@include viewport-tablet-down() {
 		@content;
 	}
 }
