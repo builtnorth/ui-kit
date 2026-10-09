@@ -37,8 +37,9 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 		gap: var(--_columns-gap);
 	}
 
-	/* Top-level rows: viewport only (not the width of a parent column). */
-	&#{$polaris-columns-not-post-feed} {
+	/* Top-level rows: viewport only (not the width of a parent column). Rows
+	   with a per-device layout (.has-viewport-layout, below) are left to it. */
+	&#{$polaris-columns-not-post-feed}:not(.has-viewport-layout) {
 		@include viewport-tablet-down() {
 			@include polaris-columns-stack-row;
 		}
@@ -51,7 +52,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 	   stack as on mobile. Top-level rows only: nested rows keep their parent
 	   column's container rule. Columns are counted with `of` so the editor's
 	   appender isn't one. */
-	&#{$polaris-columns-not-post-feed}:not(.no-stack-on-mobile):not(.wp-block-polaris-column > *) {
+	&#{$polaris-columns-not-post-feed}:not(.has-viewport-layout):not(.wp-block-polaris-column > *) {
 		@include viewport-tablet() {
 			&:has(> .wp-block-polaris-column--span-2, > .wp-block-polaris-column--span-3) {
 				flex-direction: row !important;
@@ -86,9 +87,17 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 		flex-wrap: wrap;
 	}
 
-	&.no-stack-on-mobile {
+	/* A per-device layout set in the editor (core's Tablet / Mobile layout;
+	   render.php / edit.js add .has-viewport-layout) takes over from the
+	   stacking above: core's CSS sets the direction, and the columns fill it
+	   (equal widths in a row, full width when vertical). */
+	&.has-viewport-layout {
 		@include viewport-tablet-down() {
-			flex-direction: row !important;
+			> .wp-block-polaris-column {
+				width: 100%;
+				max-width: 100%;
+				min-width: 0;
+			}
 		}
 	}
 
@@ -137,19 +146,9 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 	}
 
 	/* Nested row: stack when the parent column is narrower than $columns-stack-container-max, or on tablet and below. */
-	.wp-block-polaris-column > & {
+	.wp-block-polaris-column > &:not(.has-viewport-layout) {
 		@include polaris-stack-when-narrow-in-container(polaris-column) {
 			@include polaris-columns-stack-row;
-		}
-
-		&.no-stack-on-mobile {
-			@container polaris-column (max-width: #{$columns-stack-container-max}) {
-				flex-direction: row !important;
-			}
-
-			@include viewport-tablet-down() {
-				flex-direction: row !important;
-			}
 		}
 	}
 }
