@@ -58,11 +58,27 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
             width: 100%;
         }
 
-        // Blocks sized by their container (carousels, Feature Tabs) have no
-        // content width of their own. Under align-items left/center/right a
-        // column sizes children to their content, which shrinks these to
-        // nothing, so they always span the column.
-        > :where(:has(> .polaris-carousel), .wp-block-polaris-feature-tabs) {
+        // Blocks laid out by their container's width (carousels, grids,
+        // tabs, tables, maps, forms) have no content width of their own, or
+        // an arbitrary one. Under align-items left/center/right a column
+        // sizes children to their content, which shrinks these to nothing or
+        // part of the column, so they always span it. Compact blocks
+        // (buttons, icons, counters) are left out: they centre as boxes.
+        > :where(
+            :has(> .polaris-carousel),
+            .wp-block-polaris-accordion,
+            .wp-block-polaris-business-hours,
+            .wp-block-polaris-coded-graphic,
+            .wp-block-polaris-comparison-table,
+            .wp-block-polaris-feature-tabs,
+            .wp-block-polaris-form,
+            .wp-block-polaris-image-gallery-slider,
+            .wp-block-polaris-logos,
+            .wp-block-polaris-map,
+            .wp-block-polaris-price-card,
+            .wp-block-polaris-tabs,
+            .wp-block-polaris-timeline
+        ) {
             align-self: stretch;
         }
 
