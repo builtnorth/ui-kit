@@ -197,7 +197,7 @@ Global Slider Styles
 	align-items: center;
 	gap: var(--wp--custom--inline-gap, 0.5rem);
 	// Space below the slides: the slider controls height less the controls.
-	margin-block: calc(var(--wp--custom--slider--controls-height, 4.5rem) - var(--wp--custom--control--size, 2.75rem)) var(--wp--style--block-gap, 1.5rem);
+	margin-block: calc(var(--wp--custom--slider--controls-height, 5.5rem) - var(--wp--custom--control--size, 2.75rem)) var(--wp--style--block-gap, 1.5rem);
 
 	&[hidden] {
 		display: none;
