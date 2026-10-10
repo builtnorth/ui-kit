@@ -58,6 +58,14 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
             width: 100%;
         }
 
+        // Blocks sized by their container (carousels, Feature Tabs) have no
+        // content width of their own. Under align-items left/center/right a
+        // column sizes children to their content, which shrinks these to
+        // nothing, so they always span the column.
+        > :where(:has(> .polaris-carousel), .wp-block-polaris-feature-tabs) {
+            align-self: stretch;
+        }
+
         // Chips (is-style-label / is-style-subheading) have align-self: flex-start set
         // by design skins so they don't stretch. Override align-self to follow the
         // section/hero justification — WP sets align-items on the container but
