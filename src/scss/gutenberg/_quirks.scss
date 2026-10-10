@@ -19,11 +19,14 @@
    .alignfull and the theme's divider overlap margins still win. */
 $_polaris-layout-blocks: ".wp-block-polaris-section, .wp-block-polaris-hero, .wp-block-polaris-split-section, .wp-block-polaris-header, .wp-block-polaris-footer, .wp-block-polaris-alert-bar, .wp-block-polaris-marquee";
 
+// A hero slider (slides holding heroes or sections) stacks like the hero it shows.
+$_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :is(.wp-block-polaris-hero, .wp-block-polaris-section))";
+
 :root
     :where(.editor-styles-wrapper)
     :where(.is-layout-constrained)
     > :is(#{$_polaris-layout-blocks}).alignfull,
-:where(#{$_polaris-layout-blocks}).alignfull {
+:where(#{$_polaris-layout-blocks}, #{$_polaris-hero-slider}).alignfull {
     margin-block-start: 0;
 }
 
@@ -248,6 +251,16 @@ $_polaris-layout-blocks: ".wp-block-polaris-section, .wp-block-polaris-hero, .wp
     margin-block-start: 0;
 }
 
+// Same for a hero slider. Its own rule: :has() can't nest, so it can't join
+// the list above without invalidating it.
+$_polaris-hero-slide: ".wp-block-polaris-slide > :is(.wp-block-polaris-hero, .wp-block-polaris-section)";
+
+.wp-site-blocks > :has(> .wp-block-polaris-slider:first-child #{$_polaris-hero-slide}),
+.wp-site-blocks
+    > :has(> .wp-block-post-content > .wp-block-polaris-slider:first-child #{$_polaris-hero-slide}) {
+    margin-block-start: 0;
+}
+
 // cards don't span full container without this
 .wp-block-query {
     width: 100%;
@@ -290,13 +303,13 @@ $_polaris-layout-blocks: ".wp-block-polaris-section, .wp-block-polaris-hero, .wp
 
 // Default text size for the small utility blocks, at zero specificity: a
 // theme's theme.json per-block size, and a size chosen on the block, win.
-:where(
-    .wp-block-polaris-breadcrumbs,
-    .wp-block-polaris-copyright,
-    .wp-block-polaris-utility-links,
-    .wp-block-polaris-social-media,
-    .wp-block-polaris-whitelabel-meta,
-    .wp-block-polaris-query-sort
-) {
-    font-size: var(--wp--custom--small-text--font-size, 0.875em);
-}
+// :where(
+//     .wp-block-polaris-breadcrumbs,
+//     .wp-block-polaris-copyright,
+//     .wp-block-polaris-utility-links,
+//     .wp-block-polaris-social-media,
+//     .wp-block-polaris-whitelabel-meta,
+//     .wp-block-polaris-query-sort
+// ) {
+//     font-size: var(--wp--custom--small-text--font-size, 0.875em);
+// }
