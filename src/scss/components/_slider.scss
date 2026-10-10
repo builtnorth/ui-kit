@@ -191,16 +191,89 @@ Global Slider Styles
 	}
 }
 
+// The controls row's box, also used by the dots when the arrows move to the
+// sides. A block can hold it to its content width with
+// --polaris-carousel-controls-max-width and --polaris-carousel-controls-padding
+// (a full-width slider does).
+@mixin carousel-controls-box {
+	box-sizing: content-box;
+	max-width: var(--polaris-carousel-controls-max-width, none);
+	// Space below the slides: the slider controls height less the controls.
+	margin-block: calc(var(--wp--custom--slider--controls-height, 5.5rem) - var(--wp--custom--control--size, 2.75rem)) var(--wp--style--block-gap, 1.5rem);
+	margin-inline: auto;
+	padding-inline: var(--polaris-carousel-controls-padding, 0);
+}
+
 .polaris-carousel__controls {
+	@include carousel-controls-box;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: var(--wp--custom--inline-gap, 0.5rem);
-	// Space below the slides: the slider controls height less the controls.
-	margin-block: calc(var(--wp--custom--slider--controls-height, 5.5rem) - var(--wp--custom--control--size, 2.75rem)) var(--wp--style--block-gap, 1.5rem);
 
 	&[hidden] {
 		display: none;
+	}
+
+	.has-controls-align-center > & {
+		justify-content: center;
+	}
+
+	.has-controls-align-end > & {
+		justify-content: flex-end;
+	}
+}
+
+// Arrows on the sides, from desktop up (below on smaller screens, where they
+// would sit on the slide content): the carousel becomes a grid, the controls
+// row stops being a box, and its arrows sit over the slides' edges, centred,
+// in the overlay style (readable on images). Focus order is unchanged:
+// slides, arrows, dots.
+@include mq.viewport-desktop {
+	.polaris-carousel.has-arrows-sides {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+
+		> .polaris-carousel__track {
+			grid-area: 1 / 1;
+		}
+
+		> .polaris-carousel__controls:not([hidden]) {
+			display: contents;
+		}
+
+		.polaris-carousel__prev,
+		.polaris-carousel__next {
+			@include slider-arrow-overlay;
+			grid-area: 1 / 1;
+			align-self: center;
+			z-index: 1;
+			margin-inline: var(--wp--custom--inline-gap, 0.5rem);
+		}
+
+		.polaris-carousel__prev {
+			justify-self: start;
+		}
+
+		.polaris-carousel__next {
+			justify-self: end;
+		}
+
+		.polaris-carousel__dots {
+			@include carousel-controls-box;
+			grid-area: 2 / 1;
+			// Fills the row, so the content-width box and alignment apply.
+			width: calc(100% - 2 * var(--polaris-carousel-controls-padding, 0px));
+			margin-inline-start: auto;
+		}
+
+		&.has-controls-align-center .polaris-carousel__dots {
+			justify-content: center;
+		}
+
+		&.has-controls-align-end .polaris-carousel__dots {
+			justify-content: flex-end;
+		}
 	}
 }
 
@@ -214,6 +287,11 @@ Global Slider Styles
 
 	.polaris-carousel__next + & {
 		margin-inline-start: calc(var(--wp--custom--slider--pagination-gap, 1rem) - var(--wp--custom--inline-gap, 0.5rem));
+	}
+
+	// Between the arrows (centred controls): the same space on both sides.
+	.polaris-carousel__prev + & {
+		margin-inline: calc(var(--wp--custom--slider--pagination-gap, 1rem) - var(--wp--custom--inline-gap, 0.5rem));
 	}
 }
 
