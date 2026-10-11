@@ -25,6 +25,15 @@
 $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 
 .wp-block-polaris-columns {
+	// A row fills its parent. Flex parents with align-items: flex-start
+	// otherwise shrink it to the content, and span widths are a percentage
+	// of this row — a shrink-wrapped row makes span-10 / span-2 collapse.
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	align-self: stretch;
+
 	// The row's gap: this block's Block spacing (--polaris-columns-gap, set by
 	// render.php / edit.js), else the column-gap token, else the theme's block
 	// spacing. The span widths below read the same value, so a row always adds

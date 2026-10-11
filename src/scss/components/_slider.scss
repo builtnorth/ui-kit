@@ -13,102 +13,126 @@ Global Slider Styles
 // Slider arrow — the carousel's and timeline's arrows (.polaris-slider-arrow),
 // so every arrow is sized in one place. Add one of the colour mixins below.
 @mixin slider-arrow {
-	// The control size is the whole button; the padding leaves the chevron
-	// (which fills the content box) at the control icon size.
-	box-sizing: border-box;
-	height: var(--wp--custom--control--size, 2.75rem);
-	width: var(--wp--custom--control--size, 2.75rem);
-	padding: calc(
-		(var(--wp--custom--control--size, 2.75rem) - var(--wp--custom--control--icon-size, 0.875rem)) / 2
-			- var(--wp--custom--border-width--x-small, 2px)
-	);
-	border: var(--wp--custom--border-width--x-small, 2px) solid;
-	border-radius: var(--wp--custom--control--radius, 0);
+    // The control size is the whole button; the padding leaves the chevron
+    // (which fills the content box) at the control icon size.
+    box-sizing: border-box;
+    height: var(--wp--custom--control--size, 2.75rem);
+    width: var(--wp--custom--control--size, 2.75rem);
+    padding: calc(
+        (
+                var(--wp--custom--control--size, 2.75rem) - var(
+                        --wp--custom--control--icon-size,
+                        0.875rem
+                    )
+            ) /
+            2 - var(--wp--custom--border-width--x-small, 2px)
+    );
+    border: var(--wp--custom--border-width--x-small, 2px) solid;
+    border-radius: var(--wp--custom--control--radius, 0);
 }
 
 // Arrow on the section (below the slides): the inline control tokens, built
 // from the text colour. The full-colour border keeps the button's edge at the
 // text's contrast (WCAG 1.4.11 needs 3:1).
 @mixin slider-arrow-inline {
-	border-color: var(--wp--custom--control--border, currentColor);
-	background: var(--wp--custom--control--background, transparent);
-	color: var(--wp--custom--control--color, currentColor);
-	backdrop-filter: none;
+    border-color: var(--wp--custom--control--border, currentColor);
+    background: var(--wp--custom--control--background, transparent);
+    color: var(--wp--custom--control--color, currentColor);
+    backdrop-filter: none;
 
-	@include helpers.hover($focus: true) {
-		background: var(--wp--custom--control--background-hover, var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent)));
-	}
+    @include helpers.hover($focus: true) {
+        background: var(
+            --wp--custom--control--background-hover,
+            var(
+                --wp--custom--color--tint,
+                color-mix(in srgb, currentColor 10%, transparent)
+            )
+        );
+    }
 }
 
 // Arrow over the slides: the overlay control tokens (as the media pause
 // button), a dark fill with a light edge and icon, readable on any image.
 @mixin slider-arrow-overlay {
-	border-color: var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%));
-	background: var(--wp--custom--control--overlay-background, rgb(0 0 0 / 60%));
-	color: var(--wp--custom--control--overlay-color, #fff);
-	backdrop-filter: blur(4px);
+    border-color: var(
+        --wp--custom--control--overlay-ring,
+        rgb(255 255 255 / 60%)
+    );
+    background: var(
+        --wp--custom--control--overlay-background,
+        rgb(0 0 0 / 60%)
+    );
+    color: var(--wp--custom--control--overlay-color, #fff);
+    backdrop-filter: blur(4px);
 
-	@include helpers.hover($focus: true) {
-		background: var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%));
-	}
+    @include helpers.hover($focus: true) {
+        background: var(
+            --wp--custom--control--overlay-background-hover,
+            rgb(0 0 0 / 80%)
+        );
+    }
 }
 
 // The arrow chevron is a hairline path; this stroke brings it to the weight
 // of the other control icons.
 @mixin slider-arrow-icon-weight {
-	overflow: visible;
+    overflow: visible;
 
-	path {
-		stroke: currentColor;
-		stroke-width: 1.25px;
-		stroke-linejoin: round;
-		vector-effect: non-scaling-stroke;
-	}
+    path {
+        stroke: currentColor;
+        stroke-width: 1.25px;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+    }
 }
 
 // The arrow on a plain <button>, dimmed at the end of its row. Put the
 // chevron SVG inside; --prev flips it.
 .polaris-slider-arrow {
-	@include slider-arrow;
-	@include slider-arrow-inline;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	flex: 0 0 auto;
-	margin: 0;
-	cursor: pointer;
-	transition-property: background-color, color, border-color, opacity;
-	transition-duration: var(--wp--custom--transition--duration-base, 200ms);
-	transition-timing-function: var(--wp--custom--transition--easing-default, ease-in-out);
-	@include helpers.press;
+    @include slider-arrow;
+    @include slider-arrow-inline;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    margin: 0;
+    cursor: pointer;
+    transition-property: background-color, color, border-color, opacity;
+    transition-duration: var(--wp--custom--transition--duration-base, 200ms);
+    transition-timing-function: var(
+        --wp--custom--transition--easing-default,
+        ease-in-out
+    );
+    @include helpers.press;
 
-	@media (prefers-reduced-motion: no-preference) {
-		transition-property: background-color, color, border-color, opacity, transform;
-	}
+    @media (prefers-reduced-motion: no-preference) {
+        transition-property:
+            background-color, color, border-color, opacity, transform;
+    }
 
-	svg {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-		@include slider-arrow-icon-weight;
-	}
+    svg {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        @include slider-arrow-icon-weight;
+    }
 
-	&--prev svg {
-		transform: rotate(180deg);
-	}
+    &--prev svg {
+        transform: rotate(180deg);
+    }
 
-	// aria-disabled keeps keyboard focus on an arrow at the end of its row.
-	&:disabled,
-	&[aria-disabled="true"] {
-		opacity: 0.35;
-		cursor: auto;
-		pointer-events: none;
-	}
+    // aria-disabled keeps keyboard focus on an arrow at the end of its row.
+    &:disabled,
+    &[aria-disabled="true"] {
+        opacity: 0.35;
+        cursor: auto;
+        pointer-events: none;
+    }
 
-	&:focus-visible {
-		outline: 2px solid var(--wp--custom--color--focus, currentColor);
-		outline-offset: 2px;
-	}
+    &:focus-visible {
+        outline: 2px solid var(--wp--custom--color--focus, currentColor);
+        outline-offset: 2px;
+    }
 }
 
 // ==========================================================================
@@ -120,75 +144,101 @@ Global Slider Styles
 // more, else 1) and one on mobile. Below the slides, a controls row in the
 // text colour (so it reads on any background): the arrows, then the dots.
 .polaris-carousel {
-	--_carousel-gap: var(--polaris-slider-gap, var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem)));
-	// A size container has no width of its own: fill the parent's, also in
-	// flex and grid wrappers.
-	container-type: inline-size;
-	width: 100%;
-	min-width: 0;
+    --_carousel-gap: var(
+        --polaris-slider-gap,
+        var(
+            --wp--custom--spacing--column-gap,
+            var(--wp--style--block-gap, 1.5rem)
+        )
+    );
+    // A size container has no width of its own: fill the parent's, also in
+    // flex and grid wrappers.
+    container-type: inline-size;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
 
-	.polaris-carousel__track {
-		--_carousel-columns: var(--polaris-carousel-columns, 1);
-	}
+    .polaris-carousel__track {
+        --_carousel-columns: var(--polaris-carousel-columns, 1);
+    }
 
-	// Theme breakpoints (placeholders Polaris swaps for the site's queries).
-	@include mq.viewport-tablet {
-		.polaris-carousel__track {
-			--_carousel-columns: var(--polaris-carousel-columns-medium, var(--polaris-carousel-columns, 1));
-		}
-	}
+    // Theme breakpoints (placeholders Polaris swaps for the site's queries).
+    @include mq.viewport-tablet {
+        .polaris-carousel__track {
+            --_carousel-columns: var(
+                --polaris-carousel-columns-medium,
+                var(--polaris-carousel-columns, 1)
+            );
+        }
+    }
 
-	@include mq.viewport-mobile {
-		.polaris-carousel__track {
-			--_carousel-columns: 1;
-		}
-	}
+    @include mq.viewport-mobile {
+        .polaris-carousel__track {
+            --_carousel-columns: 1;
+        }
+    }
 }
 
 .polaris-carousel__track {
-	display: flex;
-	gap: var(--_carousel-gap);
-	overflow-x: auto;
-	overscroll-behavior-x: contain;
-	scroll-snap-type: x mandatory;
-	// The arrows and dots stand in for the scrollbar.
-	scrollbar-width: none;
+    display: flex;
+    gap: var(--_carousel-gap);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    // The arrows and dots stand in for the scrollbar.
+    scrollbar-width: none;
 
-	&::-webkit-scrollbar {
-		display: none;
-	}
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
-	// No arrows or dots: the scrollbar shows the row scrolls.
-	.has-no-controls > & {
-		scrollbar-width: thin;
+    // No arrows or dots: the scrollbar shows the row scrolls.
+    // has-no-controls is still set by ItemLayout::carousel(); :has covers
+    // polaris/slider once arrows/dots are optional InnerBlocks.
+    .has-no-controls > &,
+    .polaris-carousel:not(:has(.polaris-carousel__prev)):not(
+            :has(.polaris-carousel__dots)
+        )
+        > & {
+        scrollbar-width: thin;
 
-		&::-webkit-scrollbar {
-			display: initial;
-		}
-	}
+        &::-webkit-scrollbar {
+            display: initial;
+        }
+    }
 
-	@media (prefers-reduced-motion: no-preference) {
-		scroll-behavior: smooth;
-	}
+    @media (prefers-reduced-motion: no-preference) {
+        scroll-behavior: smooth;
+    }
 
-	&:focus-visible {
-		outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
-		outline-offset: var(--wp--custom--focus--offset, 2px);
-	}
+    &:focus-visible {
+        outline: var(--wp--custom--focus--width, 2px) solid
+            var(--wp--custom--color--focus, currentColor);
+        outline-offset: var(--wp--custom--focus--offset, 2px);
+    }
 }
 
 // Equal-height slides, `columns` to a view.
 .polaris-carousel__slide {
-	display: flex;
-	flex: 0 0 calc((100% - (var(--_carousel-columns) - 1) * var(--_carousel-gap)) / var(--_carousel-columns));
-	min-width: 0;
-	scroll-snap-align: start;
+    display: flex;
+    flex: 0 0
+        calc(
+            (100% - (var(--_carousel-columns) - 1) * var(--_carousel-gap)) /
+                var(--_carousel-columns)
+        );
+    min-width: 0;
+    max-width: 100%;
+    scroll-snap-align: start;
+    // Do not set overflow:hidden here — it clips editor outlines, focus rings,
+    // and column content when the track is the scrollport. Containment is on
+    // the track / carousel instead.
 
-	// The slide's content fills it (equal-height cards).
-	> * {
-		flex: 1 1 auto;
-		min-width: 0;
-	}
+    // The slide's content fills it (equal-height cards).
+    > * {
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: 100%;
+    }
 }
 
 // The controls row's box, also used by the dots when the arrows move to the
@@ -196,160 +246,310 @@ Global Slider Styles
 // --polaris-carousel-controls-max-width and --polaris-carousel-controls-padding
 // (a full-width slider does).
 @mixin carousel-controls-box {
-	box-sizing: content-box;
-	max-width: var(--polaris-carousel-controls-max-width, none);
-	// Space below the slides: the slider controls height less the controls.
-	margin-block: calc(var(--wp--custom--slider--controls-height, 5.5rem) - var(--wp--custom--control--size, 2.75rem)) var(--wp--style--block-gap, 1.5rem);
-	margin-inline: auto;
-	padding-inline: var(--polaris-carousel-controls-padding, 0);
+    box-sizing: content-box;
+    max-width: var(--polaris-carousel-controls-max-width, none);
+    // Space below the slides: the slider controls height less the controls.
+    margin-block: calc(
+            var(--wp--custom--slider--controls-height, 5.5rem) - var(
+                    --wp--custom--control--size,
+                    2.75rem
+                )
+        )
+        var(--wp--style--block-gap, 1.5rem);
+    margin-inline: auto;
+    padding-inline: var(--polaris-carousel-controls-padding, 0);
 }
 
 .polaris-carousel__controls {
-	@include carousel-controls-box;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: var(--wp--custom--inline-gap, 0.5rem);
+    display: flex;
+    // Prev/next must stay on one row — wrap stacks the arrows in narrow columns.
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--wp--custom--inline-gap, 0.5rem);
 
-	&[hidden] {
-		display: none;
-	}
+    &[hidden] {
+        display: none;
+    }
 
-	.has-controls-align-center > & {
-		justify-content: center;
-	}
+    .has-controls-align-center > &,
+    &.has-controls-align-center {
+        justify-content: center;
+    }
 
-	.has-controls-align-end > & {
-		justify-content: flex-end;
-	}
+    .has-controls-align-end > &,
+    &.has-controls-align-end {
+        justify-content: flex-end;
+    }
 }
 
-// Arrows on the sides, from desktop up (below on smaller screens, where they
-// would sit on the slide content): the carousel becomes a grid, the controls
-// row stops being a box, and its arrows sit over the slides' edges, centred,
-// in the overlay style (readable on images). Focus order is unchanged:
-// slides, arrows, dots.
+// Classic below-track chrome (ItemLayout / attribute-driven carousels): the
+// controls box when arrows/dots are direct children. polaris/slider uses
+// WordPress layout flex + Block spacing instead — see .is-layout-flex below.
+.polaris-carousel:not(.is-layout-flex) > .polaris-carousel__controls,
+.polaris-carousel:not(.is-layout-flex) > .polaris-carousel__dots {
+    @include carousel-controls-box;
+}
+
+// polaris/slider: WordPress layout flex owns the stack (heading, chrome,
+// track, dots) via Block spacing. Keep arrow chrome horizontal always —
+// never let a column flex parent or sides-mode `display: contents` stack
+// prev/next as separate flex items.
+.polaris-carousel.is-layout-flex {
+    // Flex items default to min-width: auto. Slides (alignfull heroes, wide
+    // images) then force the track — and the page — wider than the carousel.
+    // Keep overflow on the track's scrollport only.
+    overflow-x: clip;
+    min-width: 0;
+    max-width: 100%;
+
+    > .polaris-carousel__track {
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+        // Editor: horizontal InnerBlocks layout must not expand the canvas.
+        box-sizing: border-box;
+    }
+
+    > .polaris-carousel__controls,
+    .polaris-carousel__controls {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    > .polaris-carousel__controls,
+    > .polaris-carousel__dots {
+        margin-block: 0;
+        max-width: var(--polaris-carousel-controls-max-width, none);
+        margin-inline: auto;
+        padding-inline: var(--polaris-carousel-controls-padding, 0);
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+}
+
+// Arrows on the sides, from desktop up (below on smaller screens).
 @include mq.viewport-desktop {
-	.polaris-carousel.has-arrows-sides {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr);
+    // ItemLayout / non-layout carousels: grid + display:contents so prev/next
+    // share the track cell. Must NOT run on .is-layout-flex — contents would
+    // drop the buttons into the vertical stack and they stack as columns.
+    .polaris-carousel.has-arrows-sides:not(.is-layout-flex),
+    .polaris-carousel:has(> .polaris-carousel__controls.is-arrows-sides):not(
+            .is-layout-flex
+        ) {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
 
-		> .polaris-carousel__track {
-			grid-area: 1 / 1;
-		}
+        > .polaris-carousel__track {
+            grid-area: 1 / 1;
+        }
 
-		> .polaris-carousel__controls:not([hidden]) {
-			display: contents;
-		}
+        > .polaris-carousel__controls:not([hidden]) {
+            display: contents;
+        }
 
-		.polaris-carousel__prev,
-		.polaris-carousel__next {
-			@include slider-arrow-overlay;
-			grid-area: 1 / 1;
-			align-self: center;
-			z-index: 1;
-			margin-inline: var(--wp--custom--inline-gap, 0.5rem);
-		}
+        .polaris-carousel__prev,
+        .polaris-carousel__next {
+            @include slider-arrow-overlay;
+            grid-area: 1 / 1;
+            align-self: center;
+            z-index: 1;
+            margin-inline: var(--wp--custom--inline-gap, 0.5rem);
+        }
 
-		.polaris-carousel__prev {
-			justify-self: start;
-		}
+        .polaris-carousel__prev {
+            justify-self: start;
+        }
 
-		.polaris-carousel__next {
-			justify-self: end;
-		}
+        .polaris-carousel__next {
+            justify-self: end;
+        }
 
-		.polaris-carousel__dots {
-			@include carousel-controls-box;
-			grid-area: 2 / 1;
-			// Fills the row, so the content-width box and alignment apply.
-			width: calc(100% - 2 * var(--polaris-carousel-controls-padding, 0px));
-			margin-inline-start: auto;
-		}
+        .polaris-carousel__dots,
+        > .polaris-carousel__dots {
+            @include carousel-controls-box;
+            grid-area: 2 / 1;
+            width: calc(
+                100% - 2 * var(--polaris-carousel-controls-padding, 0px)
+            );
+            margin-inline-start: auto;
+        }
 
-		&.has-controls-align-center .polaris-carousel__dots {
-			justify-content: center;
-		}
+        &.has-controls-align-center .polaris-carousel__dots,
+        &:has(> .polaris-carousel__controls.has-controls-align-center)
+            .polaris-carousel__dots {
+            justify-content: center;
+        }
 
-		&.has-controls-align-end .polaris-carousel__dots {
-			justify-content: flex-end;
-		}
-	}
+        &.has-controls-align-end .polaris-carousel__dots,
+        &:has(> .polaris-carousel__controls.has-controls-align-end)
+            .polaris-carousel__dots {
+            justify-content: flex-end;
+        }
+    }
+
+    // polaris/slider (layout flex): WordPress owns the vertical stack + Block
+    // spacing. Overlay only the arrow buttons on the track — never pin the
+    // whole controls box (that put nested dots over the slides). Avoid
+    // `display: contents` here: it stacks prev/next in the column flex and
+    // breaks block selection in the editor.
+    // --polaris-carousel-sides-top is the track's vertical centre from JS.
+    .polaris-carousel.is-layout-flex:has(
+            .polaris-carousel__controls.is-arrows-sides
+        ) {
+        position: relative;
+
+        > .polaris-carousel__controls.is-arrows-sides:not([hidden]) {
+            // Arrows only (dots are a sibling): take the box out of the flex
+            // flow so Block spacing is track → dots, not an empty gap slot.
+            &:not(:has(.polaris-carousel__dots)) {
+                position: absolute;
+                inset: 0;
+                display: block;
+                width: auto;
+                max-width: none;
+                margin: 0;
+                padding: 0;
+                pointer-events: none;
+                box-sizing: border-box;
+            }
+
+            // Nested dots stay in the flex stack as the pagination row.
+            &:has(.polaris-carousel__dots) {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                width: 100%;
+                margin: 0;
+                max-width: var(--polaris-carousel-controls-max-width, none);
+                padding-inline: var(--polaris-carousel-controls-padding, 0);
+                box-sizing: border-box;
+            }
+
+            > .polaris-carousel__prev,
+            > .polaris-carousel__next {
+                @include slider-arrow-overlay;
+                position: absolute;
+                top: var(--polaris-carousel-sides-top, 50%);
+                transform: translateY(-50%);
+                z-index: 1;
+                margin: 0;
+                pointer-events: auto;
+            }
+
+            > .polaris-carousel__prev {
+                left: var(
+                    --polaris-carousel-controls-padding,
+                    var(--wp--custom--inline-gap, 0.5rem)
+                );
+            }
+
+            > .polaris-carousel__next {
+                right: var(
+                    --polaris-carousel-controls-padding,
+                    var(--wp--custom--inline-gap, 0.5rem)
+                );
+            }
+        }
+    }
 }
 
 // The dots, as tall as the arrows so they line up on one row; after the
 // arrows with a wider gap than the one between them.
 .polaris-carousel__dots {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	min-height: var(--wp--custom--control--size, 2.75rem);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 
-	.polaris-carousel__next + & {
-		margin-inline-start: calc(var(--wp--custom--slider--pagination-gap, 1rem) - var(--wp--custom--inline-gap, 0.5rem));
-	}
+    .polaris-carousel__next + & {
+        margin-inline-start: calc(
+            var(--wp--custom--slider--pagination-gap, 1rem) - var(
+                    --wp--custom--inline-gap,
+                    0.5rem
+                )
+        );
+    }
 
-	// Between the arrows (centred controls): the same space on both sides.
-	.polaris-carousel__prev + & {
-		margin-inline: calc(var(--wp--custom--slider--pagination-gap, 1rem) - var(--wp--custom--inline-gap, 0.5rem));
-	}
+    // Between the arrows (centred controls): the same space on both sides.
+    .polaris-carousel__prev + & {
+        margin-inline: calc(
+            var(--wp--custom--slider--pagination-gap, 1rem) - var(
+                    --wp--custom--inline-gap,
+                    0.5rem
+                )
+        );
+    }
 }
 
 // Each dot is a 24px target (WCAG 2.5.8) around a smaller bar: an outline
 // for the other positions, filled and longer for the current one.
 .polaris-carousel__dot {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-	min-width: 24px;
-	height: 24px;
-	margin: 0;
-	padding: 0 0.25rem;
-	border: 0;
-	border-radius: var(--wp--custom--control--radius, 0);
-	background: transparent;
-	color: inherit;
-	cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: 24px;
+    height: 24px;
+    margin: 0;
+    padding: 0 0.25rem;
+    border: 0;
+    border-radius: var(--wp--custom--control--radius, 0);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
 
-	&::after {
-		content: "";
-		box-sizing: border-box;
-		width: var(--wp--custom--slider--dot-width, 1.5rem);
-		height: var(--wp--custom--slider--dot-size, 0.75rem);
-		border: var(--wp--custom--border-width--x-small, 2px) solid currentColor;
-		border-radius: var(--wp--custom--control--radius, 0);
-		background-color: transparent;
-	}
+    &::after {
+        content: "";
+        box-sizing: border-box;
+        width: var(--wp--custom--slider--dot-width, 1.5rem);
+        height: var(--wp--custom--slider--dot-size, 0.75rem);
+        border: var(--wp--custom--border-width--x-small, 2px) solid currentColor;
+        border-radius: var(--wp--custom--control--radius, 0);
+        background-color: transparent;
+    }
 
-	&[aria-current="true"]::after {
-		width: var(--wp--custom--slider--dot-active-width, 2.75rem);
-		background-color: currentColor;
+    &[aria-current="true"]::after {
+        width: var(--wp--custom--slider--dot-active-width, 2.75rem);
+        background-color: currentColor;
 
-		// Forced colours drop the fill, which marks the current dot.
-		@media (forced-colors: active) {
-			forced-color-adjust: none;
-			background-color: Highlight;
-			border-color: Highlight;
-		}
-	}
+        // Forced colours drop the fill, which marks the current dot.
+        @media (forced-colors: active) {
+            forced-color-adjust: none;
+            background-color: Highlight;
+            border-color: Highlight;
+        }
+    }
 
-	@include helpers.hover {
-		&:not([aria-current="true"])::after {
-			background-color: var(--wp--custom--control--background-hover, var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent)));
-		}
-	}
+    @include helpers.hover {
+        &:not([aria-current="true"])::after {
+            background-color: var(
+                --wp--custom--control--background-hover,
+                var(
+                    --wp--custom--color--tint,
+                    color-mix(in srgb, currentColor 10%, transparent)
+                )
+            );
+        }
+    }
 
-	@media (prefers-reduced-motion: no-preference) {
-		&::after {
-			transition-property: width, background-color;
-			transition-duration: var(--wp--custom--transition--duration-slow, 300ms);
-			transition-timing-function: var(--wp--custom--transition--easing-default, ease-in-out);
-		}
-	}
+    @media (prefers-reduced-motion: no-preference) {
+        &::after {
+            transition-property: width, background-color;
+            transition-duration: var(
+                --wp--custom--transition--duration-slow,
+                300ms
+            );
+            transition-timing-function: var(
+                --wp--custom--transition--easing-default,
+                ease-in-out
+            );
+        }
+    }
 
-	&:focus-visible {
-		outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
-		outline-offset: var(--wp--custom--focus--offset, 2px);
-	}
+    &:focus-visible {
+        outline: var(--wp--custom--focus--width, 2px) solid
+            var(--wp--custom--color--focus, currentColor);
+        outline-offset: var(--wp--custom--focus--offset, 2px);
+    }
 }

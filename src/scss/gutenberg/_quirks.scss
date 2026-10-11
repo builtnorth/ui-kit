@@ -51,8 +51,8 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
             margin-right: 0;
         }
 
-        // Structural layout blocks always fill the content column (span math requires it).
-        > .wp-block-polaris-columns,
+        // Group and separator fill the content column. Columns does this
+        // itself (layout/_columns.scss) so span math holds in any parent.
         > .wp-block-group,
         > .wp-block-separator {
             width: 100%;
@@ -173,7 +173,8 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
                 .is-style-label,
                 .is-style-subheading,
                 .section-pattern,
-                .background
+                .background,
+                .wp-block-polaris-columns
             )
         ) {
             box-sizing: border-box;
@@ -253,7 +254,8 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
                 .is-style-label,
                 .is-style-subheading,
                 .section-pattern,
-                .wp-block-site-logo
+                .wp-block-site-logo,
+                .wp-block-polaris-columns
             )
         ) {
             box-sizing: border-box;
