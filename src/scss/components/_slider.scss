@@ -34,9 +34,9 @@ Global Slider Styles
 // Arrow on the section (below the slides): the inline control tokens, built
 // from the text colour. The full-colour border keeps the button's edge at the
 // text's contrast (WCAG 1.4.11 needs 3:1).
+// --polaris-arrow-color is the icon color. Line paints the glyph and the
+// border. Fill paints the button, and only when a color is actually chosen.
 @mixin slider-arrow-inline {
-    // --polaris-arrow-color is the Styles colour. Unset, the theme control tokens stay.
-    // Line uses it on the icon and the border. Fill uses it as the button.
     border-color: var(
         --polaris-arrow-color,
         var(--wp--custom--control--border, currentColor)
@@ -74,8 +74,7 @@ Global Slider Styles
     }
 }
 
-// Over the slides the buttons are positioned, not filled. Fill is a separate
-// choice; without it the icon and border stay the line colour.
+// ItemLayout side arrows sit on the track. They keep the line colour.
 @mixin slider-arrow-overlay {
     backdrop-filter: none;
 }
@@ -121,6 +120,57 @@ Global Slider Styles
         width: 100%;
         height: 100%;
         object-fit: contain;
+    }
+
+    // Phosphor glyphs sit inside a 256 canvas, so a content box sized for the
+    // old chevron made them tiny. The glyph fills most of the button.
+    &.is-polaris-icon {
+        --_arrow-icon: 2rem;
+        padding: calc(
+            (var(--wp--custom--control--size, 2.75rem) - var(--_arrow-icon)) / 2 -
+                var(--wp--custom--border-width--x-small, 2px)
+        );
+
+        svg {
+            width: var(--_arrow-icon);
+            height: var(--_arrow-icon);
+            flex: 0 0 auto;
+        }
+
+        &.is-size-small {
+            --_arrow-icon: 1.5rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            padding: calc(
+                (2.25rem - var(--_arrow-icon)) / 2 -
+                    var(--wp--custom--border-width--x-small, 2px)
+            );
+        }
+
+        &.is-size-large {
+            --_arrow-icon: 2.75rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            padding: calc(
+                (3.5rem - var(--_arrow-icon)) / 2 -
+                    var(--wp--custom--border-width--x-small, 2px)
+            );
+        }
+
+        &.is-size-custom {
+            --_arrow-icon: calc(var(--polaris-arrow-size, 2.75rem) * 0.72);
+            width: var(--polaris-arrow-size, 2.75rem);
+            height: var(--polaris-arrow-size, 2.75rem);
+            padding: calc(
+                (var(--polaris-arrow-size, 2.75rem) - var(--_arrow-icon)) / 2 -
+                    var(--wp--custom--border-width--x-small, 2px)
+            );
+        }
+    }
+
+    // Polaris arrow icons are already the right weight. The hairline stroke
+    // is only for the shared carousel chevron (ItemLayout).
+    &:not(.is-polaris-icon) svg {
         @include slider-arrow-icon-weight;
     }
 
@@ -165,6 +215,12 @@ Global Slider Styles
     min-width: 0;
     max-width: 100%;
 
+    // alignfull bleeds with negative margins. A max-width of 100% caps that
+    // bleed, so the hero stops short of the right edge.
+    &.alignfull {
+        max-width: none;
+    }
+
     .polaris-carousel__track {
         --_carousel-columns: var(--polaris-carousel-columns, 1);
     }
@@ -187,7 +243,16 @@ Global Slider Styles
 }
 
 .polaris-carousel__track {
-    display: flex;
+    // A grid row, not a flex row. Flex stretch does not grow the shorter
+    // slides once the row scrolls (overflow on both axes), so hero slides
+    // ended up as tall as their own content. One grid row shares a height.
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc(
+        (100% - (var(--_carousel-columns) - 1) * var(--_carousel-gap)) /
+            var(--_carousel-columns)
+    );
+    align-items: stretch;
     gap: var(--_carousel-gap);
     overflow-x: auto;
     overscroll-behavior-x: contain;
@@ -225,7 +290,8 @@ Global Slider Styles
     }
 }
 
-// Equal-height slides, `columns` to a view.
+// Equal-height slides, `columns` to a view. The column width is the track's
+// grid-auto-columns; this flex basis covers a track that is still a flex row.
 .polaris-carousel__slide {
     display: flex;
     flex: 0 0
@@ -235,6 +301,8 @@ Global Slider Styles
         );
     min-width: 0;
     max-width: 100%;
+    height: auto;
+    align-self: stretch;
     scroll-snap-align: start;
     // Do not set overflow:hidden here — it clips editor outlines, focus rings,
     // and column content when the track is the scrollport. Containment is on
@@ -273,7 +341,6 @@ Global Slider Styles
     flex-wrap: nowrap;
     flex-direction: row;
     align-items: center;
-    gap: var(--wp--custom--inline-gap, 0.5rem);
 
     &[hidden] {
         display: none;
@@ -288,6 +355,17 @@ Global Slider Styles
     &.has-controls-align-end {
         justify-content: flex-end;
     }
+}
+
+// Zero specificity so a Block spacing value wins. Untouched, the theme gap stays.
+:where(.polaris-carousel__controls) {
+    gap: var(--wp--custom--inline-gap, 0.5rem);
+}
+
+// Slider arrows write their Block spacing onto the block (core only prints
+// that gap for layout blocks). This beats the theme gap above.
+.wp-block-polaris-slider-arrows.polaris-carousel__controls {
+    gap: var(--polaris-arrows-gap, var(--wp--custom--inline-gap, 0.5rem));
 }
 
 // Classic below-track chrome (ItemLayout / attribute-driven carousels): the
@@ -310,6 +388,10 @@ Global Slider Styles
     min-width: 0;
     max-width: 100%;
 
+    &.alignfull {
+        max-width: none;
+    }
+
     > .polaris-carousel__track {
         min-width: 0;
         width: 100%;
@@ -324,15 +406,47 @@ Global Slider Styles
         flex-wrap: nowrap;
     }
 
+    // Chrome hugs its contents, and is never shrunk below them. A max-width
+    // here used to cap the background while a large button or mark spilled
+    // out of it. Alignment moves the group. Full-width indicators opt in.
     > .polaris-carousel__controls,
     > .polaris-carousel__dots {
         margin-block: 0;
-        max-width: var(--polaris-carousel-controls-max-width, none);
-        margin-inline: auto;
-        padding-inline: var(--polaris-carousel-controls-padding, 0);
-        width: 100%;
         box-sizing: border-box;
+        flex-shrink: 0;
+        width: max-content;
+        max-width: none;
+        min-width: min-content;
+        align-self: flex-start;
+    }
+
+    > .polaris-carousel__controls.has-controls-align-center,
+    > .polaris-carousel__dots.has-dots-align-center:not(.is-width-fill) {
+        align-self: center;
+    }
+
+    > .polaris-carousel__controls.has-controls-align-end,
+    > .polaris-carousel__dots.has-dots-align-end:not(.is-width-fill) {
+        align-self: flex-end;
+    }
+
+    > .polaris-carousel__dots.is-width-fill,
+    > .polaris-carousel__dots.is-dots-style-track:not(.is-width-hug) {
+        width: 100%;
+        max-width: 100%;
         min-width: 0;
+        align-self: stretch;
+    }
+
+    // Full-bleed sliders: a hugged group still starts at the content edge.
+    &.alignfull > .polaris-carousel__controls:not(.has-controls-align-center):not(.has-controls-align-end),
+    &.alignfull > .polaris-carousel__dots:not(.is-dots-style-track):not(.has-dots-align-center):not(.has-dots-align-end) {
+        margin-inline-start: var(--polaris-carousel-controls-padding, var(--wp--style--root--padding-left, 1rem));
+    }
+
+    &.alignfull > .polaris-carousel__controls.has-controls-align-end,
+    &.alignfull > .polaris-carousel__dots.has-dots-align-end:not(.is-dots-style-track) {
+        margin-inline-end: var(--polaris-carousel-controls-padding, var(--wp--style--root--padding-right, 1rem));
     }
 }
 
@@ -341,10 +455,7 @@ Global Slider Styles
     // ItemLayout / non-layout carousels: grid + display:contents so prev/next
     // share the track cell. Must NOT run on .is-layout-flex — contents would
     // drop the buttons into the vertical stack and they stack as columns.
-    .polaris-carousel.has-arrows-sides:not(.is-layout-flex),
-    .polaris-carousel:has(> .polaris-carousel__controls.is-arrows-sides):not(
-            .is-layout-flex
-        ) {
+    .polaris-carousel.has-arrows-sides:not(.is-layout-flex) {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
 
@@ -397,86 +508,12 @@ Global Slider Styles
     }
 }
 
-// polaris/slider: overlay the two buttons on the track. Dots are a separate
-// block, so the arrows box itself leaves the stack. A saved post may still
-// nest dots here; those stay in flow under the slides.
-// --polaris-carousel-sides-top is the track's vertical centre from JS.
-@mixin slider-sides-overlay {
-    .polaris-carousel.is-layout-flex:has(
-            .polaris-carousel__controls.is-arrows-sides
-        ) {
-        position: relative;
-
-        > .polaris-carousel__controls.is-arrows-sides:not([hidden]) {
-            // Arrows only (dots are a sibling): take the box out of the flex
-            // flow so Block spacing is track → dots, not an empty gap slot.
-            &:not(:has(.polaris-carousel__dots)) {
-                position: absolute;
-                inset: 0;
-                display: block;
-                width: auto;
-                max-width: none;
-                margin: 0;
-                padding: 0;
-                pointer-events: none;
-                box-sizing: border-box;
-            }
-
-            // Nested dots stay in the flex stack as the pagination row.
-            &:has(.polaris-carousel__dots) {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: nowrap;
-                width: 100%;
-                margin: 0;
-                max-width: var(--polaris-carousel-controls-max-width, none);
-                padding-inline: var(--polaris-carousel-controls-padding, 0);
-                box-sizing: border-box;
-            }
-
-            > .polaris-carousel__prev,
-            > .polaris-carousel__next {
-                @include slider-arrow-overlay;
-                position: absolute;
-                top: var(--polaris-carousel-sides-top, 50%);
-                transform: translateY(-50%);
-                z-index: 1;
-                margin: 0;
-                pointer-events: auto;
-            }
-
-            > .polaris-carousel__prev {
-                left: var(
-                    --polaris-carousel-controls-padding,
-                    var(--wp--custom--inline-gap, 0.5rem)
-                );
-            }
-
-            > .polaris-carousel__next {
-                right: var(
-                    --polaris-carousel-controls-padding,
-                    var(--wp--custom--inline-gap, 0.5rem)
-                );
-            }
-        }
-    }
-}
-
-@include mq.viewport-desktop {
-    @include slider-sides-overlay;
-}
-
-// The editor canvas is often under the desktop breakpoint, so "Sides" looked
-// like a row under the slides. Show the placement the author picked.
-.editor-styles-wrapper {
-    @include slider-sides-overlay;
-}
-
 // The dots, as tall as the arrows so they line up on one row; after the
 // arrows with a wider gap than the one between them.
 // --polaris-dots-color is the Styles colour. Unset, the section text colour.
 .polaris-carousel__dots {
     --_mark: var(--polaris-dots-color, currentColor);
+    --_indicator-scale: 1;
     color: var(--_mark);
     display: flex;
     flex-wrap: wrap;
@@ -489,6 +526,19 @@ Global Slider Styles
 
     &.has-dots-align-end {
         justify-content: flex-end;
+    }
+
+    &.is-size-small {
+        --_indicator-scale: 0.75;
+    }
+
+    &.is-size-large {
+        --_indicator-scale: 1.5;
+    }
+
+    // Block spacing, same path as the arrows: a value on the block, else none.
+    &.wp-block-polaris-slider-dots {
+        gap: var(--polaris-indicator-gap, 0px);
     }
 
     .polaris-carousel__next + & {
@@ -582,7 +632,8 @@ Global Slider Styles
     justify-content: center;
     box-sizing: border-box;
     min-width: 24px;
-    height: 24px;
+    min-height: 24px;
+    height: auto;
     margin: 0;
     padding: 0 0.25rem;
     border: 0;
@@ -594,15 +645,22 @@ Global Slider Styles
     &::after {
         content: "";
         box-sizing: border-box;
-        width: var(--wp--custom--slider--dot-width, 1.5rem);
-        height: var(--wp--custom--slider--dot-size, 0.75rem);
+        width: calc(
+            var(--wp--custom--slider--dot-width, 1.5rem) * var(--_indicator-scale, 1)
+        );
+        height: calc(
+            var(--wp--custom--slider--dot-size, 0.75rem) * var(--_indicator-scale, 1)
+        );
         border: var(--wp--custom--border-width--x-small, 2px) solid currentColor;
         border-radius: var(--wp--custom--control--radius, 0);
         background-color: transparent;
     }
 
     &[aria-current="true"]::after {
-        width: var(--wp--custom--slider--dot-active-width, 2.75rem);
+        width: calc(
+            var(--wp--custom--slider--dot-active-width, 2.75rem) *
+                var(--_indicator-scale, 1)
+        );
         background-color: currentColor;
 
         // Forced colours drop the fill, which marks the current dot.
@@ -648,15 +706,20 @@ Global Slider Styles
 
 // Circles. Same 24px target; the mark is a dot, filled for the current stop.
 .polaris-carousel__dots.is-dots-style-dots > .polaris-carousel__dot::after {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: calc(0.5rem * var(--_indicator-scale, 1));
+    height: calc(0.5rem * var(--_indicator-scale, 1));
     border-radius: 999px;
 }
 
 .polaris-carousel__dots.is-dots-style-dots
     > .polaris-carousel__dot[aria-current="true"]::after {
-    width: 0.5rem;
+    width: calc(0.5rem * var(--_indicator-scale, 1));
     background-color: currentColor;
+}
+
+// Flush rail until Block spacing is set. Zero specificity so that gap wins.
+:where(.polaris-carousel__dots.is-dots-style-track) {
+    gap: 0;
 }
 
 // One rail across the dots' box. Segments share that width and cannot
@@ -664,17 +727,16 @@ Global Slider Styles
 // carousel's overflow clip hides the rail). The current stop is filled, and
 // where anchor positioning exists that fill is one thumb that slides along.
 .polaris-carousel__dots.is-dots-style-track {
-    gap: 0;
     min-width: min-content;
 
     > .polaris-carousel__dot {
         flex: 1 1 0%;
         padding: 0;
-        min-width: 1.75rem;
+        min-width: calc(1.75rem * var(--_indicator-scale, 1));
 
         &::after {
             width: 100%;
-            height: 0.25rem;
+            height: calc(0.25rem * var(--_indicator-scale, 1));
             border: 0;
             border-radius: 0;
             background-color: color-mix(in srgb, currentColor 28%, transparent);
@@ -697,18 +759,31 @@ Global Slider Styles
     }
 }
 
-// On its own row, the rail is the slider's width.
-.polaris-carousel.is-layout-flex > .polaris-carousel__dots.is-dots-style-track {
+// On its own row, the rail is the slider's width unless Full width is off.
+.polaris-carousel.is-layout-flex > .polaris-carousel__dots.is-dots-style-track:not(.is-width-hug) {
     width: 100%;
 }
 
 // Beside the arrows (in the controls, or in a row group with them), take the
 // free space. min-content keeps the rail visible when that row is shrink-wrapped.
-:is(.polaris-carousel__controls, .wp-block-group) > .polaris-carousel__dots.is-dots-style-track,
-.polaris-carousel__controls .polaris-carousel__dots.is-dots-style-track {
+:is(.polaris-carousel__controls, .wp-block-group) > .polaris-carousel__dots.is-dots-style-track:not(.is-width-hug),
+.polaris-carousel__controls .polaris-carousel__dots.is-dots-style-track:not(.is-width-hug) {
     flex: 1 1 auto;
     width: auto;
     min-width: min-content;
+}
+
+// The inserted chrome row (arrows, then the indicator) has to be the slider's
+// width. Otherwise space-between has no free space and the two sit together.
+.polaris-carousel.is-layout-flex > .wp-block-group:has(> .polaris-carousel__controls, > .polaris-carousel__dots) {
+    align-self: stretch;
+    width: auto;
+    max-width: none;
+    min-width: 0;
+}
+
+.polaris-carousel.is-layout-flex.alignfull > .wp-block-group:has(> .polaris-carousel__controls, > .polaris-carousel__dots) {
+    margin-inline: var(--polaris-carousel-controls-padding, var(--wp--style--root--padding-left, 1rem));
 }
 
 // A row that holds the track next to the arrows spans the slider, so the rail
@@ -742,7 +817,7 @@ Global Slider Styles
             inset-inline-start: anchor(start);
             translate: 0 -50%;
             inline-size: anchor-size(inline);
-            block-size: 0.25rem;
+            block-size: calc(0.25rem * var(--_indicator-scale, 1));
             border-radius: 999px;
             background-color: currentColor;
             pointer-events: none;
@@ -761,9 +836,7 @@ Global Slider Styles
 }
 
 // Fill paints the mark. Line paints the stroke. The colour is --_mark either way.
-// Inactive stops are a lighter pass of the same colour; the current stop is solid.
-// The track is a rail, not a stroked mark: these rules skip it, or the line
-// style's transparent fill would erase the rail (it has no border to fall back on).
+// The track is a rail, not a stroked mark, so these rules skip it.
 .polaris-carousel__dots.is-appearance-line:not(.is-dots-style-track) > .polaris-carousel__dot::after {
     background-color: transparent;
     border-color: color-mix(in oklch, var(--_mark) 45%, transparent);
@@ -784,7 +857,7 @@ Global Slider Styles
     background-color: var(--_mark);
 }
 
-// Rail and thumb follow the dot colour. The rail stays a tint; the thumb is solid.
+// Rail and thumb follow the indicator colour. The rail stays a tint; the thumb is solid.
 .polaris-carousel__dots.is-dots-style-track > .polaris-carousel__dot::after {
     border: 0;
     background-color: color-mix(in oklch, var(--_mark) 28%, transparent);
@@ -797,4 +870,65 @@ Global Slider Styles
 .polaris-carousel__dots.is-dots-style-track::after {
     background-color: var(--_mark);
     border: 0;
+}
+
+// Custom size is one length, the mark's height (a bar), diameter (a dot),
+// or thickness (a track). Widths stay in proportion to the preset marks.
+.polaris-carousel__dots.is-size-custom > .polaris-carousel__dot::after {
+    height: var(--polaris-indicator-size, 0.75rem);
+    width: calc(var(--polaris-indicator-size, 0.75rem) * 2);
+}
+
+.polaris-carousel__dots.is-size-custom > .polaris-carousel__dot[aria-current="true"]::after {
+    width: calc(var(--polaris-indicator-size, 0.75rem) * 3.667);
+}
+
+.polaris-carousel__dots.is-size-custom.is-dots-style-dots > .polaris-carousel__dot::after,
+.polaris-carousel__dots.is-size-custom.is-dots-style-dots > .polaris-carousel__dot[aria-current="true"]::after {
+    width: var(--polaris-indicator-size, 0.75rem);
+    height: var(--polaris-indicator-size, 0.75rem);
+}
+
+.polaris-carousel__dots.is-size-custom.is-dots-style-track > .polaris-carousel__dot::after,
+.polaris-carousel__dots.is-size-custom.is-dots-style-track > .polaris-carousel__dot[aria-current="true"]::after {
+    width: 100%;
+    height: var(--polaris-indicator-size, 0.25rem);
+    block-size: var(--polaris-indicator-size, 0.25rem);
+}
+
+.polaris-carousel__dots.is-size-custom.is-dots-style-track::after {
+    block-size: var(--polaris-indicator-size, 0.25rem);
+}
+
+// Full-width bars share the row. The current bar keeps the same proportion
+// as the preset marks (2.75 to 1.5), so it stays longer than the others.
+.polaris-carousel__dots.is-width-fill:not(.is-dots-style-track):not(.is-dots-style-dots) {
+    flex-wrap: nowrap;
+
+    > .polaris-carousel__dot {
+        flex: 1.5 1 0%;
+        min-width: 0;
+
+        &::after,
+        &[aria-current="true"]::after {
+            width: 100%;
+        }
+
+        &[aria-current="true"] {
+            flex-grow: 2.75;
+        }
+    }
+
+    // The mark is always 100% of its button, so the old width transition
+    // never runs. The button's share of the row is what changes.
+    @media (prefers-reduced-motion: no-preference) {
+        > .polaris-carousel__dot {
+            transition-property: flex-grow;
+            transition-duration: var(--wp--custom--transition--duration-slow, 300ms);
+            transition-timing-function: var(
+                --wp--custom--transition--easing-default,
+                ease-out
+            );
+        }
+    }
 }

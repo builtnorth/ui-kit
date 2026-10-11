@@ -337,6 +337,12 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 	padding: var(--wp--custom--card--padding, 2rem);
 }
 
+// Arrow and indicator wraps are control chrome, not cards. Same one-class
+// specificity, so a Padding setting on the block still wins.
+:where(.wp-block-polaris-slider-arrows, .wp-block-polaris-slider-dots):is(#{$_boxed}) {
+	padding: var(--wp--custom--inline-gap, 0.5rem);
+}
+
 // A boxed group nested in a root-padded container: core's nested
 // .has-global-padding reset zeroes its sides with the same specificity and
 // prints after these styles in the editor, so the sides take one more class.
