@@ -35,9 +35,14 @@ Global Slider Styles
 // from the text colour. The full-colour border keeps the button's edge at the
 // text's contrast (WCAG 1.4.11 needs 3:1).
 @mixin slider-arrow-inline {
-    border-color: var(--wp--custom--control--border, currentColor);
+    // --polaris-arrow-color is the Styles colour. Unset, the theme control tokens stay.
+    // Line uses it on the icon and the border. Fill uses it as the button.
+    border-color: var(
+        --polaris-arrow-color,
+        var(--wp--custom--control--border, currentColor)
+    );
     background: var(--wp--custom--control--background, transparent);
-    color: var(--wp--custom--control--color, currentColor);
+    color: var(--polaris-arrow-color, var(--wp--custom--control--color, currentColor));
     backdrop-filter: none;
 
     @include helpers.hover($focus: true) {
@@ -51,26 +56,28 @@ Global Slider Styles
     }
 }
 
-// Arrow over the slides: the overlay control tokens (as the media pause
-// button), a dark fill with a light edge and icon, readable on any image.
-@mixin slider-arrow-overlay {
-    border-color: var(
-        --wp--custom--control--overlay-ring,
-        rgb(255 255 255 / 60%)
-    );
-    background: var(
-        --wp--custom--control--overlay-background,
-        rgb(0 0 0 / 60%)
-    );
+// Fill paints only when a colour is chosen. With the colour cleared, the
+// button stays the theme line so the icon is not the same colour as the fill.
+.polaris-carousel__controls.is-appearance-fill.has-arrow-color > .polaris-slider-arrow {
+    --_arrow-fill: var(--polaris-arrow-color);
+    border-color: transparent;
+    background: var(--_arrow-fill);
     color: var(--wp--custom--control--overlay-color, #fff);
-    backdrop-filter: blur(4px);
+    color: contrast-color(var(--_arrow-fill));
 
     @include helpers.hover($focus: true) {
-        background: var(
-            --wp--custom--control--overlay-background-hover,
-            rgb(0 0 0 / 80%)
+        background: color-mix(
+            in oklch,
+            contrast-color(var(--_arrow-fill)) 16%,
+            var(--_arrow-fill)
         );
     }
+}
+
+// Over the slides the buttons are positioned, not filled. Fill is a separate
+// choice; without it the icon and border stay the line colour.
+@mixin slider-arrow-overlay {
+    backdrop-filter: none;
 }
 
 // The arrow chevron is a hairline path; this stroke brings it to the weight
@@ -388,13 +395,13 @@ Global Slider Styles
             justify-content: flex-end;
         }
     }
+}
 
-    // polaris/slider (layout flex): WordPress owns the vertical stack + Block
-    // spacing. Overlay only the arrow buttons on the track — never pin the
-    // whole controls box (that put nested dots over the slides). Avoid
-    // `display: contents` here: it stacks prev/next in the column flex and
-    // breaks block selection in the editor.
-    // --polaris-carousel-sides-top is the track's vertical centre from JS.
+// polaris/slider: overlay the two buttons on the track. Dots are a separate
+// block, so the arrows box itself leaves the stack. A saved post may still
+// nest dots here; those stay in flow under the slides.
+// --polaris-carousel-sides-top is the track's vertical centre from JS.
+@mixin slider-sides-overlay {
     .polaris-carousel.is-layout-flex:has(
             .polaris-carousel__controls.is-arrows-sides
         ) {
@@ -455,12 +462,34 @@ Global Slider Styles
     }
 }
 
+@include mq.viewport-desktop {
+    @include slider-sides-overlay;
+}
+
+// The editor canvas is often under the desktop breakpoint, so "Sides" looked
+// like a row under the slides. Show the placement the author picked.
+.editor-styles-wrapper {
+    @include slider-sides-overlay;
+}
+
 // The dots, as tall as the arrows so they line up on one row; after the
 // arrows with a wider gap than the one between them.
+// --polaris-dots-color is the Styles colour. Unset, the section text colour.
 .polaris-carousel__dots {
+    --_mark: var(--polaris-dots-color, currentColor);
+    color: var(--_mark);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: flex-start;
+
+    &.has-dots-align-center {
+        justify-content: center;
+    }
+
+    &.has-dots-align-end {
+        justify-content: flex-end;
+    }
 
     .polaris-carousel__next + & {
         margin-inline-start: calc(
@@ -479,6 +508,69 @@ Global Slider Styles
                     0.5rem
                 )
         );
+    }
+}
+
+// Dots that follow the arrows (not sandwiched between them) get the rest of
+// the row, so Left / Center / Right is the slider's width. Center drops to
+// its own line so the indicators don't sit on top of the arrows. Arrows set
+// to Center keep the dots between the buttons and this grid does not run.
+.polaris-carousel.is-layout-flex
+    > .polaris-carousel__controls:has(> .polaris-carousel__dots):not(
+        :has(> .polaris-carousel__prev + .polaris-carousel__dots)
+    ) {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: center;
+    justify-content: start;
+    column-gap: var(--wp--custom--inline-gap, 0.5rem);
+
+    > .polaris-carousel__prev {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    > .polaris-carousel__next {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    > .polaris-carousel__dots {
+        grid-column: 3;
+        grid-row: 1;
+        width: 100%;
+        margin-block: 0;
+        margin-inline-end: 0;
+    }
+
+    > .polaris-carousel__dots.has-dots-align-center,
+    > .polaris-carousel__dots.has-dots-align-end,
+    > .polaris-carousel__dots.is-dots-style-track {
+        margin: 0;
+    }
+
+    > .polaris-carousel__dots.has-dots-align-center {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    // Arrows at the end: the free column is on the left, so dot alignment
+    // still has the full row (left, center on the next line, or beside the arrows).
+    &.has-controls-align-end {
+        grid-template-columns: minmax(0, 1fr) auto auto;
+
+        > .polaris-carousel__prev {
+            grid-column: 2;
+        }
+
+        > .polaris-carousel__next {
+            grid-column: 3;
+        }
+
+        > .polaris-carousel__dots:not(.has-dots-align-center) {
+            grid-column: 1;
+            margin: 0;
+        }
     }
 }
 
@@ -552,4 +644,157 @@ Global Slider Styles
             var(--wp--custom--color--focus, currentColor);
         outline-offset: var(--wp--custom--focus--offset, 2px);
     }
+}
+
+// Circles. Same 24px target; the mark is a dot, filled for the current stop.
+.polaris-carousel__dots.is-dots-style-dots > .polaris-carousel__dot::after {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+}
+
+.polaris-carousel__dots.is-dots-style-dots
+    > .polaris-carousel__dot[aria-current="true"]::after {
+    width: 0.5rem;
+    background-color: currentColor;
+}
+
+// One rail across the dots' box. Segments share that width and cannot
+// shrink to nothing (a flex row would otherwise squeeze them to 0, and the
+// carousel's overflow clip hides the rail). The current stop is filled, and
+// where anchor positioning exists that fill is one thumb that slides along.
+.polaris-carousel__dots.is-dots-style-track {
+    gap: 0;
+    min-width: min-content;
+
+    > .polaris-carousel__dot {
+        flex: 1 1 0%;
+        padding: 0;
+        min-width: 1.75rem;
+
+        &::after {
+            width: 100%;
+            height: 0.25rem;
+            border: 0;
+            border-radius: 0;
+            background-color: color-mix(in srgb, currentColor 28%, transparent);
+        }
+
+        &:first-child::after {
+            border-start-start-radius: 999px;
+            border-end-start-radius: 999px;
+        }
+
+        &:last-child::after {
+            border-start-end-radius: 999px;
+            border-end-end-radius: 999px;
+        }
+
+        &[aria-current="true"]::after {
+            width: 100%;
+            background-color: currentColor;
+        }
+    }
+}
+
+// On its own row, the rail is the slider's width.
+.polaris-carousel.is-layout-flex > .polaris-carousel__dots.is-dots-style-track {
+    width: 100%;
+}
+
+// Beside the arrows (in the controls, or in a row group with them), take the
+// free space. min-content keeps the rail visible when that row is shrink-wrapped.
+:is(.polaris-carousel__controls, .wp-block-group) > .polaris-carousel__dots.is-dots-style-track,
+.polaris-carousel__controls .polaris-carousel__dots.is-dots-style-track {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: min-content;
+}
+
+// A row that holds the track next to the arrows spans the slider, so the rail
+// has a width to fill. Otherwise the row shrinks to the arrows and the track
+// collapses under overflow clip.
+.polaris-carousel.is-layout-flex .wp-block-group:has(> .polaris-carousel__dots.is-dots-style-track) {
+    align-self: stretch;
+    width: 100%;
+    max-width: 100%;
+}
+
+@supports (anchor-name: --polaris-dots-active) {
+    .polaris-carousel__dots.is-dots-style-track {
+        position: relative;
+        anchor-scope: --polaris-dots-active;
+
+        > .polaris-carousel__dot[aria-current="true"] {
+            anchor-name: --polaris-dots-active;
+        }
+
+        // The segment stays part of the rail. The thumb is the moving fill.
+        > .polaris-carousel__dot[aria-current="true"]::after {
+            background-color: color-mix(in srgb, currentColor 28%, transparent);
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            position-anchor: --polaris-dots-active;
+            inset-block-start: anchor(center);
+            inset-inline-start: anchor(start);
+            translate: 0 -50%;
+            inline-size: anchor-size(inline);
+            block-size: 0.25rem;
+            border-radius: 999px;
+            background-color: currentColor;
+            pointer-events: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .polaris-carousel__dots.is-dots-style-track::after {
+            transition:
+                inset-inline-start var(--wp--custom--transition--duration-slow, 300ms)
+                    var(--wp--custom--transition--easing-default, ease-out),
+                inline-size var(--wp--custom--transition--duration-slow, 300ms)
+                    var(--wp--custom--transition--easing-default, ease-out);
+        }
+    }
+}
+
+// Fill paints the mark. Line paints the stroke. The colour is --_mark either way.
+// Inactive stops are a lighter pass of the same colour; the current stop is solid.
+// The track is a rail, not a stroked mark: these rules skip it, or the line
+// style's transparent fill would erase the rail (it has no border to fall back on).
+.polaris-carousel__dots.is-appearance-line:not(.is-dots-style-track) > .polaris-carousel__dot::after {
+    background-color: transparent;
+    border-color: color-mix(in oklch, var(--_mark) 45%, transparent);
+}
+
+.polaris-carousel__dots.is-appearance-line:not(.is-dots-style-track) > .polaris-carousel__dot[aria-current="true"]::after {
+    background-color: transparent;
+    border-color: var(--_mark);
+}
+
+.polaris-carousel__dots.is-appearance-fill:not(.is-dots-style-track) > .polaris-carousel__dot::after {
+    border-color: transparent;
+    background-color: color-mix(in oklch, var(--_mark) 40%, transparent);
+}
+
+.polaris-carousel__dots.is-appearance-fill:not(.is-dots-style-track) > .polaris-carousel__dot[aria-current="true"]::after {
+    border-color: transparent;
+    background-color: var(--_mark);
+}
+
+// Rail and thumb follow the dot colour. The rail stays a tint; the thumb is solid.
+.polaris-carousel__dots.is-dots-style-track > .polaris-carousel__dot::after {
+    border: 0;
+    background-color: color-mix(in oklch, var(--_mark) 28%, transparent);
+}
+
+.polaris-carousel__dots.is-dots-style-track > .polaris-carousel__dot[aria-current="true"]::after {
+    background-color: var(--_mark);
+}
+
+.polaris-carousel__dots.is-dots-style-track::after {
+    background-color: var(--_mark);
+    border: 0;
 }
