@@ -220,7 +220,8 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
 }
 
 .wp-block-polaris-section__inner.is-layout-flex,
-.wp-block-polaris-hero__inner.is-layout-flex {
+.wp-block-polaris-hero__inner.is-layout-flex,
+.wp-block-polaris-mega-menu__dropdown-inner.is-layout-flex {
     @include polaris-flex-container-children;
 }
 
