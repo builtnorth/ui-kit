@@ -200,6 +200,13 @@ Global Slider Styles
 // desktop, the medium count on tablet (ItemLayout::carousel(): half for 4 or
 // more, else 1) and one on mobile. Below the slides, a controls row in the
 // text colour (so it reads on any background): the arrows, then the dots.
+// No wider than the parent, at zero specificity: in a constrained layout
+// (page content, a constrained Group) core's own :where() rule caps the
+// carousel at the content size, as it does every other block.
+:where(.polaris-carousel) {
+    max-width: 100%;
+}
+
 .polaris-carousel {
     --_carousel-gap: var(
         --polaris-slider-gap,
@@ -213,7 +220,6 @@ Global Slider Styles
     container-type: inline-size;
     width: 100%;
     min-width: 0;
-    max-width: 100%;
 
     // alignfull bleeds with negative margins. A max-width of 100% caps that
     // bleed, so the hero stops short of the right edge.
