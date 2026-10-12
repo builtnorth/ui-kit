@@ -526,6 +526,11 @@ Global Slider Styles
     align-items: center;
     justify-content: flex-start;
 
+    // The engine hides dots of their own when nothing scrolls.
+    &[hidden] {
+        display: none;
+    }
+
     &.has-dots-align-center {
         justify-content: center;
     }
