@@ -5,7 +5,7 @@
 ---------------------------------------- */
 
 // Gap-aware width for an $i-of-12 span, matching how a CSS Grid `fr` track
-// (or post-feed's flex `calc()`) divides space: subtract the gaps the row
+// divides space: subtract the gaps the row
 // would have at 12 equal tracks, then add back the gaps a span of $i visually
 // crosses. Reduces to the plain flat percentage when gap is 0, and to
 // `(100% - (n-1)*gap) / n` for the equal-split case (e.g. span-4 of 12 = thirds).
@@ -15,14 +15,6 @@
 			#{$gap}
 	);
 }
-
-// post-feed's grid shares this class (to mirror polaris/columns's other
-// layout styling) but manages its own responsive column count via the
-// responsive-columns mixin instead of this file's binary tablet-and-below stack —
-// every viewport-driven stacking rule below must exclude it, or WordPress's
-// auto-added layout classes (is-nowrap, etc.) force it to 1 column at
-// the tablet breakpoint regardless of the block's actual --polaris-post-feed-columns breakpoints.
-$polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 
 .wp-block-polaris-columns {
 	// A row fills its parent. Flex parents with align-items: flex-start
@@ -38,7 +30,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 	// render.php / edit.js), else the column-gap token, else the theme's block
 	// spacing. The span widths below read the same value, so a row always adds
 	// up to 100%.
-	&#{$polaris-columns-not-post-feed} {
+	& {
 		--_columns-gap: var(
 			--polaris-columns-gap,
 			var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem))
@@ -48,7 +40,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 
 	/* Top-level rows: viewport only (not the width of a parent column). Rows
 	   with a per-device layout (.has-viewport-layout, below) are left to it. */
-	&#{$polaris-columns-not-post-feed}:not(.has-viewport-layout) {
+	&:not(.has-viewport-layout) {
 		@include viewport-tablet-down() {
 			@include polaris-columns-stack-row;
 		}
@@ -61,7 +53,7 @@ $polaris-columns-not-post-feed: ":not(.wp-block-polaris-post-feed)";
 	   stack as on mobile. Top-level rows only: nested rows keep their parent
 	   column's container rule. Columns are counted with `of` so the editor's
 	   appender isn't one. */
-	&#{$polaris-columns-not-post-feed}:not(.has-viewport-layout):not(.wp-block-polaris-column > *) {
+	&:not(.has-viewport-layout):not(.wp-block-polaris-column > *) {
 		@include viewport-tablet() {
 			&:has(> .wp-block-polaris-column--span-2, > .wp-block-polaris-column--span-3) {
 				flex-direction: row !important;
