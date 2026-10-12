@@ -193,11 +193,11 @@ Global Slider Styles
 }
 
 // ==========================================================================
-// Carousel on native scroll (navas-utility ItemLayout::carousel())
+// Carousel on native scroll (the Slider block)
 // ==========================================================================
 // A scroll-snap row, slides per view at the theme's breakpoints (theme.json
 // settings.viewport), as polaris/columns steps down: the block's columns on
-// desktop, the medium count on tablet (ItemLayout::carousel(): half for 4 or
+// desktop, the medium count on tablet (ItemLayout::carousel_columns_medium(): half for 4 or
 // more, else 1) and one on mobile. Below the slides, a controls row in the
 // text colour (so it reads on any background): the arrows, then the dots.
 // No wider than the parent, at zero specificity: in a constrained layout
@@ -271,9 +271,6 @@ Global Slider Styles
     }
 
     // No arrows or dots: the scrollbar shows the row scrolls.
-    // has-no-controls is still set by ItemLayout::carousel(); :has covers
-    // polaris/slider once arrows/dots are optional InnerBlocks.
-    .has-no-controls > &,
     .polaris-carousel:not(:has(.polaris-carousel__prev)):not(
             :has(.polaris-carousel__dots)
         )
