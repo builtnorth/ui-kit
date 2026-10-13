@@ -19,7 +19,7 @@ background ancestor, not from intermediate wrappers or outer sections.
 // ui-kit lists none: palettes belong to themes. A theme declares its own
 // pairs, both directions, with the mixin below:
 //
-//   @use "@builtnorth/ui-kit/base/colors" as colors;
+//   @use "@siratik/ui-kit/base/colors" as colors;
 //   @include colors.kitaris-color-contrast-rules((
 //     "primary": "primary-contrast",
 //     "primary-contrast": "primary",

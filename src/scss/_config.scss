@@ -10,7 +10,7 @@
 //   form.file    → file inputs, drop zones, selected-file rows
 //
 // Configure before any other ui-kit @use (Sass configures a module on first load):
-// @use "@builtnorth/ui-kit/config" with ( $form-field-padding-x: 1rem );
+// @use "@siratik/ui-kit/config" with ( $form-field-padding-x: 1rem );
 
 // form.field
 // ----------------------------------------------------------------------------
@@ -115,7 +115,7 @@ $container-max-width: var(
 // Breakpoints
 // ----------------------------------------------------------------------------
 // Fixed widths for helpers/_media-queries.scss's gt-*/lt-*/only-* mixins —
-// override here via `@use "@builtnorth/ui-kit/config" with (...)`, not by
+// override here via `@use "@siratik/ui-kit/config" with (...)`, not by
 // editing media-queries.scss. Device breakpoints ("on a phone/tablet") are
 // NOT set here: they come from the theme's theme.json `settings.viewport`
 // through the viewport-* mixins.

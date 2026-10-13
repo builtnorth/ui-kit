@@ -10,22 +10,22 @@ UI Kit can be customized in three ways:
 
 ## Method 1: Configure the config module with `@use ... with`
 
-Every variable lives in one module, `@builtnorth/ui-kit/config`. Configure it
+Every variable lives in one module, `@siratik/ui-kit/config`. Configure it
 **before any other ui-kit `@use`** in the same stylesheet: Sass configures a
 module only the first time it loads, and every ui-kit module then reads the
 configured values.
 
 ```scss
 // In your theme or plugin SCSS file
-@use "@builtnorth/ui-kit/config" with (
+@use "@siratik/ui-kit/config" with (
 	$form-field-padding-x: 1rem,
 	$form-field-border-radius: 0.5rem,
 	$breakpoint-md: 800px
 );
-@use "@builtnorth/ui-kit";
+@use "@siratik/ui-kit";
 ```
 
-`@use "@builtnorth/ui-kit" with (...)` does not work: the entry point doesn't
+`@use "@siratik/ui-kit" with (...)` does not work: the entry point doesn't
 forward the config variables, so Sass reports "This variable was not declared
 with !default in the @used module".
 
@@ -37,7 +37,7 @@ modules load the config with `@use`.
 You can also just import the config to use variables in your own code:
 
 ```scss
-@use "@builtnorth/ui-kit/config" as ui-kit;
+@use "@siratik/ui-kit/config" as ui-kit;
 
 .my-custom-button {
 	padding: ui-kit.$button-padding-y ui-kit.$button-padding-x;
@@ -76,7 +76,7 @@ The groups are:
 
 ```scss
 // theme.scss
-@use "@builtnorth/ui-kit/config" with (
+@use "@siratik/ui-kit/config" with (
 	// Bigger, rounder form fields
 	$form-field-padding-x: 1rem,
 	$form-field-padding-y: 0.75rem,
@@ -87,36 +87,36 @@ The groups are:
 	$form-choice-size: 1.5rem,
 	$form-choice-border-radius: 0.5rem
 );
-@use "@builtnorth/ui-kit";
+@use "@siratik/ui-kit";
 ```
 
 ### Example 2: Adjust Breakpoints for Your Design
 
 ```scss
-@use "@builtnorth/ui-kit/config" with (
+@use "@siratik/ui-kit/config" with (
 	// Custom breakpoints to match your design
 	$breakpoint-sm: 600px,
 	$breakpoint-md: 800px,
 	$breakpoint-lg: 1100px,
 	$breakpoint-xl: 1300px
 );
-@use "@builtnorth/ui-kit";
+@use "@siratik/ui-kit";
 ```
 
 ### Example 3: Import Only What You Need
 
 ```scss
-@use "@builtnorth/ui-kit/config" with (
+@use "@siratik/ui-kit/config" with (
 	$form-field-padding-x: 1rem,
 	$form-choice-size: 1.5rem
 );
 
 // Only the form styles, with the config above
-@use "@builtnorth/ui-kit/forms";
+@use "@siratik/ui-kit/forms";
 
 // Or specific form modules
-@use "@builtnorth/ui-kit/forms/shared";
-@use "@builtnorth/ui-kit/forms/checkbox";
+@use "@siratik/ui-kit/forms/shared";
+@use "@siratik/ui-kit/forms/checkbox";
 ```
 
 ## Combining with WordPress theme.json
@@ -126,7 +126,7 @@ UI Kit variables can use CSS custom properties, so you get the best of both worl
 **SCSS** (compile-time, can't change):
 
 ```scss
-@use "@builtnorth/ui-kit/config" with (
+@use "@siratik/ui-kit/config" with (
 	$form-field-padding-x: 1rem // Fixed at compile time
 );
 ```
@@ -156,5 +156,5 @@ If you're already using ui-kit and want to start customizing:
 
 1. **Identify** what you want to customize
 2. **Find** the variable name in `_config.scss`
-3. **Override** it by configuring `@builtnorth/ui-kit/config` with the new value, before your other ui-kit `@use` rules
+3. **Override** it by configuring `@siratik/ui-kit/config` with the new value, before your other ui-kit `@use` rules
 4. **Test** and verify changes compile correctly

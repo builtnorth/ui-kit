@@ -176,7 +176,7 @@ input {
 **After (using ui-kit):**
 
 ```scss
-@use "@builtnorth/ui-kit/forms" as *;
+@use "@siratik/ui-kit/forms" as *;
 // Reads the theme.json values automatically
 ```
 

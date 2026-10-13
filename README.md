@@ -1,11 +1,11 @@
-# @builtnorth/ui-kit
+# @siratik/ui-kit
 
 NPM package for very minimal global and common CSS and JS utilities.
 
 ## Installation
 
 ```bash
-npm install @builtnorth/ui-kit
+npm install @siratik/ui-kit
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ This package exports SCSS files that can be imported into your project using mod
 ### Import Everything
 
 ```scss
-@use "@builtnorth/ui-kit" as *;
+@use "@siratik/ui-kit" as *;
 ```
 
 ### Configure Once in Your Theme (Recommended)
@@ -48,11 +48,11 @@ For package-specific overrides:
 
 ```scss
 // Configure the config module first, before any other ui-kit @use.
-@use "@builtnorth/ui-kit/config" with (
+@use "@siratik/ui-kit/config" with (
 	$form-field-padding-x: 1rem,
 	$form-field-border-radius: 0.5rem
 );
-@use "@builtnorth/ui-kit";
+@use "@siratik/ui-kit";
 ```
 
 **📚 See [CONFIGURATION.md](./CONFIGURATION.md) for SCSS configuration details.**
@@ -60,58 +60,58 @@ For package-specific overrides:
 ### Import Essential Styles Only
 
 ```scss
-@use "@builtnorth/ui-kit/essential-styles" as *;
+@use "@siratik/ui-kit/essential-styles" as *;
 ```
 
 ### Import Specific Modules
 
 ```scss
 // Base styles
-@use "@builtnorth/ui-kit/base" as *;
-@use "@builtnorth/ui-kit/base/utilities" as *;
-@use "@builtnorth/ui-kit/base/reset" as *;
-@use "@builtnorth/ui-kit/base/accessibility" as *;
-@use "@builtnorth/ui-kit/base/images" as *;
-@use "@builtnorth/ui-kit/base/colors" as *;
+@use "@siratik/ui-kit/base" as *;
+@use "@siratik/ui-kit/base/utilities" as *;
+@use "@siratik/ui-kit/base/reset" as *;
+@use "@siratik/ui-kit/base/accessibility" as *;
+@use "@siratik/ui-kit/base/images" as *;
+@use "@siratik/ui-kit/base/colors" as *;
 
 // Components (with namespace)
-@use "@builtnorth/ui-kit/components" as ui;
-@use "@builtnorth/ui-kit/components/buttons" as ui;
+@use "@siratik/ui-kit/components" as ui;
+@use "@siratik/ui-kit/components/buttons" as ui;
 
 // Buttons: mixins only (outputs no CSS), for a theme's button colours
-@use "@builtnorth/ui-kit/components/button-mixins" as button;
+@use "@siratik/ui-kit/components/button-mixins" as button;
 // @include button.default-style;
 // @include button.variant("primary", $background: ..., $text: ...);
 // @include button.invert-on("primary", $variant: "primary");
-@use "@builtnorth/ui-kit/components/slider" as ui;
+@use "@siratik/ui-kit/components/slider" as ui;
 
 // Forms: global element styles (every field on the page)
-@use "@builtnorth/ui-kit/forms" as *;
-@use "@builtnorth/ui-kit/forms/shared" as *;
-@use "@builtnorth/ui-kit/forms/checkbox" as *;
-@use "@builtnorth/ui-kit/forms/select" as *;
-@use "@builtnorth/ui-kit/forms/file" as *;
+@use "@siratik/ui-kit/forms" as *;
+@use "@siratik/ui-kit/forms/shared" as *;
+@use "@siratik/ui-kit/forms/checkbox" as *;
+@use "@siratik/ui-kit/forms/select" as *;
+@use "@siratik/ui-kit/forms/file" as *;
 
 // Forms: mixins, for fields inside your own wrapper
-@use "@builtnorth/ui-kit/forms/mixins" as form;
+@use "@siratik/ui-kit/forms/mixins" as form;
 // .my-filters select { @include form.form-field; @include form.form-select; }
 
 // Helpers (commonly namespaced as 'ui')
-@use "@builtnorth/ui-kit/helpers" as ui;
-@use "@builtnorth/ui-kit/helpers/mixins" as ui;
-@use "@builtnorth/ui-kit/helpers/functions" as ui;
-@use "@builtnorth/ui-kit/helpers/media-queries" as *;
+@use "@siratik/ui-kit/helpers" as ui;
+@use "@siratik/ui-kit/helpers/mixins" as ui;
+@use "@siratik/ui-kit/helpers/functions" as ui;
+@use "@siratik/ui-kit/helpers/media-queries" as *;
 
 // Layout
-@use "@builtnorth/ui-kit/layout" as *;
-@use "@builtnorth/ui-kit/layout/grid" as grid;
-@use "@builtnorth/ui-kit/layout/columns" as *;
+@use "@siratik/ui-kit/layout" as *;
+@use "@siratik/ui-kit/layout/grid" as grid;
+@use "@siratik/ui-kit/layout/columns" as *;
 
 // Gutenberg
-@use "@builtnorth/ui-kit/gutenberg" as *;
-@use "@builtnorth/ui-kit/gutenberg/quirks" as *;
-@use "@builtnorth/ui-kit/gutenberg/placeholders" as *;
-@use "@builtnorth/ui-kit/gutenberg/appenders" as *;
+@use "@siratik/ui-kit/gutenberg" as *;
+@use "@siratik/ui-kit/gutenberg/quirks" as *;
+@use "@siratik/ui-kit/gutenberg/placeholders" as *;
+@use "@siratik/ui-kit/gutenberg/appenders" as *;
 ```
 
 > **Note:** The `@use` syntax is recommended over the deprecated `@import`. Use `as *` to include styles globally, or use `as ui` (or any namespace) to access mixins and functions with a namespace prefix.

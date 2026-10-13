@@ -6,7 +6,7 @@
 //
 // This module outputs no CSS. Themes @use it to colour buttons:
 //
-//   @use "@builtnorth/ui-kit/components/button-mixins" as button;
+//   @use "@siratik/ui-kit/components/button-mixins" as button;
 //
 //   @include button.default-style;
 //   @include button.variant("primary", $background: ..., $text: ...);
