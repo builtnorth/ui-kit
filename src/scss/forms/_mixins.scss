@@ -86,11 +86,11 @@
     // Keeps the inherited size but never under 16px: iOS zooms the page in
     // on focus for smaller text.
     font-size: max(16px, 1em);
-    // Grows with what's typed, from its rows (--polaris-textarea-rows, else
+    // Grows with what's typed, from its rows (--kitaris-textarea-rows, else
     // 4) to 20 lines, then scrolls. Without field-sizing it keeps its rows.
     field-sizing: content;
     min-block-size: calc(
-        var(--polaris-textarea-rows, 4) * 1lh + 2 * #{$form-field-padding-y} + 2 * #{$form-field-border-width}
+        var(--kitaris-textarea-rows, 4) * 1lh + 2 * #{$form-field-padding-y} + 2 * #{$form-field-border-width}
     );
     max-block-size: calc(20lh + 2 * #{$form-field-padding-y} + 2 * #{$form-field-border-width});
 

@@ -13,26 +13,26 @@
     width: 100%;
 }
 
-/* Polaris layout blocks (full-width sections, hero, header, footer, alert
+/* Kitaris layout blocks (full-width sections, hero, header, footer, alert
    bar) stack flush: no layout gap above them. Other full-width blocks keep
    core's. The front-end selector uses :where() so it stays as weak as
    .alignfull and the theme's divider overlap margins still win. */
-$_polaris-layout-blocks: ".wp-block-polaris-section, .wp-block-polaris-hero, .wp-block-polaris-split-section, .wp-block-polaris-header, .wp-block-polaris-footer, .wp-block-polaris-alert-bar, .wp-block-polaris-marquee";
+$_kitaris-layout-blocks: ".wp-block-kitaris-section, .wp-block-kitaris-hero, .wp-block-kitaris-split-section, .wp-block-kitaris-header, .wp-block-kitaris-footer, .wp-block-kitaris-alert-bar, .wp-block-kitaris-marquee";
 
 // A hero slider (slides holding heroes or sections) stacks like the hero it shows.
-$_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :is(.wp-block-polaris-hero, .wp-block-polaris-section))";
+$_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :is(.wp-block-kitaris-hero, .wp-block-kitaris-section))";
 
 :root
     :where(.editor-styles-wrapper)
     :where(.is-layout-constrained)
-    > :is(#{$_polaris-layout-blocks}).alignfull,
-:where(#{$_polaris-layout-blocks}, #{$_polaris-hero-slider}).alignfull {
+    > :is(#{$_kitaris-layout-blocks}).alignfull,
+:where(#{$_kitaris-layout-blocks}, #{$_kitaris-hero-slider}).alignfull {
     margin-block-start: 0;
 }
 
 // Flex container children: widths, chip alignment and justification.
 // WP layout (wp-container-* rules) handles justify-content / align-items / flex-direction.
-@mixin polaris-flex-container-children {
+@mixin kitaris-flex-container-children {
     &:not(.is-horizontal) {
         // Reset margins so no child escapes the column.
         > :where(
@@ -65,18 +65,18 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
         // part of the column, so they always span it. Compact blocks
         // (buttons, icons, counters) are left out: they centre as boxes.
         > :where(
-            :has(> .polaris-carousel),
-            .wp-block-polaris-accordion,
-            .wp-block-polaris-business-hours,
-            .wp-block-polaris-coded-graphic,
-            .wp-block-polaris-comparison-table,
-            .wp-block-polaris-feature-tabs,
-            .wp-block-polaris-form,
-            .wp-block-polaris-logos,
-            .wp-block-polaris-map,
-            .wp-block-polaris-price-card,
-            .wp-block-polaris-tabs,
-            .wp-block-polaris-timeline
+            :has(> .kitaris-carousel),
+            .wp-block-kitaris-accordion,
+            .wp-block-kitaris-business-hours,
+            .wp-block-kitaris-coded-graphic,
+            .wp-block-kitaris-comparison-table,
+            .wp-block-kitaris-feature-tabs,
+            .wp-block-kitaris-form,
+            .wp-block-kitaris-logos,
+            .wp-block-kitaris-map,
+            .wp-block-kitaris-price-card,
+            .wp-block-kitaris-tabs,
+            .wp-block-kitaris-timeline
         ) {
             align-self: stretch;
         }
@@ -119,7 +119,7 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
 
         // Left/default: text content blocks fill the column width.
         // Positive list — only known text/content blocks receive width: 100%.
-        // Flex containers (buttons, columns, group, polaris/column) are intentionally
+        // Flex containers (buttons, columns, group, kitaris/column) are intentionally
         // omitted so they remain sized by their own layout/flex rules.
         &:not(.is-content-justification-center):not(
                 .is-content-justification-right
@@ -153,8 +153,8 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
                     .is-style-subheading,
                     .section-pattern,
                     .background,
-                    .wp-block-polaris-columns,
-                    .wp-block-polaris-column,
+                    .wp-block-kitaris-columns,
+                    .wp-block-kitaris-column,
                     .wp-block-group,
                     .wp-block-separator
                 )
@@ -173,7 +173,7 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
                 .is-style-subheading,
                 .section-pattern,
                 .background,
-                .wp-block-polaris-columns
+                .wp-block-kitaris-columns
             )
         ) {
             box-sizing: border-box;
@@ -188,10 +188,10 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
 // Section, hero, header and footer: the block is the full-width box
 // (background, pattern, dividers). Its saved inner wrapper is the
 // width-limited, centred layout container, and carries the layout classes.
-.wp-block-polaris-section.has-global-padding,
-.wp-block-polaris-hero.has-global-padding,
-.wp-block-polaris-header.has-global-padding,
-.wp-block-polaris-footer.has-global-padding {
+.wp-block-kitaris-section.has-global-padding,
+.wp-block-kitaris-hero.has-global-padding,
+.wp-block-kitaris-header.has-global-padding,
+.wp-block-kitaris-footer.has-global-padding {
     // A column, so the wrapper can fill a minimum height and its vertical
     // alignment has room to work.
     display: flex;
@@ -200,10 +200,10 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
     padding-right: var(--wp--style--root--padding-right, 1rem);
 }
 
-.wp-block-polaris-section__inner,
-.wp-block-polaris-hero__inner,
-.wp-block-polaris-header__inner,
-.wp-block-polaris-footer__inner {
+.wp-block-kitaris-section__inner,
+.wp-block-kitaris-hero__inner,
+.wp-block-kitaris-header__inner,
+.wp-block-kitaris-footer__inner {
     box-sizing: border-box;
     width: 100%;
     // Layout width: the section content-size token, then the theme's wide
@@ -218,15 +218,15 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
     flex-grow: 1;
 }
 
-.wp-block-polaris-section__inner.is-layout-flex,
-.wp-block-polaris-hero__inner.is-layout-flex,
-.wp-block-polaris-mega-menu__dropdown-inner.is-layout-flex {
-    @include polaris-flex-container-children;
+.wp-block-kitaris-section__inner.is-layout-flex,
+.wp-block-kitaris-hero__inner.is-layout-flex,
+.wp-block-kitaris-mega-menu__dropdown-inner.is-layout-flex {
+    @include kitaris-flex-container-children;
 }
 
 // Header/footer inner wrapper: site-logo stays natural width for flex alignment.
-.wp-block-polaris-header__inner.is-layout-flex,
-.wp-block-polaris-footer__inner.is-layout-flex {
+.wp-block-kitaris-header__inner.is-layout-flex,
+.wp-block-kitaris-footer__inner.is-layout-flex {
     &:not(.is-horizontal) {
         > :where(
             :not(
@@ -255,7 +255,7 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
                 .is-style-subheading,
                 .section-pattern,
                 .wp-block-site-logo,
-                .wp-block-polaris-columns
+                .wp-block-kitaris-columns
             )
         ) {
             box-sizing: border-box;
@@ -267,23 +267,23 @@ $_polaris-hero-slider: ".wp-block-polaris-slider:has(.wp-block-polaris-slide > :
     }
 }
 
-// Top-level parts (header, main, footer) that start with a Polaris layout
+// Top-level parts (header, main, footer) that start with a Kitaris layout
 // block stack flush; other top-level blocks keep the theme's root gap.
-.wp-site-blocks > :has(> :is(#{$_polaris-layout-blocks}):first-child),
+.wp-site-blocks > :has(> :is(#{$_kitaris-layout-blocks}):first-child),
 .wp-site-blocks
     > :has(
-        > .wp-block-post-content > :is(#{$_polaris-layout-blocks}):first-child
+        > .wp-block-post-content > :is(#{$_kitaris-layout-blocks}):first-child
     ) {
     margin-block-start: 0;
 }
 
 // Same for a hero slider. Its own rule: :has() can't nest, so it can't join
 // the list above without invalidating it.
-$_polaris-hero-slide: ".wp-block-polaris-slide > :is(.wp-block-polaris-hero, .wp-block-polaris-section)";
+$_kitaris-hero-slide: ".wp-block-kitaris-slide > :is(.wp-block-kitaris-hero, .wp-block-kitaris-section)";
 
-.wp-site-blocks > :has(> .wp-block-polaris-slider:first-child #{$_polaris-hero-slide}),
+.wp-site-blocks > :has(> .wp-block-kitaris-slider:first-child #{$_kitaris-hero-slide}),
 .wp-site-blocks
-    > :has(> .wp-block-post-content > .wp-block-polaris-slider:first-child #{$_polaris-hero-slide}) {
+    > :has(> .wp-block-post-content > .wp-block-kitaris-slider:first-child #{$_kitaris-hero-slide}) {
     margin-block-start: 0;
 }
 
@@ -297,32 +297,32 @@ $_polaris-hero-slide: ".wp-block-polaris-slide > :is(.wp-block-polaris-hero, .wp
 // a theme's theme.json per-block styles, and a user's own spacing, win.
 // Each value reads its token first, then a fixed value (a theme maps its own
 // spacing scale onto the token).
-:where(.wp-block-polaris-section) {
+:where(.wp-block-kitaris-section) {
     padding-top: var(--wp--custom--spacing--section-padding, 3.38rem);
     padding-bottom: var(--wp--custom--spacing--section-padding, 3.38rem);
 }
 
-:where(.wp-block-polaris-hero) {
+:where(.wp-block-kitaris-hero) {
     padding-top: var(--wp--custom--spacing--hero-padding, 3.38rem);
     padding-bottom: var(--wp--custom--spacing--hero-padding, 3.38rem);
 }
 
-:where(.wp-block-polaris-split-section) {
+:where(.wp-block-kitaris-split-section) {
     margin-top: var(--wp--custom--spacing--section-margin, 3.38rem);
     margin-bottom: var(--wp--custom--spacing--section-margin, 3.38rem);
 }
 
-:where(.wp-block-polaris-split-section-content) {
+:where(.wp-block-kitaris-split-section-content) {
     padding: var(--wp--custom--spacing--section-padding, 3.38rem)
         var(--wp--style--block-gap, 1.5rem);
 }
 
-:where(.wp-block-polaris-header) {
+:where(.wp-block-kitaris-header) {
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
 
-:where(.wp-block-polaris-footer) {
+:where(.wp-block-kitaris-footer) {
     padding-top: var(--wp--custom--spacing--section-padding, 3.38rem);
     padding-bottom: var(--wp--style--block-gap, 1.5rem);
 }
@@ -330,12 +330,12 @@ $_polaris-hero-slide: ".wp-block-polaris-slide > :is(.wp-block-polaris-hero, .wp
 // Default text size for the small utility blocks, at zero specificity: a
 // theme's theme.json per-block size, and a size chosen on the block, win.
 // :where(
-//     .wp-block-polaris-breadcrumbs,
-//     .wp-block-polaris-copyright,
-//     .wp-block-polaris-utility-links,
-//     .wp-block-polaris-social-media,
-//     .wp-block-polaris-whitelabel-meta,
-//     .wp-block-polaris-query-sort
+//     .wp-block-kitaris-breadcrumbs,
+//     .wp-block-kitaris-copyright,
+//     .wp-block-kitaris-utility-links,
+//     .wp-block-kitaris-social-media,
+//     .wp-block-kitaris-whitelabel-meta,
+//     .wp-block-kitaris-query-sort
 // ) {
 //     font-size: var(--wp--custom--small-text--font-size, 0.875em);
 // }

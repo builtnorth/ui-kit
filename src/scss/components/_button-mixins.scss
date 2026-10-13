@@ -17,11 +17,11 @@
 // secondary/tertiary variants. It never paints the default button: without a
 // "primary" variant that button keeps the theme's own button element styles.
 
-/// Elements that share Polaris button appearance. Structure, sizes and
+/// Elements that share Kitaris button appearance. Structure, sizes and
 /// variants use these selectors, so themes and design skins override them
 /// with the same selector. Extend via @use ... with (...).
 $button-surface-selectors: (
-	".wp-block-polaris-button",
+	".wp-block-kitaris-button",
 	".wp-block-button .wp-block-button__link",
 	"button.form-button",
 	"button.form__btn-prev",
@@ -32,7 +32,7 @@ $button-surface-selectors: (
 /// so it beats theme.json link/button element styles, which print after block
 /// styles at (0,1,0).
 $button-paint-selectors: (
-	".wp-block-polaris-button:is(a, button, span, div)",
+	".wp-block-kitaris-button:is(a, button, span, div)",
 	".wp-block-button .wp-block-button__link",
 	"button.form-button",
 	"button.form__btn-prev",
@@ -54,7 +54,7 @@ $_reset-emitted: false;
 
 // Buttons themselves are excluded (:where() adds no specificity): a button
 // with its own background colour class must not invert itself.
-$_surface: ':where(:not(.wp-block-polaris-button, .wp-block-button__link, button))';
+$_surface: ':where(:not(.wp-block-kitaris-button, .wp-block-button__link, button))';
 
 @mixin button-surfaces {
 	#{$button-surface-selectors} {
@@ -95,12 +95,12 @@ $_surface: ':where(:not(.wp-block-polaris-button, .wp-block-button__link, button
 	);
 }
 
-/// Variant colours as private vars, read from --polaris-button-{$name}-*
+/// Variant colours as private vars, read from --kitaris-button-{$name}-*
 /// (set by coloured surfaces, see invert-on) with the variant's own colours
 /// as fallbacks.
 @mixin variant-vars($name, $colors) {
 	@each $prop, $value in $colors {
-		--_button-v-#{$prop}: var(--polaris-button-#{$name}-#{$prop}, #{$value});
+		--_button-v-#{$prop}: var(--kitaris-button-#{$name}-#{$prop}, #{$value});
 	}
 }
 
@@ -224,7 +224,7 @@ $_surface: ':where(:not(.wp-block-polaris-button, .wp-block-button__link, button
 	[class*="-background-color"].has-background#{$_surface} {
 		@each $name, $colors in $_variants {
 			@each $prop, $value in $colors {
-				--polaris-button-#{$name}-#{$prop}: initial;
+				--kitaris-button-#{$name}-#{$prop}: initial;
 			}
 		}
 	}
@@ -254,15 +254,15 @@ $_surface: ':where(:not(.wp-block-polaris-button, .wp-block-button__link, button
 	// matching colour.
 	.has-#{$background-slug}-background-color#{$_surface},
 	[class*="-background-color"].has-background.has-#{$background-slug}-background-color#{$_surface} {
-		--polaris-button-#{$variant}-bg: #{$contrast};
-		--polaris-button-#{$variant}-fg: #{$color};
-		--polaris-button-#{$variant}-border: #{$contrast};
-		--polaris-button-#{$variant}-hover-bg: #{$color};
-		--polaris-button-#{$variant}-hover-fg: #{$contrast};
-		--polaris-button-#{$variant}-hover-border: #{$contrast};
-		--polaris-button-#{$variant}-outline-border: #{$contrast};
-		--polaris-button-#{$variant}-outline-hover-bg: #{$contrast};
-		--polaris-button-#{$variant}-outline-hover-fg: #{$color};
-		--polaris-button-#{$variant}-outline-hover-border: #{$contrast};
+		--kitaris-button-#{$variant}-bg: #{$contrast};
+		--kitaris-button-#{$variant}-fg: #{$color};
+		--kitaris-button-#{$variant}-border: #{$contrast};
+		--kitaris-button-#{$variant}-hover-bg: #{$color};
+		--kitaris-button-#{$variant}-hover-fg: #{$contrast};
+		--kitaris-button-#{$variant}-hover-border: #{$contrast};
+		--kitaris-button-#{$variant}-outline-border: #{$contrast};
+		--kitaris-button-#{$variant}-outline-hover-bg: #{$contrast};
+		--kitaris-button-#{$variant}-outline-hover-fg: #{$color};
+		--kitaris-button-#{$variant}-outline-hover-border: #{$contrast};
 	}
 }

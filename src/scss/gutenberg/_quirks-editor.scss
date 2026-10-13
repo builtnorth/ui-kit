@@ -35,7 +35,7 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 }
 
 // Editor only: sections/heroes are flush by design on the FRONTEND (theme.json sets
-// margin-top:0 on polaris/section so full-bleed sections stack seamlessly). In the
+// margin-top:0 on kitaris/section so full-bleed sections stack seamlessly). In the
 // CANVAS that same flush boundary leaves Gutenberg no "between" band: hovering a
 // full-height section always resolves to "drop inside this section", the inserter
 // shows no insertion point between sections, and you cannot drop a block between
@@ -44,11 +44,11 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 // gap visually (theme editor divider rules) so the divider still looks seamless.
 .editor-styles-wrapper
     :where(.is-layout-constrained)
-    > .wp-block-polaris-section,
-.editor-styles-wrapper :where(.is-layout-constrained) > .wp-block-polaris-hero,
+    > .wp-block-kitaris-section,
+.editor-styles-wrapper :where(.is-layout-constrained) > .wp-block-kitaris-hero,
 .editor-styles-wrapper
     :where(.is-layout-constrained)
-    > .wp-block-polaris-split-section,
+    > .wp-block-kitaris-split-section,
 .editor-styles-wrapper
     :where(.is-layout-constrained)
     > .wp-block-template-part:not(header, footer) {
@@ -57,13 +57,13 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
 
 .editor-styles-wrapper
     :where(.is-layout-constrained)
-    > .wp-block-polaris-section:first-child,
+    > .wp-block-kitaris-section:first-child,
 .editor-styles-wrapper
     :where(.is-layout-constrained)
-    > .wp-block-polaris-hero:first-child,
+    > .wp-block-kitaris-hero:first-child,
 .editor-styles-wrapper
     :where(.is-layout-constrained)
-    > .wp-block-polaris-split-section:first-child,
+    > .wp-block-kitaris-split-section:first-child,
 .editor-styles-wrapper
     :where(.is-layout-constrained)
     > .wp-block-template-part:not(header, footer):first-child {

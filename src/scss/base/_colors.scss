@@ -8,7 +8,7 @@ Set up color/contrast pairs.
 Now we can use only one color for the background
 and the text will be the contrast color.
 
-Nested backgrounds: each container sets --polaris-auto-text-color so
+Nested backgrounds: each container sets --kitaris-auto-text-color so
 descendants (especially links) resolve contrast from the nearest
 background ancestor, not from intermediate wrappers or outer sections.
 ****************************************************/
@@ -20,7 +20,7 @@ background ancestor, not from intermediate wrappers or outer sections.
 // pairs, both directions, with the mixin below:
 //
 //   @use "@builtnorth/ui-kit/base/colors" as colors;
-//   @include colors.polaris-color-contrast-rules((
+//   @include colors.kitaris-color-contrast-rules((
 //     "primary": "primary-contrast",
 //     "primary-contrast": "primary",
 //   ));
@@ -48,32 +48,32 @@ $preset-fallbacks: () !default;
 // Elements carrying an icon-chip colour are chips, not surfaces.
 $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 
-@mixin polaris-color-contrast-rules($pairs, $text-only-pairs: ()) {
+@mixin kitaris-color-contrast-rules($pairs, $text-only-pairs: ()) {
 	@each $background, $contrast in $text-only-pairs {
 		.has-#{$background}-background-color {
-			--polaris-auto-text-color: #{preset-color($contrast)};
-			--polaris-auto-surface-color: #{preset-color($background)};
-			color: var(--polaris-auto-text-color);
+			--kitaris-auto-text-color: #{preset-color($contrast)};
+			--kitaris-auto-surface-color: #{preset-color($background)};
+			color: var(--kitaris-auto-text-color);
 		}
 	}
 
 	@each $background, $contrast in $pairs {
 		.has-#{$background}-background-color {
-			--polaris-auto-text-color: #{preset-color($contrast)};
-			--polaris-auto-surface-color: #{preset-color($background)};
-			color: var(--polaris-auto-text-color);
+			--kitaris-auto-text-color: #{preset-color($contrast)};
+			--kitaris-auto-surface-color: #{preset-color($background)};
+			color: var(--kitaris-auto-text-color);
 		}
 
 		// contact-information, social-media, icon: chip colours. Default is the
 		// contrast icon on the preset background; a matching surface inverts it
-		// by setting --polaris-icon-{bg}-* (below), which the chip inherits.
-		.has-#{$background}-icon-background-color:not([style*="--polaris-icon-color"]) {
-			--polaris-icon-color: var(
-				--polaris-icon-#{$background}-color,
+		// by setting --kitaris-icon-{bg}-* (below), which the chip inherits.
+		.has-#{$background}-icon-background-color:not([style*="--kitaris-icon-color"]) {
+			--kitaris-icon-color: var(
+				--kitaris-icon-#{$background}-color,
 				#{preset-color($contrast)}
 			);
-			--polaris-icon-background-color: var(
-				--polaris-icon-#{$background}-bg,
+			--kitaris-icon-background-color: var(
+				--kitaris-icon-#{$background}-bg,
 				#{preset-color($background)}
 			);
 		}
@@ -84,8 +84,8 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 		// specificity) so a chip never inverts itself.
 		.has-#{$background}-background-color#{$_not-chip},
 		[class*="-background-color"].has-background.has-#{$background}-background-color#{$_not-chip} {
-			--polaris-icon-#{$background}-color: #{preset-color($background)};
-			--polaris-icon-#{$background}-bg: #{preset-color($contrast)};
+			--kitaris-icon-#{$background}-color: #{preset-color($background)};
+			--kitaris-icon-#{$background}-bg: #{preset-color($contrast)};
 		}
 	}
 
@@ -94,8 +94,8 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 		// surface, so chips follow the nearest surface.
 		[class*="-background-color"].has-background#{$_not-chip} {
 			@each $background, $contrast in $pairs {
-				--polaris-icon-#{$background}-color: initial;
-				--polaris-icon-#{$background}-bg: initial;
+				--kitaris-icon-#{$background}-color: initial;
+				--kitaris-icon-#{$background}-bg: initial;
 			}
 		}
 
@@ -105,8 +105,8 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 			$chips: list.append($chips, ".has-#{$background}-icon-background-color", $separator: comma);
 		}
 
-		:is(#{$chips}):not([style*="--polaris-icon-color"]) svg {
-			color: var(--polaris-icon-color);
+		:is(#{$chips}):not([style*="--kitaris-icon-color"]) svg {
+			color: var(--kitaris-icon-color);
 		}
 	}
 
@@ -121,13 +121,13 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 	@if list.length($surfaces) > 0 {
 		// Anchors that are button surfaces set their own colour (filled) or are
 		// handled by the button rule below (outline / text-link).
-		$_button-anchors: ".wp-block-polaris-button, .wp-block-button__link, .form-button, .form__btn-prev, .form__btn-next";
+		$_button-anchors: ".wp-block-kitaris-button, .wp-block-button__link, .form-button, .form__btn-prev, .form__btn-next";
 
 		// Plain links take the surface's contrast colour. (0,1,1): beats theme.json
 		// element link colour, but a link colour the user sets on a block (core's
 		// .wp-elements-* a, printed later) or on the link itself still wins.
 		:is(#{$surfaces}) a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, #{$_button-anchors})) {
-			color: var(--polaris-auto-text-color);
+			color: var(--kitaris-auto-text-color);
 		}
 
 		// Outline and text-link buttons use currentColor, so they take the
@@ -135,27 +135,27 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 		// components/_buttons.scss until those are restructured.
 		:is(#{$surfaces})
 			a:is(
-				.wp-block-polaris-button:is(.is-appearance-outline, .is-style-text-link),
+				.wp-block-kitaris-button:is(.is-appearance-outline, .is-style-text-link),
 				.wp-block-button.is-style-outline .wp-block-button__link
 			):not([class*="has-background"]):not(.has-text-color):not(.has-link-color) {
-			color: var(--polaris-auto-text-color);
+			color: var(--kitaris-auto-text-color);
 		}
 
 		// Map blocks manage their own text (popups, attribution, controls).
 		// Emitted after the link rule, one class higher, so it wins inside maps.
-		:is(#{$surfaces}) :is(.wp-block-polaris-map, .wp-block-polaris-service-area-map) {
+		:is(#{$surfaces}) :is(.wp-block-kitaris-map, .wp-block-kitaris-service-area-map) {
 			color: initial;
-			--polaris-auto-text-color: initial;
+			--kitaris-auto-text-color: initial;
 
 			a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, #{$_button-anchors})) {
 				color: initial;
 			}
 
-			.wp-block-polaris-button.is-style-text-link {
+			.wp-block-kitaris-button.is-style-text-link {
 				color: currentColor;
 			}
 		}
 	}
 }
 
-@include polaris-color-contrast-rules($background-contrast-pairs, $text-only-contrast-pairs);
+@include kitaris-color-contrast-rules($background-contrast-pairs, $text-only-contrast-pairs);

@@ -35,23 +35,23 @@ Classes to quickly add utility styles to your components.
 ------------------------------------------------------------------*/
 
 
-// Polaris blocks with alignment support (Lottie, Timer, Counter, …): left,
+// Kitaris blocks with alignment support (Lottie, Timer, Counter, …): left,
 // centre or right in their row. Core blocks keep core's alignment (floats
 // for left/right images, so text wraps around them).
-[class*="wp-block-polaris-"].aligncenter {
+[class*="wp-block-kitaris-"].aligncenter {
 	margin-left: auto !important;
 	margin-right: auto !important;
 	display: flex !important;
 	width: auto !important;
 	justify-self: center;
 }
-[class*="wp-block-polaris-"].alignleft {
+[class*="wp-block-kitaris-"].alignleft {
 	float: none !important;
 	display: flex !important;
 	align-self: flex-start;
 	width: auto !important;
 }
-[class*="wp-block-polaris-"].alignright {
+[class*="wp-block-kitaris-"].alignright {
 	float: none !important;
 	display: flex !important;
 	align-self: flex-end;
@@ -106,10 +106,10 @@ Classes to quickly add utility styles to your components.
 }
 
 .background__video.is-playing {
-	animation: polaris-background-video-in var(--wp--custom--transition--duration-slow, 300ms) ease-out;
+	animation: kitaris-background-video-in var(--wp--custom--transition--duration-slow, 300ms) ease-out;
 }
 
-@keyframes polaris-background-video-in {
+@keyframes kitaris-background-video-in {
 	from {
 		opacity: 0;
 	}
@@ -121,11 +121,11 @@ Classes to quickly add utility styles to your components.
 @media (prefers-reduced-motion: no-preference) {
 	// The block's own layers only (> .background), not a nested block's.
 	.has-background-image:has(> .background > .background__video.is-playing) > .background > img {
-		animation: polaris-background-image-out var(--wp--custom--transition--duration-slow, 300ms) ease-out forwards;
+		animation: kitaris-background-image-out var(--wp--custom--transition--duration-slow, 300ms) ease-out forwards;
 	}
 }
 
-@keyframes polaris-background-image-out {
+@keyframes kitaris-background-image-out {
 	to {
 		opacity: 0;
 	}
@@ -321,25 +321,25 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 
 // Cards.
 :where(
-	.wp-block-polaris-columns:not(.wp-block-polaris-split-section),
-	.wp-block-polaris-column,
-	.wp-block-polaris-price-card,
-	.wp-block-polaris-contact-information,
-	.wp-block-polaris-icon-card,
-	.wp-block-polaris-stat,
-	.wp-block-polaris-stat-content,
-	.wp-block-polaris-feature,
-	.wp-block-polaris-card-content,
-	.wp-block-polaris-slide,
+	.wp-block-kitaris-columns:not(.wp-block-kitaris-split-section),
+	.wp-block-kitaris-column,
+	.wp-block-kitaris-price-card,
+	.wp-block-kitaris-contact-information,
+	.wp-block-kitaris-icon-card,
+	.wp-block-kitaris-stat,
+	.wp-block-kitaris-stat-content,
+	.wp-block-kitaris-feature,
+	.wp-block-kitaris-card-content,
+	.wp-block-kitaris-slide,
 	.wp-block-group,
-	.wp-block-polaris-review-card
+	.wp-block-kitaris-review-card
 ):is(#{$_boxed}) {
 	padding: var(--wp--custom--card--padding, 2rem);
 }
 
 // Arrow and indicator wraps are control chrome, not cards. Same one-class
 // specificity, so a Padding setting on the block still wins.
-:where(.wp-block-polaris-slider-arrows, .wp-block-polaris-slider-dots):is(#{$_boxed}) {
+:where(.wp-block-kitaris-slider-arrows, .wp-block-kitaris-slider-dots):is(#{$_boxed}) {
 	padding: var(--wp--custom--inline-gap, 0.5rem);
 }
 
@@ -357,33 +357,33 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 // corners don't look rounder than the card's. Tuned through the tile, card
 // padding and small radius tokens.
 :where(
-	.wp-block-polaris-columns:not(.wp-block-polaris-split-section),
-	.wp-block-polaris-column,
-	.wp-block-polaris-price-card,
-	.wp-block-polaris-icon-card,
-	.wp-block-polaris-feature,
-	.wp-block-polaris-card-content,
-	.wp-block-polaris-slide,
-	.wp-block-polaris-review-card
+	.wp-block-kitaris-columns:not(.wp-block-kitaris-split-section),
+	.wp-block-kitaris-column,
+	.wp-block-kitaris-price-card,
+	.wp-block-kitaris-icon-card,
+	.wp-block-kitaris-feature,
+	.wp-block-kitaris-card-content,
+	.wp-block-kitaris-slide,
+	.wp-block-kitaris-review-card
 ):is(#{$_boxed}),
 .post-card {
-	--polaris-nested-radius: max(
+	--kitaris-nested-radius: max(
 		var(--wp--custom--border-radius--small, 0.5rem),
 		calc(var(--wp--custom--border-radius--tile, 1rem) - var(--wp--custom--card--padding, 2rem))
 	);
 
-	:is(.wp-block-polaris-featured-image, .wp-block-post-featured-image),
-	:where(.wp-block-image, .wp-block-polaris-featured-image, .wp-block-post-featured-image) img {
-		border-radius: var(--polaris-nested-radius);
+	:is(.wp-block-kitaris-featured-image, .wp-block-post-featured-image),
+	:where(.wp-block-image, .wp-block-kitaris-featured-image, .wp-block-post-featured-image) img {
+		border-radius: var(--kitaris-nested-radius);
 	}
 }
 
 // Panels.
 :where(
-	.wp-block-polaris-form,
-	.wp-block-polaris-query-filters,
-	.wp-block-polaris-business-hours,
-	.wp-block-polaris-review-overview
+	.wp-block-kitaris-form,
+	.wp-block-kitaris-query-filters,
+	.wp-block-kitaris-business-hours,
+	.wp-block-kitaris-review-overview
 ):is(#{$_boxed}) {
 	padding: var(--wp--custom--panel--padding-y, 1rem) var(--wp--custom--panel--padding-x, 2rem);
 }

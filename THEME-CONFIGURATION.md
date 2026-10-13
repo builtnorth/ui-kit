@@ -155,7 +155,7 @@ You can also set the custom properties in CSS:
        ┌───────┴───────┬────────────────┬──────────────┐
        │               │                │              │
 ┌──────▼──────┐ ┌──────▼──────┐ ┌──────▼──────┐ ┌────▼─────┐
-│ polaris-    │ │ polaris-    │ │ polaris-    │ │ compass  │
+│ kitaris-    │ │ kitaris-    │ │ kitaris-    │ │ compass  │
 │ forms       │ │ blocks      │ │ directory   │ │ theme    │
 │ (reads var) │ │ (reads var) │ │ (reads var) │ │(reads var│
 └─────────────┘ └─────────────┘ └─────────────┘ └──────────┘

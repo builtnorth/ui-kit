@@ -20,7 +20,7 @@ $large: config.$breakpoint-lg;
 $xlarge: config.$breakpoint-xl;
 $xxlarge: config.$breakpoint-xxl;
 
-// Viewport: stack-on-mobile for top-level polaris/columns (footer, page rows).
+// Viewport: stack-on-mobile for top-level kitaris/columns (footer, page rows).
 $columns-stack-max: $medium !default;
 // Nested / form-in-column: parent column narrower than this → stack (not the same as viewport).
 $columns-stack-container-max: $xsmall !default;
@@ -106,30 +106,30 @@ $large-y: 53em !default;
 }
 
 // Theme breakpoints (theme.json settings.viewport). These output placeholder
-// queries that Polaris swaps for the site's real ones, so they only work in a
+// queries that Kitaris swaps for the site's real ones, so they only work in a
 // stylesheet enqueued with `'viewport_styles' => true`; browsers ignore them
 // anywhere else. Use them at the top level or inside a selector, never inside
-// another @media, @supports or @container (Polaris skips nested ones).
+// another @media, @supports or @container (Kitaris skips nested ones).
 @mixin viewport-mobile {
-	@media (--polaris-mobile) {
+	@media (--kitaris-mobile) {
 		@content;
 	}
 }
 
 @mixin viewport-tablet {
-	@media (--polaris-tablet) {
+	@media (--kitaris-tablet) {
 		@content;
 	}
 }
 
 @mixin viewport-tablet-down {
-	@media (--polaris-tablet-down) {
+	@media (--kitaris-tablet-down) {
 		@content;
 	}
 }
 
 @mixin viewport-desktop {
-	@media (--polaris-desktop) {
+	@media (--kitaris-desktop) {
 		@content;
 	}
 }

@@ -6,7 +6,7 @@
 /*
  * Button Component Styles
  *
- * Shared surfaces: polaris/button block, core/button link, and plugin form submits.
+ * Shared surfaces: kitaris/button block, core/button link, and plugin form submits.
  * Padding reads --wp--custom--button--padding-y / padding-x
  * (theme.json settings.custom.button). Optional: padding-y-small / padding-x-small
  * (and -large).
@@ -17,7 +17,7 @@
  * 3. Button size variants
  * 4. Neutral style variants
  * 5. Appearances (outline, text link)
- * 6. Button icon styles (polaris only)
+ * 6. Button icon styles (kitaris only)
  *
  * No theme colours here. The default button is never painted: it keeps the
  * theme's own button element styles (wp-element-button) unless the theme
@@ -25,7 +25,7 @@
  * and tertiary ship neutral and read --wp--custom--button--{variant}--background
  * / --text first; a theme's variant() out-ranks them.
  *
- * Colours are read from --polaris-button-{variant}-* custom properties with
+ * Colours are read from --kitaris-button-{variant}-* custom properties with
  * the variant's own colours as fallbacks. Coloured surfaces set those
  * properties (button-mixins invert-on) and buttons inherit them, so the
  * nearest coloured surface wins without a selector per button type × state ×
@@ -43,8 +43,8 @@ $_button-transition:
 // ==========================================================================
 // 1. Button containers
 // ==========================================================================
-// Polaris Buttons only; core Buttons keep core's layout.
-.wp-block-polaris-buttons {
+// Kitaris Buttons only; core Buttons keep core's layout.
+.wp-block-kitaris-buttons {
     display: flex;
     align-items: center;
     gap: var(--wp--custom--component--gap, 1rem);
@@ -58,7 +58,7 @@ $_button-transition:
 @include button-surfaces {
     // Icons follow the label's font size (em), so every button size keeps the
     // same icon-to-text ratio without a size per variant.
-    --polaris-icon-size: var(--wp--custom--button--icon-size-default, 1.2em);
+    --kitaris-icon-size: var(--wp--custom--button--icon-size-default, 1.2em);
     --_button-block-gap: var(--wp--custom--button--icon-gap, 0.67rem);
 
     cursor: pointer;
@@ -92,8 +92,8 @@ $_button-transition:
         }
     }
 
-    .wp-block-polaris-icon {
-        --polaris-icon-size: var(--wp--custom--button--icon-size-default, 1.2em);
+    .wp-block-kitaris-icon {
+        --kitaris-icon-size: var(--wp--custom--button--icon-size-default, 1.2em);
     }
 }
 
@@ -110,7 +110,7 @@ $_button-transition:
     }
 
     &.is-size-small {
-        --polaris-icon-size: var(--wp--custom--button--icon-size-small, var(--wp--custom--button--icon-size-default, 1.2em));
+        --kitaris-icon-size: var(--wp--custom--button--icon-size-small, var(--wp--custom--button--icon-size-default, 1.2em));
         --_button-block-gap: var(--wp--custom--inline-gap, 0.5rem);
         padding: var(
                 --wp--custom--button--padding-y-small,
@@ -119,13 +119,13 @@ $_button-transition:
             var(--wp--custom--button--padding-x-small, calc(#{$pad-x} / 2));
         font-size: var(--wp--custom--button--font-size-small, 0.875em);
 
-        .wp-block-polaris-icon {
-            --polaris-icon-size: var(--wp--custom--button--icon-size-small, var(--wp--custom--button--icon-size-default, 1.2em));
+        .wp-block-kitaris-icon {
+            --kitaris-icon-size: var(--wp--custom--button--icon-size-small, var(--wp--custom--button--icon-size-default, 1.2em));
         }
     }
 
     &.is-size-large {
-        --polaris-icon-size: var(--wp--custom--button--icon-size-large, var(--wp--custom--button--icon-size-default, 1.2em));
+        --kitaris-icon-size: var(--wp--custom--button--icon-size-large, var(--wp--custom--button--icon-size-default, 1.2em));
         --_button-block-gap: 1rem;
         padding: var(
                 --wp--custom--button--padding-y-large,
@@ -134,8 +134,8 @@ $_button-transition:
             var(--wp--custom--button--padding-x-large, calc(#{$pad-x} * 1.5));
         font-size: var(--wp--custom--button--font-size-large, 1.25em);
 
-        .wp-block-polaris-icon {
-            --polaris-icon-size: var(--wp--custom--button--icon-size-large, var(--wp--custom--button--icon-size-default, 1.2em));
+        .wp-block-kitaris-icon {
+            --kitaris-icon-size: var(--wp--custom--button--icon-size-large, var(--wp--custom--button--icon-size-default, 1.2em));
         }
     }
 }
@@ -239,9 +239,9 @@ $_neutral-variants: (
 }
 
 // ==========================================================================
-// 6. Button icon styles (polaris/button only)
+// 6. Button icon styles (kitaris/button only)
 // ==========================================================================
-.wp-block-polaris-button {
+.wp-block-kitaris-button {
     &__icon {
         display: inline-flex;
         align-items: center;
@@ -264,29 +264,29 @@ $_neutral-variants: (
         pointer-events: none;
     }
 
-    .wp-block-polaris-button__icon,
-    .wp-block-polaris-button__icon .wp-block-polaris-icon,
-    .wp-block-polaris-button__icon .wp-block-polaris-icon svg,
+    .wp-block-kitaris-button__icon,
+    .wp-block-kitaris-button__icon .wp-block-kitaris-icon,
+    .wp-block-kitaris-button__icon .wp-block-kitaris-icon svg,
     .icon-item,
     .icon-item__wrap,
     .icon-item__wrap svg {
-        height: var(--polaris-icon-size, 2.75rem);
-        width: var(--polaris-icon-size, 2.75rem);
+        height: var(--kitaris-icon-size, 2.75rem);
+        width: var(--kitaris-icon-size, 2.75rem);
         flex-shrink: 0;
     }
 
-    &:has(.wp-block-polaris-button__icon) {
+    &:has(.wp-block-kitaris-button__icon) {
         display: inline-flex;
         align-items: center;
         gap: var(--_button-block-gap);
 
-        .wp-block-polaris-button__text {
+        .wp-block-kitaris-button__text {
             display: inline;
         }
     }
 }
 
-// Core button labels (wrapped by polaris-blocks at render time) get the same
+// Core button labels (wrapped by kitaris-blocks at render time) get the same
 // trim; core's link is inline-block, so the label becomes a block to take it.
 @supports (text-box: trim-both cap alphabetic) {
     .wp-block-button__text {

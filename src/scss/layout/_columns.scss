@@ -16,7 +16,7 @@
 	);
 }
 
-.wp-block-polaris-columns {
+.wp-block-kitaris-columns {
 	// A row fills its parent. Flex parents with align-items: flex-start
 	// otherwise shrink it to the content, and span widths are a percentage
 	// of this row — a shrink-wrapped row makes span-10 / span-2 collapse.
@@ -26,13 +26,13 @@
 	min-width: 0;
 	align-self: stretch;
 
-	// The row's gap: this block's Block spacing (--polaris-columns-gap, set by
+	// The row's gap: this block's Block spacing (--kitaris-columns-gap, set by
 	// render.php / edit.js), else the column-gap token, else the theme's block
 	// spacing. The span widths below read the same value, so a row always adds
 	// up to 100%.
 	& {
 		--_columns-gap: var(
-			--polaris-columns-gap,
+			--kitaris-columns-gap,
 			var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 1.5rem))
 		);
 		gap: var(--_columns-gap);
@@ -42,7 +42,7 @@
 	   with a per-device layout (.has-viewport-layout, below) are left to it. */
 	&:not(.has-viewport-layout) {
 		@include viewport-tablet-down() {
-			@include polaris-columns-stack-row;
+			@include kitaris-columns-stack-row;
 		}
 	}
 
@@ -53,17 +53,17 @@
 	   stack as on mobile. Top-level rows only: nested rows keep their parent
 	   column's container rule. Columns are counted with `of` so the editor's
 	   appender isn't one. */
-	&:not(.has-viewport-layout):not(.wp-block-polaris-column > *) {
+	&:not(.has-viewport-layout):not(.wp-block-kitaris-column > *) {
 		@include viewport-tablet() {
-			&:has(> .wp-block-polaris-column--span-2, > .wp-block-polaris-column--span-3) {
+			&:has(> .wp-block-kitaris-column--span-2, > .wp-block-kitaris-column--span-3) {
 				flex-direction: row !important;
 				flex-wrap: wrap !important;
 
-				> .wp-block-polaris-column--span-3 {
+				> .wp-block-kitaris-column--span-3 {
 					flex: 1 1 calc((100% - var(--_columns-gap)) / 2) !important;
 				}
 
-				> .wp-block-polaris-column--span-2 {
+				> .wp-block-kitaris-column--span-2 {
 					flex: 1 1 calc((100% - 2 * var(--_columns-gap)) / 3) !important;
 				}
 			}
@@ -72,11 +72,11 @@
 			@for $k from 2 through 6 {
 				$fewest: if($k == 2, 4, 2 * $k - 1);
 
-				&:has(> :nth-child(#{$fewest} of .wp-block-polaris-column)):not(:has(> :nth-child(#{2 * $k + 1} of .wp-block-polaris-column))):not(:has(> .wp-block-polaris-column:not(.wp-block-polaris-column--auto))) {
+				&:has(> :nth-child(#{$fewest} of .wp-block-kitaris-column)):not(:has(> :nth-child(#{2 * $k + 1} of .wp-block-kitaris-column))):not(:has(> .wp-block-kitaris-column:not(.wp-block-kitaris-column--auto))) {
 					flex-direction: row !important;
 					flex-wrap: wrap !important;
 
-					> .wp-block-polaris-column {
+					> .wp-block-kitaris-column {
 						flex: 0 0 calc((100% - #{$k - 1} * var(--_columns-gap)) / #{$k}) !important;
 					}
 				}
@@ -94,7 +94,7 @@
 	   (equal widths in a row, full width when vertical). */
 	&.has-viewport-layout {
 		@include viewport-tablet-down() {
-			> .wp-block-polaris-column {
+			> .wp-block-kitaris-column {
 				width: 100%;
 				max-width: 100%;
 				min-width: 0;
@@ -102,13 +102,13 @@
 		}
 	}
 
-	.wp-block-polaris-stat,
-	.wp-block-polaris-icon-card,
-	.wp-block-polaris-image-card {
+	.wp-block-kitaris-stat,
+	.wp-block-kitaris-icon-card,
+	.wp-block-kitaris-image-card {
 		flex-grow: 0;
 	}
 
-	.wp-block-polaris-column {
+	.wp-block-kitaris-column {
 		min-width: 4rem;
 		flex-direction: column;
 		display: flex;
@@ -138,18 +138,18 @@
 			}
 		}
 
-		/* Container for nested polaris/columns (and form content) inside this column. */
-		&:has(> .wp-block-polaris-columns),
+		/* Container for nested kitaris/columns (and form content) inside this column. */
+		&:has(> .wp-block-kitaris-columns),
 		&:has(.form__content) {
 			container-type: inline-size;
-			container-name: polaris-column;
+			container-name: kitaris-column;
 		}
 	}
 
 	/* Nested row: stack when the parent column is narrower than $columns-stack-container-max, or on tablet and below. */
-	.wp-block-polaris-column > &:not(.has-viewport-layout) {
-		@include polaris-stack-when-narrow-in-container(polaris-column) {
-			@include polaris-columns-stack-row;
+	.wp-block-kitaris-column > &:not(.has-viewport-layout) {
+		@include kitaris-stack-when-narrow-in-container(kitaris-column) {
+			@include kitaris-columns-stack-row;
 		}
 	}
 }

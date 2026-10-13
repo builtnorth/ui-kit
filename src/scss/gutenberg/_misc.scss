@@ -20,9 +20,9 @@ Misc
 	}
 }
 
-/* Panel Body: our panels opt in with className="polaris-panel" (core and
+/* Panel Body: our panels opt in with className="kitaris-panel" (core and
    other plugins' panels keep their own spacing). */
-.components-panel__body.polaris-panel {
+.components-panel__body.kitaris-panel {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;

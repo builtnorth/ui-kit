@@ -2,54 +2,54 @@
 
 .is-icon-size {
 	&--x-small {
-		--polaris-icon-size: var(--wp--custom--icon--size--x-small, 1.25rem);
+		--kitaris-icon-size: var(--wp--custom--icon--size--x-small, 1.25rem);
 	}
 	&--small {
-		--polaris-icon-size: var(--wp--custom--icon--size--small, 1.75rem);
+		--kitaris-icon-size: var(--wp--custom--icon--size--small, 1.75rem);
 	}
 	&--medium {
-		--polaris-icon-size: var(--wp--custom--icon--size--medium, 2.75rem);
+		--kitaris-icon-size: var(--wp--custom--icon--size--medium, 2.75rem);
 	}
 	&--large {
-		--polaris-icon-size: var(--wp--custom--icon--size--large, 6rem);
+		--kitaris-icon-size: var(--wp--custom--icon--size--large, 6rem);
 	}
 	&--x-large {
-		--polaris-icon-size: var(--wp--custom--icon--size--x-large, 9.5rem);
+		--kitaris-icon-size: var(--wp--custom--icon--size--x-large, 9.5rem);
 	}
 }
 
 .has-background {
 	&.is-icon-size--x-small {
-		--polaris-icon-size: var(--wp--custom--icon--size-background--x-small, 2rem);
-		--polaris-icon-padding: var(
+		--kitaris-icon-size: var(--wp--custom--icon--size-background--x-small, 2rem);
+		--kitaris-icon-padding: var(
 			--wp--custom--icon--padding-background--x-small,
 			0.45rem
 		);
 	}
 	&.is-icon-size--small {
-		--polaris-icon-size: var(--wp--custom--icon--size-background--small, 3rem);
-		--polaris-icon-padding: var(
+		--kitaris-icon-size: var(--wp--custom--icon--size-background--small, 3rem);
+		--kitaris-icon-padding: var(
 			--wp--custom--icon--padding-background--small,
 			0.65rem
 		);
 	}
 	&.is-icon-size--medium {
-		--polaris-icon-size: var(--wp--custom--icon--size-background--medium, 4rem);
-		--polaris-icon-padding: var(
+		--kitaris-icon-size: var(--wp--custom--icon--size-background--medium, 4rem);
+		--kitaris-icon-padding: var(
 			--wp--custom--icon--padding-background--medium,
 			0.8rem
 		);
 	}
 	&.is-icon-size--large {
-		--polaris-icon-size: var(--wp--custom--icon--size-background--large, 8rem);
-		--polaris-icon-padding: var(
+		--kitaris-icon-size: var(--wp--custom--icon--size-background--large, 8rem);
+		--kitaris-icon-padding: var(
 			--wp--custom--icon--padding-background--large,
 			1.5rem
 		);
 	}
 	&.is-icon-size--x-large {
-		--polaris-icon-size: var(--wp--custom--icon--size-background--x-large, 12rem);
-		--polaris-icon-padding: var(
+		--kitaris-icon-size: var(--wp--custom--icon--size-background--x-large, 12rem);
+		--kitaris-icon-padding: var(
 			--wp--custom--icon--padding-background--x-large,
 			2rem
 		);

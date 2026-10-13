@@ -10,7 +10,7 @@ Global Slider Styles
 @use "../helpers/mixins" as helpers;
 @use "../helpers/media-queries" as mq;
 
-// Slider arrow — the carousel's and timeline's arrows (.polaris-slider-arrow),
+// Slider arrow — the carousel's and timeline's arrows (.kitaris-slider-arrow),
 // so every arrow is sized in one place. Add one of the colour mixins below.
 @mixin slider-arrow {
     // The control size is the whole button; the padding leaves the chevron
@@ -34,15 +34,15 @@ Global Slider Styles
 // Arrow on the section (below the slides): the inline control tokens, built
 // from the text colour. The full-colour border keeps the button's edge at the
 // text's contrast (WCAG 1.4.11 needs 3:1).
-// --polaris-arrow-color is the icon color. Line paints the glyph and the
+// --kitaris-arrow-color is the icon color. Line paints the glyph and the
 // border. Fill paints the button, and only when a color is actually chosen.
 @mixin slider-arrow-inline {
     border-color: var(
-        --polaris-arrow-color,
+        --kitaris-arrow-color,
         var(--wp--custom--control--border, currentColor)
     );
     background: var(--wp--custom--control--background, transparent);
-    color: var(--polaris-arrow-color, var(--wp--custom--control--color, currentColor));
+    color: var(--kitaris-arrow-color, var(--wp--custom--control--color, currentColor));
     backdrop-filter: none;
 
     @include helpers.hover($focus: true) {
@@ -58,8 +58,8 @@ Global Slider Styles
 
 // Fill paints only when a colour is chosen. With the colour cleared, the
 // button stays the theme line so the icon is not the same colour as the fill.
-.polaris-carousel__controls.is-appearance-fill.has-arrow-color > .polaris-slider-arrow {
-    --_arrow-fill: var(--polaris-arrow-color);
+.kitaris-carousel__controls.is-appearance-fill.has-arrow-color > .kitaris-slider-arrow {
+    --_arrow-fill: var(--kitaris-arrow-color);
     border-color: transparent;
     background: var(--_arrow-fill);
     color: var(--wp--custom--control--overlay-color, #fff);
@@ -94,7 +94,7 @@ Global Slider Styles
 
 // The arrow on a plain <button>, dimmed at the end of its row. Put the
 // chevron SVG inside; --prev flips it.
-.polaris-slider-arrow {
+.kitaris-slider-arrow {
     @include slider-arrow;
     @include slider-arrow-inline;
     display: inline-flex;
@@ -124,7 +124,7 @@ Global Slider Styles
 
     // Phosphor glyphs sit inside a 256 canvas, so a content box sized for the
     // old chevron made them tiny. The glyph fills most of the button.
-    &.is-polaris-icon {
+    &.is-kitaris-icon {
         --_arrow-icon: 2rem;
         padding: calc(
             (var(--wp--custom--control--size, 2.75rem) - var(--_arrow-icon)) / 2 -
@@ -158,19 +158,19 @@ Global Slider Styles
         }
 
         &.is-size-custom {
-            --_arrow-icon: calc(var(--polaris-arrow-size, 2.75rem) * 0.72);
-            width: var(--polaris-arrow-size, 2.75rem);
-            height: var(--polaris-arrow-size, 2.75rem);
+            --_arrow-icon: calc(var(--kitaris-arrow-size, 2.75rem) * 0.72);
+            width: var(--kitaris-arrow-size, 2.75rem);
+            height: var(--kitaris-arrow-size, 2.75rem);
             padding: calc(
-                (var(--polaris-arrow-size, 2.75rem) - var(--_arrow-icon)) / 2 -
+                (var(--kitaris-arrow-size, 2.75rem) - var(--_arrow-icon)) / 2 -
                     var(--wp--custom--border-width--x-small, 2px)
             );
         }
     }
 
-    // Polaris arrow icons are already the right weight. The hairline stroke
+    // Kitaris arrow icons are already the right weight. The hairline stroke
     // is only for the shared carousel chevron (ItemLayout).
-    &:not(.is-polaris-icon) svg {
+    &:not(.is-kitaris-icon) svg {
         @include slider-arrow-icon-weight;
     }
 
@@ -196,20 +196,20 @@ Global Slider Styles
 // Carousel on native scroll (the Slider block)
 // ==========================================================================
 // A scroll-snap row, slides per view at the theme's breakpoints (theme.json
-// settings.viewport), as polaris/columns steps down: the block's columns on
+// settings.viewport), as kitaris/columns steps down: the block's columns on
 // desktop, the medium count on tablet (ItemLayout::carousel_columns_medium(): half for 4 or
 // more, else 1) and one on mobile. Below the slides, a controls row in the
 // text colour (so it reads on any background): the arrows, then the dots.
 // No wider than the parent, at zero specificity: in a constrained layout
 // (page content, a constrained Group) core's own :where() rule caps the
 // carousel at the content size, as it does every other block.
-:where(.polaris-carousel) {
+:where(.kitaris-carousel) {
     max-width: 100%;
 }
 
-.polaris-carousel {
+.kitaris-carousel {
     --_carousel-gap: var(
-        --polaris-slider-gap,
+        --kitaris-slider-gap,
         var(
             --wp--custom--spacing--column-gap,
             var(--wp--style--block-gap, 1.5rem)
@@ -227,28 +227,28 @@ Global Slider Styles
         max-width: none;
     }
 
-    .polaris-carousel__track {
-        --_carousel-columns: var(--polaris-carousel-columns, 1);
+    .kitaris-carousel__track {
+        --_carousel-columns: var(--kitaris-carousel-columns, 1);
     }
 
-    // Theme breakpoints (placeholders Polaris swaps for the site's queries).
+    // Theme breakpoints (placeholders Kitaris swaps for the site's queries).
     @include mq.viewport-tablet {
-        .polaris-carousel__track {
+        .kitaris-carousel__track {
             --_carousel-columns: var(
-                --polaris-carousel-columns-medium,
-                var(--polaris-carousel-columns, 1)
+                --kitaris-carousel-columns-medium,
+                var(--kitaris-carousel-columns, 1)
             );
         }
     }
 
     @include mq.viewport-mobile {
-        .polaris-carousel__track {
+        .kitaris-carousel__track {
             --_carousel-columns: 1;
         }
     }
 }
 
-.polaris-carousel__track {
+.kitaris-carousel__track {
     // A grid row, not a flex row. Flex stretch does not grow the shorter
     // slides once the row scrolls (overflow on both axes), so hero slides
     // ended up as tall as their own content. One grid row shares a height.
@@ -271,8 +271,8 @@ Global Slider Styles
     }
 
     // No arrows or dots: the scrollbar shows the row scrolls.
-    .polaris-carousel:not(:has(.polaris-carousel__prev)):not(
-            :has(.polaris-carousel__dots)
+    .kitaris-carousel:not(:has(.kitaris-carousel__prev)):not(
+            :has(.kitaris-carousel__dots)
         )
         > & {
         scrollbar-width: thin;
@@ -295,7 +295,7 @@ Global Slider Styles
 
 // Equal-height slides, `columns` to a view. The column width is the track's
 // grid-auto-columns; this flex basis covers a track that is still a flex row.
-.polaris-carousel__slide {
+.kitaris-carousel__slide {
     display: flex;
     flex: 0 0
         calc(
@@ -321,11 +321,11 @@ Global Slider Styles
 
 // The controls row's box, also used by the dots when the arrows move to the
 // sides. A block can hold it to its content width with
-// --polaris-carousel-controls-max-width and --polaris-carousel-controls-padding
+// --kitaris-carousel-controls-max-width and --kitaris-carousel-controls-padding
 // (a full-width slider does).
 @mixin carousel-controls-box {
     box-sizing: content-box;
-    max-width: var(--polaris-carousel-controls-max-width, none);
+    max-width: var(--kitaris-carousel-controls-max-width, none);
     // Space below the slides: the slider controls height less the controls.
     margin-block: calc(
             var(--wp--custom--slider--controls-height, 5.5rem) - var(
@@ -335,10 +335,10 @@ Global Slider Styles
         )
         var(--wp--style--block-gap, 1.5rem);
     margin-inline: auto;
-    padding-inline: var(--polaris-carousel-controls-padding, 0);
+    padding-inline: var(--kitaris-carousel-controls-padding, 0);
 }
 
-.polaris-carousel__controls {
+.kitaris-carousel__controls {
     display: flex;
     // Prev/next must stay on one row — wrap stacks the arrows in narrow columns.
     flex-wrap: nowrap;
@@ -361,29 +361,29 @@ Global Slider Styles
 }
 
 // Zero specificity so a Block spacing value wins. Untouched, the theme gap stays.
-:where(.polaris-carousel__controls) {
+:where(.kitaris-carousel__controls) {
     gap: var(--wp--custom--inline-gap, 0.5rem);
 }
 
 // Slider arrows write their Block spacing onto the block (core only prints
 // that gap for layout blocks). This beats the theme gap above.
-.wp-block-polaris-slider-arrows.polaris-carousel__controls {
-    gap: var(--polaris-arrows-gap, var(--wp--custom--inline-gap, 0.5rem));
+.wp-block-kitaris-slider-arrows.kitaris-carousel__controls {
+    gap: var(--kitaris-arrows-gap, var(--wp--custom--inline-gap, 0.5rem));
 }
 
 // Classic below-track chrome (ItemLayout / attribute-driven carousels): the
-// controls box when arrows/dots are direct children. polaris/slider uses
+// controls box when arrows/dots are direct children. kitaris/slider uses
 // WordPress layout flex + Block spacing instead — see .is-layout-flex below.
-.polaris-carousel:not(.is-layout-flex) > .polaris-carousel__controls,
-.polaris-carousel:not(.is-layout-flex) > .polaris-carousel__dots {
+.kitaris-carousel:not(.is-layout-flex) > .kitaris-carousel__controls,
+.kitaris-carousel:not(.is-layout-flex) > .kitaris-carousel__dots {
     @include carousel-controls-box;
 }
 
-// polaris/slider: WordPress layout flex owns the stack (heading, chrome,
+// kitaris/slider: WordPress layout flex owns the stack (heading, chrome,
 // track, dots) via Block spacing. Keep arrow chrome horizontal always —
 // never let a column flex parent or sides-mode `display: contents` stack
 // prev/next as separate flex items.
-.polaris-carousel.is-layout-flex {
+.kitaris-carousel.is-layout-flex {
     // Flex items default to min-width: auto. Slides (alignfull heroes, wide
     // images) then force the track — and the page — wider than the carousel.
     // Keep overflow on the track's scrollport only.
@@ -395,7 +395,7 @@ Global Slider Styles
         max-width: none;
     }
 
-    > .polaris-carousel__track {
+    > .kitaris-carousel__track {
         min-width: 0;
         width: 100%;
         max-width: 100%;
@@ -403,8 +403,8 @@ Global Slider Styles
         box-sizing: border-box;
     }
 
-    > .polaris-carousel__controls,
-    .polaris-carousel__controls {
+    > .kitaris-carousel__controls,
+    .kitaris-carousel__controls {
         flex-direction: row;
         flex-wrap: nowrap;
     }
@@ -412,8 +412,8 @@ Global Slider Styles
     // Chrome hugs its contents, and is never shrunk below them. A max-width
     // here used to cap the background while a large button or mark spilled
     // out of it. Alignment moves the group. Full-width indicators opt in.
-    > .polaris-carousel__controls,
-    > .polaris-carousel__dots {
+    > .kitaris-carousel__controls,
+    > .kitaris-carousel__dots {
         margin-block: 0;
         box-sizing: border-box;
         flex-shrink: 0;
@@ -423,18 +423,18 @@ Global Slider Styles
         align-self: flex-start;
     }
 
-    > .polaris-carousel__controls.has-controls-align-center,
-    > .polaris-carousel__dots.has-dots-align-center:not(.is-width-fill) {
+    > .kitaris-carousel__controls.has-controls-align-center,
+    > .kitaris-carousel__dots.has-dots-align-center:not(.is-width-fill) {
         align-self: center;
     }
 
-    > .polaris-carousel__controls.has-controls-align-end,
-    > .polaris-carousel__dots.has-dots-align-end:not(.is-width-fill) {
+    > .kitaris-carousel__controls.has-controls-align-end,
+    > .kitaris-carousel__dots.has-dots-align-end:not(.is-width-fill) {
         align-self: flex-end;
     }
 
-    > .polaris-carousel__dots.is-width-fill,
-    > .polaris-carousel__dots.is-dots-style-track:not(.is-width-hug) {
+    > .kitaris-carousel__dots.is-width-fill,
+    > .kitaris-carousel__dots.is-dots-style-track:not(.is-width-hug) {
         width: 100%;
         max-width: 100%;
         min-width: 0;
@@ -442,14 +442,14 @@ Global Slider Styles
     }
 
     // Full-bleed sliders: a hugged group still starts at the content edge.
-    &.alignfull > .polaris-carousel__controls:not(.has-controls-align-center):not(.has-controls-align-end),
-    &.alignfull > .polaris-carousel__dots:not(.is-dots-style-track):not(.has-dots-align-center):not(.has-dots-align-end) {
-        margin-inline-start: var(--polaris-carousel-controls-padding, var(--wp--style--root--padding-left, 1rem));
+    &.alignfull > .kitaris-carousel__controls:not(.has-controls-align-center):not(.has-controls-align-end),
+    &.alignfull > .kitaris-carousel__dots:not(.is-dots-style-track):not(.has-dots-align-center):not(.has-dots-align-end) {
+        margin-inline-start: var(--kitaris-carousel-controls-padding, var(--wp--style--root--padding-left, 1rem));
     }
 
-    &.alignfull > .polaris-carousel__controls.has-controls-align-end,
-    &.alignfull > .polaris-carousel__dots.has-dots-align-end:not(.is-dots-style-track) {
-        margin-inline-end: var(--polaris-carousel-controls-padding, var(--wp--style--root--padding-right, 1rem));
+    &.alignfull > .kitaris-carousel__controls.has-controls-align-end,
+    &.alignfull > .kitaris-carousel__dots.has-dots-align-end:not(.is-dots-style-track) {
+        margin-inline-end: var(--kitaris-carousel-controls-padding, var(--wp--style--root--padding-right, 1rem));
     }
 }
 
@@ -458,20 +458,20 @@ Global Slider Styles
     // ItemLayout / non-layout carousels: grid + display:contents so prev/next
     // share the track cell. Must NOT run on .is-layout-flex — contents would
     // drop the buttons into the vertical stack and they stack as columns.
-    .polaris-carousel.has-arrows-sides:not(.is-layout-flex) {
+    .kitaris-carousel.has-arrows-sides:not(.is-layout-flex) {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
 
-        > .polaris-carousel__track {
+        > .kitaris-carousel__track {
             grid-area: 1 / 1;
         }
 
-        > .polaris-carousel__controls:not([hidden]) {
+        > .kitaris-carousel__controls:not([hidden]) {
             display: contents;
         }
 
-        .polaris-carousel__prev,
-        .polaris-carousel__next {
+        .kitaris-carousel__prev,
+        .kitaris-carousel__next {
             @include slider-arrow-overlay;
             grid-area: 1 / 1;
             align-self: center;
@@ -479,33 +479,33 @@ Global Slider Styles
             margin-inline: var(--wp--custom--inline-gap, 0.5rem);
         }
 
-        .polaris-carousel__prev {
+        .kitaris-carousel__prev {
             justify-self: start;
         }
 
-        .polaris-carousel__next {
+        .kitaris-carousel__next {
             justify-self: end;
         }
 
-        .polaris-carousel__dots,
-        > .polaris-carousel__dots {
+        .kitaris-carousel__dots,
+        > .kitaris-carousel__dots {
             @include carousel-controls-box;
             grid-area: 2 / 1;
             width: calc(
-                100% - 2 * var(--polaris-carousel-controls-padding, 0px)
+                100% - 2 * var(--kitaris-carousel-controls-padding, 0px)
             );
             margin-inline-start: auto;
         }
 
-        &.has-controls-align-center .polaris-carousel__dots,
-        &:has(> .polaris-carousel__controls.has-controls-align-center)
-            .polaris-carousel__dots {
+        &.has-controls-align-center .kitaris-carousel__dots,
+        &:has(> .kitaris-carousel__controls.has-controls-align-center)
+            .kitaris-carousel__dots {
             justify-content: center;
         }
 
-        &.has-controls-align-end .polaris-carousel__dots,
-        &:has(> .polaris-carousel__controls.has-controls-align-end)
-            .polaris-carousel__dots {
+        &.has-controls-align-end .kitaris-carousel__dots,
+        &:has(> .kitaris-carousel__controls.has-controls-align-end)
+            .kitaris-carousel__dots {
             justify-content: flex-end;
         }
     }
@@ -513,9 +513,9 @@ Global Slider Styles
 
 // The dots, as tall as the arrows so they line up on one row; after the
 // arrows with a wider gap than the one between them.
-// --polaris-dots-color is the Styles colour. Unset, the section text colour.
-.polaris-carousel__dots {
-    --_mark: var(--polaris-dots-color, currentColor);
+// --kitaris-dots-color is the Styles colour. Unset, the section text colour.
+.kitaris-carousel__dots {
+    --_mark: var(--kitaris-dots-color, currentColor);
     --_indicator-scale: 1;
     color: var(--_mark);
     display: flex;
@@ -545,11 +545,11 @@ Global Slider Styles
     }
 
     // Block spacing, same path as the arrows: a value on the block, else none.
-    &.wp-block-polaris-slider-dots {
-        gap: var(--polaris-indicator-gap, 0px);
+    &.wp-block-kitaris-slider-dots {
+        gap: var(--kitaris-indicator-gap, 0px);
     }
 
-    .polaris-carousel__next + & {
+    .kitaris-carousel__next + & {
         margin-inline-start: calc(
             var(--wp--custom--slider--pagination-gap, 1rem) - var(
                     --wp--custom--inline-gap,
@@ -559,7 +559,7 @@ Global Slider Styles
     }
 
     // Between the arrows (centred controls): the same space on both sides.
-    .polaris-carousel__prev + & {
+    .kitaris-carousel__prev + & {
         margin-inline: calc(
             var(--wp--custom--slider--pagination-gap, 1rem) - var(
                     --wp--custom--inline-gap,
@@ -573,9 +573,9 @@ Global Slider Styles
 // the row, so Left / Center / Right is the slider's width. Center drops to
 // its own line so the indicators don't sit on top of the arrows. Arrows set
 // to Center keep the dots between the buttons and this grid does not run.
-.polaris-carousel.is-layout-flex
-    > .polaris-carousel__controls:has(> .polaris-carousel__dots):not(
-        :has(> .polaris-carousel__prev + .polaris-carousel__dots)
+.kitaris-carousel.is-layout-flex
+    > .kitaris-carousel__controls:has(> .kitaris-carousel__dots):not(
+        :has(> .kitaris-carousel__prev + .kitaris-carousel__dots)
     ) {
     display: grid;
     grid-template-columns: auto auto minmax(0, 1fr);
@@ -583,17 +583,17 @@ Global Slider Styles
     justify-content: start;
     column-gap: var(--wp--custom--inline-gap, 0.5rem);
 
-    > .polaris-carousel__prev {
+    > .kitaris-carousel__prev {
         grid-column: 1;
         grid-row: 1;
     }
 
-    > .polaris-carousel__next {
+    > .kitaris-carousel__next {
         grid-column: 2;
         grid-row: 1;
     }
 
-    > .polaris-carousel__dots {
+    > .kitaris-carousel__dots {
         grid-column: 3;
         grid-row: 1;
         width: 100%;
@@ -601,13 +601,13 @@ Global Slider Styles
         margin-inline-end: 0;
     }
 
-    > .polaris-carousel__dots.has-dots-align-center,
-    > .polaris-carousel__dots.has-dots-align-end,
-    > .polaris-carousel__dots.is-dots-style-track {
+    > .kitaris-carousel__dots.has-dots-align-center,
+    > .kitaris-carousel__dots.has-dots-align-end,
+    > .kitaris-carousel__dots.is-dots-style-track {
         margin: 0;
     }
 
-    > .polaris-carousel__dots.has-dots-align-center {
+    > .kitaris-carousel__dots.has-dots-align-center {
         grid-column: 1 / -1;
         grid-row: 2;
     }
@@ -617,15 +617,15 @@ Global Slider Styles
     &.has-controls-align-end {
         grid-template-columns: minmax(0, 1fr) auto auto;
 
-        > .polaris-carousel__prev {
+        > .kitaris-carousel__prev {
             grid-column: 2;
         }
 
-        > .polaris-carousel__next {
+        > .kitaris-carousel__next {
             grid-column: 3;
         }
 
-        > .polaris-carousel__dots:not(.has-dots-align-center) {
+        > .kitaris-carousel__dots:not(.has-dots-align-center) {
             grid-column: 1;
             margin: 0;
         }
@@ -634,7 +634,7 @@ Global Slider Styles
 
 // Each dot is a 24px target (WCAG 2.5.8) around a smaller bar: an outline
 // for the other positions, filled and longer for the current one.
-.polaris-carousel__dot {
+.kitaris-carousel__dot {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -713,20 +713,20 @@ Global Slider Styles
 }
 
 // Circles. Same 24px target; the mark is a dot, filled for the current stop.
-.polaris-carousel__dots.is-dots-style-dots > .polaris-carousel__dot::after {
+.kitaris-carousel__dots.is-dots-style-dots > .kitaris-carousel__dot::after {
     width: calc(0.5rem * var(--_indicator-scale, 1));
     height: calc(0.5rem * var(--_indicator-scale, 1));
     border-radius: 999px;
 }
 
-.polaris-carousel__dots.is-dots-style-dots
-    > .polaris-carousel__dot[aria-current="true"]::after {
+.kitaris-carousel__dots.is-dots-style-dots
+    > .kitaris-carousel__dot[aria-current="true"]::after {
     width: calc(0.5rem * var(--_indicator-scale, 1));
     background-color: currentColor;
 }
 
 // Flush rail until Block spacing is set. Zero specificity so that gap wins.
-:where(.polaris-carousel__dots.is-dots-style-track) {
+:where(.kitaris-carousel__dots.is-dots-style-track) {
     gap: 0;
 }
 
@@ -734,10 +734,10 @@ Global Slider Styles
 // shrink to nothing (a flex row would otherwise squeeze them to 0, and the
 // carousel's overflow clip hides the rail). The current stop is filled, and
 // where anchor positioning exists that fill is one thumb that slides along.
-.polaris-carousel__dots.is-dots-style-track {
+.kitaris-carousel__dots.is-dots-style-track {
     min-width: min-content;
 
-    > .polaris-carousel__dot {
+    > .kitaris-carousel__dot {
         flex: 1 1 0%;
         padding: 0;
         min-width: calc(1.75rem * var(--_indicator-scale, 1));
@@ -768,14 +768,14 @@ Global Slider Styles
 }
 
 // On its own row, the rail is the slider's width unless Full width is off.
-.polaris-carousel.is-layout-flex > .polaris-carousel__dots.is-dots-style-track:not(.is-width-hug) {
+.kitaris-carousel.is-layout-flex > .kitaris-carousel__dots.is-dots-style-track:not(.is-width-hug) {
     width: 100%;
 }
 
 // Beside the arrows (in the controls, or in a row group with them), take the
 // free space. min-content keeps the rail visible when that row is shrink-wrapped.
-:is(.polaris-carousel__controls, .wp-block-group) > .polaris-carousel__dots.is-dots-style-track:not(.is-width-hug),
-.polaris-carousel__controls .polaris-carousel__dots.is-dots-style-track:not(.is-width-hug) {
+:is(.kitaris-carousel__controls, .wp-block-group) > .kitaris-carousel__dots.is-dots-style-track:not(.is-width-hug),
+.kitaris-carousel__controls .kitaris-carousel__dots.is-dots-style-track:not(.is-width-hug) {
     flex: 1 1 auto;
     width: auto;
     min-width: min-content;
@@ -783,44 +783,44 @@ Global Slider Styles
 
 // The inserted chrome row (arrows, then the indicator) has to be the slider's
 // width. Otherwise space-between has no free space and the two sit together.
-.polaris-carousel.is-layout-flex > .wp-block-group:has(> .polaris-carousel__controls, > .polaris-carousel__dots) {
+.kitaris-carousel.is-layout-flex > .wp-block-group:has(> .kitaris-carousel__controls, > .kitaris-carousel__dots) {
     align-self: stretch;
     width: auto;
     max-width: none;
     min-width: 0;
 }
 
-.polaris-carousel.is-layout-flex.alignfull > .wp-block-group:has(> .polaris-carousel__controls, > .polaris-carousel__dots) {
-    margin-inline: var(--polaris-carousel-controls-padding, var(--wp--style--root--padding-left, 1rem));
+.kitaris-carousel.is-layout-flex.alignfull > .wp-block-group:has(> .kitaris-carousel__controls, > .kitaris-carousel__dots) {
+    margin-inline: var(--kitaris-carousel-controls-padding, var(--wp--style--root--padding-left, 1rem));
 }
 
 // A row that holds the track next to the arrows spans the slider, so the rail
 // has a width to fill. Otherwise the row shrinks to the arrows and the track
 // collapses under overflow clip.
-.polaris-carousel.is-layout-flex .wp-block-group:has(> .polaris-carousel__dots.is-dots-style-track) {
+.kitaris-carousel.is-layout-flex .wp-block-group:has(> .kitaris-carousel__dots.is-dots-style-track) {
     align-self: stretch;
     width: 100%;
     max-width: 100%;
 }
 
-@supports (anchor-name: --polaris-dots-active) {
-    .polaris-carousel__dots.is-dots-style-track {
+@supports (anchor-name: --kitaris-dots-active) {
+    .kitaris-carousel__dots.is-dots-style-track {
         position: relative;
-        anchor-scope: --polaris-dots-active;
+        anchor-scope: --kitaris-dots-active;
 
-        > .polaris-carousel__dot[aria-current="true"] {
-            anchor-name: --polaris-dots-active;
+        > .kitaris-carousel__dot[aria-current="true"] {
+            anchor-name: --kitaris-dots-active;
         }
 
         // The segment stays part of the rail. The thumb is the moving fill.
-        > .polaris-carousel__dot[aria-current="true"]::after {
+        > .kitaris-carousel__dot[aria-current="true"]::after {
             background-color: color-mix(in srgb, currentColor 28%, transparent);
         }
 
         &::after {
             content: "";
             position: absolute;
-            position-anchor: --polaris-dots-active;
+            position-anchor: --kitaris-dots-active;
             inset-block-start: anchor(center);
             inset-inline-start: anchor(start);
             translate: 0 -50%;
@@ -833,7 +833,7 @@ Global Slider Styles
     }
 
     @media (prefers-reduced-motion: no-preference) {
-        .polaris-carousel__dots.is-dots-style-track::after {
+        .kitaris-carousel__dots.is-dots-style-track::after {
             transition:
                 inset-inline-start var(--wp--custom--transition--duration-slow, 300ms)
                     var(--wp--custom--transition--easing-default, ease-out),
@@ -845,75 +845,75 @@ Global Slider Styles
 
 // Fill paints the mark. Line paints the stroke. The colour is --_mark either way.
 // The track is a rail, not a stroked mark, so these rules skip it.
-.polaris-carousel__dots.is-appearance-line:not(.is-dots-style-track) > .polaris-carousel__dot::after {
+.kitaris-carousel__dots.is-appearance-line:not(.is-dots-style-track) > .kitaris-carousel__dot::after {
     background-color: transparent;
     border-color: color-mix(in oklch, var(--_mark) 45%, transparent);
 }
 
-.polaris-carousel__dots.is-appearance-line:not(.is-dots-style-track) > .polaris-carousel__dot[aria-current="true"]::after {
+.kitaris-carousel__dots.is-appearance-line:not(.is-dots-style-track) > .kitaris-carousel__dot[aria-current="true"]::after {
     background-color: transparent;
     border-color: var(--_mark);
 }
 
-.polaris-carousel__dots.is-appearance-fill:not(.is-dots-style-track) > .polaris-carousel__dot::after {
+.kitaris-carousel__dots.is-appearance-fill:not(.is-dots-style-track) > .kitaris-carousel__dot::after {
     border-color: transparent;
     background-color: color-mix(in oklch, var(--_mark) 40%, transparent);
 }
 
-.polaris-carousel__dots.is-appearance-fill:not(.is-dots-style-track) > .polaris-carousel__dot[aria-current="true"]::after {
+.kitaris-carousel__dots.is-appearance-fill:not(.is-dots-style-track) > .kitaris-carousel__dot[aria-current="true"]::after {
     border-color: transparent;
     background-color: var(--_mark);
 }
 
 // Rail and thumb follow the indicator colour. The rail stays a tint; the thumb is solid.
-.polaris-carousel__dots.is-dots-style-track > .polaris-carousel__dot::after {
+.kitaris-carousel__dots.is-dots-style-track > .kitaris-carousel__dot::after {
     border: 0;
     background-color: color-mix(in oklch, var(--_mark) 28%, transparent);
 }
 
-.polaris-carousel__dots.is-dots-style-track > .polaris-carousel__dot[aria-current="true"]::after {
+.kitaris-carousel__dots.is-dots-style-track > .kitaris-carousel__dot[aria-current="true"]::after {
     background-color: var(--_mark);
 }
 
-.polaris-carousel__dots.is-dots-style-track::after {
+.kitaris-carousel__dots.is-dots-style-track::after {
     background-color: var(--_mark);
     border: 0;
 }
 
 // Custom size is one length, the mark's height (a bar), diameter (a dot),
 // or thickness (a track). Widths stay in proportion to the preset marks.
-.polaris-carousel__dots.is-size-custom > .polaris-carousel__dot::after {
-    height: var(--polaris-indicator-size, 0.75rem);
-    width: calc(var(--polaris-indicator-size, 0.75rem) * 2);
+.kitaris-carousel__dots.is-size-custom > .kitaris-carousel__dot::after {
+    height: var(--kitaris-indicator-size, 0.75rem);
+    width: calc(var(--kitaris-indicator-size, 0.75rem) * 2);
 }
 
-.polaris-carousel__dots.is-size-custom > .polaris-carousel__dot[aria-current="true"]::after {
-    width: calc(var(--polaris-indicator-size, 0.75rem) * 3.667);
+.kitaris-carousel__dots.is-size-custom > .kitaris-carousel__dot[aria-current="true"]::after {
+    width: calc(var(--kitaris-indicator-size, 0.75rem) * 3.667);
 }
 
-.polaris-carousel__dots.is-size-custom.is-dots-style-dots > .polaris-carousel__dot::after,
-.polaris-carousel__dots.is-size-custom.is-dots-style-dots > .polaris-carousel__dot[aria-current="true"]::after {
-    width: var(--polaris-indicator-size, 0.75rem);
-    height: var(--polaris-indicator-size, 0.75rem);
+.kitaris-carousel__dots.is-size-custom.is-dots-style-dots > .kitaris-carousel__dot::after,
+.kitaris-carousel__dots.is-size-custom.is-dots-style-dots > .kitaris-carousel__dot[aria-current="true"]::after {
+    width: var(--kitaris-indicator-size, 0.75rem);
+    height: var(--kitaris-indicator-size, 0.75rem);
 }
 
-.polaris-carousel__dots.is-size-custom.is-dots-style-track > .polaris-carousel__dot::after,
-.polaris-carousel__dots.is-size-custom.is-dots-style-track > .polaris-carousel__dot[aria-current="true"]::after {
+.kitaris-carousel__dots.is-size-custom.is-dots-style-track > .kitaris-carousel__dot::after,
+.kitaris-carousel__dots.is-size-custom.is-dots-style-track > .kitaris-carousel__dot[aria-current="true"]::after {
     width: 100%;
-    height: var(--polaris-indicator-size, 0.25rem);
-    block-size: var(--polaris-indicator-size, 0.25rem);
+    height: var(--kitaris-indicator-size, 0.25rem);
+    block-size: var(--kitaris-indicator-size, 0.25rem);
 }
 
-.polaris-carousel__dots.is-size-custom.is-dots-style-track::after {
-    block-size: var(--polaris-indicator-size, 0.25rem);
+.kitaris-carousel__dots.is-size-custom.is-dots-style-track::after {
+    block-size: var(--kitaris-indicator-size, 0.25rem);
 }
 
 // Full-width bars share the row. The current bar keeps the same proportion
 // as the preset marks (2.75 to 1.5), so it stays longer than the others.
-.polaris-carousel__dots.is-width-fill:not(.is-dots-style-track):not(.is-dots-style-dots) {
+.kitaris-carousel__dots.is-width-fill:not(.is-dots-style-track):not(.is-dots-style-dots) {
     flex-wrap: nowrap;
 
-    > .polaris-carousel__dot {
+    > .kitaris-carousel__dot {
         flex: 1.5 1 0%;
         min-width: 0;
 
@@ -930,7 +930,7 @@ Global Slider Styles
     // The mark is always 100% of its button, so the old width transition
     // never runs. The button's share of the row is what changes.
     @media (prefers-reduced-motion: no-preference) {
-        > .polaris-carousel__dot {
+        > .kitaris-carousel__dot {
             transition-property: flex-grow;
             transition-duration: var(--wp--custom--transition--duration-slow, 300ms);
             transition-timing-function: var(
