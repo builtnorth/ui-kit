@@ -78,6 +78,9 @@ Classes to quickly add utility styles to your components.
 .has-background-image {
 	position: relative;
 	overflow: hidden;
+	// Content is z-index 1 so it paints over the image. Keep that inside
+	// this block — a positive z-index here used to escape and cover menus.
+	isolation: isolate;
 
 	// The background video's play/pause button positions itself in a corner.
 	> *:not(.background):not(.section-pattern):not(.background-video-toggle) {
@@ -199,6 +202,9 @@ Classes to quickly add utility styles to your components.
 	position: relative;
 	// A large or offset pattern must not spill into neighbours or cause sideways scroll.
 	overflow: clip;
+	// Content is z-index 1 so it paints over the pattern. Keep that inside
+	// this block.
+	isolation: isolate;
 
 	// Ensure that content displays above the pattern
 	> *:not(.section-pattern):not(.background):not(.background-video-toggle) {
@@ -288,24 +294,6 @@ Classes to quickly add utility styles to your components.
 			right: var(--_offset-x);
 			transform-origin: bottom right;
 		}
-	}
-}
-
-// Apply to the section immediately before .has-pattern
-// Ensure that content displays above the pattern
-.has-pattern + * {
-	> * {
-		position: relative;
-		z-index: 1;
-	}
-}
-
-// Apply to the section immediately after .has-pattern
-// Ensure that content displays above the pattern
-* + .has-pattern {
-	> * {
-		position: relative;
-		z-index: 1;
 	}
 }
 
