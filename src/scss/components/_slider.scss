@@ -215,6 +215,25 @@ Global Slider Styles
             var(--wp--style--block-gap, 1.5rem)
         )
     );
+    // Room around the slides for their shadows: the track is a scrollport,
+    // which clips on both axes (overflow-x: auto makes overflow-y auto too).
+    // Padded by this much and pulled back by the same margin, so the slides
+    // and snap points don't move. On by default; a theme sets
+    // settings.custom.carousel.bleed, a block --kitaris-carousel-bleed (a
+    // length with a unit; 0px turns it off).
+    --_carousel-bleed: var(
+        --kitaris-carousel-bleed,
+        var(--wp--custom--carousel--bleed, 1.5rem)
+    );
+    // The side gutter is capped at the slide gap, so the next slide's box never
+    // shows in it (only its shadow), and at the page's root padding: past that
+    // it would reach beyond the screen edge and scroll the page sideways.
+    --_carousel-bleed-inline: min(
+        var(--_carousel-bleed),
+        var(--_carousel-gap),
+        var(--wp--style--root--padding-left, var(--_carousel-bleed)),
+        var(--wp--style--root--padding-right, var(--_carousel-bleed))
+    );
     // A size container has no width of its own: fill the parent's, also in
     // flex and grid wrappers.
     container-type: inline-size;
@@ -225,6 +244,9 @@ Global Slider Styles
     // bleed, so the hero stops short of the right edge.
     &.alignfull {
         max-width: none;
+        // The slides already run to the screen edge: no side gutter, which
+        // would widen the page.
+        --_carousel-bleed-inline: 0px;
     }
 
     .kitaris-carousel__track {
@@ -260,6 +282,17 @@ Global Slider Styles
     );
     align-items: stretch;
     gap: var(--_carousel-gap);
+    // Shadow gutter (see --_carousel-bleed): the content box stays the
+    // carousel's width, so the columns above keep their size.
+    box-sizing: border-box;
+    width: calc(100% + 2 * var(--_carousel-bleed-inline, 0px));
+    margin: calc(-1 * var(--_carousel-bleed, 0px)) calc(-1 * var(--_carousel-bleed-inline, 0px));
+    padding: var(--_carousel-bleed, 0px) var(--_carousel-bleed-inline, 0px);
+    scroll-padding-inline: var(--_carousel-bleed-inline, 0px);
+    // The gutter overlaps whatever sits just above and below the slider:
+    // clicks there go through to it. The slides take clicks as usual, and
+    // wheel and touch over them still scroll the row.
+    pointer-events: none;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
@@ -276,6 +309,8 @@ Global Slider Styles
         )
         > & {
         scrollbar-width: thin;
+        // The scrollbar must take the pointer to be dragged.
+        pointer-events: auto;
 
         &::-webkit-scrollbar {
             display: initial;
@@ -290,6 +325,11 @@ Global Slider Styles
         outline: $focus-width solid $focus-color;
         outline-offset: $focus-offset;
     }
+}
+
+// The track's children take clicks again (see pointer-events on the track).
+.kitaris-carousel__track > * {
+    pointer-events: auto;
 }
 
 // Equal-height slides, `columns` to a view. The column width is the track's
@@ -375,6 +415,15 @@ Global Slider Styles
     @include carousel-controls-box;
 }
 
+// The carousel's clip margin as one length. overflow-clip-margin takes only a
+// plain length (Chrome drops calc() and max()), so this registered property
+// computes the max() and var() hands over the result.
+@property --_carousel-clip-margin {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+}
+
 // kitaris/slider: WordPress layout flex owns the stack (heading, chrome,
 // track, dots) via Block spacing. Keep arrow chrome horizontal always —
 // never let a column flex parent or sides-mode `display: contents` stack
@@ -382,13 +431,24 @@ Global Slider Styles
 .kitaris-carousel.is-layout-flex {
     // Flex items default to min-width: auto. Slides (alignfull heroes, wide
     // images) then force the track — and the page — wider than the carousel.
-    // Keep overflow on the track's scrollport only.
-    overflow-x: clip;
-    // Room past the clip edge for the focus ring on arrows and dots at the
-    // carousel's sides (ring width + offset), so it isn't cut off.
-    overflow-clip-margin: calc(
-        #{$focus-width} + #{$focus-offset}
+    // Keep overflow on the track's scrollport only. Both axes: Chrome applies
+    // the clip margin only when neither axis is visible.
+    overflow: clip;
+    // Room past the clip edge for the focus ring on arrows and dots
+    // (ring width + offset), and for the track's shadow gutter, which pulls
+    // the track past the carousel's edges.
+    --_carousel-clip-margin: max(
+        #{$focus-width} + #{$focus-offset},
+        var(--_carousel-bleed, 0px)
     );
+    overflow-clip-margin: var(--_carousel-clip-margin);
+
+    // No overflow-clip-margin (Safari): the same edge as a paint clip. The
+    // track's explicit width already keeps the slides from widening the page.
+    @supports not (overflow-clip-margin: 1px) {
+        overflow: visible;
+        clip-path: inset(calc(-1 * var(--_carousel-clip-margin)));
+    }
     min-width: 0;
     max-width: 100%;
 
@@ -398,8 +458,11 @@ Global Slider Styles
 
     > .kitaris-carousel__track {
         min-width: 0;
-        width: 100%;
-        max-width: 100%;
+        width: calc(100% + 2 * var(--_carousel-bleed-inline, 0px));
+        max-width: none;
+        // The shadow gutter's pull-back, over core's
+        // `.is-layout-flex > :is(*, div) { margin: 0 }`.
+        margin: calc(-1 * var(--_carousel-bleed, 0px)) calc(-1 * var(--_carousel-bleed-inline, 0px));
         // Editor: horizontal InnerBlocks layout must not expand the canvas.
         box-sizing: border-box;
     }
