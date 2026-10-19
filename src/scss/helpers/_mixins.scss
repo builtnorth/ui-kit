@@ -7,6 +7,7 @@ Helpers: Mixins
 ------------------------------------------------------------------
 */
 
+@use "../config" as *;
 @use "./media-queries" as *;
 
 // Button Reset
@@ -20,20 +21,22 @@ Helpers: Mixins
 }
 
 // Interface link (contact, social, breadcrumbs): no underline at rest,
-// underlined on hover and keyboard focus. Text links in sentences keep their
+// underlined on hover. Keyboard focus shows the focus ring, not an underline. Text links in sentences keep their
 // underline (base/links). Themes change every interface link at once with
 // theme.json settings.custom.uiLink.decoration / .hoverDecoration (any
 // text-decoration-line value, e.g. "none").
 @mixin ui-link() {
 	text-decoration-line: var(--wp--custom--ui-link--decoration, none);
 
-	@include hover($focus: true) {
+	@include hover {
 		text-decoration-line: var(--wp--custom--ui-link--hover-decoration, underline);
 	}
 }
 
 // Hover styles only where a hover exists: on a touch screen a tap would leave
-// them stuck. With $focus: true, keyboard focus gets the same styles.
+// them stuck. With $focus: true, keyboard focus gets the same styles: use it
+// for fills (buttons, arrows), where a ring alone may not show. Never for an
+// underline; the focus ring already shows focus.
 @mixin hover($focus: false) {
 	@if $focus {
 		&:focus-visible {
@@ -44,6 +47,32 @@ Helpers: Mixins
 	@media (hover: hover) and (pointer: fine) {
 		&:hover {
 			@content;
+		}
+	}
+}
+
+// Keyboard focus for a control floating over the page (position: fixed, e.g.
+// back to top): the section behind it can be any colour, so a one-colour
+// ring can vanish. A $ring outline sits on a $halo band that fills the
+// offset gap and runs the same distance past it; one of the two always shows. Pass the
+// control's text and background colours when they're known. Without a
+// $halo, the band is the contrast of currentColor (base colour where
+// contrast-color() isn't supported). Tune with focus.width / focus.offset.
+@mixin floating-focus($ring: currentColor, $halo: null) {
+	$spread: calc(#{$focus-offset} + #{$focus-width} + #{$focus-offset});
+
+	&:focus-visible {
+		outline: $focus-width solid $ring;
+		outline-offset: $focus-offset;
+
+		@if $halo {
+			box-shadow: 0 0 0 $spread $halo;
+		} @else {
+			box-shadow: 0 0 0 $spread var(--wp--preset--color--base, #fff);
+
+			@supports (color: contrast-color(red)) {
+				box-shadow: 0 0 0 $spread contrast-color(currentColor);
+			}
 		}
 	}
 }
@@ -261,14 +290,11 @@ Helpers: Mixins
 		background: var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%));
 	}
 
-	// A light ring inside a dark one: visible on any background.
-	&:focus-visible {
-		outline: 2px solid var(--wp--custom--control--overlay-color, #fff);
-		outline-offset: 2px;
-		box-shadow:
-			0 0 0 1px var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%)),
-			0 0 0 5px var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%));
-	}
+	// A light ring on a dark band: visible on any background.
+	@include floating-focus(
+		var(--wp--custom--control--overlay-color, #fff),
+		var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%))
+	);
 
 	// Play icon (paused).
 	&::before {

@@ -6,6 +6,8 @@ Helper classes for improving accessibility.
 ------------------------------------------------------------------
 */
 
+@use "../config" as *;
+
 /* Accessible card link
 ----------------------------------------------------------------
 One real link inside the card (its "primary link") is stretched over the
@@ -54,23 +56,15 @@ $_card-primary-links: ".kitaris-card-link, .wp-block-post-title a, .wp-block-kit
 	}
 
 	&:has(:is(#{$_card-primary-links}):focus-visible) {
-		outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
-		outline-offset: calc(-1 * var(--wp--custom--focus--width, 2px));
+		outline: $focus-width solid $focus-color;
+		outline-offset: calc(-1 * #{$focus-width});
 	}
 
 	// Browsers without :has(): square outline on the stretched link.
 	@supports not selector(:has(*)) {
 		:is(#{$_card-primary-links}):focus-visible::after {
-			outline: 2px solid currentColor;
-			outline-offset: -2px;
-		}
-	}
-
-	// Hover and focus underline the primary link.
-	&:hover,
-	&:focus-within {
-		:is(#{$_card-primary-links}) {
-			text-decoration: underline;
+			outline: $focus-width solid $focus-color;
+			outline-offset: calc(-1 * #{$focus-width});
 		}
 	}
 }
@@ -114,7 +108,6 @@ $_card-primary-links: ".kitaris-card-link, .wp-block-post-title a, .wp-block-kit
 		color: var(--wp--preset--color--base, #fff);
 		background-color: var(--wp--preset--color--contrast, #000);
 		visibility: visible;
-		text-decoration: underline;
 		left: var(--wp--custom--control--offset, 0.5rem);
 	}
 

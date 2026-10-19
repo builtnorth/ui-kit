@@ -7,6 +7,7 @@ Global Slider Styles
 ------------------------------------------------------------------
 */
 
+@use "../config" as *;
 @use "../helpers/mixins" as helpers;
 @use "../helpers/media-queries" as mq;
 
@@ -187,8 +188,8 @@ Global Slider Styles
     }
 
     &:focus-visible {
-        outline: 2px solid var(--wp--custom--color--focus, currentColor);
-        outline-offset: 2px;
+        outline: $focus-width solid $focus-color;
+        outline-offset: $focus-offset;
     }
 }
 
@@ -287,9 +288,8 @@ Global Slider Styles
     }
 
     &:focus-visible {
-        outline: var(--wp--custom--focus--width, 2px) solid
-            var(--wp--custom--color--focus, currentColor);
-        outline-offset: var(--wp--custom--focus--offset, 2px);
+        outline: $focus-width solid $focus-color;
+        outline-offset: $focus-offset;
     }
 }
 
@@ -388,6 +388,11 @@ Global Slider Styles
     // images) then force the track — and the page — wider than the carousel.
     // Keep overflow on the track's scrollport only.
     overflow-x: clip;
+    // Room past the clip edge for the focus ring on arrows and dots at the
+    // carousel's sides (ring width + offset), so it isn't cut off.
+    overflow-clip-margin: calc(
+        #{$focus-width} + #{$focus-offset}
+    );
     min-width: 0;
     max-width: 100%;
 
@@ -706,9 +711,8 @@ Global Slider Styles
     }
 
     &:focus-visible {
-        outline: var(--wp--custom--focus--width, 2px) solid
-            var(--wp--custom--color--focus, currentColor);
-        outline-offset: var(--wp--custom--focus--offset, 2px);
+        outline: $focus-width solid $focus-color;
+        outline-offset: $focus-offset;
     }
 }
 

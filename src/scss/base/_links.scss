@@ -3,28 +3,32 @@
 Base: Links and focus
 
 Text links keep the browser underline (WCAG 1.4.1: a link in a sentence
-can't rely on colour alone); this only shapes it. Interface links (contact,
+can't rely on colour alone). Its offset and thickness change only when a theme
+sets the tokens; otherwise the browser default stands. Interface links (contact,
 social, breadcrumbs) drop it at rest with the ui-link mixin
 (helpers/mixins). Every focusable element gets a visible keyboard focus
 outline (WCAG 2.4.7).
 
 Zero specificity throughout, so skins and blocks override freely. Tune with
 theme.json settings.custom: link.underlineOffset, link.underlineThickness,
-focus.width, focus.offset, color.focus, and uiLink.decoration /
+focus.width, focus.offset, focus.color, and uiLink.decoration /
 uiLink.hoverDecoration for the ui-link mixin.
 ------------------------------------------------------------------
 */
 
+@use "../config" as *;
+
 :where(a) {
-	text-underline-offset: var(--wp--custom--link--underline-offset, 0.15em);
-	text-decoration-thickness: var(--wp--custom--link--underline-thickness, from-font);
+	// No fallback: an unset token leaves the browser's own underline.
+	text-underline-offset: var(--wp--custom--link--underline-offset);
+	text-decoration-thickness: var(--wp--custom--link--underline-thickness);
 }
 
 // tabindex="-1" elements take focus only from script or a click (e.g. a
 // skip-link target), so they get no ring.
 :where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
-	outline: var(--wp--custom--focus--width, 2px) solid var(--wp--custom--color--focus, currentColor);
-	outline-offset: var(--wp--custom--focus--offset, 2px);
+	outline: $focus-width solid $focus-color;
+	outline-offset: $focus-offset;
 }
 
 // Filled buttons: the ring goes inside, in the button's text colour, which
@@ -32,11 +36,11 @@ uiLink.hoverDecoration for the ui-link mixin.
 // the section (a light ring around a dark button on a light section).
 :where(.wp-element-button, .wp-block-button__link):focus-visible {
 	outline-color: currentColor;
-	outline-offset: calc(-1 * (var(--wp--custom--focus--width, 2px) + 2px));
+	outline-offset: calc(-1 * (#{$focus-width} + #{$focus-offset}));
 }
 
 // Text-link buttons have no fill or inline padding: an inset ring would cut
 // through the text, so the ring goes outside.
 :where(.is-style-text-link, .is-style-text-link .wp-block-button__link):focus-visible {
-	outline-offset: var(--wp--custom--focus--offset, 2px);
+	outline-offset: $focus-offset;
 }

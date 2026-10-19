@@ -17,6 +17,20 @@ UI Kit uses **CSS custom properties** that map to WordPress theme.json settings.
 
 Every value has a fallback, so leave out anything you don't want to change.
 
+## Focus (`focus`)
+
+Every keyboard focus ring in the kit (links, buttons, fields, cards, slider controls,
+floating controls) reads these, so rings stay the same when no token is set.
+
+| theme.json key | CSS variable | Default |
+|---|---|---|
+| `focus.width` | `--wp--custom--focus--width` | `2px` |
+| `focus.offset` | `--wp--custom--focus--offset` | `2px` |
+| `focus.color` | `--wp--custom--focus--color` | `currentColor` |
+
+Filled buttons, fields and floating controls keep their own ring colours so the ring
+contrasts with what's behind it; width and offset still come from here.
+
 ## Form Configuration
 
 ```json
@@ -73,7 +87,9 @@ Text inputs, selects and textareas.
 | `form.field.background-color` | `--wp--custom--form--field--background-color` | the `base` colour preset, else `#fff` |
 | `form.field.color` | `--wp--custom--form--field--color` | `currentColor` |
 
-The focus outline uses `color.focus` (`--wp--custom--color--focus`), else `currentColor`.
+| `form.field.focus-color` | `--wp--custom--form--field--focus-color` | the field text colour |
+
+The focus ring uses `form.field.focus-color` and the shared focus width (see Focus).
 
 ### Labels (`form.label`)
 

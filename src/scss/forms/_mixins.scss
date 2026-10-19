@@ -11,7 +11,7 @@
 /// $inset: false for checkboxes, radios and file inputs (too small for an
 /// inset ring, or no background of their own): the ring sits outside.
 @mixin form-focus($inset: true) {
-    outline: var(--wp--custom--focus--width, 2px) solid
+    outline: $focus-width solid
         $form-field-focus-ring-color;
 
     @if $inset {
@@ -19,7 +19,7 @@
         outline-offset: calc(
             -1 *
                 (
-                    var(--wp--custom--focus--width, 2px) +
+                    #{$focus-width} +
                         #{$form-field-border-width}
                 )
         );
@@ -30,16 +30,16 @@
         box-shadow: 0
             0
             0
-            var(--wp--custom--focus--width, 2px)
+            $focus-width
             $form-field-background-color;
     } @else {
         // Outside, past a halo in the field's background colour that hugs
         // the control: the same two-colour ring, without covering a tick.
-        outline-offset: var(--wp--custom--focus--width, 2px);
+        outline-offset: $focus-offset;
         box-shadow: 0
             0
             0
-            var(--wp--custom--focus--width, 2px)
+            $focus-offset
             $form-field-background-color;
     }
 }
