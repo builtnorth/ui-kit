@@ -34,6 +34,14 @@ $_card-primary-links: ".kitaris-card-link, .wp-block-post-title a, .wp-block-kit
 		z-index: 1;
 	}
 
+	// A hidden link added as the card's last child (CardLinkHook case 3) is
+	// taken out of the flex/grid flow, so it adds no gap or empty cell.
+	> .kitaris-card-link {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
 	// A link added by the card Link control reads as the text it wraps.
 	.kitaris-card-link {
 		color: inherit;
