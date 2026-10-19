@@ -11,6 +11,45 @@
 	}
 }
 
+// Gap-aware width for an $i-of-12 span, matching how a CSS Grid `fr` track
+// divides space: subtract the gaps the row
+// would have at 12 equal tracks, then add back the gaps a span of $i visually
+// crosses. Reduces to the plain flat percentage when gap is 0, and to
+// `(100% - (n-1)*gap) / n` for the equal-split case (e.g. span-4 of 12 = thirds).
+@function column-width($i, $columns: 12, $gap: var(--_columns-gap, var(--wp--style--block-gap, 1.5rem))) {
+	@return calc(
+		(100% - (#{$columns} - 1) * #{$gap}) * #{$i} / #{$columns} + (#{$i} - 1) *
+			#{$gap}
+	);
+}
+
+// Span widths of a column in a row (on .wp-block-kitaris-column). Columns
+// use it on desktop. $important: true lets kitaris-columns-row beat the
+// tablet stacking rules, which use !important.
+@mixin kitaris-column-spans($important: false) {
+	$flag: if($important, " !important", "");
+
+	@for $i from 1 through 12 {
+		&--span-#{$i} {
+			flex: #{$i} #{$i} 0#{$flag};
+			min-width: 0;
+			max-width: column-width($i)#{$flag};
+		}
+	}
+}
+
+// A row that stays a row whatever the viewport (undoes the tablet stacking),
+// its columns at their span widths. For a row that follows something other
+// than the viewport, such as a mega menu dropdown on desktop.
+@mixin kitaris-columns-row {
+	flex-direction: row !important;
+
+	> .wp-block-kitaris-column {
+		width: auto !important;
+		@include kitaris-column-spans(true);
+	}
+}
+
 @mixin kitaris-columns-stack-row {
 	flex-direction: column !important;
 

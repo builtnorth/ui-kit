@@ -4,18 +4,6 @@
 /* Columns
 ---------------------------------------- */
 
-// Gap-aware width for an $i-of-12 span, matching how a CSS Grid `fr` track
-// divides space: subtract the gaps the row
-// would have at 12 equal tracks, then add back the gaps a span of $i visually
-// crosses. Reduces to the plain flat percentage when gap is 0, and to
-// `(100% - (n-1)*gap) / n` for the equal-split case (e.g. span-4 of 12 = thirds).
-@function column-width($i, $columns: 12, $gap: var(--_columns-gap, var(--wp--style--block-gap, 1.5rem))) {
-	@return calc(
-		(100% - (#{$columns} - 1) * #{$gap}) * #{$i} / #{$columns} + (#{$i} - 1) *
-			#{$gap}
-	);
-}
-
 .wp-block-kitaris-columns {
 	// A row fills its parent. Flex parents with align-items: flex-start
 	// otherwise shrink it to the content, and span widths are a percentage
@@ -129,13 +117,7 @@
 		}
 
 		@include viewport-desktop() {
-			@for $i from 1 through 12 {
-				&--span-#{$i} {
-					flex: #{$i} #{$i} 0;
-					min-width: 0;
-					max-width: column-width($i);
-				}
-			}
+			@include kitaris-column-spans;
 		}
 
 		/* Container for nested kitaris/columns (and form content) inside this column. */
