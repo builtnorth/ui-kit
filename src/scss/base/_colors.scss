@@ -130,15 +130,27 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 			color: var(--kitaris-auto-text-color);
 		}
 
-		// Outline and text-link buttons use currentColor, so they take the
-		// surface contrast too. Kept above the button colour rules in
-		// components/_buttons.scss until those are restructured.
+		// Outline and text-link buttons take the surface's colours through the
+		// button paint vars (components/_buttons.scss), not `color`, so their
+		// hover and focus states still apply. An outline flips on hover: it
+		// fills with the surface's text colour and its text takes the surface
+		// colour, whatever the variant.
 		:is(#{$surfaces})
 			a:is(
-				.wp-block-kitaris-button:is(.is-appearance-outline, .is-style-text-link),
+				.wp-block-kitaris-button.is-appearance-outline,
 				.wp-block-button.is-style-outline .wp-block-button__link
 			):not([class*="has-background"]):not(.has-text-color):not(.has-link-color) {
-			color: var(--kitaris-auto-text-color);
+			--_button-fg: var(--kitaris-auto-text-color);
+			--_button-border: var(--kitaris-auto-text-color);
+			--_button-hover-bg: var(--kitaris-auto-text-color);
+			--_button-hover-fg: var(--kitaris-auto-surface-color);
+			--_button-hover-border: var(--kitaris-auto-text-color);
+		}
+
+		:is(#{$surfaces})
+			a.wp-block-kitaris-button.is-style-text-link:not([class*="has-background"]):not(.has-text-color):not(.has-link-color) {
+			--_button-fg: var(--kitaris-auto-text-color);
+			--_button-hover-fg: var(--kitaris-auto-text-color);
 		}
 
 		// Map blocks manage their own text (popups, attribution, controls).
