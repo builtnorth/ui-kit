@@ -218,6 +218,28 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
     flex-grow: 1;
 }
 
+// Header/footer on constrained layout: the box has no global padding (core
+// pads the inner wrapper instead), so keep the column here. The wrapper spans
+// the box and core caps each child, so alignfull children (e.g. Sections as
+// full-width bands) reach the edges. Children use the same width as above.
+.wp-block-kitaris-header,
+.wp-block-kitaris-footer {
+    display: flex;
+    flex-direction: column;
+}
+
+.wp-block-kitaris-header__inner.is-layout-constrained,
+.wp-block-kitaris-footer__inner.is-layout-constrained {
+    max-width: none;
+
+    > :where(:not(.alignleft, .alignright, .alignfull, .alignwide)) {
+        max-width: var(
+            --wp--custom--section--content-size,
+            var(--wp--style--global--wide-size, 1200px)
+        );
+    }
+}
+
 .wp-block-kitaris-section__inner.is-layout-flex,
 .wp-block-kitaris-hero__inner.is-layout-flex,
 .wp-block-kitaris-mega-menu__dropdown-inner.is-layout-flex {
