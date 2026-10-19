@@ -225,12 +225,14 @@ Global Slider Styles
         --kitaris-carousel-bleed,
         var(--wp--custom--carousel--bleed, 1.5rem)
     );
-    // The side gutter is capped at the slide gap, so the next slide's box never
-    // shows in it (only its shadow), and at the page's root padding: past that
-    // it would reach beyond the screen edge and scroll the page sideways.
+    // The side gutter is capped at half the slide gap: each slide's shadow
+    // gets that half, and the off-screen neighbor's shadow (in the other
+    // half) never reaches the gutter's edge, where it would be cut in a hard
+    // line. Also capped at the page's root padding: past that it would reach
+    // beyond the screen edge and scroll the page sideways.
     --_carousel-bleed-inline: min(
         var(--_carousel-bleed),
-        var(--_carousel-gap),
+        var(--_carousel-gap) / 2,
         var(--wp--style--root--padding-left, var(--_carousel-bleed)),
         var(--wp--style--root--padding-right, var(--_carousel-bleed))
     );
@@ -293,6 +295,28 @@ Global Slider Styles
     // clicks there go through to it. The slides take clicks as usual, and
     // wheel and touch over them still scroll the row.
     pointer-events: none;
+    // A shadow can be wider than the gutter (a small gap, a big blur), and a
+    // neighbor's shadow reaches into it. The outer half of the gutter fades
+    // to transparent, so nothing is ever cut in a hard line at its edge; the
+    // inner half (focus rings, the slides' own shadows) stays opaque.
+    --_carousel-fade-x: calc(var(--_carousel-bleed-inline, 0px) / 2);
+    --_carousel-fade-y: calc(var(--_carousel-bleed, 0px) / 2);
+    mask-image:
+        linear-gradient(
+            to right,
+            transparent,
+            #000 var(--_carousel-fade-x),
+            #000 calc(100% - var(--_carousel-fade-x)),
+            transparent
+        ),
+        linear-gradient(
+            to bottom,
+            transparent,
+            #000 var(--_carousel-fade-y),
+            #000 calc(100% - var(--_carousel-fade-y)),
+            transparent
+        );
+    mask-composite: intersect;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
@@ -324,6 +348,8 @@ Global Slider Styles
     &:focus-visible {
         outline: $focus-width solid $focus-color;
         outline-offset: $focus-offset;
+        // The fade would hide the ring, which sits outside the track.
+        mask-image: none;
     }
 }
 

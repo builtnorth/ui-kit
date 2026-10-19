@@ -76,7 +76,7 @@ $_surface: ':where(:not(.wp-block-kitaris-button, .wp-block-button__link, button
 	$hover-background: $text,
 	$hover-text: $background,
 	$hover-border: $border,
-	// Outline borders follow the button's text unless a theme picks a colour.
+	// Outline borders follow the button's text unless a theme picks a color.
 	$outline-border: currentColor,
 	$outline-hover-background: $background,
 	$outline-hover-text: $text,
@@ -221,8 +221,8 @@ $_surface: ':where(:not(.wp-block-kitaris-button, .wp-block-button__link, button
 }
 
 // Nested coloured wrapper: drop any surface overrides inherited from outside.
-// The outline border follows the section's text colour: the variant's own
-// colour can vanish on another colour (a primary outline on a secondary hero).
+// The outline border follows the section's text color: the variant's own
+// color can vanish on another color (a primary outline on a secondary hero).
 @mixin _surface-reset {
 	[class*="-background-color"].has-background#{$_surface} {
 		@each $name, $colors in $_variants {
@@ -267,7 +267,7 @@ $_surface: ':where(:not(.wp-block-kitaris-button, .wp-block-button__link, button
 		--kitaris-button-#{$variant}-hover-bg: #{$color};
 		--kitaris-button-#{$variant}-hover-fg: #{$contrast};
 		--kitaris-button-#{$variant}-hover-border: #{$contrast};
-		// Outline borders always follow the button's text colour.
+		// Outline borders always follow the button's text color.
 		--kitaris-button-#{$variant}-outline-border: currentColor;
 		--kitaris-button-#{$variant}-outline-hover-bg: #{$contrast};
 		--kitaris-button-#{$variant}-outline-hover-fg: #{$color};

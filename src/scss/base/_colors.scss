@@ -130,11 +130,11 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 			color: var(--kitaris-auto-text-color);
 		}
 
-		// Outline and text-link buttons take the surface's colours through the
+		// Outline and text-link buttons take the surface's colors through the
 		// button paint vars (components/_buttons.scss), not `color`, so their
 		// hover and focus states still apply. An outline flips on hover: it
-		// fills with the surface's text colour and its text takes the surface
-		// colour, whatever the variant.
+		// fills with the surface's text color and its text takes the surface
+		// color, whatever the variant.
 		:is(#{$surfaces})
 			a:is(
 				.wp-block-kitaris-button.is-appearance-outline,
