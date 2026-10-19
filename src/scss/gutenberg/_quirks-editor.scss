@@ -1,21 +1,27 @@
 // Editor-only layout quirks (editor canvas). Loaded through the gutenberg
 // index (the editor bundle), not the front-end essentials.
 
-// Editor: keep a clickable host, but make it layout-transparent so it does not
-// trap alignfull / constrained direct-child rules around CPT heroes (which are
-// already a <section>). Without this, the host is a second layout parent and
-// section/hero styling looks double-wrapped.
-//
-// The editor root container forces non-alignfull children to content-size with
+// Editor: template parts are `display: contents` on the front end (see
+// _quirks.scss), which makes them untargetable in the canvas. Keep a real,
+// layout-transparent box so they can be clicked, at any depth (card parts
+// inside queries included).
+.editor-styles-wrapper .wp-block-template-part:not(header, footer) {
+    display: block;
+    margin-block: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+// Top-level parts only (CPT heroes, which are already a <section>): the editor
+// root container forces non-alignfull children to content-size with
 // `margin-left/right: auto !important`. Template parts are not alignfull, so
 // they sit in the content column — cancel that AND the has-global-padding root
 // padding so the host spans the canvas like an alignfull section would.
+// Nested parts (e.g. query cards) must stay in their container.
 .editor-styles-wrapper
     .is-root-container
-    > .wp-block-template-part:not(header, footer),
-.editor-styles-wrapper .wp-block-template-part:not(header, footer),
-body.site-editor-php .wp-block-template-part:not(header, footer) {
-    display: block;
+    > .wp-block-template-part:not(header, footer) {
     box-sizing: border-box;
     width: calc(
         100% + var(--wp--style--root--padding-left, 0px) +
@@ -23,9 +29,6 @@ body.site-editor-php .wp-block-template-part:not(header, footer) {
     ) !important;
     max-width: none !important;
     margin-block: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
     margin-left: calc(
         var(--wp--style--root--padding-left, 0px) * -1
     ) !important;
