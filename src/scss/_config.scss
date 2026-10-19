@@ -18,6 +18,28 @@ $focus-width: var(--wp--custom--focus--width, 2px) !default;
 $focus-offset: var(--wp--custom--focus--offset, 2px) !default;
 $focus-color: var(--wp--custom--focus--color, currentColor) !default;
 
+// control — icon buttons (arrows, close, toggles, play/pause). Every control
+// reads these, so they match when no token is set. icon-size is the glyph you
+// see; a control whose icon has whitespace scales it up to compensate.
+// ----------------------------------------------------------------------------
+$control-size: var(--wp--custom--control--size, 2.75rem) !default;
+$control-size-small: calc(#{$control-size} * 0.8) !default;
+$control-size-large: calc(#{$control-size} * 1.25) !default;
+$control-icon-size: var(--wp--custom--control--icon-size, 0.875rem) !default;
+// Line weight of every control glyph (chevrons, arrows, X, plus/minus).
+$control-icon-stroke: var(--wp--custom--control--icon-stroke, 2px) !default;
+$control-radius: var(--wp--custom--control--radius, 0) !default;
+$control-offset: var(--wp--custom--control--offset, 0.5rem) !default;
+$control-color: var(--wp--custom--control--color, currentColor) !default;
+// Edge at rest for controls without a line of their own (accordion toggle):
+// transparent, a bare glyph with a fill on hover. Slider and lightbox arrows
+// keep their line in the text color (currentColor).
+$control-border: var(--wp--custom--control--border, transparent) !default;
+$control-border-width: var(
+    --wp--custom--control--border-width,
+    var(--wp--custom--border-width--x-small, 2px)
+) !default;
+
 // form.field
 // ----------------------------------------------------------------------------
 $form-field-spacing: var(--wp--custom--form--field--spacing, 0.5rem) !default;

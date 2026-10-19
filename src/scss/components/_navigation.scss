@@ -1,0 +1,59 @@
+/*
+------------------------------------------------------------------
+Core controls
+
+Core's navigation and search icon buttons on the control tokens, so they
+match our other controls in size: the box, the radius and the glyph size.
+Colors and hover stay with core and the theme.
+
+Zero specificity where core sets none of these properties, so themes and
+blocks override freely.
+------------------------------------------------------------------
+*/
+
+@use "../config" as *;
+@use "../helpers/mixins" as helpers;
+
+// Hamburger and close: a control-size box around core's 24px glyph.
+:where(.wp-block-navigation__responsive-container-open, .wp-block-navigation__responsive-container-close) {
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: center;
+	min-width: $control-size;
+	min-height: $control-size;
+	border-radius: $control-radius;
+}
+
+// The glyph you see at the control icon size: core's bars span 16 of their
+// 24 units and its X 15. Under .wp-block-navigation to outrank core's own
+// 24px rule whatever order the stylesheets load in.
+.wp-block-navigation .wp-block-navigation__responsive-container-open svg {
+	width: calc(#{$control-icon-size} * 1.5);
+	height: calc(#{$control-icon-size} * 1.5);
+}
+
+.wp-block-navigation .wp-block-navigation__responsive-container-close svg {
+	width: calc(#{$control-icon-size} * 1.6);
+	height: calc(#{$control-icon-size} * 1.6);
+}
+
+// Core shows the close button with display:none rules of its own, which win.
+:where(.wp-block-navigation__responsive-container-close) {
+	display: flex;
+}
+
+// The submenu arrow button is 0.6em: a 24px target around it (WCAG 2.5.8),
+// without changing how it looks.
+:where(button.wp-block-navigation__submenu-icon) {
+	@include helpers.hit-area(24px);
+}
+
+// Icon-only search button. Its radius follows the theme's button style.
+:where(.wp-block-search__button.has-icon) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-width: $control-size;
+	min-height: $control-size;
+}

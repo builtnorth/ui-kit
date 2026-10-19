@@ -77,10 +77,21 @@ Helpers: Mixins
 	}
 }
 
+// A stroked control glyph (an svg of lines: close X, arrows) drawn at the
+// control icon stroke whatever the svg's scale. Include on the svg.
+@mixin control-icon-stroke {
+	overflow: visible;
+
+	:is(path, line, polyline) {
+		stroke-width: $control-icon-stroke;
+		vector-effect: non-scaling-stroke;
+	}
+}
+
 // A pressable area of at least $size around a small control, centred on it,
 // without changing how it looks (WCAG 2.5.8 target size). Uses ::after; the
 // control needs a positioned box (relative unless it already has one).
-@mixin hit-area($size: 2.75rem, $position: relative) {
+@mixin hit-area($size: $control-size, $position: relative) {
 	@if $position {
 		position: $position;
 	}
@@ -262,27 +273,28 @@ Helpers: Mixins
 //   overlay-background-hover  fill on hover            rgb(0 0 0 / 80%)
 //   overlay-color             icon and focus outline   #fff
 //   overlay-ring              1px edge                 rgb(255 255 255 / 60%)
+//   overlay-blur              backdrop filter          blur(4px)
 // Keep a dark fill with a light ring and icon (or the reverse) so it stays
 // readable on any background; the focus halo uses background-hover.
 @mixin media-toggle {
 	position: absolute;
 	z-index: 2;
-	right: var(--wp--custom--control--offset, 0.5rem);
-	bottom: var(--wp--custom--control--offset, 0.5rem);
+	right: #{$control-offset};
+	bottom: #{$control-offset};
 	box-sizing: border-box;
-	width: var(--wp--custom--control--size, 2.75rem);
-	height: var(--wp--custom--control--size, 2.75rem);
+	width: #{$control-size};
+	height: #{$control-size};
 	margin: 0;
 	padding: 0;
 	// Transparent, not none: forced colours drop the box-shadow ring but draw
 	// a border, so the button keeps its edge there.
 	border: 1px solid transparent;
-	border-radius: var(--wp--custom--control--radius, 0);
+	border-radius: #{$control-radius};
 	background: var(--wp--custom--control--overlay-background, rgb(0 0 0 / 60%));
 	box-shadow: 0 0 0 1px var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%));
 	color: var(--wp--custom--control--overlay-color, #fff);
 	cursor: pointer;
-	backdrop-filter: blur(4px);
+	backdrop-filter: var(--wp--custom--control--overlay-blur, blur(4px));
 	transition: background-color var(--wp--custom--transition--duration-base, 200ms)
 		var(--wp--custom--transition--easing-default, ease-in-out);
 
@@ -296,7 +308,8 @@ Helpers: Mixins
 		var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%))
 	);
 
-	// Play icon (paused).
+	// Play icon (paused). A solid triangle reads heavier than a line glyph,
+	// so it is drawn smaller than the icon size to match the other controls.
 	&::before {
 		content: "";
 		position: absolute;
@@ -305,16 +318,17 @@ Helpers: Mixins
 		box-sizing: border-box;
 		transform: translate(-40%, -50%);
 		border-style: solid;
-		border-width: calc(var(--wp--custom--control--icon-size, 0.875rem) / 2) 0 calc(var(--wp--custom--control--icon-size, 0.875rem) / 2) calc(var(--wp--custom--control--icon-size, 0.875rem) * 0.85);
+		border-width: calc(#{$control-icon-size} * 0.4) 0 calc(#{$control-icon-size} * 0.4) calc(#{$control-icon-size} * 0.7);
 		border-color: transparent transparent transparent currentColor;
 	}
 
-	// Pause icon (playing).
+	// Pause icon (playing): two bars at the control icon stroke, the icon
+	// size tall, like the line glyphs on the other controls.
 	&[aria-pressed="true"]::before {
 		transform: translate(-50%, -50%);
-		width: calc(var(--wp--custom--control--icon-size, 0.875rem) * 0.75);
-		height: var(--wp--custom--control--icon-size, 0.875rem);
-		border-width: 0 calc(var(--wp--custom--control--icon-size, 0.875rem) * 0.22);
+		width: calc(#{$control-icon-size} * 0.7);
+		height: #{$control-icon-size};
+		border-width: 0 #{$control-icon-stroke};
 		border-color: currentColor;
 	}
 

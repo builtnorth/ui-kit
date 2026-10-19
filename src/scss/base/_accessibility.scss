@@ -108,15 +108,15 @@ $_card-primary-links: ".kitaris-card-link, .wp-block-post-title a, .wp-block-kit
 		color: var(--wp--preset--color--base, #fff);
 		background-color: var(--wp--preset--color--contrast, #000);
 		visibility: visible;
-		left: var(--wp--custom--control--offset, 0.5rem);
+		left: #{$control-offset};
 	}
 
 	&.skip-to-main {
-		top: var(--wp--custom--control--offset, 0.5rem);
+		top: #{$control-offset};
 	}
 
 	&.skip-to-top {
-		bottom: var(--wp--custom--control--offset, 0.5rem);
+		bottom: #{$control-offset};
 	}
 }
 

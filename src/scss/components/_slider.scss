@@ -17,19 +17,16 @@ Global Slider Styles
     // The control size is the whole button; the padding leaves the chevron
     // (which fills the content box) at the control icon size.
     box-sizing: border-box;
-    height: var(--wp--custom--control--size, 2.75rem);
-    width: var(--wp--custom--control--size, 2.75rem);
+    height: #{$control-size};
+    width: #{$control-size};
     padding: calc(
         (
-                var(--wp--custom--control--size, 2.75rem) - var(
-                        --wp--custom--control--icon-size,
-                        0.875rem
-                    )
+                #{$control-size} - #{$control-icon-size}
             ) /
-            2 - var(--wp--custom--border-width--x-small, 2px)
+            2 - #{$control-border-width}
     );
-    border: var(--wp--custom--border-width--x-small, 2px) solid;
-    border-radius: var(--wp--custom--control--radius, 0);
+    border: #{$control-border-width} solid;
+    border-radius: #{$control-radius};
 }
 
 // Arrow on the section (below the slides): the inline control tokens, built
@@ -123,49 +120,51 @@ Global Slider Styles
         object-fit: contain;
     }
 
-    // Phosphor glyphs sit inside a 256 canvas, so a content box sized for the
-    // old chevron made them tiny. The glyph fills most of the button.
+    // Phosphor glyphs fill about 70% of their 256 canvas, so the svg box is
+    // the icon size × 1.45: the glyph you see matches the other controls.
+    // Small, large and custom scale the box and the glyph together.
     &.is-kitaris-icon {
-        --_arrow-icon: 2rem;
+        --_arrow-box: #{$control-size};
+        --_arrow-icon: calc(#{$control-icon-size} * 1.45);
+        width: var(--_arrow-box);
+        height: var(--_arrow-box);
         padding: calc(
-            (var(--wp--custom--control--size, 2.75rem) - var(--_arrow-icon)) / 2 -
-                var(--wp--custom--border-width--x-small, 2px)
+            (var(--_arrow-box) - var(--_arrow-icon)) / 2 -
+                #{$control-border-width}
         );
 
         svg {
             width: var(--_arrow-icon);
             height: var(--_arrow-icon);
             flex: 0 0 auto;
+            overflow: visible;
+        }
+
+        // Phosphor strokes are 16 of 256 units: a stroke around the path
+        // makes up the rest, so the line is the control icon stroke at any
+        // size.
+        path {
+            stroke: currentColor;
+            stroke-width: calc(#{$control-icon-stroke} - var(--_arrow-icon) * 0.0625);
+            stroke-linejoin: round;
+            vector-effect: non-scaling-stroke;
         }
 
         &.is-size-small {
-            --_arrow-icon: 1.5rem;
-            width: 2.25rem;
-            height: 2.25rem;
-            padding: calc(
-                (2.25rem - var(--_arrow-icon)) / 2 -
-                    var(--wp--custom--border-width--x-small, 2px)
-            );
+            --_arrow-box: #{$control-size-small};
+            --_arrow-icon: calc(#{$control-icon-size} * 1.45 * 0.8);
         }
 
         &.is-size-large {
-            --_arrow-icon: 2.75rem;
-            width: 3.5rem;
-            height: 3.5rem;
-            padding: calc(
-                (3.5rem - var(--_arrow-icon)) / 2 -
-                    var(--wp--custom--border-width--x-small, 2px)
-            );
+            --_arrow-box: #{$control-size-large};
+            --_arrow-icon: calc(#{$control-icon-size} * 1.45 * 1.25);
         }
 
+        // A size set in the inspector: the glyph keeps the default ratio
+        // (icon box ÷ control size, 1.27rem ÷ 2.75rem).
         &.is-size-custom {
-            --_arrow-icon: calc(var(--kitaris-arrow-size, 2.75rem) * 0.72);
-            width: var(--kitaris-arrow-size, 2.75rem);
-            height: var(--kitaris-arrow-size, 2.75rem);
-            padding: calc(
-                (var(--kitaris-arrow-size, 2.75rem) - var(--_arrow-icon)) / 2 -
-                    var(--wp--custom--border-width--x-small, 2px)
-            );
+            --_arrow-box: var(--kitaris-arrow-size, #{$control-size});
+            --_arrow-icon: calc(var(--_arrow-box) * 0.46);
         }
     }
 
@@ -328,10 +327,7 @@ Global Slider Styles
     max-width: var(--kitaris-carousel-controls-max-width, none);
     // Space below the slides: the slider controls height less the controls.
     margin-block: calc(
-            var(--wp--custom--slider--controls-height, 5.5rem) - var(
-                    --wp--custom--control--size,
-                    2.75rem
-                )
+            var(--wp--custom--slider--controls-height, 5.5rem) - #{$control-size}
         )
         var(--wp--style--block-gap, 1.5rem);
     margin-inline: auto;
@@ -650,7 +646,7 @@ Global Slider Styles
     margin: 0;
     padding: 0 0.25rem;
     border: 0;
-    border-radius: var(--wp--custom--control--radius, 0);
+    border-radius: #{$control-radius};
     background: transparent;
     color: inherit;
     cursor: pointer;
@@ -664,8 +660,8 @@ Global Slider Styles
         height: calc(
             var(--wp--custom--slider--dot-size, 0.75rem) * var(--_indicator-scale, 1)
         );
-        border: var(--wp--custom--border-width--x-small, 2px) solid currentColor;
-        border-radius: var(--wp--custom--control--radius, 0);
+        border: #{$control-border-width} solid currentColor;
+        border-radius: #{$control-radius};
         background-color: transparent;
     }
 

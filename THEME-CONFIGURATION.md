@@ -31,6 +31,32 @@ floating controls) reads these, so rings stay the same when no token is set.
 Filled buttons, fields and floating controls keep their own ring colours so the ring
 contrasts with what's behind it; width and offset still come from here.
 
+## Controls (`control`)
+
+Icon buttons: slider and lightbox arrows, close buttons, the accordion toggle,
+play/pause, core's navigation hamburger and close, and the search icon button.
+
+| theme.json key | CSS variable | Default |
+|---|---|---|
+| `control.size` | `--wp--custom--control--size` | `2.75rem` (small ×0.8, large ×1.25) |
+| `control.icon-size` | `--wp--custom--control--icon-size` | `0.875rem`, the visible glyph |
+| `control.icon-stroke` | `--wp--custom--control--icon-stroke` | `2px` (line weight of every control glyph) |
+| `control.radius` | `--wp--custom--control--radius` | `0` |
+| `control.offset` | `--wp--custom--control--offset` | `0.5rem` (floating controls from the edge) |
+| `control.border-width` | `--wp--custom--control--border-width` | `border-width.x-small`, else `2px` |
+| `control.color` | `--wp--custom--control--color` | `currentColor` |
+| `control.background` | `--wp--custom--control--background` | `transparent` |
+| `control.background-hover` | `--wp--custom--control--background-hover` | `color.tint`, else 10% of the text color |
+| `control.border` | `--wp--custom--control--border` | `currentColor` on slider and lightbox arrows (a line); `transparent` on the accordion toggle |
+
+Controls over images and video use the overlay tokens: `control.overlay-background`,
+`overlay-background-hover`, `overlay-color`, `overlay-ring` and `overlay-blur`
+(default `blur(4px)`).
+
+Core's hamburger and close take the size, radius and glyph size; the search icon
+button takes the size and keeps the theme's button radius. Their colors stay with
+core and the theme.
+
 ## Form Configuration
 
 ```json
