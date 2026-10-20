@@ -2,26 +2,26 @@
 
 /* Grid
 ---------------------------------------- */
-// Up to N equal columns (grid-has-N), fewer when the grid is too narrow for N
+// Up to N equal columns (kitaris-grid-has-N), fewer when the grid is too narrow for N
 // columns of at least --grid-min. No breakpoints: it follows the grid's own
 // width, so it behaves the same in a sidebar as in a full-width section.
 //
 // --grid-gap feeds both the gap and the column maths. Change spacing through
 // it, not `gap`, or a wider gap can drop a column early. Zero specificity, so
 // a block's own --grid-gap wins.
-:where(.grid) {
+:where(.kitaris-grid) {
 	--grid-gap: var(--wp--style--block-gap, 1.5rem);
 	--grid-min: 16rem;
 	gap: var(--grid-gap);
 }
 
-.grid {
+.kitaris-grid {
 	display: grid;
 	flex-grow: 1;
 	container-type: inline-size;
 
 	@for $i from 2 through 6 {
-		&.grid-has-#{$i} {
+		&.kitaris-grid-has-#{$i} {
 			// Each track is at least --grid-min (never wider than the grid) and at
 			// least 1/N of the row, so there are never more than N. auto-fill keeps
 			// a short row at 1/N widths instead of stretching it.
