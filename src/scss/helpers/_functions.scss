@@ -2,8 +2,6 @@
 	@return calc($px / 16px * 1rem);
 }
 
-/// @deprecated Use rem-calc() — kept as an alias for existing external
-/// consumers, kebab-case matches this package's naming convention elsewhere.
-@function rem_calc($px) {
-	@return rem-calc($px);
-}
+// rem_calc() (deprecated spelling) still works: Sass treats `_` and `-` in
+// names as the same, so it resolves to rem-calc(). A separate rem_calc
+// function would redefine this one and call itself.

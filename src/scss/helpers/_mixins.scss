@@ -1,17 +1,20 @@
 /*
 ------------------------------------------------------------------
 Helpers: Mixins
-
-@package BuiltStarter
-@since BuiltStarter 1.0.0
 ------------------------------------------------------------------
 */
 
+@use "sass:list";
 @use "../config" as *;
 @use "./media-queries" as *;
 
+// Mixin names are kebab-case. The old snake_case names (button_reset,
+// list_reset, center_h, icon_bg, object_fit_wrap, object_fit) still work:
+// Sass treats `_` and `-` in names as the same, so they resolve to these
+// (deprecated spellings; no separate alias is needed or possible).
+
 // Button Reset
-@mixin button_reset() {
+@mixin button-reset() {
 	background: none;
 	color: inherit;
 	border: none;
@@ -121,7 +124,7 @@ Helpers: Mixins
 }
 
 // List Reset
-@mixin list_reset() {
+@mixin list-reset() {
 	list-style: none;
 	padding: 0;
 	margin: 0;
@@ -130,22 +133,17 @@ Helpers: Mixins
 // Transition — theme.json settings.custom.transition.*
 @mixin transition-interactive() {
 	transition:
-		background-color var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, ease-in-out),
-		color var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, ease-in-out),
-		border-color var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, ease-in-out);
+		background-color $transition-duration-base $transition-easing-default,
+		color $transition-duration-base $transition-easing-default,
+		border-color $transition-duration-base $transition-easing-default;
 }
 
 @mixin transition-opacity() {
-	transition: opacity var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, ease-in-out);
+	transition: opacity $transition-duration-base $transition-easing-default;
 }
 
 @mixin transition-transform() {
-	transition: transform var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, ease-in-out);
+	transition: transform $transition-duration-base $transition-easing-default;
 }
 
 @mixin transition-height-opacity() {
@@ -153,23 +151,27 @@ Helpers: Mixins
 	// layout pass on every animation frame. Use clip-path: inset() to reveal/hide
 	// vertically instead of animating max-height.
 	transition:
-		clip-path var(--wp--custom--transition--duration-slow, 300ms)
-			var(--wp--custom--transition--easing-default, ease-in-out),
-		opacity var(--wp--custom--transition--duration-base, 200ms)
-			var(--wp--custom--transition--easing-default, ease-in-out);
+		clip-path $transition-duration-slow $transition-easing-default,
+		opacity $transition-duration-base $transition-easing-default;
 }
 
-// Transition
+// Transition: one entry per property (a list), each with the same duration
+// and easing. Paint and compositing properties by default, never `all`
+// (which animates layout too).
 @mixin transition(
-	$property: all,
-	$duration: var(--wp--custom--transition--duration-base, 200ms),
-	$timing-function: var(--wp--custom--transition--easing-default, ease-in-out)
+	$property: (background-color, border-color, color, opacity, box-shadow, transform),
+	$duration: $transition-duration-base,
+	$timing-function: $transition-easing-default
 ) {
-	transition: $property $duration $timing-function;
+	$entries: ();
+	@each $p in $property {
+		$entries: list.append($entries, $p $duration $timing-function, $separator: comma);
+	}
+	transition: $entries;
 }
 
 //Center Horizontally
-@mixin center_h() {
+@mixin center-h() {
 	display: table;
 	margin: 0 auto;
 	text-align: center;
@@ -188,7 +190,7 @@ Helpers: Mixins
 }
 
 //Icon BG
-@mixin icon_bg(
+@mixin icon-bg(
 	$border-radius: var(--wp--custom--border-radius--icon, 0),
 	$size: 2rem
 ) {
@@ -225,7 +227,7 @@ Helpers: Mixins
 	}
 }
 
-@mixin object_fit_wrap(
+@mixin object-fit-wrap(
 	$aspect-ratio: var(--wp--custom--aspect-ratio-padding--x-wide, 56.25%),
 	$use-padding: true
 ) {
@@ -241,7 +243,7 @@ Helpers: Mixins
 	}
 }
 
-@mixin object_fit($fit: cover, $position: center) {
+@mixin object-fit($fit: cover, $position: center) {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -290,23 +292,19 @@ Helpers: Mixins
 	// a border, so the button keeps its edge there.
 	border: 1px solid transparent;
 	border-radius: #{$control-radius};
-	background: var(--wp--custom--control--overlay-background, rgb(0 0 0 / 60%));
-	box-shadow: 0 0 0 1px var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%));
-	color: var(--wp--custom--control--overlay-color, #fff);
+	background: $control-overlay-background;
+	box-shadow: 0 0 0 1px $control-overlay-ring;
+	color: $control-overlay-color;
 	cursor: pointer;
-	backdrop-filter: var(--wp--custom--control--overlay-blur, blur(4px));
-	transition: background-color var(--wp--custom--transition--duration-base, 200ms)
-		var(--wp--custom--transition--easing-default, ease-in-out);
+	backdrop-filter: $control-overlay-blur;
+	transition: background-color $transition-duration-base $transition-easing-default;
 
 	@include hover {
-		background: var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%));
+		background: $control-overlay-background-hover;
 	}
 
 	// A light ring on a dark band: visible on any background.
-	@include floating-focus(
-		var(--wp--custom--control--overlay-color, #fff),
-		var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%))
-	);
+	@include floating-focus($control-overlay-color, $control-overlay-background-hover);
 
 	// Play icon (paused). A solid triangle reads heavier than a line glyph,
 	// so it is drawn smaller than the icon size to match the other controls.
