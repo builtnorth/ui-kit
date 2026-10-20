@@ -1,34 +1,26 @@
 @use "../config" as *;
+@use "./selectors" as *;
+
+// Label/control rows inside the forms plugin's fields only (see selectors).
 
 // Vertical stack: label + control siblings (hidden label fields may sit between).
-:where(
-	:has(
-		> label[for]:first-child
-			~ :is(
-				input:not([type="checkbox"]):not([type="radio"]):not(
-						[type="hidden"]
-					),
-				select,
-				textarea
-			)
-	)
-),
-:where(
-	:has(
-		> :is(input, select, textarea):not([type="checkbox"]):not(
-				[type="radio"]
-			):not([type="hidden"])
-			~ label[for]
-	)
-) {
+#{$form-row-field},
+#{$form-row-scope}
+	:where(
+		:has(
+			> :is(input, select, textarea):not([type="checkbox"]):not(
+					[type="radio"]
+				):not([type="hidden"])
+				~ label[for]
+		)
+	) {
 	display: flex;
 	flex-direction: column;
 	gap: $form-label-spacing;
 }
 
 // Checkbox / radio: control before label (checkbox upper-left, text inline).
-:where(:has(> label[for] ~ input[type="checkbox"])),
-:where(:has(> label[for] ~ input[type="radio"])) {
+#{$form-row-choice} {
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: flex-start;
@@ -50,30 +42,15 @@
 	> .field__error-label {
 		flex: 0 0 100%;
 		order: 3;
-		padding-left: calc(#{$form-choice-size} + #{$form-choice-spacing});
+		padding-inline-start: calc(#{$form-choice-size} + #{$form-choice-spacing});
 	}
 }
 
-// Help text immediately after a choice row.
-:where(:has(> label[for] ~ input[type="checkbox"])) + p,
-:where(:has(> label[for] ~ input[type="radio"])) + p,
-:where(
-		:has(
-			> label[for]:first-child
-				~ :is(
-					input:not([type="checkbox"]):not([type="radio"]):not(
-							[type="hidden"]
-						),
-					select,
-					textarea
-				)
-		)
-	)
-	+ p {
+// Help text immediately after a field or choice row.
+#{$form-row-help-text} {
 	margin-bottom: 0;
 }
 
-:where(:has(> label[for] ~ input[type="checkbox"])) + p,
-:where(:has(> label[for] ~ input[type="radio"])) + p {
-	margin-left: calc(#{$form-choice-size} + #{$form-choice-spacing});
+#{$form-row-choice} + p {
+	margin-inline-start: calc(#{$form-choice-size} + #{$form-choice-spacing});
 }

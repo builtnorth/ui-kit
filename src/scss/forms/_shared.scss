@@ -1,5 +1,6 @@
 @use "../config" as *;
 @use "./mixins" as *;
+@use "./selectors" as *;
 
 // Global field chrome: styles every form element on the page. Only load it
 // where forms are the page's own (e.g. the forms plugin); elsewhere, use the
@@ -18,11 +19,28 @@ legend {
 
 // :where() keeps this at element specificity, like textarea/select, so
 // state classes (e.g. .is-invalid-field) and theme rules can override it.
+// Buttons, color swatches and hidden inputs aren't text fields.
 input:where(
-		:not([type="checkbox"], [type="radio"], [type="range"], [type="file"])
+		:not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="range"],
+			[type="file"],
+			[type="submit"],
+			[type="button"],
+			[type="reset"],
+			[type="image"],
+			[type="color"],
+			[type="hidden"]
+		)
 	),
 select {
 	@include form-field;
+}
+
+// List boxes (multiple, or size > 1) are as tall as their rows.
+select:where([multiple], [size]:not([size="0"], [size="1"])) {
+	min-height: auto;
 }
 
 textarea {
@@ -46,21 +64,20 @@ input[type="radio"] {
 	@include form-radio;
 }
 
-// Help text after a field or choice row.
-:where(:has(> label[for] ~ input[type="checkbox"])) + p,
-:where(:has(> label[for] ~ input[type="radio"])) + p,
+// Disabled fields and choices: dimmed, with a not-allowed pointer. Read-only
+// fields are not dimmed: their text must keep its contrast (unlike disabled
+// controls, read-only content isn't exempt from WCAG 1.4.3). :where() keeps
+// it at one pseudo-class, so themes can override.
 :where(
-		:has(
-			> label[for]:first-child
-				~ :is(
-					input:not([type="checkbox"]):not([type="radio"]):not(
-							[type="hidden"]
-						),
-					select,
-					textarea
-				)
-		)
-	)
-	+ p {
+		input:not([type="submit"], [type="button"], [type="reset"], [type="image"]),
+		select,
+		textarea
+	):disabled {
+	opacity: $form-field-disabled-opacity;
+	cursor: not-allowed;
+}
+
+// Help text after a field or choice row (forms plugin fields only).
+#{$form-row-help-text} {
 	font-size: $form-label-help-text-size;
 }

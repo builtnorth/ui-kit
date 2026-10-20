@@ -1,0 +1,16 @@
+// Row selectors read by forms/checkbox and forms/shared, so the layout and
+// the help-text styles share one definition. Internal: not in the package
+// exports. (Sass private members can't cross modules, so these are public.)
+
+// The forms plugin's field wrappers. Layout and help-text rules apply only
+// inside them, never to comment forms or other plugins' markup.
+$form-row-scope: ":where(.field, .fieldset)";
+
+// A label, then a text control (a hidden input may sit between).
+$form-row-field: "#{$form-row-scope} :where(:has(> label[for]:first-child ~ :is(input:not([type='checkbox'], [type='radio'], [type='hidden']), select, textarea)))";
+
+// A label, then a checkbox or radio (the layout puts the control first).
+$form-row-choice: "#{$form-row-scope} :where(:has(> label[for] ~ :is(input[type='checkbox'], input[type='radio'])))";
+
+// Help text right after a field or choice row.
+$form-row-help-text: "#{$form-row-choice} + p, #{$form-row-field} + p";

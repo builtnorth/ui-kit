@@ -4,6 +4,14 @@
 // (e.g. `.my-filters select { @include form-field; @include form-select; }`)
 // without loading the global element rules in forms/shared.
 
+// Half-width of each select chevron stroke: 1px stays a fine line at any
+// text size (the chevron itself scales in em).
+$-chevron-stroke: 1px;
+
+// File input line height: tighter than body text, so the browse button stays
+// compact (font: inherit would bring in the body line height).
+$-file-line-height: 1.3;
+
 /// Focus ring for a field, drawn inside it: the border plus an inset outline
 /// in the focus colour, against the field's own background. A ring outside
 /// sits on the section behind the field and can vanish there (navy on navy);
@@ -112,7 +120,7 @@
 /// use currentColor, so it was always black).
 @mixin form-select {
     --_chevron-size: 0.4em;
-    --_chevron-stroke: 1px;
+    --_chevron-stroke: #{$-chevron-stroke};
 
     appearance: none;
     background-image:
@@ -135,7 +143,15 @@
         right calc(#{$form-field-padding-x} + var(--_chevron-size)) center,
         right $form-field-padding-x center;
     background-size: var(--_chevron-size) var(--_chevron-size);
-    padding-right: calc(#{$form-field-padding-x} * 3);
+    padding-inline-end: calc(#{$form-field-padding-x} * 3);
+
+    // Right to left: the chevron at the inline end (background-position has
+    // no logical keywords), its two strokes swapped to keep the V.
+    &:dir(rtl) {
+        background-position:
+            left $form-field-padding-x center,
+            left calc(#{$form-field-padding-x} + var(--_chevron-size)) center;
+    }
 
     // Forced colours (Windows High Contrast) drop gradients, so the chevron
     // would vanish: use the native control's arrow there.
@@ -146,19 +162,103 @@
 }
 
 /// Range sliders.
+/// Drawn in the text color, so it reads on any section: a rail (70%, as the
+/// slider rails) and a solid round thumb, with
+/// a halo in the field background that parts it from the rail. Keyboard
+/// focus rings the thumb, not the whole control. 24px tall (WCAG 2.5.8).
 @mixin form-range {
+    --_range-rail: 0.5rem;
+    --_range-thumb: 1.5rem;
+
+    appearance: none;
     margin: 0;
     width: 100%;
+    height: max(24px, var(--_range-thumb));
     min-height: auto;
     padding: 0;
     border: 0;
     background: transparent;
-    accent-color: $form-field-focus-color;
+    color: inherit;
     cursor: pointer;
 
-    &:focus-visible {
-        @include form-focus($inset: false);
+    // Vendor pseudo-elements in separate rules: a browser drops a whole
+    // selector list that holds one it doesn't know.
+    &::-webkit-slider-runnable-track {
+        @include -range-rail;
     }
+
+    &::-moz-range-track {
+        @include -range-rail;
+    }
+
+    &::-webkit-slider-thumb {
+        @include -range-thumb;
+        appearance: none;
+        // WebKit centers nothing: pull the thumb up onto the rail.
+        margin-top: calc((var(--_range-rail) - var(--_range-thumb)) / 2);
+    }
+
+    &::-moz-range-thumb {
+        @include -range-thumb;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    &:focus-visible::-webkit-slider-thumb {
+        @include -range-thumb-focus;
+    }
+
+    &:focus-visible::-moz-range-thumb {
+        @include -range-thumb-focus;
+    }
+
+    // Forced colors (Windows High Contrast) drop the backgrounds: draw the
+    // rail and thumb in system colors.
+    @media (forced-colors: active) {
+        &::-webkit-slider-runnable-track {
+            background: CanvasText;
+        }
+
+        &::-moz-range-track {
+            background: CanvasText;
+        }
+
+        &::-webkit-slider-thumb {
+            background: ButtonText;
+            border-color: Canvas;
+        }
+
+        &::-moz-range-thumb {
+            background: ButtonText;
+            border-color: Canvas;
+        }
+    }
+}
+
+@mixin -range-rail {
+    box-sizing: border-box;
+    height: var(--_range-rail);
+    border: 0;
+    border-radius: $radius-full;
+    background: color-mix(in oklch, currentColor 70%, transparent);
+}
+
+@mixin -range-thumb {
+    box-sizing: border-box;
+    width: var(--_range-thumb);
+    height: var(--_range-thumb);
+    border: $focus-offset solid $form-field-background-color;
+    border-radius: 50%;
+    background: currentColor;
+    cursor: pointer;
+}
+
+// The same two-color ring as the other fields: the halo (the thumb's
+// border) and the ring in the field's text color.
+@mixin -range-thumb-focus {
+    box-shadow: 0 0 0 $focus-width $form-field-focus-ring-color;
 }
 
 /// Checkboxes and radios (shared box); add form-checkbox or form-radio.
@@ -172,6 +272,9 @@
     width: $form-choice-size;
     height: $form-choice-size;
     appearance: none;
+    // The label's color, not the browser's field text color: the checked
+    // edge (currentColor) must contrast with the section behind.
+    color: inherit;
     background-color: $form-field-background-color;
     border-style: solid;
     border-color: $form-field-border-color;
@@ -183,38 +286,79 @@
     background-size: contain;
     flex-shrink: 0;
 
+    // Checked: filled with the checked color, whatever it is. The mark is
+    // derived from that fill (contrast-color: black or white, whichever
+    // reads), so it shows on any fill, white included. The edge is the text
+    // color, which contrasts with the section behind by definition, so the
+    // box keeps its outline even when the fill matches the section.
+    --_choice-mark: #{$form-choice-check-color};
+
+    @supports (color: contrast-color(red)) {
+        --_choice-mark: contrast-color(#{$form-choice-checked-color});
+    }
+
+    // :checked only here. :indeterminate also matches every radio in a group
+    // with nothing chosen yet, so it belongs to form-checkbox alone.
     &:checked {
         background-color: $form-choice-checked-color;
-        border-color: $form-field-border-color;
+        border-color: currentColor;
     }
 
     &:focus-visible {
         @include form-focus($inset: false);
     }
 
-    // Forced colours (Windows High Contrast) replace the fill, which would
-    // leave the white tick invisible: use the native control there.
+    // Forced colours (Windows High Contrast): use the native control there.
     @media (forced-colors: active) {
         appearance: auto;
         background-image: none;
     }
 }
 
-/// Checkbox tick.
+/// Checkbox tick, and a bar when indeterminate (set by script).
 @mixin form-checkbox {
     border-radius: $form-choice-border-radius;
 
-    &:checked {
-        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    // A checkbox set indeterminate by script fills like a checked one.
+    &:indeterminate {
+        background-color: $form-choice-checked-color;
+        border-color: currentColor;
+    }
+
+    // The mark is a pseudo-element in the mark color, cut out by a mask (an
+    // SVG in a data URI can't take a token or currentColor).
+    &:checked::before,
+    &:indeterminate::before {
+        content: "";
+        display: block;
+        inline-size: 100%;
+        block-size: 100%;
+        background-color: var(--_choice-mark);
+        mask: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e") center / contain no-repeat;
+    }
+
+    &:indeterminate::before {
+        mask-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3e%3crect x='4' y='7' width='8' height='2' rx='1'/%3e%3c/svg%3e");
+    }
+
+    // The native control draws its own mark in forced colours.
+    @media (forced-colors: active) {
+        &::before {
+            content: none;
+        }
     }
 }
 
-/// Radio dot.
+/// Radio dot: 6/16 of the box, in the mark color.
 @mixin form-radio {
     border-radius: 50%;
 
     &:checked {
-        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+        background-image: radial-gradient(
+            circle closest-side,
+            var(--_choice-mark) calc(37.5% - 0.25px),
+            transparent calc(37.5% + 0.25px)
+        );
     }
 }
 
@@ -228,23 +372,32 @@
     border-radius: 0;
     background: transparent;
     font: inherit;
-    line-height: 1.3;
+    line-height: $-file-line-height;
     cursor: pointer;
 
     // No ::-webkit-file-upload-button alias: browsers that don't know it
     // (Firefox) drop the whole selector list.
+    // The browse button can't take button classes (it's a pseudo-element),
+    // so it copies the small outline button: the text color for text and
+    // border (it follows the section, as "+ Add Row" does), and the button
+    // tokens for radius, padding, size and weight.
     &::file-selector-button {
-        margin-right: $spacing-30;
-        padding: $spacing-20 $spacing-30;
-        border: $form-field-border-width solid $form-field-border-color;
-        border-radius: $form-surface-border-radius;
+        margin-inline-end: $spacing-30;
+        padding: var(--wp--custom--button--padding-y-small, calc(#{$button-padding-y} / 1.5))
+            var(--wp--custom--button--padding-x-small, calc(#{$button-padding-x} / 2));
+        border: var(--wp--custom--border-width--tiny, 1px) solid currentColor;
+        border-radius: $button-border-radius;
         background: transparent;
+        color: inherit;
         font: inherit;
+        font-size: var(--wp--custom--button--font-size-small, 0.875em);
+        font-weight: $button-font-weight;
         cursor: pointer;
+        transition: background-color $transition-duration-base $transition-easing-default;
     }
 
     &:hover::file-selector-button {
-        border-color: $form-field-focus-color;
+        background-color: color-mix(in srgb, currentColor 10%, transparent);
     }
 
     &:focus-visible {

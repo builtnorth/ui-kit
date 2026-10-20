@@ -1,5 +1,7 @@
 @use "./mixins" as *;
 
-select {
+// Dropdowns only: list boxes (multiple, or size > 1) show their options,
+// so they keep the field chrome without the chevron.
+select:where(:not([multiple], [size]:not([size="0"], [size="1"]))) {
 	@include form-select;
 }
