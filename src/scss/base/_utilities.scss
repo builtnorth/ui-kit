@@ -37,26 +37,33 @@ Classes to quickly add utility styles to your components.
 
 
 // Kitaris blocks with alignment support (Lottie, Timer, Counter, …): left,
-// centre or right in their row. Core blocks keep core's alignment (floats
-// for left/right images, so text wraps around them).
+// centre or right in their row. Each block keeps its own display. Core
+// blocks keep core's alignment (floats for left/right images, so text wraps
+// around them). Only the margins are !important: they must beat the
+// Kitaris flex-container child reset (gutenberg/_quirks.scss,
+// `.wp-block-kitaris-section__inner.is-layout-flex:not(.is-horizontal) > *`
+// margin 0, three classes) and core's `.is-layout-flex > :is(*, div)
+// { margin: 0 }` and constrained `.alignright { margin-inline-start: 2em }`.
+// Float needs none: this sheet prints after core's layout styles.
+[class*="wp-block-kitaris-"]:is(.aligncenter, .alignleft, .alignright) {
+	float: none;
+}
+// A block with no width of its own shrinks to its content, so the auto
+// margins can place it. Zero specificity: a width the block sets wins.
+:where([class*="wp-block-kitaris-"]:is(.aligncenter, .alignleft, .alignright)) {
+	width: fit-content;
+}
 [class*="wp-block-kitaris-"].aligncenter {
-	margin-left: auto !important;
-	margin-right: auto !important;
-	display: flex !important;
-	width: auto !important;
+	margin-inline: auto !important;
 	justify-self: center;
 }
 [class*="wp-block-kitaris-"].alignleft {
-	float: none !important;
-	display: flex !important;
+	margin-inline: 0 auto !important;
 	align-self: flex-start;
-	width: auto !important;
 }
 [class*="wp-block-kitaris-"].alignright {
-	float: none !important;
-	display: flex !important;
+	margin-inline: auto 0 !important;
 	align-self: flex-end;
-	width: auto !important;
 }
 
 /* Image Styles
@@ -78,7 +85,7 @@ Classes to quickly add utility styles to your components.
 
 .has-background-image {
 	position: relative;
-	overflow: hidden;
+	overflow: clip;
 	// Content is z-index 1 so it paints over the image. Keep that inside
 	// this block — a positive z-index here used to escape and cover menus.
 	isolation: isolate;
@@ -110,7 +117,7 @@ Classes to quickly add utility styles to your components.
 }
 
 .background__video.is-playing {
-	animation: kitaris-background-video-in var(--wp--custom--transition--duration-slow, 300ms) ease-out;
+	animation: kitaris-background-video-in #{$transition-duration-slow} ease-out;
 }
 
 @keyframes kitaris-background-video-in {
@@ -125,7 +132,7 @@ Classes to quickly add utility styles to your components.
 @media (prefers-reduced-motion: no-preference) {
 	// The block's own layers only (> .background), not a nested block's.
 	.has-background-image:has(> .background > .background__video.is-playing) > .background > img {
-		animation: kitaris-background-image-out var(--wp--custom--transition--duration-slow, 300ms) ease-out forwards;
+		animation: kitaris-background-image-out #{$transition-duration-slow} ease-out forwards;
 	}
 }
 
@@ -344,7 +351,9 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 // Images inside a padded card: corners concentric with the card's (its
 // radius less the padding), never tighter than the small radius, so nested
 // corners don't look rounder than the card's. Tuned through the tile, card
-// padding and small radius tokens.
+// padding and small radius tokens. With no tokens the card is square (tile
+// 0, as config's $radius-md), so its images are too; a theme that rounds its
+// cards but sets no small radius gets 0.5rem, capped at the tile radius.
 :where(
 	.wp-block-kitaris-columns:not(.wp-block-kitaris-split-section),
 	.wp-block-kitaris-column,
@@ -357,8 +366,8 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 ):is(#{$_boxed}),
 .post-card {
 	--kitaris-nested-radius: max(
-		var(--wp--custom--border-radius--small, 0.5rem),
-		calc(var(--wp--custom--border-radius--tile, 1rem) - var(--wp--custom--card--padding, 2rem))
+		var(--wp--custom--border-radius--small, min(0.5rem, var(--wp--custom--border-radius--tile, 0px))),
+		calc(var(--wp--custom--border-radius--tile, 0px) - var(--wp--custom--card--padding, 2rem))
 	);
 
 	:is(.wp-block-kitaris-featured-image, .wp-block-post-featured-image),

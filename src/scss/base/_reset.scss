@@ -4,7 +4,11 @@ Helpers: Resets
 
 CSS resets are used to override the default styles provided by browsers.
 This ensures that all browsers render elements consistently.
+
+Element rules are wrapped in :where() (zero specificity), so any theme or
+third-party rule on the same element wins, whatever the load order.
 ------------------------------------------------------------------
+*/
 
 /* Box sizing & misc defaults
 ----------------------------------------------------------------*/
@@ -14,7 +18,7 @@ This ensures that all browsers render elements consistently.
     box-sizing: border-box;
 }
 
-html {
+:where(html) {
     // Long words and URLs break instead of overflowing narrow columns.
     overflow-wrap: break-word;
     // iOS doesn't enlarge text in landscape.
@@ -22,7 +26,7 @@ html {
     text-size-adjust: 100%;
 }
 
-body {
+:where(body) {
     min-height: 100vh;
     // The small viewport: content stays clear of mobile browser toolbars.
     min-height: 100svh;
@@ -30,40 +34,32 @@ body {
 
 /* Typography
 ----------------------------------------------------------------*/
-// On every element: smoothing set on body doesn't reach content slotted
-// into web components (sliders).
-* {
+// Inherited, so set once on body. (No first-party web component slots
+// text where body's smoothing wouldn't reach.)
+:where(body) {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+:where(h1, h2, h3, h4, h5, h6) {
     overflow-wrap: break-word;
     text-wrap: balance;
     margin: 0;
     padding: 0;
 }
 
-p {
+:where(p) {
     text-wrap: pretty;
     margin: 0;
     padding: 0;
 }
 
 // Better line breaks (no single word on the last line) in running text.
-li,
-dd,
-figcaption,
-blockquote {
+:where(li, dd, figcaption, blockquote) {
     text-wrap: pretty;
 }
 
-blockquote {
+:where(blockquote) {
     margin: 0;
     quotes: inherit;
 }
@@ -71,47 +67,36 @@ blockquote {
 /* Lists
 ----------------------------------------------------------------*/
 
-ul,
-ol {
-    margin-left: 0;
-    margin-right: 0;
+:where(ul, ol) {
+    margin-inline: 0;
     margin-top: 0;
-    padding-left: var(--wp--custom--list--indent, 1rem);
+    // Logical: the indent sits on the right in RTL.
+    padding-inline-start: var(--wp--custom--list--indent, 1rem);
 }
 
 /* Media
 ----------------------------------------------------------------*/
-img,
-picture,
-video,
-canvas,
-svg {
+:where(img, picture, video, canvas, svg) {
     height: auto;
     max-width: 100%;
 }
 
-figure {
+:where(figure) {
     margin-bottom: 0;
 }
 
 /* Forms
 ----------------------------------------------------------------*/
-input,
-button,
-textarea,
-select {
+:where(input, button, textarea, select) {
     font: inherit;
 }
 
 // No double-tap zoom delay on controls.
-a,
-button,
-summary,
-[role="button"] {
+:where(a, button, summary, [role="button"]) {
     touch-action: manipulation;
 }
 
-button {
+:where(button) {
     background: none;
     color: inherit;
     border: none;
@@ -135,7 +120,7 @@ html.is-scroll-locked {
 // Keep anchor targets and keyboard-focused elements clear of a sticky header
 // (WCAG 2.4.11): scroll padding applies to every scroll-into-view, including
 // the one focus triggers when tabbing.
-html {
+:where(html) {
     // The header height is measured by kitaris-blocks' sticky position script
     // (0px without one).
     scroll-padding-top: calc(

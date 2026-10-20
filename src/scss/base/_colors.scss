@@ -120,8 +120,9 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 
 	@if list.length($surfaces) > 0 {
 		// Anchors that are button surfaces set their own colour (filled) or are
-		// handled by the button rule below (outline / text-link).
-		$_button-anchors: ".wp-block-kitaris-button, .wp-block-button__link, .form-button, .form__btn-prev, .form__btn-next";
+		// handled by the button rule below (outline / text-link). Element buttons
+		// (.wp-element-button, e.g. a store's button links) keep their own.
+		$_button-anchors: ".wp-block-kitaris-button, .wp-block-button__link, .wp-element-button, .form-button, .form__btn-prev, .form__btn-next";
 
 		// Plain links take the surface's contrast colour. (0,1,1): beats theme.json
 		// element link colour, but a link colour the user sets on a block (core's

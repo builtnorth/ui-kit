@@ -78,7 +78,10 @@ $_card-primary-links: ".kitaris-card-link, .wp-block-post-title a, .wp-block-kit
 }
 
 /* Screen reader text
-----------------------------------------------------------------*/
+----------------------------------------------------------------
+Core's .screen-reader-text (block library CSS) is the WordPress standard;
+.screen-reader-only is this kit's equivalent, kept for existing markup.
+*/
 .screen-reader-only,
 .hidden_label > label {
 	border: 0;
@@ -92,7 +95,23 @@ $_card-primary-links: ".kitaris-card-link, .wp-block-post-title a, .wp-block-kit
 	width: 1px;
 	word-wrap: normal;
 	white-space: nowrap;
-	//left: -99999px; // Messes up Gutenberg skip to link
+}
+
+// Shown when focused (on a focusable element, e.g. a skip link), as core's
+// .screen-reader-text:focus is.
+.screen-reader-only:focus {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	margin: 0;
+	padding: 0.5rem 1rem;
+	z-index: 100000;
+	inset-block-start: #{$control-offset};
+	inset-inline-start: #{$control-offset};
+	background-color: var(--wp--preset--color--base, #fff);
+	color: var(--wp--preset--color--contrast, #000);
+	white-space: normal;
 }
 
 /* Skip content
@@ -109,13 +128,11 @@ $_card-primary-links: ".kitaris-card-link, .wp-block-post-title a, .wp-block-kit
 	left: -99999px;
 	font-size: var(--wp--custom--skip-link--font-size, 1.5em);
 	font-weight: var(--wp--custom--font-weight--bold, 700);
-	cursor: default;
 
 	&:focus,
 	&:active {
 		color: var(--wp--preset--color--base, #fff);
 		background-color: var(--wp--preset--color--contrast, #000);
-		visibility: visible;
 		left: #{$control-offset};
 	}
 

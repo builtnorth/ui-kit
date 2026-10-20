@@ -3,9 +3,6 @@
 .wp-block-embed,
 .wp-block-video,
 .image__figure,
-[class$="__figure"] {
+[class*="__figure"] {
     position: relative;
 }
-
-// Captions sit under their image in normal flow and take the theme's caption
-// element styles (theme.json styles.elements.caption): nothing overlaid.
