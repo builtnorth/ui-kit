@@ -63,6 +63,9 @@ $_button-press-duration: 160ms;
     cursor: pointer;
     display: inline-flex;
     flex-shrink: 0;
+    // Never wider than its container: a long label wraps instead of pushing
+    // the page sideways on a phone (flex-shrink: 0 alone kept it full length).
+    max-width: 100%;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
