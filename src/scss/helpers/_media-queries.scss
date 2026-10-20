@@ -1,15 +1,16 @@
 /*
 ------------------------------------------------------------------
 Helpers: Media Queries
-
-@package BuiltStarter
-@since BuiltStarter 1.0.0
 ------------------------------------------------------------------
 */
 
 // Values come from ../config's $breakpoint-* (the package's documented
 // override surface via `@use "@siratik/ui-kit/config" with (...)`) — override
 // there, not here.
+//
+// No overlap at a breakpoint: gt-* starts at it (width >= bp), lt-* stops
+// just below it (width < bp), so exactly one of a pair matches. Range syntax,
+// and no `only screen`, so print gets the same layout.
 @use "../config" as config;
 
 $xxsmall: config.$breakpoint-xxs;
@@ -20,70 +21,72 @@ $large: config.$breakpoint-lg;
 $xlarge: config.$breakpoint-xl;
 $xxlarge: config.$breakpoint-xxl;
 
+// Aliases of the config values (layout/_stack-inline.scss reads
+// $columns-stack-container-max through the helpers forward).
 // Viewport: stack-on-mobile for top-level kitaris/columns (footer, page rows).
-$columns-stack-max: $medium !default;
+$columns-stack-max: config.$columns-stack-max !default;
 // Nested / form-in-column: parent column narrower than this → stack (not the same as viewport).
-$columns-stack-container-max: $xsmall !default;
+$columns-stack-container-max: config.$columns-stack-container-max !default;
 
-$small-y: 43em !default;
-$large-y: 53em !default;
+$small-y: config.$breakpoint-height-sm !default;
+$large-y: config.$breakpoint-height-lg !default;
 
 @mixin gt-xl {
-	@media only screen and (min-width: $xlarge) {
+	@media (width >= #{$xlarge}) {
 		@content;
 	}
 }
 
 @mixin gt-lg {
-	@media only screen and (min-width: $large) {
+	@media (width >= #{$large}) {
 		@content;
 	}
 }
 
 @mixin gt-md {
-	@media only screen and (min-width: $medium) {
+	@media (width >= #{$medium}) {
 		@content;
 	}
 }
 
 @mixin gt-sm {
-	@media only screen and (min-width: $small) {
+	@media (width >= #{$small}) {
 		@content;
 	}
 }
 
 @mixin gt-xs {
-	@media only screen and (min-width: $xsmall) {
+	@media (width >= #{$xsmall}) {
 		@content;
 	}
 }
 
 @mixin gt-xxs {
-	@media only screen and (min-width: $xxsmall) {
+	@media (width >= #{$xxsmall}) {
 		@content;
 	}
 }
 
 @mixin lt-xxl {
-	@media only screen and (max-width: $xxlarge) {
+	@media (width < #{$xxlarge}) {
 		@content;
 	}
 }
 
 @mixin lt-xl {
-	@media only screen and (max-width: $xlarge) {
+	@media (width < #{$xlarge}) {
 		@content;
 	}
 }
 
 @mixin lt-lg {
-	@media only screen and (max-width: $large) {
+	@media (width < #{$large}) {
 		@content;
 	}
 }
 
 @mixin lt-md {
-	@media only screen and (max-width: $medium) {
+	@media (width < #{$medium}) {
 		@content;
 	}
 }
@@ -93,14 +96,14 @@ $large-y: 53em !default;
 // container query for rules about available space.
 @mixin lt-stack {
 	@warn "ui-kit: lt-stack is deprecated; use viewport-tablet-down or a container query.";
-	@media only screen and (max-width: $columns-stack-max) {
+	@media (width < #{$columns-stack-max}) {
 		@content;
 	}
 }
 
 @mixin gt-stack {
 	@warn "ui-kit: gt-stack is deprecated; use viewport-desktop or a container query.";
-	@media only screen and (min-width: #{$columns-stack-max + 1px}) {
+	@media (width >= #{$columns-stack-max}) {
 		@content;
 	}
 }
@@ -135,61 +138,61 @@ $large-y: 53em !default;
 }
 
 @mixin lt-sm {
-	@media only screen and (max-width: $small) {
+	@media (width < #{$small}) {
 		@content;
 	}
 }
 
 @mixin lt-xs {
-	@media only screen and (max-width: $xsmall) {
+	@media (width < #{$xsmall}) {
 		@content;
 	}
 }
 
 @mixin lt-xxs {
-	@media only screen and (max-width: $xxsmall) {
+	@media (width < #{$xxsmall}) {
 		@content;
 	}
 }
 
 @mixin only-md {
-	@media only screen and (max-width: $large) and (min-width: $medium) {
+	@media (#{$medium} <= width < #{$large}) {
 		@content;
 	}
 }
 
 @mixin only-lg {
-	@media only screen and (max-width: $xlarge) and (min-width: $large) {
+	@media (#{$large} <= width < #{$xlarge}) {
 		@content;
 	}
 }
 
 @mixin only-xl {
-	@media only screen and (max-width: $xxlarge) and (min-width: $xlarge) {
+	@media (#{$xlarge} <= width < #{$xxlarge}) {
 		@content;
 	}
 }
 
-@mixin lt-custom($lt_custom) {
-	@media only screen and (max-width: $lt_custom) {
+@mixin lt-custom($width) {
+	@media (width < #{$width}) {
 		@content;
 	}
 }
 
-@mixin gt-custom($gt__custom) {
-	@media only screen and (min-width: $gt__custom) {
+@mixin gt-custom($width) {
+	@media (width >= #{$width}) {
 		@content;
 	}
 }
 
 @mixin vert-sm {
-	@media only screen and (min-width: $medium) and (max-height: $small-y) {
+	@media (width >= #{$medium}) and (height <= #{$small-y}) {
 		@content;
 	}
 }
 
 @mixin vert-lg {
-	@media only screen and (min-width: $medium) and (min-height: $large-y) {
+	@media (width >= #{$medium}) and (height >= #{$large-y}) {
 		@content;
 	}
 }
