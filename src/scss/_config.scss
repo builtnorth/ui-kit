@@ -1,13 +1,16 @@
 // ============================================================================
 // UI Kit Configuration
 // ============================================================================
-// Maps to theme.json settings.custom.form.*
+// Maps to theme.json settings.custom.* tokens. Form groups (settings.custom.form.*):
 //
 //   form.field   → text inputs, selects (line-style controls)
-//   form.label   → legend, label, help text sizing
-//   form.surface → textareas, choice cards, other panel-like fields
+//   form.label   → legend, label sizing
 //   form.choice  → checkboxes, radios
 //   form.file    → file inputs, drop zones, selected-file rows
+//
+// Some form values share a site-wide token instead of a form.* one: help text
+// (small-text.fontSize), textarea and panel radius (borderRadius.tile), file
+// padding (panel.padding-*) and file border width (borderWidth.x-small).
 //
 // Configure before any other ui-kit @use (Sass configures a module on first load):
 // @use "@siratik/ui-kit/config" with ( $form-field-padding-x: 1rem );
@@ -39,6 +42,24 @@ $control-border-width: var(
     --wp--custom--control--border-width,
     var(--wp--custom--border-width--x-small, 2px)
 ) !default;
+// Edge of controls that keep a line (slider and lightbox arrows): the same
+// token as $control-border, defaulting to the text colour.
+$control-border-line: var(--wp--custom--control--border, currentColor) !default;
+$control-background: var(--wp--custom--control--background, transparent) !default;
+$control-background-hover: var(
+    --wp--custom--control--background-hover,
+    var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent))
+) !default;
+// Overlay controls (media toggle, lightbox enlarge): over content of any
+// colour, so they bring their own contrast (see helpers media-toggle).
+$control-overlay-background: var(--wp--custom--control--overlay-background, rgb(0 0 0 / 60%)) !default;
+$control-overlay-background-hover: var(
+    --wp--custom--control--overlay-background-hover,
+    rgb(0 0 0 / 80%)
+) !default;
+$control-overlay-color: var(--wp--custom--control--overlay-color, #fff) !default;
+$control-overlay-ring: var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%)) !default;
+$control-overlay-blur: var(--wp--custom--control--overlay-blur, blur(4px)) !default;
 
 // form.field
 // ----------------------------------------------------------------------------
@@ -102,10 +123,16 @@ $form-choice-border-radius: var(
     --wp--custom--form--choice--border-radius,
     0
 ) !default;
+// Fill of a checked choice: any color a theme or user picks.
 $form-choice-checked-color: var(
     --wp--custom--form--choice--checked-color,
     var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000))
 ) !default;
+// Tick, dot and bar on that fill, where contrast-color() isn't supported
+// (supported browsers derive it from the fill, so it always reads).
+$form-choice-check-color: var(--wp--custom--form--choice--check-color, #fff) !default;
+// Disabled and read-only fields and choices.
+$form-field-disabled-opacity: var(--wp--custom--form--field--disabled-opacity, 0.5) !default;
 
 // form.file
 // ----------------------------------------------------------------------------
@@ -154,6 +181,14 @@ $breakpoint-md: 768px !default;
 $breakpoint-lg: 1024px !default;
 $breakpoint-xl: 1280px !default;
 $breakpoint-xxl: 1536px !default;
+// Height breakpoints for the vert-* mixins.
+$breakpoint-height-sm: 43em !default;
+$breakpoint-height-lg: 53em !default;
+// Top-level kitaris/columns stack below this viewport width (deprecated
+// lt-stack / gt-stack), and nested rows when their parent column is
+// narrower than the container max.
+$columns-stack-max: $breakpoint-md !default;
+$columns-stack-container-max: $breakpoint-xs !default;
 
 // Colors (can be overridden but default to theme.json)
 // ----------------------------------------------------------------------------
