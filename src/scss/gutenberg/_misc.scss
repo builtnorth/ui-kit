@@ -1,20 +1,19 @@
 /*
 ------------------------------------------------------------------
 Misc
-
-@package BuiltStarter
-@since BuiltStarter 1.0.0
 ------------------------------------------------------------------
 */
 
-/* Full width button */
+/* Full width button: the is-full-width modifier wp-component-library's
+   InspectorMediaUpload puts on its buttons (core never sets it on a
+   .components-button). */
 .components-button.is-full-width {
 	justify-content: center;
 	width: 100%;
 }
 
-/* BaseControl in Panel */
-.components-panel__row {
+/* BaseControl in Panel: our panels only (className="kitaris-panel"). */
+.kitaris-panel .components-panel__row {
 	.components-base-control {
 		width: 100%;
 	}

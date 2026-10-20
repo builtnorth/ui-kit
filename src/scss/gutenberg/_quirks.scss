@@ -1,12 +1,13 @@
-// Allow sticky to work with template parts on the frontend. `display: contents`
-// removes the wrapper box. In the editor we MUST keep a real box so clicks can
-// hit the template-part (contents makes the host untargetable).
-.wp-block-template-part:not(header, footer) {
+// Template parts in the post-type and card areas (`div` heroes and
+// sections, `article` cards) drop their wrapper box on the front end, so a
+// hero stacks flush and goes full width and a card lays out in its query
+// like the card itself. Other parts (header, footer, main, section, aside,
+// nav) keep their box, background and landmark. Sticky blocks in a part are
+// handled by kitaris-blocks StickyPositionHook. In the editor the parts keep
+// a real box so clicks can reach them (_quirks-editor.scss).
+:is(div, article).wp-block-template-part {
     display: contents;
 }
-
-// Allow post content to break out of its container for alignfull blocks.
-// Uncomment if needed: .wp-block-post-content { display: contents !important; }
 
 /* Post template: ensure query loop grid spans full width */
 .wp-block-post-template {
@@ -367,16 +368,3 @@ $_kitaris-hero-slide: ".wp-block-kitaris-slide > :is(.wp-block-kitaris-hero, .wp
     padding-top: var(--wp--custom--spacing--section-padding, 3.38rem);
     padding-bottom: var(--wp--style--block-gap, 1.5rem);
 }
-
-// Default text size for the small utility blocks, at zero specificity: a
-// theme's theme.json per-block size, and a size chosen on the block, win.
-// :where(
-//     .wp-block-kitaris-breadcrumbs,
-//     .wp-block-kitaris-copyright,
-//     .wp-block-kitaris-utility-links,
-//     .wp-block-kitaris-social-media,
-//     .wp-block-kitaris-whitelabel-meta,
-//     .wp-block-kitaris-query-sort
-// ) {
-//     font-size: var(--wp--custom--small-text--font-size, 0.875em);
-// }
