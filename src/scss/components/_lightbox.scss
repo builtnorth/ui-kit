@@ -29,14 +29,14 @@ body .wp-lightbox-overlay {
 			min-height: #{$control-size};
 			padding: 0;
 			border-radius: #{$control-radius};
-			background: var(--wp--custom--control--background, transparent);
-			color: var(--wp--custom--control--color, currentColor);
+			background: #{$control-background};
+			color: #{$control-color};
 		}
 
 		&:hover,
 		&:focus-visible,
 		&:focus-visible:not(:hover):not(:active):not(.has-background) {
-			background: var(--wp--custom--control--background-hover, var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent)));
+			background: #{$control-background-hover};
 		}
 
 		// Core sets the fill inline from the global text colour; currentColor
@@ -52,7 +52,7 @@ body .wp-lightbox-overlay {
 		&:hover,
 		&:focus,
 		&:not(:hover):not(:active):not(.has-background) {
-			border: #{$control-border-width} solid var(--wp--custom--control--border, currentColor);
+			border: #{$control-border-width} solid #{$control-border-line};
 		}
 	}
 
@@ -85,16 +85,16 @@ body .wp-lightbox-container .lightbox-trigger {
 		// draw a border, so the button keeps its edge there.
 		border: 1px solid transparent;
 		border-radius: #{$control-radius};
-		background: var(--wp--custom--control--overlay-background, rgb(0 0 0 / 60%));
-		box-shadow: 0 0 0 1px var(--wp--custom--control--overlay-ring, rgb(255 255 255 / 60%));
-		color: var(--wp--custom--control--overlay-color, #fff);
-		backdrop-filter: var(--wp--custom--control--overlay-blur, blur(4px));
+		background: #{$control-overlay-background};
+		box-shadow: 0 0 0 1px #{$control-overlay-ring};
+		color: #{$control-overlay-color};
+		backdrop-filter: #{$control-overlay-blur};
 	}
 
 	&:hover,
 	&:focus-visible,
 	&:focus-visible:not(:hover):not(:active):not(.has-background) {
-		background: var(--wp--custom--control--overlay-background-hover, rgb(0 0 0 / 80%));
+		background: #{$control-overlay-background-hover};
 	}
 
 	// The icon fills its 12-unit viewBox.

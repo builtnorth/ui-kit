@@ -1,15 +1,21 @@
 /*
 ------------------------------------------------------------------
 Global Slider Styles
-
-@package BuiltStarter
-@since BuiltStarter 1.0.0
 ------------------------------------------------------------------
 */
 
 @use "../config" as *;
 @use "../helpers/mixins" as helpers;
 @use "../helpers/media-queries" as mq;
+
+// Dot target padding around the bar, and the circle mark's diameter: the
+// bar's height, so a dot reads at the same weight as a bar.
+$_dot-padding-inline: 0.25rem;
+$_dot-circle-size: var(--wp--custom--slider--dot-size, 0.75rem);
+// Smallest pointer target for an indicator (WCAG 2.5.8).
+$_dot-target-min: 24px;
+// Full-width bars counted for their cap (more than this keep the cap of this many).
+$_dot-count-max: 40;
 
 // Slider arrow — the carousel's and timeline's arrows (.kitaris-slider-arrow),
 // so every arrow is sized in one place. Add one of the colour mixins below.
@@ -35,40 +41,45 @@ Global Slider Styles
 // --kitaris-arrow-color is the icon color. Line paints the glyph and the
 // border. Fill paints the button, and only when a color is actually chosen.
 @mixin slider-arrow-inline {
-    border-color: var(
-        --kitaris-arrow-color,
-        var(--wp--custom--control--border, currentColor)
-    );
-    background: var(--wp--custom--control--background, transparent);
-    color: var(--kitaris-arrow-color, var(--wp--custom--control--color, currentColor));
+    border-color: var(--kitaris-arrow-color, #{$control-border-line});
+    background: #{$control-background};
+    color: var(--kitaris-arrow-color, #{$control-color});
     backdrop-filter: none;
 
     @include helpers.hover($focus: true) {
-        background: var(
-            --wp--custom--control--background-hover,
-            var(
-                --wp--custom--color--tint,
-                color-mix(in srgb, currentColor 10%, transparent)
-            )
-        );
+        background: #{$control-background-hover};
     }
 }
 
 // Fill paints only when a colour is chosen. With the colour cleared, the
 // button stays the theme line so the icon is not the same colour as the fill.
+// contrast-color() holds a var(), so an engine without it can't drop it at
+// parse time: it sits behind @supports, over a real fallback (the overlay
+// color, and a hover that mixes that color into the fill the same way).
 .kitaris-carousel__controls.is-appearance-fill.has-arrow-color > .kitaris-slider-arrow {
     --_arrow-fill: var(--kitaris-arrow-color);
     border-color: transparent;
     background: var(--_arrow-fill);
-    color: var(--wp--custom--control--overlay-color, #fff);
-    color: contrast-color(var(--_arrow-fill));
+    color: #{$control-overlay-color};
 
     @include helpers.hover($focus: true) {
         background: color-mix(
             in oklch,
-            contrast-color(var(--_arrow-fill)) 16%,
+            #{$control-overlay-color} 16%,
             var(--_arrow-fill)
         );
+    }
+
+    @supports (color: contrast-color(red)) {
+        color: contrast-color(var(--_arrow-fill));
+
+        @include helpers.hover($focus: true) {
+            background: color-mix(
+                in oklch,
+                contrast-color(var(--_arrow-fill)) 16%,
+                var(--_arrow-fill)
+            );
+        }
     }
 }
 
@@ -102,11 +113,8 @@ Global Slider Styles
     margin: 0;
     cursor: pointer;
     transition-property: background-color, color, border-color, opacity;
-    transition-duration: var(--wp--custom--transition--duration-base, 200ms);
-    transition-timing-function: var(
-        --wp--custom--transition--easing-default,
-        ease-in-out
-    );
+    transition-duration: #{$transition-duration-base};
+    transition-timing-function: #{$transition-easing-default};
     @include helpers.press;
 
     @media (prefers-reduced-motion: no-preference) {
@@ -729,11 +737,11 @@ Global Slider Styles
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    min-width: 24px;
-    min-height: 24px;
+    min-width: $_dot-target-min;
+    min-height: $_dot-target-min;
     height: auto;
     margin: 0;
-    padding: 0 0.25rem;
+    padding: 0 $_dot-padding-inline;
     border: 0;
     border-radius: #{$control-radius};
     background: transparent;
@@ -771,27 +779,15 @@ Global Slider Styles
 
     @include helpers.hover {
         &:not([aria-current="true"])::after {
-            background-color: var(
-                --wp--custom--control--background-hover,
-                var(
-                    --wp--custom--color--tint,
-                    color-mix(in srgb, currentColor 10%, transparent)
-                )
-            );
+            background-color: #{$control-background-hover};
         }
     }
 
     @media (prefers-reduced-motion: no-preference) {
         &::after {
             transition-property: width, background-color;
-            transition-duration: var(
-                --wp--custom--transition--duration-slow,
-                300ms
-            );
-            transition-timing-function: var(
-                --wp--custom--transition--easing-default,
-                ease-in-out
-            );
+            transition-duration: #{$transition-duration-slow};
+            transition-timing-function: #{$transition-easing-default};
         }
     }
 
@@ -803,14 +799,14 @@ Global Slider Styles
 
 // Circles. Same 24px target; the mark is a dot, filled for the current stop.
 .kitaris-carousel__dots.is-dots-style-dots > .kitaris-carousel__dot::after {
-    width: calc(0.5rem * var(--_indicator-scale, 1));
-    height: calc(0.5rem * var(--_indicator-scale, 1));
-    border-radius: 999px;
+    width: calc(#{$_dot-circle-size} * var(--_indicator-scale, 1));
+    height: calc(#{$_dot-circle-size} * var(--_indicator-scale, 1));
+    border-radius: $radius-full;
 }
 
 .kitaris-carousel__dots.is-dots-style-dots
     > .kitaris-carousel__dot[aria-current="true"]::after {
-    width: calc(0.5rem * var(--_indicator-scale, 1));
+    width: calc(#{$_dot-circle-size} * var(--_indicator-scale, 1));
     background-color: currentColor;
 }
 
@@ -824,34 +820,45 @@ Global Slider Styles
 // carousel's overflow clip hides the rail). The current stop is filled, and
 // where anchor positioning exists that fill is one thumb that slides along.
 .kitaris-carousel__dots.is-dots-style-track {
+    // The rail's thickness. The current stop is drawn thicker (twice the
+    // preset rails; a thick custom rail adds at most 0.5rem), so it stands out
+    // by shape as well as color.
+    --_track-thickness: calc(0.25rem * var(--_indicator-scale, 1));
+    --_track-thumb-extra: min(var(--_track-thickness), 0.5rem);
     min-width: min-content;
 
     > .kitaris-carousel__dot {
         flex: 1 1 0%;
         padding: 0;
-        min-width: calc(1.75rem * var(--_indicator-scale, 1));
+        // Never below the 24px target, at the small size too.
+        min-width: max(
+            #{$_dot-target-min},
+            1.75rem * var(--_indicator-scale, 1)
+        );
 
+        // Rail and thumb follow the indicator color. The rail stays a tint;
+        // the current stop is solid (the anchored thumb takes over below).
         &::after {
             width: 100%;
-            height: calc(0.25rem * var(--_indicator-scale, 1));
+            height: var(--_track-thickness);
             border: 0;
             border-radius: 0;
-            background-color: color-mix(in srgb, currentColor 28%, transparent);
+            background-color: color-mix(in oklch, var(--_mark) 70%, transparent);
         }
 
         &:first-child::after {
-            border-start-start-radius: 999px;
-            border-end-start-radius: 999px;
+            border-start-start-radius: $radius-full;
+            border-end-start-radius: $radius-full;
         }
 
         &:last-child::after {
-            border-start-end-radius: 999px;
-            border-end-end-radius: 999px;
+            border-start-end-radius: $radius-full;
+            border-end-end-radius: $radius-full;
         }
 
         &[aria-current="true"]::after {
             width: 100%;
-            background-color: currentColor;
+            background-color: var(--_mark);
         }
     }
 }
@@ -902,8 +909,9 @@ Global Slider Styles
         }
 
         // The segment stays part of the rail. The thumb is the moving fill.
+        // After the solid current stop above, so this wins here.
         > .kitaris-carousel__dot[aria-current="true"]::after {
-            background-color: color-mix(in srgb, currentColor 28%, transparent);
+            background-color: color-mix(in oklch, var(--_mark) 70%, transparent);
         }
 
         &::after {
@@ -914,8 +922,10 @@ Global Slider Styles
             inset-inline-start: anchor(start);
             translate: 0 -50%;
             inline-size: anchor-size(inline);
-            block-size: calc(0.25rem * var(--_indicator-scale, 1));
-            border-radius: 999px;
+            // Thicker than the rail, centered on it. Out of flow, so the row
+            // keeps its height.
+            block-size: calc(var(--_track-thickness) + var(--_track-thumb-extra));
+            border-radius: $radius-full;
             background-color: currentColor;
             pointer-events: none;
         }
@@ -924,29 +934,33 @@ Global Slider Styles
     @media (prefers-reduced-motion: no-preference) {
         .kitaris-carousel__dots.is-dots-style-track::after {
             transition:
-                inset-inline-start var(--wp--custom--transition--duration-slow, 300ms)
-                    var(--wp--custom--transition--easing-default, ease-out),
-                inline-size var(--wp--custom--transition--duration-slow, 300ms)
-                    var(--wp--custom--transition--easing-default, ease-out);
+                inset-inline-start #{$transition-duration-slow}
+                    #{$transition-easing-default},
+                inline-size #{$transition-duration-slow}
+                    #{$transition-easing-default};
         }
     }
 }
 
 // Fill paints the mark. Line paints the stroke. The colour is --_mark either way.
 // The track is a rail, not a stroked mark, so these rules skip it.
+// Inactive marks (and the rail above) are 70% of the color: the least that
+// keeps 3:1 against the section behind them (WCAG 1.4.11), white on a brand
+// color included.
 .kitaris-carousel__dots.is-appearance-line:not(.is-dots-style-track) > .kitaris-carousel__dot::after {
     background-color: transparent;
-    border-color: color-mix(in oklch, var(--_mark) 45%, transparent);
+    border-color: color-mix(in oklch, var(--_mark) 70%, transparent);
 }
 
+// The current dot or bar is filled: it reads by fill as well as size.
 .kitaris-carousel__dots.is-appearance-line:not(.is-dots-style-track) > .kitaris-carousel__dot[aria-current="true"]::after {
-    background-color: transparent;
+    background-color: var(--_mark);
     border-color: var(--_mark);
 }
 
 .kitaris-carousel__dots.is-appearance-fill:not(.is-dots-style-track) > .kitaris-carousel__dot::after {
     border-color: transparent;
-    background-color: color-mix(in oklch, var(--_mark) 40%, transparent);
+    background-color: color-mix(in oklch, var(--_mark) 70%, transparent);
 }
 
 .kitaris-carousel__dots.is-appearance-fill:not(.is-dots-style-track) > .kitaris-carousel__dot[aria-current="true"]::after {
@@ -954,16 +968,7 @@ Global Slider Styles
     background-color: var(--_mark);
 }
 
-// Rail and thumb follow the indicator colour. The rail stays a tint; the thumb is solid.
-.kitaris-carousel__dots.is-dots-style-track > .kitaris-carousel__dot::after {
-    border: 0;
-    background-color: color-mix(in oklch, var(--_mark) 28%, transparent);
-}
-
-.kitaris-carousel__dots.is-dots-style-track > .kitaris-carousel__dot[aria-current="true"]::after {
-    background-color: var(--_mark);
-}
-
+// The thumb follows the indicator color too.
 .kitaris-carousel__dots.is-dots-style-track::after {
     background-color: var(--_mark);
     border: 0;
@@ -986,25 +991,59 @@ Global Slider Styles
     height: var(--kitaris-indicator-size, 0.75rem);
 }
 
-.kitaris-carousel__dots.is-size-custom.is-dots-style-track > .kitaris-carousel__dot::after,
-.kitaris-carousel__dots.is-size-custom.is-dots-style-track > .kitaris-carousel__dot[aria-current="true"]::after {
+.kitaris-carousel__dots.is-size-custom.is-dots-style-track > .kitaris-carousel__dot::after {
     width: 100%;
     height: var(--kitaris-indicator-size, 0.25rem);
-    block-size: var(--kitaris-indicator-size, 0.25rem);
 }
 
-.kitaris-carousel__dots.is-size-custom.is-dots-style-track::after {
-    block-size: var(--kitaris-indicator-size, 0.25rem);
+.kitaris-carousel__dots.is-size-custom.is-dots-style-track {
+    --_track-thickness: var(--kitaris-indicator-size, 0.25rem);
+}
+
+// No anchor positioning: the current segment is the thumb, thicker than the
+// rail and centered on it. The negative margins give back the extra height,
+// so the row doesn't change height when the current slide moves.
+@supports not (anchor-name: --kitaris-dots-active) {
+    .kitaris-carousel__dots.is-dots-style-track > .kitaris-carousel__dot[aria-current="true"]::after {
+        height: calc(var(--_track-thickness) + var(--_track-thumb-extra));
+        margin-block: calc(var(--_track-thumb-extra) / -2);
+        border-radius: $radius-full;
+    }
 }
 
 // Full-width bars share the row. The current bar keeps the same proportion
 // as the preset marks (2.75 to 1.5), so it stays longer than the others.
 .kitaris-carousel__dots.is-width-fill:not(.is-dots-style-track):not(.is-dots-style-dots) {
-    flex-wrap: nowrap;
+    // The number of bars (up to $_dot-count-max), for the cap below.
+    @for $i from 2 through $_dot-count-max {
+        &:has(> .kitaris-carousel__dot:nth-child(#{$i})) {
+            --_dot-count: #{$i};
+        }
+    }
 
     > .kitaris-carousel__dot {
+        // One flex-grow unit of a single row of every bar: the row less its
+        // gaps and the bars' padding, over the total flex-grow.
+        --_dot-share: calc(
+            (
+                    100% - (var(--_dot-count, 1) - 1) *
+                        var(--kitaris-indicator-gap, 0px) - var(--_dot-count, 1) *
+                        2 * #{$_dot-padding-inline}
+                ) /
+                (1.5 * (var(--_dot-count, 1) - 1) + 2.75)
+        );
         flex: 1.5 1 0%;
-        min-width: 0;
+        // Bars shrink to the 24px target, then wrap onto another row
+        // (many slides on a phone) rather than overflow sideways.
+        min-width: $_dot-target-min;
+        // No wider than the bar's share of one row. When every bar fits,
+        // that is the width flex gives it anyway. When they don't, the share
+        // is under 24px and min-width wins, so a wrapped row doesn't stretch
+        // and looks like the first.
+        // (1px of slack keeps the cap from binding on a single row.)
+        max-width: calc(
+            var(--_dot-share) * 1.5 + 2 * #{$_dot-padding-inline} + 1px
+        );
 
         &::after,
         &[aria-current="true"]::after {
@@ -1013,19 +1052,20 @@ Global Slider Styles
 
         &[aria-current="true"] {
             flex-grow: 2.75;
+            max-width: calc(
+                var(--_dot-share) * 2.75 + 2 * #{$_dot-padding-inline} + 1px
+            );
         }
     }
 
     // The mark is always 100% of its button, so the old width transition
-    // never runs. The button's share of the row is what changes.
+    // never runs. The button's share of the row is what changes (the cap
+    // moves with it, at the same pace).
     @media (prefers-reduced-motion: no-preference) {
         > .kitaris-carousel__dot {
-            transition-property: flex-grow;
-            transition-duration: var(--wp--custom--transition--duration-slow, 300ms);
-            transition-timing-function: var(
-                --wp--custom--transition--easing-default,
-                ease-out
-            );
+            transition-property: flex-grow, max-width;
+            transition-duration: #{$transition-duration-slow};
+            transition-timing-function: #{$transition-easing-default};
         }
     }
 }

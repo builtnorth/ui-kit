@@ -33,12 +33,11 @@
  */
 
 $_button-transition:
-    background-color var(--wp--custom--transition--duration-base, 200ms)
-        var(--wp--custom--transition--easing-default, ease-in-out),
-    color var(--wp--custom--transition--duration-base, 200ms)
-        var(--wp--custom--transition--easing-default, ease-in-out),
-    border-color var(--wp--custom--transition--duration-base, 200ms)
-        var(--wp--custom--transition--easing-default, ease-in-out);
+    background-color $transition-duration-base $transition-easing-default,
+    color $transition-duration-base $transition-easing-default,
+    border-color $transition-duration-base $transition-easing-default;
+// The press (helpers.press) scales back quicker than the colors change.
+$_button-press-duration: 160ms;
 
 // ==========================================================================
 // 1. Button containers
@@ -75,7 +74,7 @@ $_button-transition:
     @media (prefers-reduced-motion: no-preference) {
         transition:
             $_button-transition,
-            transform 160ms var(--wp--custom--transition--easing-default, ease-in-out);
+            transform $_button-press-duration $transition-easing-default;
     }
 
     // Links inside button label (e.g. variable tags) inherit surface color.
@@ -126,7 +125,7 @@ $_button-transition:
 
     &.is-size-large {
         --kitaris-icon-size: var(--wp--custom--button--icon-size-large, var(--wp--custom--button--icon-size-default, 1.2em));
-        --_button-block-gap: 1rem;
+        --_button-block-gap: var(--wp--custom--button--icon-gap-large, 1rem);
         padding: var(
                 --wp--custom--button--padding-y-large,
                 calc(#{$pad-y} * 1.5)
@@ -216,6 +215,9 @@ $_neutral-variants: (
     }
 }
 
+// Intentionally at (0,3,0), above a theme.json core/button outline variation:
+// outline buttons follow the section's text color and flip on hover like
+// every other outline button.
 .wp-block-button.is-style-outline .wp-block-button__link {
     @include button-outline-vars;
 }

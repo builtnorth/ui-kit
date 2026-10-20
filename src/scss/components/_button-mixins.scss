@@ -39,14 +39,9 @@ $button-paint-selectors: (
 	"button.form__btn-next"
 ) !default;
 
-$pad-y: var(
-	--wp--custom--button--padding-y,
-	0.67rem
-);
-$pad-x: var(
-	--wp--custom--button--padding-x,
-	1rem
-);
+// Public aliases of the config button padding (themes may read them).
+$pad-y: $button-padding-y;
+$pad-x: $button-padding-x;
 
 // Variants declared in this compilation, for invert-on().
 $_variants: ();

@@ -20,7 +20,7 @@ preset background, inverting on a matching surface.
 
 .has-kitaris-list-icon {
 	list-style-type: none;
-	padding-left: 0;
+	padding-inline-start: 0;
 }
 
 :where(.has-kitaris-list-icon) > :where(li) {
@@ -29,7 +29,7 @@ preset background, inverting on a matching surface.
 	--_list-icon-offset: 0.24em;
 
 	position: relative;
-	padding-left: calc(var(--_list-icon-size) + var(--_list-icon-gap));
+	padding-inline-start: calc(var(--_list-icon-size) + var(--_list-icon-gap));
 
 	&::marker {
 		content: none;
@@ -39,7 +39,7 @@ preset background, inverting on a matching surface.
 		content: "";
 		position: absolute;
 		top: var(--_list-icon-offset);
-		left: 0;
+		inset-inline-start: 0;
 		width: var(--_list-icon-size);
 		height: var(--_list-icon-size);
 		background-color: var(--kitaris-icon-color, currentColor);
@@ -54,7 +54,7 @@ preset background, inverting on a matching surface.
 		content: "";
 		position: absolute;
 		top: var(--_list-icon-offset);
-		left: 0;
+		inset-inline-start: 0;
 		width: var(--_list-icon-size);
 		height: var(--_list-icon-size);
 		border-radius: var(--wp--custom--border-radius--icon, 0);
@@ -77,9 +77,9 @@ preset background, inverting on a matching surface.
 	> .block-editor-block-list__block.block-editor-block-list__block::after {
 	content: "" !important;
 	top: var(--_list-icon-offset);
-	right: auto;
+	inset-inline-end: auto;
 	bottom: auto;
-	left: 0;
+	inset-inline-start: 0;
 	z-index: auto;
 	background: var(--kitaris-icon-color, currentColor);
 	opacity: 1;
