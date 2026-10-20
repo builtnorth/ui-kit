@@ -33,6 +33,9 @@
 		"./components/buttons": "./src/scss/components/_buttons.scss",
 		"./components/button-mixins": "./src/scss/components/_button-mixins.scss",
 		"./components/slider": "./src/scss/components/_slider.scss",
+		"./components/lightbox": "./src/scss/components/_lightbox.scss",
+		"./components/navigation": "./src/scss/components/_navigation.scss",
+		"./components/list-icon": "./src/scss/components/_list-icon.scss",
 		"./forms": "./src/scss/forms/_index.scss",
 		"./forms/shared": "./src/scss/forms/_shared.scss",
 		"./forms/select": "./src/scss/forms/_select.scss",
@@ -51,6 +54,8 @@
 		"./gutenberg": "./src/scss/gutenberg/index.scss",
 		"./gutenberg/quirks": "./src/scss/gutenberg/_quirks.scss",
 		"./gutenberg/placeholders": "./src/scss/gutenberg/_placeholders.scss",
-		"./gutenberg/appenders": "./src/scss/gutenberg/_appenders.scss"
+		"./gutenberg/appenders": "./src/scss/gutenberg/_appenders.scss",
+		"./gutenberg/misc": "./src/scss/gutenberg/_misc.scss",
+		"./gutenberg/quirks-editor": "./src/scss/gutenberg/_quirks-editor.scss"
 	}
 }

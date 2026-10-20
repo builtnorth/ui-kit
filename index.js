@@ -1,2 +1,2 @@
 // Import the main SCSS file
-import "./scss/style.scss";
+import "./src/scss/style.scss";
