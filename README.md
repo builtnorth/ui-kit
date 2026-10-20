@@ -84,6 +84,9 @@ For package-specific overrides:
 // @include button.variant("primary", $background: ..., $text: ...);
 // @include button.invert-on("primary", $variant: "primary");
 @use "@siratik/ui-kit/components/slider" as ui;
+@use "@siratik/ui-kit/components/lightbox" as *;
+@use "@siratik/ui-kit/components/navigation" as *;
+@use "@siratik/ui-kit/components/list-icon" as *;
 
 // Forms: global element styles (every field on the page)
 @use "@siratik/ui-kit/forms" as *;
@@ -112,6 +115,8 @@ For package-specific overrides:
 @use "@siratik/ui-kit/gutenberg/quirks" as *;
 @use "@siratik/ui-kit/gutenberg/placeholders" as *;
 @use "@siratik/ui-kit/gutenberg/appenders" as *;
+@use "@siratik/ui-kit/gutenberg/misc" as *;
+@use "@siratik/ui-kit/gutenberg/quirks-editor" as *;
 ```
 
 > **Note:** The `@use` syntax is recommended over the deprecated `@import`. Use `as *` to include styles globally, or use `as ui` (or any namespace) to access mixins and functions with a namespace prefix.

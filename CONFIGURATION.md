@@ -64,7 +64,7 @@ The groups are:
 - **File inputs**: `$form-file-min-height`, `$form-file-padding`, `$form-file-border-width`, `$form-file-border-style`, `$form-file-border-color`
 - **Buttons**: `$button-padding-y`, `$button-padding-x`, `$button-border-radius`, `$button-font-weight`
 - **Layout**: `$grid-gutter`, `$grid-columns`, `$container-max-width`
-- **Breakpoints**: `$breakpoint-xxs` (320px), `$breakpoint-xs` (480px), `$breakpoint-sm` (640px), `$breakpoint-md` (768px), `$breakpoint-lg` (1024px), `$breakpoint-xl` (1280px), `$breakpoint-xxl` (1536px). They drive the `gt-*`/`lt-*`/`only-*` media query mixins.
+- **Breakpoints**: `$breakpoint-xxs` (320px), `$breakpoint-xs` (480px), `$breakpoint-sm` (640px), `$breakpoint-md` (768px), `$breakpoint-lg` (1024px), `$breakpoint-xl` (1280px), `$breakpoint-xxl` (1536px). They drive the `gt-*`/`lt-*`/`only-*` media query mixins: `gt-*` starts at the breakpoint (`width >= bp`) and `lt-*` stops just below it (`width < bp`), so a pair never overlaps. `$breakpoint-height-sm`/`-lg` drive `vert-*`; `$columns-stack-max` and `$columns-stack-container-max` set where columns stack.
 - **Colours**: `$color-primary`, `$color-secondary`, `$color-base`, `$color-contrast`
 - **Spacing scale**: `$spacing-20` to `$spacing-70`
 - **Border radius scale**: `$radius-sm`, `$radius-md`, `$radius-lg`, `$radius-full`
