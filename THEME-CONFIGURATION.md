@@ -59,11 +59,12 @@ core and the theme.
 
 ## Buttons (`button`)
 
-Kitaris buttons have two settings, as in core:
+Buttons are core's Button block (`core/button`). With Kitaris's button variants on
+(`blocks.core_extensions.button_variants`, on with the `house-defaults` preset) they have two settings:
 
-- **Style** (block style): Fill (default), Outline (`is-style-*`).
-- **Variant** (block attribute): Primary (default), Secondary, Tertiary, Text Link
-  (`is-variant-*`).
+- **Style** (core's block styles): Fill (default), Outline (`is-style-*`).
+- **Variant** (Kitaris attribute): Primary (default), Secondary, Tertiary, Text Link
+  (`is-variant-*` on `.wp-block-button`).
 
 Colours come from one set of tokens per variant. Every style reads them, at rest, on
 hover, on keyboard focus, and when a clickable card around the button is hovered.
@@ -72,36 +73,36 @@ hover, on keyboard focus, and when a clickable card around the button is hovered
 |---|---|---|
 | `button.{variant}.background` | `--wp--custom--button--{variant}--background` | Primary, Secondary: the surface's text color. Tertiary: 10% of the text color |
 | `button.{variant}.text` | `--wp--custom--button--{variant}--text` | Primary, Secondary: the surface color. Tertiary: the text color |
-| `button.{variant}.hover-background` | `--wp--custom--button--{variant}--hover-background` | The variant's `text` (fill and text swap). Tertiary: 20% of the text color |
-| `button.{variant}.hover-text` | `--wp--custom--button--{variant}--hover-text` | The variant's `background` |
+| `button.{variant}.hover-background` | `--wp--custom--button--{variant}--hover-background` | Optional override. Default: the fill moved 15% toward its own extreme (black if dark, white if light), so hover contrast is never lower than at rest |
+| `button.{variant}.hover-text` | `--wp--custom--button--{variant}--hover-text` | Optional override. Default: the label moved 30% toward its own extreme |
 
 `{variant}` is `primary`, `secondary` or `tertiary`. Text Link has only
 `button.text-link.text` and `button.text-link.hover-text` (both default to the surrounding
 text color).
 
 - **Primary Fill is the theme's button element style** (`styles.elements.button`), so it
-  matches core Buttons. Point `elements.button` (and its `:hover`) at the Primary
-  tokens. Without tokens, a Primary Fill button looks like the theme's own buttons.
+  matches core Buttons. Point `elements.button` at the Primary tokens (rest colors only);
+  its hover is Kitaris's, the same as every variant's. Without tokens, a Primary Fill button looks like the theme's own buttons.
 - **Outline**, as core's: the surrounding text color as text and border, no fill, so it
-  contrasts with any background. The variant doesn't change it. On hover it takes a light
-  tint of the text color.
+  contrasts with any background. The variant doesn't change it. On hover (and keyboard focus)
+  it takes a light tint of the text color.
 - **Text Link** is a link: the surrounding text color (or its tokens), underlined, no fill,
   border or side padding. Like every variant it applies to Fill; an Outline button is an
   outline whatever its variant.
-- **On a background of a variant's own color** the variant inverts automatically: kitaris-blocks
+- **On a background of a variant's own color** the variant inverts automatically: Kitaris
   redefines its tokens there from the palette pairs. Buttons inherit the tokens, so nothing
   has to outrank the button styles.
-- **Border width, radius, padding and font** stay with the theme: `elements.button`, the
-  size tokens below, and `styles.blocks["kitaris/button"]`. Outline sets its own border
-  width from `border-width.tiny` (else `1px`).
+- **Padding and border are core's.** Fill: `calc(0.667em + 2px) calc(1.333em + 2px)`, no
+  border. Outline: a 2px border and `0.667em 1.333em`. Both come out the same size, so don't
+  set padding or border width on `elements.button` or the Outline variation; the theme sets
+  only colors, radius (`elements.button.border.radius`) and font. Form buttons (ui-kit
+  `_buttons.scss`) use the same numbers.
 
-**Sizes set only the font size.** Padding is `button.padding-y` / `padding-x` in **em**, used
-by the theme's `elements.button`, so it scales with each size's font size and the sizes
-always keep the same proportions:
+**Sizes set only the font size.** Core's padding is in **em**, so it scales with each size's
+font size and the sizes always keep the same proportions:
 
 | theme.json key | Default |
 |---|---|
-| `button.padding-y`, `button.padding-x` | In em, e.g. `0.4em`, `0.8em` (set in `elements.button`) |
 | `button.font-size-small` | `0.875em` |
 | `button.font-size-large` | `1.25em` |
 | `button.icon-size-default` (also `-small`, `-large`) | `1.2em` |

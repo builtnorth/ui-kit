@@ -27,11 +27,12 @@
  * (theme.json elements.button, which a Kitaris theme points at the Primary
  * tokens). On a theme without Kitaris tokens it looks like the theme's own
  * buttons. Every other variant and style is painted below, colours only.
- * Border width, radius, padding and font stay with the theme.
+ * Shape is core's: the same base core gives .wp-block-button__link (below).
  *
- * Padding is the theme's (elements.button), in em from the padding tokens
- * --wp--custom--button--padding-y / -x, so every size scales with its font
- * size. Sizes set only the font size.
+ * Padding and border are core's, as on core/button: Fill takes the theme's
+ * button element style (core's calc(0.667em + 2px) calc(1.333em + 2px), no
+ * border), Outline a 2px border and 0.667em 1.333em, so both are the same
+ * size. All in em, so sizes set only the font size.
  *
  * Structure:
  * 1. Button containers
@@ -61,9 +62,15 @@ $_button-press-duration: 160ms;
 
 // ==========================================================================
 // 2. Button base styles
-// Layout only. Colour, border, radius and default size come from the theme
-// (its button element styles, or the button-mixins).
+// Core's own link base (block-library :where(.wp-block-button__link)), at the
+// same zero specificity, so these buttons match core buttons; padding comes
+// from the button element style. Then layout.
 // ==========================================================================
+:where(#{$button-surface-selectors}) {
+    border-radius: 9999px;
+    box-shadow: none;
+}
+
 @include button-surfaces {
     // Icons follow the label's font size (em), so every button size keeps the
     // same icon-to-text ratio without a size per variant.
@@ -148,7 +155,6 @@ $_button-press-duration: 160ms;
 // background, else the system colours). It never uses currentColor, because
 // the paint rule below changes the button's own colour.
 $_tint: color-mix(in srgb, currentColor 10%, transparent);
-$_tint-hover: color-mix(in srgb, currentColor 20%, transparent);
 $_surface-text: var(--kitaris-auto-text-color, CanvasText);
 $_surface-bg: var(--kitaris-auto-surface-color, Canvas);
 
@@ -165,7 +171,6 @@ $_surface-bg: var(--kitaris-auto-surface-color, Canvas);
 $_variant-tokens: (
     "primary": _solid-variant("primary"),
     "secondary": _solid-variant("secondary"),
-    // A tint fill: a stronger tint on hover rather than a swap.
     "tertiary": (
         "bg": var(--wp--custom--button--tertiary--background, #{$_tint}),
         "fg": var(--wp--custom--button--tertiary--text, currentColor),
@@ -183,15 +188,27 @@ $_variant-tokens: (
         @each $key, $value in $tokens {
             --_button-v-#{$key}: #{$value};
         }
-        // Hover swaps fill and text unless the theme sets its own.
-        --_button-v-hover-bg: var(--wp--custom--button--#{$name}--hover-background, var(--_button-v-fg));
-        --_button-v-hover-fg: var(--wp--custom--button--#{$name}--hover-text, var(--_button-v-bg));
+        // Hover moves the fill and the label each toward its own extreme
+        // (below), unless the theme sets its own.
+        --_button-v-hover-bg: var(--wp--custom--button--#{$name}--hover-background, var(--_button-v-hover-mix));
+        --_button-v-hover-fg: var(--wp--custom--button--#{$name}--hover-text, var(--_button-v-hover-fg-mix));
     }
 }
 
-:where(.wp-block-kitaris-button.is-variant-tertiary) {
-    --_button-v-hover-bg: var(--wp--custom--button--tertiary--hover-background, #{$_tint-hover});
-    --_button-v-hover-fg: var(--wp--custom--button--tertiary--hover-text, currentColor);
+// The fill (15%) and the label (30%) each toward its own extreme: a dark
+// colour toward black, a light one toward white. An accessible pair has one
+// of each, so hover contrast only goes up. Without relative colours: the
+// fill toward black, the label as it is.
+:where(.wp-block-kitaris-button) {
+    --_button-v-hover-mix: color-mix(in oklab, var(--_button-v-bg) 85%, black);
+    --_button-v-hover-fg-mix: var(--_button-v-fg);
+}
+
+@supports (color: oklch(from red l c h)) {
+    :where(.wp-block-kitaris-button) {
+        --_button-v-hover-mix: color-mix(in oklab, var(--_button-v-bg) 85%, oklch(from var(--_button-v-bg) clamp(0, (l - 0.62) * 999, 1) 0 0));
+        --_button-v-hover-fg-mix: color-mix(in oklab, var(--_button-v-fg) 70%, oklch(from var(--_button-v-fg) clamp(0, (l - 0.62) * 999, 1) 0 0));
+    }
 }
 
 // What each style paints with.
@@ -206,7 +223,7 @@ $_variant-tokens: (
 
 // Outline, as core's: the surrounding text colour as text and border, no
 // fill, so it contrasts with any background. The variant doesn't change it.
-// Hover: a light tint of the text colour (core leaves hover to the theme).
+// Hover (core's has none): a light tint of the text colour.
 :where(.wp-block-kitaris-button.is-style-outline) {
     --_button-bg: transparent;
     --_button-fg: currentColor;
@@ -251,10 +268,12 @@ $_variant-tokens: (
     }
 }
 
-// Outline needs a border to show, whatever the theme gives the fill.
+// Outline, as core's: a 2px border and padding that leaves it the size of a
+// Fill button.
 .wp-block-kitaris-button.is-style-outline {
     border-style: solid;
-    border-width: var(--wp--custom--border-width--tiny, 1px);
+    border-width: 2px;
+    padding: 0.667em 1.333em;
 }
 
 // ==========================================================================

@@ -1,0 +1,158 @@
+@use "../helpers/mixins" as helpers;
+
+/*
+ * Core Button variants and sizes (Kitaris core extensions)
+ *
+ * For core/button when a theme turns on Kitaris's button variants
+ * (blocks.core_extensions.button_variants). The classes sit on the block
+ * wrapper (.wp-block-button); the button is .wp-block-button__link.
+ *
+ * - Primary Fill is the theme's button element style (theme.json
+ *   elements.button), as for every core button.
+ * - Outline is core's own (the surrounding text colour), whatever the
+ *   variant, so the variants paint Fill only. It gets a hover tint.
+ * - Secondary, Tertiary and Text Link read the theme's button tokens,
+ *   settings.custom.button.{variant}.*. Hover (also keyboard focus and a
+ *   hovered clickable card), Primary's included, moves the fill and the
+ *   label each toward its own extreme, so contrast only goes up, unless the
+ *   theme sets hover-background / hover-text. A background of a variant's own
+ *   colour redefines its tokens (Kitaris), and buttons inherit them.
+ * - Small and Large set only the font size; padding is in em, so it scales.
+ *
+ * A colour picked on the button itself still wins: core's colour classes use
+ * !important.
+ */
+
+$_tint: color-mix(in srgb, currentColor 10%, transparent);
+// Hover moves the fill (15%) and the label (30%) each toward its own
+// extreme: a dark colour toward black, a light one toward white. An
+// accessible pair has one of each, so hover contrast only goes up, and when
+// one is already black or white the other still moves.
+$_hover-mix: var(--_button-hover-mix);
+$_hover-fg-mix: var(--_button-hover-fg-mix);
+// Without tokens a fill takes the surface's text and background colours,
+// never currentColor (the paint rule changes the button's own colour).
+$_surface-text: var(--kitaris-auto-text-color, CanvasText);
+$_surface-bg: var(--kitaris-auto-surface-color, Canvas);
+
+$_link: ".wp-block-button__link";
+
+// The hover colours, from each button's own --_button-bg / --_button-fg.
+// Without relative colours: the fill toward black, the label as it is.
+:where(.wp-block-button) {
+    --_button-hover-mix: color-mix(in oklab, var(--_button-bg) 85%, black);
+    --_button-hover-fg-mix: var(--_button-fg);
+}
+
+@supports (color: oklch(from red l c h)) {
+    :where(.wp-block-button) {
+        // Black for a colour darker than 0.62 lightness, white for a lighter one.
+        --_button-hover-mix: color-mix(in oklab, var(--_button-bg) 85%, oklch(from var(--_button-bg) clamp(0, (l - 0.62) * 999, 1) 0 0));
+        --_button-hover-fg-mix: color-mix(in oklab, var(--_button-fg) 70%, oklch(from var(--_button-fg) clamp(0, (l - 0.62) * 999, 1) 0 0));
+    }
+}
+
+// Primary: the theme paints it at rest (elements.button); its hover is here.
+:where(.wp-block-button:not(.is-variant-secondary, .is-variant-tertiary, .is-variant-text-link)) {
+    --_button-bg: var(--wp--custom--button--primary--background, #{$_surface-text});
+    --_button-fg: var(--wp--custom--button--primary--text, #{$_surface-bg});
+    --_button-hover-bg: var(--wp--custom--button--primary--hover-background, #{$_hover-mix});
+    --_button-hover-fg: var(--wp--custom--button--primary--hover-text, #{$_hover-fg-mix});
+}
+
+.wp-block-button:not(.is-variant-secondary, .is-variant-tertiary, .is-variant-text-link, .is-style-outline) > #{$_link} {
+    @include helpers.hover($focus: true) {
+        &:not(.has-background) {
+            background-color: var(--_button-hover-bg);
+        }
+
+        &:not(.has-text-color) {
+            color: var(--_button-hover-fg);
+        }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        :where(.is-accessible-card:hover) &:not(.has-background) {
+            background-color: var(--_button-hover-bg);
+        }
+    }
+}
+
+// Private paint vars on the wrapper; the link inherits them.
+:where(.wp-block-button.is-variant-secondary) {
+    --_button-bg: var(--wp--custom--button--secondary--background, #{$_surface-text});
+    --_button-fg: var(--wp--custom--button--secondary--text, #{$_surface-bg});
+    --_button-hover-bg: var(--wp--custom--button--secondary--hover-background, #{$_hover-mix});
+    --_button-hover-fg: var(--wp--custom--button--secondary--hover-text, #{$_hover-fg-mix});
+    --_button-border: var(--_button-bg);
+    --_button-hover-border: var(--_button-hover-bg);
+}
+
+:where(.wp-block-button.is-variant-tertiary) {
+    --_button-bg: var(--wp--custom--button--tertiary--background, #{$_tint});
+    --_button-fg: var(--wp--custom--button--tertiary--text, currentColor);
+    --_button-hover-bg: var(--wp--custom--button--tertiary--hover-background, #{$_hover-mix});
+    --_button-hover-fg: var(--wp--custom--button--tertiary--hover-text, #{$_hover-fg-mix});
+    --_button-border: var(--_button-bg);
+    --_button-hover-border: var(--_button-hover-bg);
+}
+
+:where(.wp-block-button.is-variant-text-link) {
+    --_button-bg: transparent;
+    --_button-fg: var(--wp--custom--button--text-link--text, currentColor);
+    --_button-hover-bg: transparent;
+    --_button-hover-fg: var(--wp--custom--button--text-link--hover-text, var(--wp--custom--button--text-link--text, currentColor));
+    --_button-border: transparent;
+    --_button-hover-border: transparent;
+}
+
+// Fill only. (0,4,0): above the theme's button element style.
+.wp-block-button:is(.is-variant-secondary, .is-variant-tertiary, .is-variant-text-link):not(.is-style-outline) > #{$_link} {
+    background-color: var(--_button-bg);
+    color: var(--_button-fg);
+    border-color: var(--_button-border);
+
+    @include helpers.hover($focus: true) {
+        background-color: var(--_button-hover-bg);
+        color: var(--_button-hover-fg);
+        border-color: var(--_button-hover-border);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        :where(.is-accessible-card:hover) & {
+            background-color: var(--_button-hover-bg);
+            color: var(--_button-hover-fg);
+            border-color: var(--_button-hover-border);
+        }
+    }
+}
+
+// Outline (core's, no hover of its own): a light tint of the text colour on
+// hover, on keyboard focus and inside a hovered clickable card. Text and
+// border stay the surrounding text colour. A colour picked on the button wins.
+.wp-block-button.is-style-outline > #{$_link}:not(.has-background) {
+    @include helpers.hover($focus: true) {
+        background-color: $_tint;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        :where(.is-accessible-card:hover) & {
+            background-color: $_tint;
+        }
+    }
+}
+
+// Text Link: looks like a link, no button padding at the sides.
+.wp-block-button.is-variant-text-link:not(.is-style-outline) > #{$_link} {
+    text-decoration: underline;
+    padding-inline: 0;
+}
+
+// Sizes: font size only.
+.wp-block-button.is-size-small > #{$_link} {
+    font-size: var(--wp--custom--button--font-size-small, 0.875em);
+}
+
+.wp-block-button.is-size-large > #{$_link} {
+    font-size: var(--wp--custom--button--font-size-large, 1.25em);
+}
