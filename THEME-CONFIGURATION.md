@@ -96,6 +96,37 @@ Sizes: `button.padding-y`, `padding-x`, the `-small` / `-large` versions of both
 `icon-gap` and `icon-gap-large`. The default size takes its font size from the theme's
 `elements.button`.
 
+## Card surfaces
+
+Image, icon and price cards, Taxonomy Feed grid tiles, and the Card style on features,
+stats, slides, timeline steps, logos and groups take the **raised** colour of the
+background they sit on: a white card on a dark section, a light gray one on white. Nothing
+is set per section. Each background colour names its raised colour in the theme's pairs
+map, next to its text pair:
+
+```scss
+@use "@siratik/ui-kit/base/colors";
+
+@include colors.kitaris-text-contrast-rules((
+	"base": (text: "contrast", raised: "neutral-1"),
+	"contrast": (text: "base", raised: "base"),
+	"primary": "primary-contrast", // no raised: derived
+), $page: "base");
+```
+
+- Each `.has-{slug}-background-color` sets `--kitaris-auto-raised-color` and
+  `--kitaris-auto-raised-text-color` (the raised colour's own text pair). `$page` sets them
+  on `:root` for cards outside any picked background.
+- A colour without `raised` gets the background with 8% of its text colour mixed in.
+- A Card is a surface: links and buttons inside it follow the card's colours.
+- A colour picked on the block wins over the Card colour, and gets the same card padding.
+- Without the pairs, a Card is a 6% tint of the text colour.
+- Padding: `card.padding` (`--wp--custom--card--padding`, default `2rem`). Radius:
+  `border-radius.tile`.
+
+Blocks use the `card` mixin from `@siratik/ui-kit/components/surfaces`, at zero
+specificity.
+
 ## Form Configuration
 
 ```json

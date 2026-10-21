@@ -32,6 +32,7 @@
 		"./components": "./src/scss/components/index.scss",
 		"./components/buttons": "./src/scss/components/_buttons.scss",
 		"./components/button-mixins": "./src/scss/components/_button-mixins.scss",
+		"./components/surfaces": "./src/scss/components/_surfaces.scss",
 		"./components/slider": "./src/scss/components/_slider.scss",
 		"./components/lightbox": "./src/scss/components/_lightbox.scss",
 		"./components/navigation": "./src/scss/components/_navigation.scss",

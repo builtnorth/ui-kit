@@ -1,0 +1,29 @@
+// Surfaces
+//
+// This module outputs no CSS. Blocks @use it for their Card style:
+//
+//   @use "@siratik/ui-kit/components/surfaces";
+//
+//   :where(.wp-block-x.is-style-card) {
+//       @include surfaces.card;
+//   }
+//
+// A Card takes the raised colour of the background it sits on
+// (--kitaris-auto-raised-color, set per background by base/colors
+// kitaris-text-contrast-rules) and that colour's text pair. It is a surface
+// itself: links and buttons inside it follow the card, not the section.
+// Without the theme's pairs it is a light tint of the text colour.
+//
+// Use it at zero specificity (:where()), so a colour picked on the block and
+// the theme's theme.json block styles still win. Padding is per block.
+
+$_fallback-bg: color-mix(in srgb, currentColor 6%, transparent);
+
+@mixin card {
+	background-color: var(--kitaris-auto-raised-color, #{$_fallback-bg});
+	color: var(--kitaris-auto-raised-text-color, inherit);
+
+	// What's inside reads the card as its surface.
+	--kitaris-auto-surface-color: var(--kitaris-auto-raised-color, Canvas);
+	--kitaris-auto-text-color: var(--kitaris-auto-raised-text-color, currentColor);
+}

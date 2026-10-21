@@ -1,5 +1,6 @@
 @use "sass:list";
 @use "sass:map";
+@use "sass:meta";
 
 /*
 Colors
@@ -171,28 +172,42 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 	}
 }
 
-/// Text contrast for backgrounds picked by hand.
+/// Text contrast and card surfaces for backgrounds picked by hand.
 ///
 /// A container with .has-{bg}-background-color takes its paired text colour,
 /// and plain links inside it follow. Icon chips (.has-{bg}-icon-background-color)
 /// take their pair as the glyph colour. Nested containers set their own pair,
 /// so the nearest background wins through inheritance.
 ///
+/// Each background also names its raised colour: what a Card style block
+/// (components/surfaces) looks like on it. --kitaris-auto-raised-color is that
+/// colour and --kitaris-auto-raised-text-color the raised colour's own text
+/// pair. Without `raised`, the raised colour is the background with a little
+/// of its text colour mixed in.
+///
 /// Buttons aren't handled here: they read the theme's button tokens, which
 /// kitaris-blocks redefines on a background that matches a variant's colour.
 ///
 ///   @include colors.kitaris-text-contrast-rules((
+///     "base": (text: "contrast", raised: "neutral-1"),
+///     "contrast": (text: "base", raised: "base"),
 ///     "primary": "primary-contrast",
-///     "primary-contrast": "primary",
-///   ));
-@mixin kitaris-text-contrast-rules($pairs) {
+///   ), $page: "base");
+///
+/// @param {Map}         $pairs Background slug: text slug, or (text: slug, raised: slug).
+/// @param {String|Null} $page  The page background slug, for cards outside any
+///                             picked background.
+@mixin kitaris-text-contrast-rules($pairs, $page: null) {
 	$surfaces: ();
 	$chips: ();
 
-	@each $background, $contrast in $pairs {
+	@each $background, $value in $pairs {
+		$contrast: _pair-text($value);
+
 		.has-#{$background}-background-color {
 			--kitaris-auto-text-color: #{preset-color($contrast)};
 			--kitaris-auto-surface-color: #{preset-color($background)};
+			@include _raised-vars($pairs, $background);
 			color: var(--kitaris-auto-text-color);
 		}
 
@@ -203,6 +218,12 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 
 		$surfaces: list.append($surfaces, ".has-#{$background}-background-color", $separator: comma);
 		$chips: list.append($chips, ".has-#{$background}-icon-background-color", $separator: comma);
+	}
+
+	@if $page and map.has-key($pairs, $page) {
+		:root {
+			@include _raised-vars($pairs, $page);
+		}
 	}
 
 	@if list.length($surfaces) > 0 {
@@ -227,6 +248,44 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 				color: initial;
 			}
 		}
+	}
+}
+
+// A pairs map value: the text slug, or a map with `text` (and `raised`).
+@function _pair-text($value) {
+	@if meta.type-of($value) == "map" {
+		@return map.get($value, "text");
+	}
+	@return $value;
+}
+
+@function _pair-raised($value) {
+	@if meta.type-of($value) == "map" {
+		@return map.get($value, "raised");
+	}
+	@return null;
+}
+
+// --kitaris-auto-raised-color and --kitaris-auto-raised-text-color for one
+// background: its raised slug and that slug's own text pair, or a mix of the
+// background and its text colour when it names no raised colour.
+@mixin _raised-vars($pairs, $background) {
+	$value: map.get($pairs, $background);
+	$contrast: _pair-text($value);
+	$raised: _pair-raised($value);
+
+	@if $raised {
+		$raised-value: map.get($pairs, $raised);
+		$raised-text: $contrast;
+		@if $raised-value {
+			$raised-text: _pair-text($raised-value);
+		}
+
+		--kitaris-auto-raised-color: #{preset-color($raised)};
+		--kitaris-auto-raised-text-color: #{preset-color($raised-text)};
+	} @else {
+		--kitaris-auto-raised-color: color-mix(in srgb, #{preset-color($background)} 92%, #{preset-color($contrast)});
+		--kitaris-auto-raised-text-color: #{preset-color($contrast)};
 	}
 }
 
