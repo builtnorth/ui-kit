@@ -35,3 +35,41 @@
 		}
 	}
 }
+
+// A justified grid (is-grid-justify-center / -right): a row that isn't full
+// sits in the middle or on the right. CSS grid can't move a short row (its
+// tracks always fill it), so the grid becomes a wrapping flex row whose items
+// are as wide as the tracks above: the most columns k (up to N) whose
+// --grid-min fits, full width when two don't. That's the smallest of 100% and,
+// for each k, its width plus a step that is 0 when k columns fit and huge when
+// they don't.
+.kitaris-grid:is(.is-grid-justify-center, .is-grid-justify-right) {
+	display: flex;
+	flex-wrap: wrap;
+
+	&.is-grid-justify-center {
+		justify-content: center;
+	}
+
+	&.is-grid-justify-right {
+		justify-content: flex-end;
+	}
+
+	@for $i from 2 through 6 {
+		$candidates: (100%);
+
+		@for $k from 2 through $i {
+			$candidates: append(
+				$candidates,
+				calc((100% - #{$k - 1} * var(--grid-gap)) / #{$k} + clamp(0px, (#{$k} * var(--grid-min) + #{$k - 1} * var(--grid-gap) - 100%) * 100000, 100000px)),
+				$separator: comma
+			);
+		}
+
+		&.kitaris-grid-has-#{$i} > * {
+			box-sizing: border-box;
+			flex: 0 0 min(#{$candidates});
+			min-width: 0;
+		}
+	}
+}
