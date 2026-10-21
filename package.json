@@ -50,7 +50,6 @@
 		"./helpers/media-queries": "./src/scss/helpers/_media-queries.scss",
 		"./layout": "./src/scss/layout/index.scss",
 		"./layout/grid": "./src/scss/layout/_grid.scss",
-		"./layout/columns": "./src/scss/layout/_columns.scss",
 		"./layout/responsive-columns": "./src/scss/layout/_responsive-columns.scss",
 		"./layout/stack-inline": "./src/scss/layout/_stack-inline.scss",
 		"./gutenberg": "./src/scss/gutenberg/index.scss",

@@ -23,38 +23,6 @@
 	);
 }
 
-// Span widths of a .wp-block-kitaris-column (split section's layout, in
-// layout/columns). $important: true makes them beat !important stacking rules.
-@mixin kitaris-column-spans($important: false) {
-	$flag: if($important, " !important", "");
-
-	@for $i from 1 through 12 {
-		&--span-#{$i} {
-			flex: #{$i} #{$i} 0#{$flag};
-			min-width: 0;
-			max-width: column-width($i)#{$flag};
-		}
-	}
-}
-
-@mixin kitaris-columns-stack-row {
-	flex-direction: column !important;
-
-	> .wp-block-kitaris-column,
-	.wp-block-kitaris-column {
-		max-width: 100% !important;
-		width: 100% !important;
-		min-width: 0;
-
-		@for $i from 1 through 12 {
-			&--span-#{$i} {
-				flex: 1 1 100% !important;
-				max-width: 100% !important;
-			}
-		}
-	}
-}
-
 // Span widths of a core column (.wp-block-column.is-span-N / .is-shrink, from
 // the Kitaris column layout extension). $important: true lets
 // core-columns-row beat the stacking rules, which use !important.

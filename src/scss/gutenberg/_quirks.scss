@@ -71,8 +71,8 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
             margin-right: 0;
         }
 
-        // Group and separator fill the content column. Columns does this
-        // itself (layout/_columns.scss) so span math holds in any parent.
+        // Group and separator fill the content column. Columns and split
+        // section fill their parent themselves so span math holds in any parent.
         > .wp-block-group,
         > .wp-block-separator {
             width: 100%;
@@ -173,8 +173,7 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
                     .is-style-subheading,
                     .section-pattern,
                     .background,
-                    .wp-block-kitaris-columns,
-                    .wp-block-kitaris-column,
+                    .wp-block-kitaris-split-section,
                     .wp-block-columns,
                     .wp-block-column,
                     .wp-block-group,
@@ -195,7 +194,7 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
                 .is-style-subheading,
                 .section-pattern,
                 .background,
-                .wp-block-kitaris-columns,
+                .wp-block-kitaris-split-section,
                 .wp-block-columns
             )
         ) {
@@ -300,7 +299,7 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
                 .is-style-subheading,
                 .section-pattern,
                 .wp-block-site-logo,
-                .wp-block-kitaris-columns,
+                .wp-block-kitaris-split-section,
                 .wp-block-columns
             )
         ) {

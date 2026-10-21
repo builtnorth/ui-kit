@@ -108,7 +108,7 @@ For package-specific overrides:
 // Layout
 @use "@siratik/ui-kit/layout" as *;
 @use "@siratik/ui-kit/layout/grid" as grid;
-@use "@siratik/ui-kit/layout/columns" as *;
+@use "@siratik/ui-kit/layout/stack-inline" as *;
 
 // Gutenberg
 @use "@siratik/ui-kit/gutenberg" as *;
