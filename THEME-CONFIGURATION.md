@@ -66,8 +66,9 @@ Buttons are core's Button block (`core/button`). With Kitaris's button variants 
 - **Variant** (Kitaris attribute): Primary (default), Secondary, Tertiary, Text Link
   (`is-variant-*` on `.wp-block-button`).
 
-Colours come from one set of tokens per variant. Every style reads them, at rest, on
-hover, on keyboard focus, and when a clickable card around the button is hovered.
+Colours come from one set of tokens per variant. Fill reads them at rest, on hover, on
+keyboard focus, and when a clickable card around the button is hovered. Outline is core's
+(see below).
 
 | theme.json key | CSS variable | Default without the token |
 |---|---|---|
@@ -96,8 +97,9 @@ text color).
 - **Padding and border are core's.** Fill: `calc(0.667em + 2px) calc(1.333em + 2px)`, no
   border. Outline: a 2px border and `0.667em 1.333em`. Both come out the same size, so don't
   set padding or border width on `elements.button` or the Outline variation; the theme sets
-  only colors, radius (`elements.button.border.radius`) and font. Form buttons (ui-kit
-  `_buttons.scss`) use the same numbers.
+  only colors, radius (`elements.button.border.radius`) and font. Buttons Kitaris renders
+  in PHP (form submits and the like) carry `.wp-element-button`, so they take the same
+  element style.
 
 **Sizes set only the font size.** Core's padding is in **em**, so it scales with each size's
 font size and the sizes always keep the same proportions:
@@ -110,6 +112,46 @@ font size and the sizes always keep the same proportions:
 | `button.icon-gap`, `button.icon-gap-large` | `0.67rem`, `1rem` |
 
 The default size takes its font size from the theme's `elements.button`.
+
+### Setting a theme's button colors
+
+```js
+// theme-config/settings/custom.js (settings.custom)
+button: {
+	primary: {
+		background: "var(--wp--preset--color--primary)",
+		text: "var(--wp--preset--color--primary-contrast)",
+	},
+	secondary: {
+		background: "var(--wp--preset--color--secondary)",
+		text: "var(--wp--preset--color--secondary-contrast)",
+	},
+	tertiary: {
+		background: "var(--wp--preset--color--neutral-2)",
+		text: "var(--wp--preset--color--neutral-2-contrast)",
+	},
+},
+
+// theme-config/styles/elements.js (styles.elements): Primary Fill, rest colors only
+button: {
+	color: {
+		background: "var(--wp--custom--button--primary--background)",
+		text: "var(--wp--custom--button--primary--text)",
+	},
+},
+```
+
+Use palette presets for `background` so inversion works: the variant inverts on
+`.has-{slug}-background-color`, taking `{slug}-contrast` (or `base` ↔ `contrast`) as its fill.
+A `-contrast` color hidden from the editor is fine here: it is the pair, not a choice an
+editor makes. A raw value (`#000`, `currentColor`) still paints but never inverts. In a
+child theme, leave the tokens out to inherit the parent's: theme.json merges them, so a
+child that lists its own replaces the parent's.
+
+The ui-kit SCSS button API (`components/button-mixins`: `button.variant()`,
+`button.invert-on()`, `button.default-style`, the `--kitaris-button-*` variables;
+`components/buttons`; and `kitaris-color-contrast-rules()`) is gone. Move its colors to the
+tokens above and its pairs to `kitaris-text-contrast-rules()` (Card surfaces, below).
 
 ## Card surfaces
 

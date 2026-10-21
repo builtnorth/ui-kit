@@ -18,21 +18,13 @@ background ancestor, not from intermediate wrappers or outer sections.
 // runtime (no string concatenation), so every colour pair has to be listed.
 //
 // ui-kit lists none: palettes belong to themes. A theme declares its own
-// pairs, both directions, with the mixin below:
+// pairs, both directions, with kitaris-text-contrast-rules() below:
 //
 //   @use "@siratik/ui-kit/base/colors" as colors;
-//   @include colors.kitaris-color-contrast-rules((
+//   @include colors.kitaris-text-contrast-rules((
 //     "primary": "primary-contrast",
 //     "primary-contrast": "primary",
 //   ));
-//
-// The maps stay configurable (@use ... with) for a build that wants this
-// module to emit the rules itself.
-$background-contrast-pairs: () !default;
-
-// Surfaces that only need their text (and link) colour set. They skip the
-// icon-chip rules the pairs above get.
-$text-only-contrast-pairs: () !default;
 
 // Optional literal fallback per preset slug.
 $preset-fallbacks: () !default;
@@ -43,133 +35,6 @@ $preset-fallbacks: () !default;
 		@return var(--wp--preset--color--#{$slug}, #{$fallback});
 	}
 	@return var(--wp--preset--color--#{$slug});
-}
-
-// Generates the background/contrast ruleset for one background-contrast map.
-// Elements carrying an icon-chip colour are chips, not surfaces.
-$_not-chip: ':where(:not([class*="-icon-background-color"]))';
-
-@mixin kitaris-color-contrast-rules($pairs, $text-only-pairs: ()) {
-	@each $background, $contrast in $text-only-pairs {
-		.has-#{$background}-background-color {
-			--kitaris-auto-text-color: #{preset-color($contrast)};
-			--kitaris-auto-surface-color: #{preset-color($background)};
-			color: var(--kitaris-auto-text-color);
-		}
-	}
-
-	@each $background, $contrast in $pairs {
-		.has-#{$background}-background-color {
-			--kitaris-auto-text-color: #{preset-color($contrast)};
-			--kitaris-auto-surface-color: #{preset-color($background)};
-			color: var(--kitaris-auto-text-color);
-		}
-
-		// contact-information, social-media, icon: chip colours. Default is the
-		// contrast icon on the preset background; a matching surface inverts it
-		// by setting --kitaris-icon-{bg}-* (below), which the chip inherits.
-		.has-#{$background}-icon-background-color:not([style*="--kitaris-icon-color"]) {
-			--kitaris-icon-color: var(
-				--kitaris-icon-#{$background}-color,
-				#{preset-color($contrast)}
-			);
-			--kitaris-icon-background-color: var(
-				--kitaris-icon-#{$background}-bg,
-				#{preset-color($background)}
-			);
-		}
-
-		// Same-surface: a chip whose bg matches the nearest surface inverts. The
-		// second selector out-ranks the nested-wrapper reset below when the
-		// wrapper is itself this colour. Chips are excluded (:where() adds no
-		// specificity) so a chip never inverts itself.
-		.has-#{$background}-background-color#{$_not-chip},
-		[class*="-background-color"].has-background.has-#{$background}-background-color#{$_not-chip} {
-			--kitaris-icon-#{$background}-color: #{preset-color($background)};
-			--kitaris-icon-#{$background}-bg: #{preset-color($contrast)};
-		}
-	}
-
-	@if list.length(map.keys($pairs)) > 0 {
-		// Nested coloured wrappers drop any inversion inherited from an outer
-		// surface, so chips follow the nearest surface.
-		[class*="-background-color"].has-background#{$_not-chip} {
-			@each $background, $contrast in $pairs {
-				--kitaris-icon-#{$background}-color: initial;
-				--kitaris-icon-#{$background}-bg: initial;
-			}
-		}
-
-		// Chip glyph colour — identical for every pair, so emitted once.
-		$chips: ();
-		@each $background, $contrast in $pairs {
-			$chips: list.append($chips, ".has-#{$background}-icon-background-color", $separator: comma);
-		}
-
-		:is(#{$chips}):not([style*="--kitaris-icon-color"]) svg {
-			color: var(--kitaris-icon-color);
-		}
-	}
-
-	// Link + map rules are identical for every background — emit them once.
-	// :is() takes its most specific argument (one class), so specificity and
-	// matching are unchanged from one copy per background; only size drops.
-	$surfaces: ();
-	@each $background, $contrast in map.merge($pairs, $text-only-pairs) {
-		$surfaces: list.append($surfaces, ".has-#{$background}-background-color", $separator: comma);
-	}
-
-	@if list.length($surfaces) > 0 {
-		// Anchors that are button surfaces set their own colour (filled) or are
-		// handled by the button rule below (outline / text-link). Element buttons
-		// (.wp-element-button, e.g. a store's button links) keep their own.
-		$_button-anchors: ".wp-block-kitaris-button, .wp-block-button__link, .wp-element-button, .form-button, .form__btn-prev, .form__btn-next";
-
-		// Plain links take the surface's contrast colour. (0,1,1): beats theme.json
-		// element link colour, but a link colour the user sets on a block (core's
-		// .wp-elements-* a, printed later) or on the link itself still wins.
-		:is(#{$surfaces}) a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, #{$_button-anchors})) {
-			color: var(--kitaris-auto-text-color);
-		}
-
-		// Outline and text-link buttons take the surface's colors through the
-		// button paint vars (components/_buttons.scss), not `color`, so their
-		// hover and focus states still apply. An outline flips on hover: it
-		// fills with the surface's text color and its text takes the surface
-		// color, whatever the variant.
-		:is(#{$surfaces})
-			a:is(
-				.wp-block-kitaris-button.is-appearance-outline,
-				.wp-block-button.is-style-outline .wp-block-button__link
-			):not([class*="has-background"]):not(.has-text-color):not(.has-link-color) {
-			--_button-fg: var(--kitaris-auto-text-color);
-			--_button-border: var(--kitaris-auto-text-color);
-			--_button-hover-bg: var(--kitaris-auto-text-color);
-			--_button-hover-fg: var(--kitaris-auto-surface-color);
-			--_button-hover-border: var(--kitaris-auto-text-color);
-		}
-
-		:is(#{$surfaces})
-			a.wp-block-kitaris-button.is-style-text-link:not([class*="has-background"]):not(.has-text-color):not(.has-link-color) {
-			--_button-fg: var(--kitaris-auto-text-color);
-			--_button-hover-fg: var(--kitaris-auto-text-color);
-		}
-
-		// Map blocks manage their own text (popups, attribution, controls).
-		// Emitted after the link rule, one class higher, so it wins inside maps.
-		:is(#{$surfaces}) :is(.wp-block-kitaris-map, .wp-block-kitaris-service-area-map) {
-			color: initial;
-			--kitaris-auto-text-color: initial;
-
-			a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, #{$_button-anchors})) {
-				color: initial;
-			}
-
-			.wp-block-kitaris-button.is-style-text-link {
-				color: currentColor;
-			}
-		}
-	}
 }
 
 /// Text contrast and card surfaces for backgrounds picked by hand.
@@ -186,7 +51,7 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 /// of its text colour mixed in.
 ///
 /// Buttons aren't handled here: they read the theme's button tokens, which
-/// kitaris-blocks redefines on a background that matches a variant's colour.
+/// Kitaris redefines on a background that matches a variant's colour.
 ///
 ///   @include colors.kitaris-text-contrast-rules((
 ///     "base": (text: "contrast", raised: "neutral-1"),
@@ -234,7 +99,7 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 		// (0,1,1): beats theme.json element link colour, but a link colour the
 		// user sets on a block (core's .wp-elements-* a, printed later) or on
 		// the link itself still wins. Buttons set their own colours.
-		:is(#{$surfaces}) a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, .wp-element-button, .wp-block-kitaris-button)) {
+		:is(#{$surfaces}) a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, .wp-element-button)) {
 			color: var(--kitaris-auto-text-color);
 		}
 
@@ -244,7 +109,7 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 			color: initial;
 			--kitaris-auto-text-color: initial;
 
-			a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, .wp-element-button, .wp-block-kitaris-button)) {
+			a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, .wp-element-button)) {
 				color: initial;
 			}
 		}
@@ -289,4 +154,3 @@ $_not-chip: ':where(:not([class*="-icon-background-color"]))';
 	}
 }
 
-@include kitaris-color-contrast-rules($background-contrast-pairs, $text-only-contrast-pairs);
