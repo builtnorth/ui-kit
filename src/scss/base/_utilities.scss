@@ -317,7 +317,6 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 
 // Cards.
 :where(
-	.wp-block-kitaris-columns:not(.wp-block-kitaris-split-section),
 	.wp-block-kitaris-column,
 	.wp-block-columns,
 	.wp-block-column,
@@ -357,7 +356,6 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 // 0, as config's $radius-md), so its images are too; a theme that rounds its
 // cards but sets no small radius gets 0.5rem, capped at the tile radius.
 :where(
-	.wp-block-kitaris-columns:not(.wp-block-kitaris-split-section),
 	.wp-block-kitaris-column,
 	.wp-block-columns,
 	.wp-block-column,

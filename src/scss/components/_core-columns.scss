@@ -3,7 +3,7 @@
 
 /* Core Columns with the Kitaris column layout
    (Kitaris blocks.core_extensions.column_layout; only loaded when it's on).
-   Same behavior as Columns + (layout/_columns.scss):
+   Kitaris column layout behavior:
    - span widths (.is-span-1 … .is-span-12, .is-shrink) that add up to 100%
      with the row's gap,
    - stacking on tablet and below (the theme's breakpoints, through Kitaris
@@ -18,8 +18,7 @@
 .wp-block-columns {
 	// A row fills its parent (a flex parent with align-items: flex-start
 	// otherwise shrinks it, and span widths are a percentage of the row).
-	// In a constrained parent a row keeps core's content width (Columns + rows
-	// only escaped it on some pages, depending on stylesheet order).
+	// In a constrained parent a row keeps core's content width.
 	box-sizing: border-box;
 	width: 100%;
 	min-width: 0;

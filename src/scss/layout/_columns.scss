@@ -1,7 +1,11 @@
 @use "../helpers/index" as *;
 @use "./stack-inline" as *;
 
-/* Columns
+/* Split section layout
+   The Columns + block is gone (core/columns took over: components/core-columns).
+   Split section still prints the Columns + classes (.wp-block-kitaris-columns,
+   .wp-block-kitaris-column--span-N), so these rules stay as its layout until
+   it moves too.
 ---------------------------------------- */
 
 .wp-block-kitaris-columns {

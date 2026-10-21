@@ -23,9 +23,8 @@
 	);
 }
 
-// Span widths of a column in a row (on .wp-block-kitaris-column). Columns
-// use it on desktop. $important: true lets kitaris-columns-row beat the
-// tablet stacking rules, which use !important.
+// Span widths of a .wp-block-kitaris-column (split section's layout, in
+// layout/columns). $important: true makes them beat !important stacking rules.
 @mixin kitaris-column-spans($important: false) {
 	$flag: if($important, " !important", "");
 
@@ -35,18 +34,6 @@
 			min-width: 0;
 			max-width: column-width($i)#{$flag};
 		}
-	}
-}
-
-// A row that stays a row whatever the viewport (undoes the tablet stacking),
-// its columns at their span widths. For a row that follows something other
-// than the viewport, such as a mega menu dropdown on desktop.
-@mixin kitaris-columns-row {
-	flex-direction: row !important;
-
-	> .wp-block-kitaris-column {
-		width: auto !important;
-		@include kitaris-column-spans(true);
 	}
 }
 
@@ -89,8 +76,9 @@
 	}
 }
 
-// kitaris-columns-row for core/columns: a row whatever the viewport, auto
-// columns sharing it and spans at their widths.
+// A core/columns row that stays a row whatever the viewport (undoes the
+// stacking), auto columns sharing it and spans at their widths. For a row that
+// follows something other than the viewport, such as a mega menu dropdown.
 @mixin core-columns-row {
 	flex-direction: row !important;
 	flex-wrap: nowrap !important;
@@ -102,7 +90,7 @@
 	}
 }
 
-// kitaris-columns-stack-row for core/columns: one column per line.
+// A core/columns row stacked: one column per line.
 @mixin core-columns-stack-row {
 	flex-direction: column !important;
 
