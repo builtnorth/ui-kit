@@ -1,0 +1,247 @@
+@use "../config" as *;
+@use "../helpers/mixins" as ui;
+
+/* Core Accordion with the Kitaris accordion look
+   (Kitaris blocks.core_extensions.accordion_styles; only loaded when it's on).
+   - The heading keeps the accordion's look, not the theme's heading styles.
+   - The toggle icon is the control chip with a chevron (core draws a "+"
+     glyph; it is hidden and the chevron is drawn on the chip), plus the
+     Chevron Right and Plus/Minus block styles on the accordion.
+   - Rows and panels get the panel padding tokens, sideways too when they
+     have a background or a border color.
+   - A closed panel collapses with a height transition.
+   - An item's border radius is capped while open (.has-radius, with the
+     corners as custom properties, set at render), so a large radius doesn't
+     round the open item into an oval.
+   Selectors carry one more class than core's (or :where() for the defaults
+   a block setting should beat), so they win whatever loads first.
+---------------------------------------- */
+
+%toggle-pseudo {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+// The heading adds no spacing of its own. Its font (the text's, at the title
+// size token) is a block default set by Kitaris (styles a theme can change).
+.wp-block-accordion .wp-block-accordion-heading {
+	margin: 0;
+	padding: 0;
+}
+
+.wp-block-accordion .wp-block-accordion-item {
+	width: 100%;
+	overflow: hidden;
+
+	// Keyboard focus on the title outlines the item: inset, so overflow
+	// hidden doesn't clip it, and it follows the item's rounded corners.
+	// Browsers without :has() keep the title's own outline, inset.
+	@supports selector(:has(*)) {
+
+		&:has(.wp-block-accordion-heading__toggle:focus-visible) {
+			outline: $focus-width solid $focus-color;
+			outline-offset: calc(-1 * #{$focus-width});
+		}
+
+		.wp-block-accordion-heading__toggle:focus-visible {
+			outline: none;
+		}
+	}
+
+	@include ui.hover {
+
+		.wp-block-accordion-heading__toggle-icon {
+			background-color: var(--_toggle-icon-bg-color);
+			border-color: var(--_toggle-icon-border-color);
+		}
+	}
+}
+
+// Open, each corner is capped at about half the title row. !important: the
+// corners are also the item's inline style.
+.wp-block-accordion .wp-block-accordion-item.has-radius.is-open {
+	--_radius-cap: calc(var(--wp--custom--panel--padding-y, 1rem) + 0.625lh);
+	border-top-left-radius: min(var(--kitaris-accordion-item-radius-top-left, 0px), var(--_radius-cap)) !important;
+	border-top-right-radius: min(var(--kitaris-accordion-item-radius-top-right, 0px), var(--_radius-cap)) !important;
+	border-bottom-right-radius: min(var(--kitaris-accordion-item-radius-bottom-right, 0px), var(--_radius-cap)) !important;
+	border-bottom-left-radius: min(var(--kitaris-accordion-item-radius-bottom-left, 0px), var(--_radius-cap)) !important;
+}
+
+.wp-block-accordion .wp-block-accordion-heading__toggle {
+	align-items: flex-start;
+	gap: var(--wp--style--block-gap, 1.5rem);
+	text-align: left;
+
+	&:focus-visible {
+		outline-offset: calc(-1 * #{$focus-width});
+
+		.wp-block-accordion-heading__toggle-icon {
+			background-color: var(--_toggle-icon-bg-color);
+			border-color: var(--_toggle-icon-border-color);
+		}
+	}
+}
+
+// Row and panel padding, over core's (the heading's and panel's own padding
+// settings are inline styles, so they still win).
+.wp-block-accordion .wp-block-accordion-heading__toggle,
+.wp-block-accordion .wp-block-accordion-panel {
+	padding-top: var(--wp--custom--panel--padding-y, 1rem);
+	padding-bottom: var(--wp--custom--panel--padding-y, 1rem);
+}
+
+// Sideways padding with a background or a border color on the row.
+.wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color) .wp-block-accordion-heading__toggle,
+.wp-block-accordion .wp-block-accordion-heading.has-background .wp-block-accordion-heading__toggle,
+.wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color) > .wp-block-accordion-panel,
+.wp-block-accordion .wp-block-accordion-panel.has-background {
+	padding-left: var(--wp--custom--panel--padding-x, 2rem);
+	padding-right: var(--wp--custom--panel--padding-x, 2rem);
+}
+
+// Editor: the panel's add-block button sits in its bottom-right corner, which
+// a rounded item clips (overflow hidden). Move it in by the panel padding.
+.wp-block-accordion .wp-block-accordion-item[style*="radius"] > .wp-block-accordion-panel > .block-list-appender {
+	right: var(--wp--custom--panel--padding-x, 2rem);
+	bottom: var(--wp--custom--panel--padding-y, 1rem);
+}
+
+// The panel sits right under its heading: core's item is a flow layout, so
+// the block gap would otherwise open a strip between them.
+.wp-block-accordion .wp-block-accordion-item > .wp-block-accordion-panel {
+	margin-block-start: 0;
+}
+
+.wp-block-accordion .wp-block-accordion-panel {
+	// A closed panel (hidden="until-found") stays in the layout so find-in-page
+	// can search it; it has no height of its own. The item's overflow clips
+	// the content while the height changes.
+	&[hidden="until-found"] {
+		height: 0;
+	}
+
+	// Opening and closing animate the height (auto needs interpolate-size,
+	// Chrome; elsewhere the panel opens at once). content-visibility stays
+	// visible until the close finishes.
+	@media (prefers-reduced-motion: no-preference) {
+		interpolate-size: allow-keywords;
+		transition:
+			height var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out),
+			padding var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out),
+			content-visibility var(--wp--custom--transition--duration-slow, 300ms) allow-discrete;
+	}
+}
+
+// The control chip. Core's "+" glyph is pushed out of the chip and clipped;
+// the chevron is drawn in its place.
+.wp-block-accordion .wp-block-accordion-heading__toggle-icon {
+	display: block;
+	flex-shrink: 0;
+	box-sizing: border-box;
+	position: relative;
+	overflow: hidden;
+	width: $control-size;
+	height: $control-size;
+	padding: 0;
+	text-indent: 100%;
+	white-space: nowrap;
+	color: $control-color;
+	border: $control-border-width solid transparent;
+	border-radius: $control-radius;
+	background-color: var(--wp--custom--control--background, transparent);
+	// Hover/focus: the inline control tokens, built from the title color so
+	// the tints match the row (incl. has-*-color classes).
+	--_toggle-icon-bg-color: var(--wp--custom--control--background-hover, var(--wp--custom--color--tint, color-mix(in srgb, currentColor 10%, transparent)));
+	--_toggle-icon-border-color: #{$control-border};
+	transition:
+		border var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out),
+		background-color var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out);
+
+	&::before {
+		@extend %toggle-pseudo;
+		// A rotated square: its diagonal (side × √2) spans the control icon size.
+		width: calc(#{$control-icon-size} * 0.71);
+		height: calc(#{$control-icon-size} * 0.71);
+		border-right: $control-icon-stroke solid currentcolor;
+		border-bottom: $control-icon-stroke solid currentcolor;
+		transform: translate(-50%, -75%) rotate(45deg);
+
+		@media (prefers-reduced-motion: no-preference) {
+			transition: transform var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out);
+		}
+	}
+}
+
+// The chip doesn't turn (core rotates its "+"); the chevron does.
+.wp-block-accordion .wp-block-accordion-item.is-open > .wp-block-accordion-heading .wp-block-accordion-heading__toggle-icon {
+	transform: none;
+
+	&::before {
+		transform: translate(-50%, -25%) rotate(-135deg);
+	}
+}
+
+/* Block styles
+---------------------------------------- */
+
+.wp-block-accordion.is-style-chevron-right {
+
+	.wp-block-accordion-heading__toggle-icon::before {
+		transform: translate(-75%, -50%) rotate(-45deg);
+	}
+
+	.wp-block-accordion-item.is-open > .wp-block-accordion-heading .wp-block-accordion-heading__toggle-icon::before {
+		transform: translate(-25%, -50%) rotate(45deg);
+		top: 43%;
+		left: 43%;
+	}
+}
+
+.wp-block-accordion.is-style-plus-minus {
+
+	.wp-block-accordion-heading__toggle-icon {
+
+		&::before,
+		&::after {
+			@extend %toggle-pseudo;
+			border: none;
+			background-color: currentcolor;
+
+			// Forced colors drop backgrounds: keep the bars in the (already
+			// forced) text color.
+			@media (forced-colors: active) {
+				forced-color-adjust: none;
+			}
+		}
+
+		&::before {
+			width: $control-icon-size;
+			height: $control-icon-stroke;
+			transform: translate(-50%, -50%);
+		}
+
+		&::after {
+			width: $control-icon-stroke;
+			height: $control-icon-size;
+			transform: translate(-50%, -50%);
+
+			@media (prefers-reduced-motion: no-preference) {
+				transition: transform var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out);
+			}
+		}
+	}
+
+	.wp-block-accordion-item.is-open > .wp-block-accordion-heading .wp-block-accordion-heading__toggle-icon {
+
+		&::before {
+			transform: translate(-50%, -50%);
+			opacity: 0;
+		}
+
+		&::after {
+			transform: translate(-50%, -50%) rotate(90deg);
+		}
+	}
+}
