@@ -1,0 +1,141 @@
+@use "../helpers/index" as *;
+@use "../layout/stack-inline" as *;
+
+/* Core Columns with the Kitaris column layout
+   (Kitaris blocks.core_extensions.column_layout; only loaded when it's on).
+   Same behavior as Columns + (layout/_columns.scss):
+   - span widths (.is-span-1 … .is-span-12, .is-shrink) that add up to 100%
+     with the row's gap,
+   - stacking on tablet and below (the theme's breakpoints, through Kitaris
+     viewport styles) instead of core's fixed 781px,
+   - on tablet, narrow spans and rows of 4+ equal columns go two- or three-up.
+   - justification of columns that don't fill the row (.is-content-justification-*).
+   "Stack on mobile" off (.is-not-stacked-on-mobile) keeps a row a row.
+   Selectors carry one more class than core's column rules (0,3,0), so the
+   spans win whatever loads first.
+---------------------------------------- */
+
+// Span widths on a .wp-block-column.
+@mixin core-column-spans {
+	&.is-shrink {
+		flex: 0 0 auto;
+		width: auto;
+		max-width: 100%;
+	}
+
+	@for $i from 1 through 12 {
+		&.is-span-#{$i} {
+			flex: #{$i} #{$i} 0;
+			min-width: 0;
+			max-width: column-width($i);
+		}
+	}
+}
+
+@mixin core-columns-stack {
+	flex-direction: column !important;
+
+	> .wp-block-column {
+		flex-basis: auto !important;
+		width: 100% !important;
+		max-width: 100% !important;
+		min-width: 0;
+	}
+}
+
+.wp-block-columns {
+	// A row fills its parent (a flex parent with align-items: flex-start
+	// otherwise shrinks it, and span widths are a percentage of the row).
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+
+	// The gap between columns: this row's Block spacing (--kitaris-columns-gap,
+	// set at render and in the editor), else the column-gap token, else the
+	// theme's block spacing. The span widths read the same value.
+	& {
+		--_columns-gap: var(
+			--kitaris-columns-gap,
+			var(--wp--custom--spacing--column-gap, var(--wp--style--block-gap, 2em))
+		);
+		column-gap: var(--_columns-gap);
+	}
+
+	// Where columns that don't fill the row sit (kitarisJustify).
+	&.is-content-justification-center {
+		justify-content: center;
+	}
+
+	&.is-content-justification-right {
+		justify-content: flex-end;
+	}
+
+	&.is-content-justification-space-between {
+		justify-content: space-between;
+	}
+
+	&.is-not-stacked-on-mobile > .wp-block-column {
+		@include core-column-spans;
+	}
+
+	/* Container for a nested row inside this column. */
+	> .wp-block-column:has(> .wp-block-columns) {
+		container-type: inline-size;
+		container-name: kitaris-column;
+	}
+}
+
+@include viewport-desktop() {
+	.wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+		@include core-column-spans;
+	}
+}
+
+@include viewport-tablet-down() {
+	.wp-block-columns:not(.is-not-stacked-on-mobile) {
+		@include core-columns-stack;
+	}
+}
+
+/* Tablet: a row of only quarters (span-3) and sixths (span-2) goes two- or
+   three-up: quarters take half the row, sixths a third; one left alone on its
+   line fills it. A row that mixes in wider columns stacks. Rows of four or more equal-width
+   columns show half as many per row, rounded up (4 → 2, 6 → 3). Top-level
+   rows only: nested rows follow their parent column's container rule. */
+@include viewport-tablet() {
+	.wp-block-columns:not(.is-not-stacked-on-mobile):not(.wp-block-column > *) {
+		&:has(> .wp-block-column.is-span-2, > .wp-block-column.is-span-3):not(:has(> .wp-block-column:not(.is-span-2, .is-span-3))) {
+			flex-direction: row !important;
+			flex-wrap: wrap !important;
+
+			> .wp-block-column.is-span-3 {
+				flex: 1 1 calc((100% - var(--_columns-gap)) / 2) !important;
+			}
+
+			> .wp-block-column.is-span-2 {
+				flex: 1 1 calc((100% - 2 * var(--_columns-gap)) / 3) !important;
+			}
+		}
+
+		// $k per row for rows of 2$k - 1 to 2$k equal-width columns (4 at least).
+		@for $k from 2 through 6 {
+			$fewest: if($k == 2, 4, 2 * $k - 1);
+
+			&:has(> :nth-child(#{$fewest} of .wp-block-column)):not(:has(> :nth-child(#{2 * $k + 1} of .wp-block-column))):not(:has(> .wp-block-column:is(.is-shrink, [class*="is-span-"], [style*="flex-basis"]))) {
+				flex-direction: row !important;
+				flex-wrap: wrap !important;
+
+				> .wp-block-column {
+					flex: 0 0 calc((100% - #{$k - 1} * var(--_columns-gap)) / #{$k}) !important;
+				}
+			}
+		}
+	}
+}
+
+/* Nested row: stacks when its parent column is narrow. */
+@container kitaris-column (max-width: #{$columns-stack-container-max}) {
+	.wp-block-column > .wp-block-columns:not(.is-not-stacked-on-mobile) {
+		@include core-columns-stack;
+	}
+}

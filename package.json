@@ -32,6 +32,7 @@
 		"./components": "./src/scss/components/index.scss",
 		"./components/surfaces": "./src/scss/components/_surfaces.scss",
 		"./components/core-buttons": "./src/scss/components/_core-buttons.scss",
+		"./components/core-columns": "./src/scss/components/_core-columns.scss",
 		"./components/slider": "./src/scss/components/_slider.scss",
 		"./components/lightbox": "./src/scss/components/_lightbox.scss",
 		"./components/navigation": "./src/scss/components/_navigation.scss",
