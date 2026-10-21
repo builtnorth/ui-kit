@@ -142,10 +142,35 @@ $_link: ".wp-block-button__link";
     }
 }
 
-// Text Link: looks like a link, no button padding at the sides.
+// Text Link: a link with a little more presence. Medium weight, no button
+// padding at the sides, and a soft underline (40% of the text colour) that
+// goes full colour and 2px on hover and keyboard focus. Text colour only, so
+// it works on any background.
 .wp-block-button.is-variant-text-link:not(.is-style-outline) > #{$_link} {
-    text-decoration: underline;
     padding-inline: 0;
+    font-weight: var(--wp--custom--font-weight--medium, 500);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+
+    @include helpers.hover($focus: true) {
+        text-decoration-color: currentColor;
+        text-decoration-thickness: 2px;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        :where(.is-accessible-card:hover) & {
+            text-decoration-color: currentColor;
+            text-decoration-thickness: 2px;
+        }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition:
+            text-decoration-color var(--wp--custom--transition--duration-fast, 150ms) ease,
+            text-decoration-thickness var(--wp--custom--transition--duration-fast, 150ms) ease;
+    }
 }
 
 // Sizes: font size only.

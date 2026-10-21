@@ -86,7 +86,8 @@ text color).
 - **Outline**, as core's: the surrounding text color as text and border, no fill, so it
   contrasts with any background. The variant doesn't change it. On hover (and keyboard focus)
   it takes a light tint of the text color.
-- **Text Link** is a link: the surrounding text color (or its tokens), underlined, no fill,
+- **Text Link** is a link: the surrounding text color (or its tokens), medium weight, a soft
+  underline (40% of the text color) that goes full color and 2px on hover and focus, no fill,
   border or side padding. Like every variant it applies to Fill; an Outline button is an
   outline whatever its variant.
 - **On a background of a variant's own color** the variant inverts automatically: Kitaris
