@@ -50,8 +50,7 @@ Default Image Placeholder (core image inside a Kitaris block)
 /*
 Featured Image Placeholder
 ------------------------------------- */
-.wp-block-post-featured-image:where(#{$_kitaris}),
-.wp-block-kitaris-featured-image {
+.wp-block-post-featured-image:where(#{$_kitaris}) {
 	.components-placeholder.has-illustration {
 		aspect-ratio: unset;
 		width: auto;

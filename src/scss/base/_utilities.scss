@@ -370,8 +370,8 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 		calc(var(--wp--custom--border-radius--tile, 0px) - var(--wp--custom--card--padding, 2rem))
 	);
 
-	:is(.wp-block-kitaris-featured-image, .wp-block-post-featured-image),
-	:where(.wp-block-image, .wp-block-kitaris-featured-image, .wp-block-post-featured-image) img {
+	.wp-block-post-featured-image,
+	:where(.wp-block-image, .wp-block-post-featured-image) img {
 		border-radius: var(--kitaris-nested-radius);
 	}
 }
