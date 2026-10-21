@@ -34,16 +34,17 @@
 		}
 	}
 
-	/* Tablet: narrow columns go two- or three-up before stacking on mobile.
-	   Quarters (span-3) take half the row and sixths (span-2) a third; one left
-	   alone on its line fills it. Rows of four or more equal-width columns show
+	/* Tablet: a row of only narrow columns goes two- or three-up before
+	   stacking on mobile. Quarters (span-3) take half the row and sixths
+	   (span-2) a third; one left alone on its line fills it. A row that mixes
+	   in wider columns stacks. Rows of four or more equal-width columns show
 	   half as many per row, rounded up (4 → 2, 6 → 3, 8 → 4). Wider spans
 	   stack as on mobile. Top-level rows only: nested rows keep their parent
 	   column's container rule. Columns are counted with `of` so the editor's
 	   appender isn't one. */
 	&:not(.has-viewport-layout):not(.wp-block-kitaris-column > *) {
 		@include viewport-tablet() {
-			&:has(> .wp-block-kitaris-column--span-2, > .wp-block-kitaris-column--span-3) {
+			&:has(> .wp-block-kitaris-column--span-2, > .wp-block-kitaris-column--span-3):not(:has(> .wp-block-kitaris-column:not(.wp-block-kitaris-column--span-2, .wp-block-kitaris-column--span-3))) {
 				flex-direction: row !important;
 				flex-wrap: wrap !important;
 
