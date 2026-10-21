@@ -309,8 +309,8 @@ Classes to quickly add utility styles to your components.
   ------------------------------------------------------------------
   One class of specificity: theme.json per-block padding (printed later) and
   padding set on the block win. Blocks that keep an image flush (image card,
-  gallery) or pad their own parts (timeline item, accordion, tabs) do it in
-  their own styles.
+  gallery) or pad their own parts (timeline item, accordion) do it in their
+  own styles.
   ------------------------------------------------------------------*/
 
 $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='border-top-width'], [style*='border-right-width'], [style*='border-bottom-width'], [style*='border-left-width']";
@@ -381,7 +381,8 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 	.wp-block-kitaris-form,
 	.wp-block-kitaris-query-filters,
 	.wp-block-kitaris-business-hours,
-	.wp-block-kitaris-review-overview
+	.wp-block-kitaris-review-overview,
+	.wp-block-tab-panel
 ):is(#{$_boxed}) {
 	padding: var(--wp--custom--panel--padding-y, 1rem) var(--wp--custom--panel--padding-x, 2rem);
 }

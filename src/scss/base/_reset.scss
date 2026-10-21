@@ -96,7 +96,9 @@ third-party rule on the same element wins, whatever the load order.
     touch-action: manipulation;
 }
 
-:where(button) {
+// Core's tab buttons are left out: core gives them their padding at the
+// same (zero) specificity, which this reset would otherwise remove.
+:where(button:not(.wp-block-tab-list > button)) {
     background: none;
     color: inherit;
     border: none;
