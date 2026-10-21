@@ -61,8 +61,8 @@ core and the theme.
 
 Kitaris buttons have two settings, as in core:
 
-- **Style** (block style): Fill (default), Outline, Text Link (`is-style-*`).
-- **Variant** (block attribute): Primary (default), Secondary, Tertiary
+- **Style** (block style): Fill (default), Outline (`is-style-*`).
+- **Variant** (block attribute): Primary (default), Secondary, Tertiary, Text Link
   (`is-variant-*`).
 
 Colours come from one set of tokens per variant. Every style reads them, at rest, on
@@ -75,26 +75,39 @@ hover, on keyboard focus, and when a clickable card around the button is hovered
 | `button.{variant}.hover-background` | `--wp--custom--button--{variant}--hover-background` | The variant's `text` (fill and text swap). Tertiary: 20% of the text color |
 | `button.{variant}.hover-text` | `--wp--custom--button--{variant}--hover-text` | The variant's `background` |
 
-`{variant}` is `primary`, `secondary` or `tertiary`.
+`{variant}` is `primary`, `secondary` or `tertiary`. Text Link has only
+`button.text-link.text` and `button.text-link.hover-text` (both default to the surrounding
+text color).
 
 - **Primary Fill is the theme's button element style** (`styles.elements.button`), so it
   matches core Buttons. Point `elements.button` (and its `:hover`) at the Primary
   tokens. Without tokens, a Primary Fill button looks like the theme's own buttons.
-- **Outline** uses the variant's `background` as its text and border, and fills with the
-  variant on hover.
-- **Text Link** takes the surrounding text color and is underlined.
-- **To recolor buttons in one place,** redefine the tokens there. A section style does it
-  in its `css`, e.g. `"css": "--wp--custom--button--primary--background:
-  var(--wp--preset--color--base);"`. Buttons inherit the tokens, so nothing has to outrank
-  the button styles.
+- **Outline**, as core's: the surrounding text color as text and border, no fill, so it
+  contrasts with any background. The variant doesn't change it. On hover it takes a light
+  tint of the text color.
+- **Text Link** is a link: the surrounding text color (or its tokens), underlined, no fill,
+  border or side padding. Like every variant it applies to Fill; an Outline button is an
+  outline whatever its variant.
+- **On a background of a variant's own color** the variant inverts automatically: kitaris-blocks
+  redefines its tokens there from the palette pairs. Buttons inherit the tokens, so nothing
+  has to outrank the button styles.
 - **Border width, radius, padding and font** stay with the theme: `elements.button`, the
   size tokens below, and `styles.blocks["kitaris/button"]`. Outline sets its own border
   width from `border-width.tiny` (else `1px`).
 
-Sizes: `button.padding-y`, `padding-x`, the `-small` / `-large` versions of both,
-`font-size-small`, `font-size-large`, `icon-size-default` (also `-small` and `-large`),
-`icon-gap` and `icon-gap-large`. The default size takes its font size from the theme's
-`elements.button`.
+**Sizes set only the font size.** Padding is `button.padding-y` / `padding-x` in **em**, used
+by the theme's `elements.button`, so it scales with each size's font size and the sizes
+always keep the same proportions:
+
+| theme.json key | Default |
+|---|---|
+| `button.padding-y`, `button.padding-x` | In em, e.g. `0.4em`, `0.8em` (set in `elements.button`) |
+| `button.font-size-small` | `0.875em` |
+| `button.font-size-large` | `1.25em` |
+| `button.icon-size-default` (also `-small`, `-large`) | `1.2em` |
+| `button.icon-gap`, `button.icon-gap-large` | `0.67rem`, `1rem` |
+
+The default size takes its font size from the theme's `elements.button`.
 
 ## Card surfaces
 

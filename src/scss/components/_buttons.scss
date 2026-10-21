@@ -12,9 +12,10 @@
  * the theme's theme.json, as in core.
  *
  * Two settings, as in core:
- * - Style (block style): Fill (default), Outline, Text Link (is-style-*).
- * - Variant (attribute): Primary (default), Secondary, Tertiary
- *   (is-variant-*).
+ * - Style (block style): Fill (default), Outline (is-style-*).
+ * - Variant (attribute): Primary (default), Secondary, Tertiary, Text Link
+ *   (is-variant-*). The variant applies to Fill; Outline is the surrounding
+ *   text colour whatever the variant.
  *
  * Colours come from the theme's button tokens,
  * settings.custom.button.{variant}.{background, text, hover-background,
@@ -28,9 +29,9 @@
  * buttons. Every other variant and style is painted below, colours only.
  * Border width, radius, padding and font stay with the theme.
  *
- * Padding reads --wp--custom--button--padding-y / padding-x
- * (theme.json settings.custom.button). Optional: padding-y-small / padding-x-small
- * (and -large).
+ * Padding is the theme's (elements.button), in em from the padding tokens
+ * --wp--custom--button--padding-y / -x, so every size scales with its font
+ * size. Sizes set only the font size.
  *
  * Structure:
  * 1. Button containers
@@ -113,21 +114,13 @@ $_button-press-duration: 160ms;
 // ==========================================================================
 @include button-surfaces {
     // The default size sets no font size: the button keeps the theme's own
-    // (a theme's default-style mixin sets it from the button tokens).
-    // Text links take the surrounding font size unless a size is chosen
-    // (the size rules below come later and win).
-    &.is-style-text-link {
-        font-size: inherit;
-    }
+    // (elements.button). Every variant, Text Link included, keeps the size.
 
+    // A size sets the font size only. Padding is in em (the theme's button
+    // element style, from the padding tokens), so it scales with it.
     &.is-size-small {
         --kitaris-icon-size: var(--wp--custom--button--icon-size-small, var(--wp--custom--button--icon-size-default, 1.2em));
         --_button-block-gap: var(--wp--custom--inline-gap, 0.5rem);
-        padding: var(
-                --wp--custom--button--padding-y-small,
-                calc(#{$pad-y} / 1.5)
-            )
-            var(--wp--custom--button--padding-x-small, calc(#{$pad-x} / 2));
         font-size: var(--wp--custom--button--font-size-small, 0.875em);
 
         .wp-block-kitaris-icon {
@@ -138,11 +131,6 @@ $_button-press-duration: 160ms;
     &.is-size-large {
         --kitaris-icon-size: var(--wp--custom--button--icon-size-large, var(--wp--custom--button--icon-size-default, 1.2em));
         --_button-block-gap: var(--wp--custom--button--icon-gap-large, 1rem);
-        padding: var(
-                --wp--custom--button--padding-y-large,
-                calc(#{$pad-y} * 1.5)
-            )
-            var(--wp--custom--button--padding-x-large, calc(#{$pad-x} * 1.5));
         font-size: var(--wp--custom--button--font-size-large, 1.25em);
 
         .wp-block-kitaris-icon {
@@ -158,8 +146,7 @@ $_button-press-duration: 160ms;
 // fallbacks stay readable on any background: a fill takes the surface's text
 // and background colours (set by the contrast rules on a hand-picked
 // background, else the system colours). It never uses currentColor, because
-// the paint rule below changes the button's own colour. An outline keeps the
-// surrounding text colour and tints on hover.
+// the paint rule below changes the button's own colour.
 $_tint: color-mix(in srgb, currentColor 10%, transparent);
 $_tint-hover: color-mix(in srgb, currentColor 20%, transparent);
 $_surface-text: var(--kitaris-auto-text-color, CanvasText);
@@ -172,23 +159,16 @@ $_surface-bg: var(--kitaris-auto-surface-color, Canvas);
     @return (
         "bg": var(#{$bg}, #{$_surface-text}),
         "fg": var(#{$fg}, #{$_surface-bg}),
-        "accent": var(#{$bg}, currentColor),
-        "outline-hover-bg": var(#{$bg}, #{$_tint}),
-        "outline-hover-fg": var(#{$fg}, currentColor),
     );
 }
 
 $_variant-tokens: (
     "primary": _solid-variant("primary"),
     "secondary": _solid-variant("secondary"),
-    // A tint fill: its outline and outline text use the text colour, and both
-    // fill and outline get a stronger tint on hover rather than a swap.
+    // A tint fill: a stronger tint on hover rather than a swap.
     "tertiary": (
         "bg": var(--wp--custom--button--tertiary--background, #{$_tint}),
         "fg": var(--wp--custom--button--tertiary--text, currentColor),
-        "accent": var(--wp--custom--button--tertiary--text, currentColor),
-        "outline-hover-bg": #{$_tint},
-        "outline-hover-fg": currentColor,
     ),
 );
 
@@ -224,31 +204,33 @@ $_variant-tokens: (
     --_button-hover-border: var(--_button-v-hover-bg);
 }
 
-// Outline: the variant's colour as text and border. On hover it fills with
-// the variant (a tint without tokens).
+// Outline, as core's: the surrounding text colour as text and border, no
+// fill, so it contrasts with any background. The variant doesn't change it.
+// Hover: a light tint of the text colour (core leaves hover to the theme).
 :where(.wp-block-kitaris-button.is-style-outline) {
     --_button-bg: transparent;
-    --_button-fg: var(--_button-v-accent);
-    --_button-border: var(--_button-v-accent);
-    --_button-hover-bg: var(--_button-v-outline-hover-bg);
-    --_button-hover-fg: var(--_button-v-outline-hover-fg);
-    --_button-hover-border: var(--_button-v-accent);
+    --_button-fg: currentColor;
+    --_button-border: currentColor;
+    --_button-hover-bg: #{$_tint};
+    --_button-hover-fg: currentColor;
+    --_button-hover-border: currentColor;
 }
 
-// Text Link: the surrounding text colour, no fill or border.
-:where(.wp-block-kitaris-button.is-style-text-link) {
+// Text Link: the surrounding text colour (or its tokens), no fill or border.
+// Fill only: Outline ignores the variant, Text Link included.
+:where(.wp-block-kitaris-button.is-variant-text-link:not(.is-style-outline)) {
     --_button-bg: transparent;
-    --_button-fg: currentColor;
+    --_button-fg: var(--wp--custom--button--text-link--text, currentColor);
     --_button-border: transparent;
     --_button-hover-bg: transparent;
-    --_button-hover-fg: currentColor;
+    --_button-hover-fg: var(--wp--custom--button--text-link--hover-text, var(--wp--custom--button--text-link--text, currentColor));
     --_button-hover-border: transparent;
 }
 
 // (0,2,0): above the theme's button element style (0,1,0). Primary Fill
 // isn't listed, so it keeps the theme's own. Hover covers keyboard focus and a
 // hovered clickable card (.is-accessible-card) too.
-.wp-block-kitaris-button:is(.is-variant-secondary, .is-variant-tertiary, .is-style-outline, .is-style-text-link) {
+.wp-block-kitaris-button:is(.is-variant-secondary, .is-variant-tertiary, .is-variant-text-link, .is-style-outline) {
     text-decoration: none;
     background-color: var(--_button-bg);
     color: var(--_button-fg);
@@ -281,9 +263,9 @@ $_variant-tokens: (
 // Looks like a link: underlined, no button padding at the sides. After the
 // size rules, so it wins at the same specificity. Hover is left to the theme;
 // spacing comes from the Buttons gap.
-.wp-block-kitaris-button.is-style-text-link {
+.wp-block-kitaris-button.is-variant-text-link:not(.is-style-outline) {
     text-decoration: underline;
-    padding: $pad-y 0;
+    padding-inline: 0;
 }
 
 // ==========================================================================
