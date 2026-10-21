@@ -1,0 +1,25 @@
+/* Core Icon with the Kitaris icon styles
+   (Kitaris blocks.core_extensions.icon; only loaded when it's on).
+   - No width set: the theme's medium icon size. Core's own rule makes the
+     svg 100% wide. The size presets (theme.json dimensionSizes on core/icon)
+     and a custom width are inline styles, so they win.
+   - Background chip: the chip is the chosen width; the glyph inside scales by
+     --wp--custom--icon--background-ratio, so the space around it grows with
+     the icon at every size. The chip's glyph colour comes from the
+     background's pair (base/_colors.scss), like any picked background.
+   Scaling uses `scale`, not the shapes' own transform; no registered icon has
+   a transform attribute (core's, Kitaris's and the themes' collections). */
+
+.wp-block-icon > svg {
+	width: var(--wp--custom--icon--size--medium, 2.75rem);
+}
+
+.wp-block-icon > svg.has-background {
+	border-radius: var(--wp--custom--border-radius--icon, 0);
+
+	> * {
+		transform-box: view-box;
+		transform-origin: center;
+		scale: var(--wp--custom--icon--background-ratio, 0.6);
+	}
+}
