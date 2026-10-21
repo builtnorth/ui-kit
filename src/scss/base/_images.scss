@@ -6,3 +6,18 @@
 [class*="__figure"] {
     position: relative;
 }
+
+// Core's featured image puts its width on the img inside a full-width
+// figure, so a narrower image follows the block's alignment here. Auto
+// margins need a block-level img.
+.wp-block-post-featured-image:is(.aligncenter, .alignright) img {
+    display: block;
+}
+
+.wp-block-post-featured-image.aligncenter img {
+    margin-inline: auto;
+}
+
+.wp-block-post-featured-image.alignright img {
+    margin-inline-start: auto;
+}
