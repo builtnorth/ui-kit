@@ -34,6 +34,7 @@
 		"./components/core-buttons": "./src/scss/components/_core-buttons.scss",
 		"./components/core-columns": "./src/scss/components/_core-columns.scss",
 		"./components/core-accordion": "./src/scss/components/_core-accordion.scss",
+		"./components/core-tabs": "./src/scss/components/_core-tabs.scss",
 		"./components/core-icon": "./src/scss/components/_core-icon.scss",
 		"./components/slider": "./src/scss/components/_slider.scss",
 		"./components/lightbox": "./src/scss/components/_lightbox.scss",

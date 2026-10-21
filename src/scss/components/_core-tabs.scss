@@ -1,0 +1,60 @@
+/* Core Tabs with the Kitaris tab styles
+   (Kitaris blocks.core_extensions.tabs_styles; only loaded when it's on).
+   - Tab buttons take the button padding tokens (the tab list's own padding
+     setting is an inline style on each button, so it wins). The gap between
+     them is a block default on core/tab-list (inline gap).
+   - Modern (the default style) is core's own layout: the block gap between
+     the tab list and the panels; a panel without a background or border has
+     no padding of its own.
+   - Classic (is-style-classic): the tabs sit on the panel. No gap between
+     the tab list and the panels, square bottom corners on the buttons and a
+     square top-left corner on the panels; a panel without a background or
+     border keeps the panel's top and bottom padding off the tabs.
+   - A panel with a background or border takes the panel padding (ui-kit base
+     utilities) and the panels' corners (border-radius: inherit); so does a
+     panel inside a tab panels wrapper with a background or border.
+   Selectors carry one more class than core's, so they win whatever loads
+   first; !important only where core's own markup carries the value inline
+   (the tab list's radius on each button).
+---------------------------------------- */
+
+$_boxed: ".has-background, .has-border-color, [style*='border-width']";
+
+.wp-block-tabs .wp-block-tab-list button {
+	padding: var(--wp--custom--button--padding-y, 0.67rem) var(--wp--custom--button--padding-x, 1rem);
+}
+
+// A colored panel fills the panels' rounded corners.
+.wp-block-tabs .wp-block-tab-panel {
+	border-radius: inherit;
+}
+
+/* Classic
+---------------------------------------- */
+
+.wp-block-tabs.is-style-classic {
+
+	> .wp-block-tab-panels {
+		margin-block-start: 0;
+	}
+
+	.wp-block-tab-list button {
+		border-bottom-left-radius: 0 !important;
+		border-bottom-right-radius: 0 !important;
+	}
+
+	.wp-block-tab-panels {
+		border-top-left-radius: 0;
+	}
+
+	.wp-block-tab-panel:not(#{$_boxed}) {
+		padding-top: var(--wp--custom--panel--padding-y, 1rem);
+		padding-bottom: var(--wp--custom--panel--padding-y, 1rem);
+	}
+}
+
+// A background or border on the tab panels wrapper (where core puts the
+// panels' border): its panels take the panel padding, as a colored panel does.
+.wp-block-tabs .wp-block-tab-panels:is(#{$_boxed}) > .wp-block-tab-panel {
+	padding: var(--wp--custom--panel--padding-y, 1rem) var(--wp--custom--panel--padding-x, 2rem);
+}
