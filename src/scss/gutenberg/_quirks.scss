@@ -86,7 +86,7 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
         // (buttons, icons, counters) are left out: they centre as boxes.
         > :where(
             :has(> .kitaris-carousel),
-            .wp-block-kitaris-accordion,
+            .wp-block-accordion,
             .wp-block-kitaris-business-hours,
             .wp-block-kitaris-coded-graphic,
             .wp-block-kitaris-comparison-table,
@@ -95,8 +95,8 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
             .wp-block-kitaris-logos,
             .wp-block-kitaris-map,
             .wp-block-kitaris-price-card,
-            .wp-block-kitaris-tabs,
-            .wp-block-kitaris-timeline
+            .wp-block-kitaris-timeline,
+            .wp-block-tabs
         ) {
             align-self: stretch;
         }
