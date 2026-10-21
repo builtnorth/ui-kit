@@ -175,6 +175,8 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
                     .background,
                     .wp-block-kitaris-columns,
                     .wp-block-kitaris-column,
+                    .wp-block-columns,
+                    .wp-block-column,
                     .wp-block-group,
                     .wp-block-separator
                 )
@@ -193,7 +195,8 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
                 .is-style-subheading,
                 .section-pattern,
                 .background,
-                .wp-block-kitaris-columns
+                .wp-block-kitaris-columns,
+                .wp-block-columns
             )
         ) {
             box-sizing: border-box;
@@ -297,7 +300,8 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
                 .is-style-subheading,
                 .section-pattern,
                 .wp-block-site-logo,
-                .wp-block-kitaris-columns
+                .wp-block-kitaris-columns,
+                .wp-block-columns
             )
         ) {
             box-sizing: border-box;

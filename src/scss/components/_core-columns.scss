@@ -15,37 +15,11 @@
    spans win whatever loads first.
 ---------------------------------------- */
 
-// Span widths on a .wp-block-column.
-@mixin core-column-spans {
-	&.is-shrink {
-		flex: 0 0 auto;
-		width: auto;
-		max-width: 100%;
-	}
-
-	@for $i from 1 through 12 {
-		&.is-span-#{$i} {
-			flex: #{$i} #{$i} 0;
-			min-width: 0;
-			max-width: column-width($i);
-		}
-	}
-}
-
-@mixin core-columns-stack {
-	flex-direction: column !important;
-
-	> .wp-block-column {
-		flex-basis: auto !important;
-		width: 100% !important;
-		max-width: 100% !important;
-		min-width: 0;
-	}
-}
-
 .wp-block-columns {
 	// A row fills its parent (a flex parent with align-items: flex-start
 	// otherwise shrinks it, and span widths are a percentage of the row).
+	// In a constrained parent a row keeps core's content width (Columns + rows
+	// only escaped it on some pages, depending on stylesheet order).
 	box-sizing: border-box;
 	width: 100%;
 	min-width: 0;
@@ -78,8 +52,9 @@
 		@include core-column-spans;
 	}
 
-	/* Container for a nested row inside this column. */
-	> .wp-block-column:has(> .wp-block-columns) {
+	/* Container for a nested row (and form content) inside this column. */
+	> .wp-block-column:has(> .wp-block-columns),
+	> .wp-block-column:has(.form__content) {
 		container-type: inline-size;
 		container-name: kitaris-column;
 	}
@@ -93,7 +68,7 @@
 
 @include viewport-tablet-down() {
 	.wp-block-columns:not(.is-not-stacked-on-mobile) {
-		@include core-columns-stack;
+		@include core-columns-stack-row;
 	}
 }
 
@@ -136,6 +111,6 @@
 /* Nested row: stacks when its parent column is narrow. */
 @container kitaris-column (max-width: #{$columns-stack-container-max}) {
 	.wp-block-column > .wp-block-columns:not(.is-not-stacked-on-mobile) {
-		@include core-columns-stack;
+		@include core-columns-stack-row;
 	}
 }

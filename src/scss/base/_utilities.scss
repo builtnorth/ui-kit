@@ -319,6 +319,8 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 :where(
 	.wp-block-kitaris-columns:not(.wp-block-kitaris-split-section),
 	.wp-block-kitaris-column,
+	.wp-block-columns,
+	.wp-block-column,
 	.wp-block-kitaris-price-card,
 	.wp-block-kitaris-contact-information,
 	.wp-block-kitaris-icon-card,
@@ -357,6 +359,8 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 :where(
 	.wp-block-kitaris-columns:not(.wp-block-kitaris-split-section),
 	.wp-block-kitaris-column,
+	.wp-block-columns,
+	.wp-block-column,
 	.wp-block-kitaris-price-card,
 	.wp-block-kitaris-icon-card,
 	.wp-block-kitaris-feature,

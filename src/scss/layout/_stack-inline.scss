@@ -68,6 +68,52 @@
 	}
 }
 
+// Span widths of a core column (.wp-block-column.is-span-N / .is-shrink, from
+// the Kitaris column layout extension). $important: true lets
+// core-columns-row beat the stacking rules, which use !important.
+@mixin core-column-spans($important: false) {
+	$flag: if($important, " !important", "");
+
+	&.is-shrink {
+		flex: 0 0 auto#{$flag};
+		width: auto#{$flag};
+		max-width: 100%#{$flag};
+	}
+
+	@for $i from 1 through 12 {
+		&.is-span-#{$i} {
+			flex: #{$i} #{$i} 0#{$flag};
+			min-width: 0;
+			max-width: column-width($i)#{$flag};
+		}
+	}
+}
+
+// kitaris-columns-row for core/columns: a row whatever the viewport, auto
+// columns sharing it and spans at their widths.
+@mixin core-columns-row {
+	flex-direction: row !important;
+	flex-wrap: nowrap !important;
+
+	> .wp-block-column {
+		flex: 1 1 0 !important;
+		width: auto !important;
+		@include core-column-spans(true);
+	}
+}
+
+// kitaris-columns-stack-row for core/columns: one column per line.
+@mixin core-columns-stack-row {
+	flex-direction: column !important;
+
+	> .wp-block-column {
+		flex-basis: auto !important;
+		width: 100% !important;
+		max-width: 100% !important;
+		min-width: 0;
+	}
+}
+
 // Viewport only — top-level rows (footer, full-width sections). Tablet and below,
 // from the theme's breakpoints; needs a stylesheet enqueued with viewport_styles.
 @mixin kitaris-stack-when-narrow {
