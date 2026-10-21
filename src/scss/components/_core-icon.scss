@@ -3,23 +3,31 @@
    - No width set: the theme's medium icon size. Core's own rule makes the
      svg 100% wide. The size presets (theme.json dimensionSizes on core/icon)
      and a custom width are inline styles, so they win.
-   - Background chip: the chip is the chosen width; the glyph inside scales by
-     --wp--custom--icon--background-ratio, so the space around it grows with
-     the icon at every size. The chip's glyph colour comes from the
-     background's pair (base/_colors.scss), like any picked background.
-   Scaling uses `scale`, not the shapes' own transform; no registered icon has
-   a transform attribute (core's, Kitaris's and the themes' collections). */
+   - Background chip: the icon keeps its size, and the background adds space
+     around it in proportion. The chip is the icon's width ÷
+     --wp--custom--icon--background-ratio (zoom), and the glyph is scaled back
+     by the same ratio, so a Small icon is a Small glyph with or without a
+     background. Nothing is set per icon; the ratio is one site-wide token.
+     The chip's glyph colour comes from the background's pair
+     (base/_colors.scss), like any picked background.
+   zoom also scales lengths set on the chip itself, so the default radius is
+   scaled back by the ratio. Scaling uses `scale`, not the shapes' own
+   transform; no registered icon has a transform attribute (core's,
+   Kitaris's and the themes' collections). */
+
+$_ratio: var(--wp--custom--icon--background-ratio, 0.6);
 
 .wp-block-icon > svg {
 	width: var(--wp--custom--icon--size--medium, 2.75rem);
 }
 
 .wp-block-icon > svg.has-background {
-	border-radius: var(--wp--custom--border-radius--icon, 0);
+	zoom: calc(1 / #{$_ratio});
+	border-radius: calc(var(--wp--custom--border-radius--icon, 0px) * #{$_ratio});
 
 	> * {
 		transform-box: view-box;
 		transform-origin: center;
-		scale: var(--wp--custom--icon--background-ratio, 0.6);
+		scale: $_ratio;
 	}
 }
