@@ -22,7 +22,6 @@
 /// with the same selector. Extend via @use ... with (...).
 $button-surface-selectors: (
 	".wp-block-kitaris-button",
-	".wp-block-button .wp-block-button__link",
 	"button.form-button",
 	"button.form__btn-prev",
 	"button.form__btn-next"
@@ -33,7 +32,6 @@ $button-surface-selectors: (
 /// styles at (0,1,0).
 $button-paint-selectors: (
 	".wp-block-kitaris-button:is(a, button, span, div)",
-	".wp-block-button .wp-block-button__link",
 	"button.form-button",
 	"button.form__btn-prev",
 	"button.form__btn-next"
@@ -49,7 +47,7 @@ $_reset-emitted: false;
 
 // Buttons themselves are excluded (:where() adds no specificity): a button
 // with its own background colour class must not invert itself.
-$_surface: ':where(:not(.wp-block-kitaris-button, .wp-block-button__link, button))';
+$_surface: ':where(:not(.wp-block-kitaris-button, button))';
 
 @mixin button-surfaces {
 	#{$button-surface-selectors} {
@@ -183,11 +181,6 @@ $_surface: ':where(:not(.wp-block-kitaris-button, .wp-block-button__link, button
 			&.is-style-#{$name} {
 				@include variant-vars($name, $colors);
 			}
-		}
-
-		// core/button: block style classes live on the wrapper, not the link.
-		.wp-block-button.is-style-#{$name} .wp-block-button__link {
-			@include variant-vars($name, $colors);
 		}
 	}
 }

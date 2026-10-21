@@ -78,11 +78,11 @@ For package-specific overrides:
 @use "@siratik/ui-kit/components" as ui;
 @use "@siratik/ui-kit/components/buttons" as ui;
 
-// Buttons: mixins only (outputs no CSS), for a theme's button colours
-@use "@siratik/ui-kit/components/button-mixins" as button;
-// @include button.default-style;
-// @include button.variant("primary", $background: ..., $text: ...);
-// @include button.invert-on("primary", $variant: "primary");
+// Button colours come from theme.json tokens (settings.custom.button.*),
+// not from SCSS. See THEME-CONFIGURATION.md → Buttons.
+//
+// Text contrast for hand-picked backgrounds: the theme lists its pairs.
+// @include kitaris-text-contrast-rules(("primary": "primary-contrast", …));
 @use "@siratik/ui-kit/components/slider" as ui;
 @use "@siratik/ui-kit/components/lightbox" as *;
 @use "@siratik/ui-kit/components/navigation" as *;
