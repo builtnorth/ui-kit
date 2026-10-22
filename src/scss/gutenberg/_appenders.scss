@@ -43,3 +43,16 @@
 	opacity: 1 !important;
 	transform: scale(1) !important;
 }
+
+/** Text appender in vertical layouts
+-----------------------------------------------------------------*/
+// An empty container shows "Type / to choose a block" with the "+" at its
+// right end. Core sizes every appender under a vertical layout to 24px
+// (.is-vertical .block-list-appender, meant for the "+" of a vertical button
+// group), and a vertical flex parent would shrink it to its text anyway, so
+// in an empty Hero or Section the text wrapped or ran under the "+". It spans
+// the container, as core does for an empty flex Group; "+" appenders keep 24px.
+.is-vertical > .block-list-appender:first-child:has(> .block-editor-default-block-appender) {
+	width: 100%;
+	align-self: stretch;
+}
