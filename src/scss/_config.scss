@@ -7,9 +7,10 @@
 //   form.label   → legend, label sizing
 //   form.choice  → checkboxes, radios
 //   form.file    → file inputs, drop zones, selected-file rows
+//   form.textarea → textarea radius (falls back to the panel radius)
 //
 // Some form values share a site-wide token instead of a form.* one: help text
-// (small-text.fontSize), textarea and panel radius (borderRadius.tile), file
+// (small-text.fontSize), panel radius (borderRadius.tile), file
 // padding (panel.padding-*) and file border width (borderWidth.x-small).
 //
 // Configure before any other ui-kit @use (Sass configures a module on first load):
@@ -111,6 +112,11 @@ $form-field-focus-ring-color: var(--wp--custom--form--field--focus-color, #{$for
 // form.surface — rounded panels independent of field border-radius (e.g. sharp inputs, soft cards)
 // ----------------------------------------------------------------------------
 $form-surface-border-radius: var(--wp--custom--border-radius--tile, 0) !default;
+
+// form.textarea — its own radius, so a theme can match its inputs (sharp) or keep
+// it soft when inputs are pills; falls back to the panel radius.
+// ----------------------------------------------------------------------------
+$form-textarea-border-radius: var(--wp--custom--form--textarea--border-radius, #{$form-surface-border-radius}) !default;
 
 // form.choice
 // ----------------------------------------------------------------------------
