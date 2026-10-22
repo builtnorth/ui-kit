@@ -18,7 +18,7 @@ the editor's card Link control; see kitaris-blocks CardLinkHook).
 Text under the stretched link can't be selected: that is inherent to the
 technique.
 */
-$_card-primary-links: ".kitaris-card-link, .wp-block-post-title a, .wp-block-kitaris-taxonomy-feed__term-title a";
+$_card-primary-links: ".kitaris-card-link, .wp-block-post-title a";
 
 .is-accessible-card {
 	position: relative;
