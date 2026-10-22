@@ -65,6 +65,43 @@
 	}
 }
 
+/* Stack on all screens (kitarisStack, .is-stacked-always): the columns sit
+   one above the other at every width, each at its own span width (auto
+   columns full width, shrink to content), lined up by the row's
+   justification. Placed after the span rules, same specificity, so it wins.
+   Tablet and below stack full width as every row does. */
+.wp-block-columns.is-stacked-always {
+	flex-direction: column;
+	flex-wrap: nowrap !important;
+
+	// Core sets align-items: initial !important on every row, so the
+	// justification places each column with its margins.
+	&.is-content-justification-center > .wp-block-column {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	&.is-content-justification-right > .wp-block-column {
+		margin-left: auto;
+	}
+
+	> .wp-block-column {
+		flex: none;
+		width: 100%;
+
+		&.is-shrink {
+			width: auto;
+		}
+
+		@for $i from 1 through 12 {
+			&.is-span-#{$i} {
+				flex: none;
+				width: column-width($i);
+			}
+		}
+	}
+}
+
 @include viewport-tablet-down() {
 	.wp-block-columns:not(.is-not-stacked-on-mobile) {
 		@include core-columns-stack-row;
