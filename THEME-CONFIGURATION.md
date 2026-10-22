@@ -115,30 +115,40 @@ The default size takes its font size from the theme's `elements.button`.
 
 ### Setting a theme's button colors
 
-```js
-// theme-config/settings/custom.js (settings.custom)
-button: {
-	primary: {
-		background: "var(--wp--preset--color--primary)",
-		text: "var(--wp--preset--color--primary-contrast)",
-	},
-	secondary: {
-		background: "var(--wp--preset--color--secondary)",
-		text: "var(--wp--preset--color--secondary-contrast)",
-	},
-	tertiary: {
-		background: "var(--wp--preset--color--neutral-2)",
-		text: "var(--wp--preset--color--neutral-2-contrast)",
-	},
-},
+In `theme.json`, the tokens go in `settings.custom`, and Primary Fill's rest colors go in
+`styles.elements.button`:
 
-// theme-config/styles/elements.js (styles.elements): Primary Fill, rest colors only
-button: {
-	color: {
-		background: "var(--wp--custom--button--primary--background)",
-		text: "var(--wp--custom--button--primary--text)",
+```json
+{
+	"settings": {
+		"custom": {
+			"button": {
+				"primary": {
+					"background": "var(--wp--preset--color--primary)",
+					"text": "var(--wp--preset--color--primary-contrast)"
+				},
+				"secondary": {
+					"background": "var(--wp--preset--color--secondary)",
+					"text": "var(--wp--preset--color--secondary-contrast)"
+				},
+				"tertiary": {
+					"background": "var(--wp--preset--color--neutral-2)",
+					"text": "var(--wp--preset--color--neutral-2-contrast)"
+				}
+			}
+		}
 	},
-},
+	"styles": {
+		"elements": {
+			"button": {
+				"color": {
+					"background": "var(--wp--custom--button--primary--background)",
+					"text": "var(--wp--custom--button--primary--text)"
+				}
+			}
+		}
+	}
+}
 ```
 
 Use palette presets for `background` so inversion works: the variant inverts on
