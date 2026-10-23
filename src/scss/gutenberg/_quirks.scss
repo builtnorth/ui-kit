@@ -272,9 +272,12 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
 }
 
 // Header/footer inner wrapper: site-logo stays natural width for flex alignment.
+// Horizontal is these blocks' default, and core adds is-horizontal on the front
+// only when it's saved (the editor adds it from the default too), so the row is
+// "not vertical" and the column "is-vertical".
 .wp-block-kitaris-header__inner.is-layout-flex,
 .wp-block-kitaris-footer__inner.is-layout-flex {
-    &:not(.is-horizontal) {
+    &.is-vertical {
         > :where(
             :not(
                 .alignfull,
@@ -293,7 +296,7 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
         }
     }
 
-    &.is-horizontal {
+    &:not(.is-vertical) {
         > :where(
             :not(
                 .alignfull,
