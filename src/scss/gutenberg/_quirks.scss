@@ -42,11 +42,14 @@ $_kitaris-layout-blocks: ".wp-block-kitaris-section, .wp-block-kitaris-hero, .wp
 // A hero slider (slides holding heroes or sections) stacks like the hero it shows.
 $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :is(.wp-block-kitaris-hero, .wp-block-kitaris-section))";
 
+// Full-width layout blocks sit flush. `:root` gives (0,2,0), over theme.json's
+// `:root :where(.is-layout-constrained) > *` block gap (0,1,0), which prints after
+// this file on the front end as in the editors.
 :root
     :where(.editor-styles-wrapper)
     :where(.is-layout-constrained)
     > :is(#{$_kitaris-layout-blocks}).alignfull,
-:where(#{$_kitaris-layout-blocks}, #{$_kitaris-hero-slider}).alignfull {
+:root :where(#{$_kitaris-layout-blocks}, #{$_kitaris-hero-slider}).alignfull {
     margin-block-start: 0;
 }
 
