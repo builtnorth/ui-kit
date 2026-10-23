@@ -50,8 +50,10 @@ $_card-primary-links: ".kitaris-card-link, .wp-block-post-title a";
 
 	// Every other link and control stays clickable above it. Zero
 	// specificity (the card class is inside :where() too), so an element's own
-	// positioning still wins.
-	@at-root :where(.is-accessible-card) :where(a, button, input, select, textarea, summary, label, [tabindex]):where(:not(#{$_card-primary-links})) {
+	// positioning still wins. Only a link with an href: an anchor without one
+	// (a core button with no URL, there for looks) isn't a control, and above
+	// the primary link it would leave a spot in the card that doesn't click.
+	@at-root :where(.is-accessible-card) :where(a[href], button, input, select, textarea, summary, label, [tabindex]):where(:not(#{$_card-primary-links})) {
 		position: relative;
 		z-index: 2;
 	}
