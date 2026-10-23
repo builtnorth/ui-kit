@@ -66,6 +66,17 @@ Classes to quickly add utility styles to your components.
 	align-self: flex-end;
 }
 
+/* Pushed to End
+	A block in a vertical flex container (a card, a stack, a column) sits at
+	its end, so the buttons of cards in a row line up whatever the text above
+	them. Elsewhere the auto margin does nothing. !important: it must beat
+	core's `.is-layout-flex > :is(*, div) { margin: 0 }` and the Kitaris
+	flex-container child reset, as the alignment margins above.
+------------------------------------------------------------------*/
+.is-pushed-to-end {
+	margin-block-start: auto !important;
+}
+
 /* Image Styles
 ------------------------------------------------------------------*/
 .has-blur {
@@ -396,7 +407,7 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 // in the card's content group; chips keep their size).
 .post-card .wp-block-post-excerpt,
 .post-card > .wp-block-group > p:not(.is-style-label, .is-style-subheading) {
-	font-size: var(--wp--custom--description--font-size, 1em);
+	font-size: var(--wp--custom--component--description-font-size, 1em);
 }
 
 .post-card .post-card__terms {
