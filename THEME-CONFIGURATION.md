@@ -108,7 +108,7 @@ font size and the sizes always keep the same proportions:
 |---|---|
 | `button.font-size-small` | `0.875em` |
 | `button.font-size-large` | `1.25em` |
-| `button.icon-size-default` (also `-small`, `-large`) | `1.2em` |
+| `button.icon-size` (also `-small`, `-large`) | `1.2em` |
 | `button.icon-gap`, `button.icon-gap-large` | `0.67rem`, `1rem` |
 
 The default size takes its font size from the theme's `elements.button`.
