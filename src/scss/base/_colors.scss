@@ -15,7 +15,7 @@ background ancestor, not from intermediate wrappers or outer sections.
 ****************************************************/
 
 // CSS can't derive a "{slug}-contrast" preset var name from "{slug}" at
-// runtime (no string concatenation), so every colour pair has to be listed.
+// runtime (no string concatenation), so every color pair has to be listed.
 //
 // ui-kit lists none: palettes belong to themes. A theme declares its own
 // pairs, both directions, with kitaris-text-contrast-rules() below:
@@ -39,19 +39,28 @@ $preset-fallbacks: () !default;
 
 /// Text contrast and card surfaces for backgrounds picked by hand.
 ///
-/// A container with .has-{bg}-background-color takes its paired text colour,
+/// A container with .has-{bg}-background-color takes its paired text color,
 /// and plain links inside it follow. Icon chips (.has-{bg}-icon-background-color)
-/// take their pair as the glyph colour. Nested containers set their own pair,
+/// take their pair as the glyph color. Nested containers set their own pair,
 /// so the nearest background wins through inheritance.
 ///
-/// Each background also names its raised colour: what a Card style block
+/// Each background also names its raised color: what a Card style block
 /// (components/surfaces) looks like on it. --kitaris-auto-raised-color is that
-/// colour and --kitaris-auto-raised-text-color the raised colour's own text
-/// pair. Without `raised`, the raised colour is the background with a little
-/// of its text colour mixed in.
+/// color and --kitaris-auto-raised-text-color the raised color's own text
+/// pair. Without `raised`, the raised color is the background with a little
+/// of its text color mixed in.
+///
+/// An icon chip in the same color as the background it sits on would vanish,
+/// so there it swaps to the pair: the pair as the chip, the background color
+/// as the glyph. Kitaris icon chips (has-{bg}-icon-background-color) read
+/// --kitaris-icon-swap-color / --kitaris-icon-swap-background before their own
+/// colors; the core Icon with a background is swapped here unless it has an
+/// icon color. The nearest picked background decides, or the page background
+/// ($page) outside any; a Card resets it (its raised color is not the
+/// background's). A hex chip color is left as set.
 ///
 /// Buttons aren't handled here: they read the theme's button tokens, which
-/// Kitaris redefines on a background that matches a variant's colour.
+/// Kitaris redefines on a background that matches a variant's color.
 ///
 ///   @include colors.kitaris-text-contrast-rules((
 ///     "base": (text: "contrast", raised: "neutral-1"),
@@ -65,6 +74,8 @@ $preset-fallbacks: () !default;
 @mixin kitaris-text-contrast-rules($pairs, $page: null) {
 	$surfaces: ();
 	$chips: ();
+
+	@include _icon-swap-rules($pairs, $page);
 
 	@each $background, $value in $pairs {
 		$contrast: _pair-text($value);
@@ -81,6 +92,23 @@ $preset-fallbacks: () !default;
 			--kitaris-icon-background-color: #{preset-color($background)};
 		}
 
+		// On a matching background: the chip readers take these first. Unset
+		// (no match) they're invalid, so the readers fall back to the chip's own
+		// colors. Covers a picked icon color too.
+		.has-#{$background}-icon-background-color {
+			--kitaris-icon-swap-color: var(--_kitaris-icon-swap-#{$background}-fg);
+			--kitaris-icon-swap-background: var(--_kitaris-icon-swap-#{$background}-bg);
+		}
+
+		// The core Icon's chip is its svg, with core's preset background class
+		// (!important, so this needs it too, at a higher specificity). Not with
+		// an icon color picked: core sets it with !important too, and a chip
+		// swapped under it could hide the glyph.
+		.wp-block-icon > svg.has-background.has-#{$background}-background-color:not(.has-text-color) {
+			background-color: var(--_kitaris-icon-swap-#{$background}-bg, #{preset-color($background)}) !important;
+			color: var(--_kitaris-icon-swap-#{$background}-fg, #{preset-color($contrast)});
+		}
+
 		$surfaces: list.append($surfaces, ".has-#{$background}-background-color", $separator: comma);
 		$chips: list.append($chips, ".has-#{$background}-icon-background-color", $separator: comma);
 	}
@@ -93,12 +121,12 @@ $preset-fallbacks: () !default;
 
 	@if list.length($surfaces) > 0 {
 		:is(#{$chips}):not([style*="--kitaris-icon-color"]) svg {
-			color: var(--kitaris-icon-color);
+			color: var(--kitaris-icon-swap-color, var(--kitaris-icon-color));
 		}
 
-		// (0,1,1): beats theme.json element link colour, but a link colour the
+		// (0,1,1): beats theme.json element link color, but a link color the
 		// user sets on a block (core's .wp-elements-* a, printed later) or on
-		// the link itself still wins. Buttons set their own colours.
+		// the link itself still wins. Buttons set their own colors.
 		:is(#{$surfaces}) a:where(:not([class*="has-background"], .has-text-color, .has-link-color, .has-link-color *, .wp-element-button)) {
 			color: var(--kitaris-auto-text-color);
 		}
@@ -114,6 +142,45 @@ $preset-fallbacks: () !default;
 			}
 		}
 	}
+}
+
+// Icon chips on their own color. Each picked background (and the page)
+// publishes, for its own slug, the colors a chip of that slug should take:
+// the pair as the chip, the background as the glyph. Every picked background
+// and Card clears them first, so only the nearest one counts. Declared where
+// the background is, so the values are that element's own preset colors.
+// Not on svg: the core Icon's chip is an svg with the background class.
+@mixin _icon-swap-rules($pairs, $page) {
+	$surfaces: ();
+	@each $background, $value in $pairs {
+		$surfaces: list.append($surfaces, ".has-#{$background}-background-color", $separator: comma);
+	}
+
+	@if list.length($surfaces) > 0 {
+		@if $page and map.has-key($pairs, $page) {
+			:root {
+				@include _icon-swap-vars($pairs, $page);
+			}
+		}
+
+		:where(#{$surfaces}, [class*="is-style-card"]):not(svg) {
+			@each $background, $value in $pairs {
+				--_kitaris-icon-swap-#{$background}-bg: initial;
+				--_kitaris-icon-swap-#{$background}-fg: initial;
+			}
+		}
+
+		@each $background, $value in $pairs {
+			:where(.has-#{$background}-background-color):not(svg) {
+				@include _icon-swap-vars($pairs, $background);
+			}
+		}
+	}
+}
+
+@mixin _icon-swap-vars($pairs, $background) {
+	--_kitaris-icon-swap-#{$background}-bg: #{preset-color(_pair-text(map.get($pairs, $background)))};
+	--_kitaris-icon-swap-#{$background}-fg: #{preset-color($background)};
 }
 
 // A pairs map value: the text slug, or a map with `text` (and `raised`).
@@ -133,7 +200,7 @@ $preset-fallbacks: () !default;
 
 // --kitaris-auto-raised-color and --kitaris-auto-raised-text-color for one
 // background: its raised slug and that slug's own text pair, or a mix of the
-// background and its text colour when it names no raised colour.
+// background and its text color when it names no raised color.
 @mixin _raised-vars($pairs, $background) {
 	$value: map.get($pairs, $background);
 	$contrast: _pair-text($value);

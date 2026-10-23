@@ -31,6 +31,7 @@
 		"./base/icon-sizes": "./src/scss/base/_icon-sizes.scss",
 		"./components": "./src/scss/components/index.scss",
 		"./components/surfaces": "./src/scss/components/_surfaces.scss",
+		"./components/chip": "./src/scss/components/_chip.scss",
 		"./components/core-buttons": "./src/scss/components/_core-buttons.scss",
 		"./components/core-columns": "./src/scss/components/_core-columns.scss",
 		"./components/core-accordion": "./src/scss/components/_core-accordion.scss",

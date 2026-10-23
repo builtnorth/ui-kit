@@ -7,11 +7,13 @@
      around it in proportion. The chip's font-size is the icon's size
      (--kitaris-icon-size, which the Kitaris icon extension sets on the block
      wrapper from its width), so its padding in em grows with the icon:
-     --wp--custom--icon--background-padding (a share of the icon's size,
-     default 0.33) on each side. Padding set on the block replaces it; a
+     --wp--custom--icon--background-padding-ratio (a share of the icon's size,
+     default 0.25) on each side. Padding set on the block replaces it; a
      border, shadow or radius set on the block is drawn as set.
      The chip's glyph colour comes from the background's pair
      (base/_colors.scss), like any picked background. */
+
+@use "chip";
 
 $_medium: var(--wp--custom--icon--size--medium, 2.75rem);
 
@@ -20,8 +22,5 @@ $_medium: var(--wp--custom--icon--size--medium, 2.75rem);
 }
 
 .wp-block-icon > svg.has-background {
-	box-sizing: content-box;
-	font-size: var(--kitaris-icon-size, #{$_medium});
-	padding: calc(var(--wp--custom--icon--background-padding, 0.33) * 1em);
-	border-radius: var(--wp--custom--border-radius--icon, 0);
+	@include chip.icon-chip;
 }

@@ -1,0 +1,42 @@
+// Chip
+//
+// This module outputs no CSS. A small rounded label, from the theme's chip
+// tokens (settings.custom.chip.* and border-radius.chip):
+//
+//   @use "@siratik/ui-kit/components/chip";
+//
+//   .wp-block-post-terms.is-style-label a {
+//       @include chip.chip;
+//   }
+//
+// Without a background token the chip is a tint of the text color, so it
+// reads on any background. Text styles stay the theme's: a link chip keeps
+// the theme's link underline unless the block says otherwise.
+
+/// Icon chip: the geometry of a core/icon background (components/core-icon).
+/// The icon keeps its size and the background adds space around it in
+/// proportion: the chip's font-size is the icon's size, so its padding in em
+/// grows with the icon. Colours are the caller's.
+///
+///   .my-card .wp-block-icon > svg {
+///       @include chip.icon-chip;
+///       background-color: …;
+///   }
+@mixin icon-chip {
+	box-sizing: content-box;
+	font-size: var(--kitaris-icon-size, var(--wp--custom--icon--size--medium, 2.75rem));
+	padding: calc(var(--wp--custom--icon--background-padding-ratio, 0.25) * 1em);
+	border-radius: var(--wp--custom--border-radius--icon, 0);
+}
+
+@mixin chip {
+	display: inline-flex;
+	align-items: center;
+	box-sizing: border-box;
+	padding: var(--wp--custom--chip--padding, 0.25rem 0.5rem);
+	border: var(--wp--custom--border-width--tiny, 1px) solid var(--wp--custom--chip--border-color, transparent);
+	border-radius: var(--wp--custom--border-radius--chip, 999px);
+	background-color: var(--wp--custom--chip--background, color-mix(in srgb, currentColor 10%, transparent));
+	font-size: var(--wp--custom--chip--font-size, var(--wp--custom--button--font-size-small, 0.875em));
+	line-height: 1.2;
+}

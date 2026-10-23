@@ -42,7 +42,7 @@ preset background, inverting on a matching surface.
 		inset-inline-start: 0;
 		width: var(--_list-icon-size);
 		height: var(--_list-icon-size);
-		background-color: var(--kitaris-icon-color, currentColor);
+		background-color: var(--kitaris-icon-swap-color, var(--kitaris-icon-color, currentColor));
 		-webkit-mask: var(--kitaris-list-icon) center / contain no-repeat;
 		mask: var(--kitaris-list-icon) center / contain no-repeat;
 	}
@@ -58,7 +58,7 @@ preset background, inverting on a matching surface.
 		width: var(--_list-icon-size);
 		height: var(--_list-icon-size);
 		border-radius: var(--wp--custom--border-radius--icon, 0);
-		background-color: var(--kitaris-icon-background-color, var(--kitaris-icon-background-preset, transparent));
+		background-color: var(--kitaris-icon-swap-background, var(--kitaris-icon-background-color, var(--kitaris-icon-background-preset, transparent)));
 	}
 
 	&::after {
@@ -81,7 +81,7 @@ preset background, inverting on a matching surface.
 	bottom: auto;
 	inset-inline-start: 0;
 	z-index: auto;
-	background: var(--kitaris-icon-color, currentColor);
+	background: var(--kitaris-icon-swap-color, var(--kitaris-icon-color, currentColor));
 	opacity: 1;
 	outline: none;
 	box-shadow: none;
