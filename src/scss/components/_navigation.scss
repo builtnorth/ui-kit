@@ -61,12 +61,21 @@ blocks override freely.
 // Text search button beside the field: the field sets the row's height and the
 // button matches it, instead of keeping the theme button's padding and stretching
 // the field. Enough weight to beat the theme.json button padding
-// (`:root :where(.wp-element-button)`). Button-inside search is left alone: there
-// the wrapper is the field and the button sits inset in it.
+// (`:root :where(.wp-element-button)`).
 :where(.wp-block-search:not(.wp-block-search__button-inside)) .wp-block-search__button:not(.has-icon) {
 	display: inline-flex;
 	align-items: center;
 	box-sizing: border-box;
 	min-height: $form-field-height;
+	padding-block: 0;
+}
+
+// Button-inside search: the wrapper is the field and the button sits inset in
+// it, so the button stretches to the wrapper's inner height instead of setting
+// it with the theme button's padding.
+:where(.wp-block-search.wp-block-search__button-inside) .wp-block-search__button:not(.has-icon) {
+	display: inline-flex;
+	align-items: center;
+	box-sizing: border-box;
 	padding-block: 0;
 }
