@@ -51,8 +51,10 @@ $_dot-count-max: 40;
     }
 }
 
-// Fill paints only when a colour is chosen. With the colour cleared, the
-// button stays the theme line so the icon is not the same colour as the fill.
+// Fill with a chosen colour paints the button in it. With no colour chosen,
+// the button fills with the control colour (the text colour by default) where
+// contrast-color() can pick a readable icon (below); elsewhere it stays the
+// line, so the icon is never the same colour as the fill.
 // contrast-color() holds a var(), so an engine without it can't drop it at
 // parse time: it sits behind @supports, over a real fallback (the overlay
 // color, and a hover that mixes that color into the fill the same way).
@@ -79,6 +81,24 @@ $_dot-count-max: 40;
                 contrast-color(var(--_arrow-fill)) 16%,
                 var(--_arrow-fill)
             );
+        }
+    }
+}
+
+// No colour chosen: the button keeps the control colour (the text colour by
+// default) and fills with it; only the glyph takes the contrast colour, so
+// currentColor never refers to itself.
+@supports (color: contrast-color(red)) {
+    .kitaris-carousel__controls.is-appearance-fill:not(.has-arrow-color) > .kitaris-slider-arrow {
+        border-color: transparent;
+        background: currentColor;
+
+        > svg {
+            color: contrast-color(currentColor);
+        }
+
+        @include helpers.hover($focus: true) {
+            background: color-mix(in oklch, currentColor 84%, contrast-color(currentColor));
         }
     }
 }
