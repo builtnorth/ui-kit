@@ -377,3 +377,11 @@ $_kitaris-hero-slide: ".wp-block-kitaris-slide > :is(.wp-block-kitaris-hero, .wp
     padding-top: var(--wp--custom--spacing--section-padding, 3.38rem);
     padding-bottom: var(--wp--style--block-gap, 1.5rem);
 }
+
+// The divider above the footer's bottom row: the main area ends with the same
+// space it starts with (the footer's top padding; the block gap is already there).
+// Two classes, not :where(): core's `.is-layout-flex > :is(*, div)` zeroes the
+// margins of flex children and would win.
+.wp-block-kitaris-footer__inner > .wp-block-separator {
+    margin-block-start: calc(var(--wp--custom--spacing--section-padding, 3.38rem) - var(--wp--style--block-gap, 1.5rem));
+}
