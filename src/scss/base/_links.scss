@@ -17,11 +17,19 @@ uiLink.hoverDecoration for the ui-link mixin.
 */
 
 @use "../config" as *;
+@use "../helpers/mixins" as helpers;
 
 :where(a) {
 	// No fallback: an unset token leaves the browser's own underline.
 	text-underline-offset: var(--wp--custom--link--underline-offset);
 	text-decoration-thickness: var(--wp--custom--link--underline-thickness);
+}
+
+// Core blocks whose links are interface links: breadcrumbs, and post terms
+// (a category or tag in a meta row, or shaped as chips). Placement and shape
+// mark them as links, so they follow the ui-link mixin like the Kitaris ones.
+:where(.wp-block-breadcrumbs a, .wp-block-post-terms a) {
+	@include helpers.ui-link;
 }
 
 // tabindex="-1" elements take focus only from script or a click (e.g. a
