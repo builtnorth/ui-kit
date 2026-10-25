@@ -115,6 +115,43 @@ $-file-line-height: 1.3;
     }
 }
 
+/// Crisp chevron for a field we wrap: the dropdowns' SVG chevron on ::after,
+/// drawn in the field's text colour through a mask, so it stays a clean line
+/// at any size. Use on an element wrapping a select ($select: "> select"; the
+/// select drops its gradient chevron) or on an element that is the field itself
+/// (a custom dropdown; no argument). form-select's gradient stays the chevron of
+/// bare selects, and of forced colours, where ::after is hidden.
+@mixin select-chevron($select: null) {
+    position: relative;
+
+    @if $select {
+        #{$select} {
+            background-image: none;
+        }
+    } @else {
+        background-image: none;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset-block: 0;
+        inset-inline-end: $form-field-padding-x;
+        width: 0.8em;
+        height: 0.8em;
+        margin-block: auto;
+        background-color: $form-field-color;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10,30 L50,70 L90,30' fill='none' stroke='%23000' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        pointer-events: none;
+    }
+
+    @media (forced-colors: active) {
+        &::after {
+            display: none;
+        }
+    }
+}
+
 /// Chevron for a select; use with form-field. Two diagonal strokes drawn
 /// with gradients in the field's text colour (an SVG in a data URI can't
 /// use currentColor, so it was always black).
