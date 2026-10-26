@@ -1,5 +1,6 @@
 @use "../config" as *;
 @use "../helpers/mixins" as ui;
+@use "surfaces";
 
 /* Core Accordion with the Kitaris accordion look
    (Kitaris blocks.core_extensions.accordion_styles; only loaded when it's on).
@@ -8,7 +9,9 @@
      glyph; it is hidden and the chevron is drawn on the chip), plus the
      Chevron Right and Plus/Minus block styles on the accordion.
    - Rows and panels get the panel padding tokens, sideways too when they
-     have a background or a border color.
+     have a background or a border color, or the item is a Card.
+   - The Card style on an item (opt-in; Plain is the default) is a tile:
+     the raised colour of the background it sits on, the tile radius.
    - A closed panel collapses with a height transition.
    - An item's border radius is capped while open (.has-radius, with the
      corners as custom properties, set at render), so a large radius doesn't
@@ -59,6 +62,12 @@
 	}
 }
 
+// Card: zero specificity, so a colour or radius picked on the item wins.
+:where(.wp-block-accordion .wp-block-accordion-item.is-style-card) {
+	@include surfaces.card;
+	border-radius: var(--wp--custom--border-radius--tile, 0);
+}
+
 // Open, each corner is capped at about half the title row. !important: the
 // corners are also the item's inline style.
 .wp-block-accordion .wp-block-accordion-item.has-radius.is-open {
@@ -93,9 +102,9 @@
 }
 
 // Sideways padding with a background or a border color on the row.
-.wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color) .wp-block-accordion-heading__toggle,
+.wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color, .is-style-card) .wp-block-accordion-heading__toggle,
 .wp-block-accordion .wp-block-accordion-heading.has-background .wp-block-accordion-heading__toggle,
-.wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color) > .wp-block-accordion-panel,
+.wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color, .is-style-card) > .wp-block-accordion-panel,
 .wp-block-accordion .wp-block-accordion-panel.has-background {
 	padding-left: var(--wp--custom--panel--padding-x, 2rem);
 	padding-right: var(--wp--custom--panel--padding-x, 2rem);
