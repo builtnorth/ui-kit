@@ -123,14 +123,18 @@
 	}
 
 	// Opening and closing animate the height (auto needs interpolate-size,
-	// Chrome; elsewhere the panel opens at once). content-visibility stays
-	// visible until the close finishes.
+	// Chrome). Elsewhere nothing animates and the panel opens and closes at
+	// once: the content can't animate there, so animating the padding alone
+	// would snap the content away and then slide the padding (a jump).
+	// content-visibility stays visible until the close finishes.
 	@media (prefers-reduced-motion: no-preference) {
-		interpolate-size: allow-keywords;
-		transition:
-			height var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out),
-			padding var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out),
-			content-visibility var(--wp--custom--transition--duration-slow, 300ms) allow-discrete;
+		@supports (interpolate-size: allow-keywords) {
+			interpolate-size: allow-keywords;
+			transition:
+				height var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out),
+				padding var(--wp--custom--transition--duration-slow, 300ms) var(--wp--custom--transition--easing-default, ease-in-out),
+				content-visibility var(--wp--custom--transition--duration-slow, 300ms) allow-discrete;
+		}
 	}
 }
 
