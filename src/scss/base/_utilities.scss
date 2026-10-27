@@ -315,6 +315,14 @@ Classes to quickly add utility styles to your components.
 			right: var(--_offset-x);
 			transform-origin: bottom right;
 		}
+
+		// A CSS pattern (no file; the theme's CSS draws it) is a fill: it
+		// covers the whole section whatever the alignment. After the align
+		// rules, same specificity.
+		&.is-css-pattern {
+			inset: 0;
+			translate: none;
+		}
 	}
 }
 
