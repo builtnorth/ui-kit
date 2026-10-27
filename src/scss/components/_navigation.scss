@@ -49,13 +49,17 @@ blocks override freely.
 }
 
 // Icon-only search button. Its radius follows the theme's button style.
+// Square: the row's height is the search field's (even hidden, as in a
+// button-only search, the field keeps its height), so the button's minimum
+// width and height are the same — the field height, or the control size if
+// that's larger.
 :where(.wp-block-search__button.has-icon) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	box-sizing: border-box;
-	min-width: $control-size;
-	min-height: $control-size;
+	min-width: max(#{$control-size}, #{$form-field-height});
+	min-height: max(#{$control-size}, #{$form-field-height});
 }
 
 // Text search button beside the field: the field sets the row's height and the
