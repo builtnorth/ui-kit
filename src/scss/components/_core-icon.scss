@@ -19,6 +19,9 @@ $_medium: var(--wp--custom--icon--size--medium, 2.75rem);
 
 .wp-block-icon > svg {
 	width: $_medium;
+	// Core makes the svg 100% tall (of its wrapper, which a flex parent can
+	// stretch): keep it square to its width, so a background chip stays square.
+	height: auto;
 }
 
 .wp-block-icon > svg.has-background {
