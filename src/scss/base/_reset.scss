@@ -122,11 +122,17 @@ html.is-scroll-locked {
 // Keep anchor targets and keyboard-focused elements clear of a sticky header
 // (WCAG 2.4.11): scroll padding applies to every scroll-into-view, including
 // the one focus triggers when tabbing.
-:where(html) {
+// :root, not :where(html): core's admin-bar.css sets `html { scroll-padding-top:
+// var(--wp-admin--admin-bar--height) }` for logged-in users, which replaced
+// the whole value. The sticky header sits below the admin bar, so its height
+// is added (the variable only exists while the bar shows). Themes adjust
+// --wp--custom--scroll-padding-top rather than overriding this rule.
+:root {
     // The header height is measured by kitaris-blocks' sticky position script
     // (0px without one).
     scroll-padding-top: calc(
-        var(--kitaris-sticky-header-height, 0px) +
+        var(--wp-admin--admin-bar--height, 0px) +
+            var(--kitaris-sticky-header-height, 0px) +
             var(--wp--custom--scroll-padding-top, 3rem)
     );
 }
