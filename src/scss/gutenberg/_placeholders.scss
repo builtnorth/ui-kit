@@ -28,12 +28,12 @@ $_kitaris: '.placeholder-image--built, .placeholder-image--built *, [class*="wp-
 }
 
 /* svg */
-.components-placeholder__illustration:where(#{$_kitaris}) {
+.components-placeholder .components-placeholder__illustration:where(#{$_kitaris}) {
 	stroke: rgba(177, 177, 177, 0.43);
 	stroke-width: 4px;
 	opacity: 1;
-	width: calc(100% - 20px) !important;
-	height: calc(100% - 20px) !important;
+	width: calc(100% - 20px);
+	height: calc(100% - 20px);
 }
 
 /*

@@ -92,21 +92,21 @@
 
 @mixin kitaris-stack-flex-row-when-narrow {
 	@include kitaris-stack-when-narrow {
-		flex-direction: column !important;
+		flex-direction: column;
 		@include kitaris-stack-children-full-width;
 	}
 }
 
 @mixin kitaris-stack-flex-row-when-narrow-in-container($container-name: kitaris-column) {
 	@include kitaris-stack-when-narrow-in-container($container-name) {
-		flex-direction: column !important;
+		flex-direction: column;
 		@include kitaris-stack-children-full-width;
 	}
 }
 
 @mixin kitaris-stack-grid-2col-when-narrow {
 	@include kitaris-stack-when-narrow {
-		grid-template-columns: 1fr !important;
+		grid-template-columns: 1fr;
 
 		> * {
 			grid-column: 1 / -1;
@@ -119,7 +119,7 @@
 
 @mixin kitaris-stack-grid-2col-when-narrow-in-container($container-name: kitaris-column) {
 	@include kitaris-stack-when-narrow-in-container($container-name) {
-		grid-template-columns: 1fr !important;
+		grid-template-columns: 1fr;
 
 		> * {
 			grid-column: 1 / -1;
