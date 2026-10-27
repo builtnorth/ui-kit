@@ -221,3 +221,15 @@ $preset-fallbacks: () !default;
 	}
 }
 
+
+/* Inline text color
+****************************************************/
+
+// Core's text color format wraps the text in
+// <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color …">.
+// HTML sanitizing (wp_kses, e.g. the hero title's meta) drops that rgba()
+// value, which left the browser's yellow mark background. A highlight color
+// picked in the editor is a preset class or a hex inline style, which still win.
+mark.has-inline-color {
+    background-color: transparent;
+}
