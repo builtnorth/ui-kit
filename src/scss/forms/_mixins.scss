@@ -199,8 +199,8 @@ $-file-line-height: 1.3;
 }
 
 /// Range sliders.
-/// Drawn in the text color, so it reads on any section: a rail (70%, as the
-/// slider rails) and a solid round thumb, with
+/// Drawn in the text color, so it reads on any section: a rail (25%), filled
+/// solid up to the thumb (--kitaris-range-progress), and a solid round thumb, with
 /// a halo in the field background that parts it from the rail. Keyboard
 /// focus rings the thumb, not the whole control. 24px tall (WCAG 2.5.8).
 @mixin form-range {
@@ -289,7 +289,7 @@ $-file-line-height: 1.3;
     background: linear-gradient(
         var(--_range-fill-direction, to right),
         currentColor var(--kitaris-range-progress, 0%),
-        color-mix(in oklch, currentColor 70%, transparent) var(--kitaris-range-progress, 0%)
+        color-mix(in oklch, currentColor 25%, transparent) var(--kitaris-range-progress, 0%)
     );
 }
 
