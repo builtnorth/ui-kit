@@ -4,8 +4,10 @@
 // like the card itself. Other parts (header, footer, main, section, aside,
 // nav) keep their box, background and landmark. Sticky blocks in a part are
 // handled by kitaris-blocks StickyPositionHook. In the editor the parts keep
-// a real box so clicks can reach them (_quirks-editor.scss).
-:is(div, article).wp-block-template-part {
+// a real box so clicks can reach them (_quirks-editor.scss). A part aligned
+// wide or full (a hero part in post content) keeps its box: it is the
+// aligned block core's layout widens.
+:is(div, article).wp-block-template-part:not(.alignwide, .alignfull) {
     display: contents;
 }
 
