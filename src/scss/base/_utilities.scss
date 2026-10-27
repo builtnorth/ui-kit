@@ -221,14 +221,16 @@ Classes to quickly add utility styles to your components.
 	position: relative;
 	// A large or offset pattern must not spill into neighbours or cause sideways scroll.
 	overflow: clip;
-	// Content is z-index 1 so it paints over the pattern. Keep that inside
-	// this block.
+	// The pattern paints under the content. Keep that stacking inside this block.
 	isolation: isolate;
 
-	// Ensure that content displays above the pattern
-	> *:not(.section-pattern):not(.background):not(.background-video-toggle) {
-		position: relative;
-		z-index: 1;
+	// Without a background image the pattern sits at -1 instead of lifting the
+	// children: a positioned child would become the box a stretched card link
+	// fills, so only that child would be clickable. With a background image,
+	// .has-background-image already lifts the children above the image and
+	// the pattern stays at 0, over the image.
+	&:not(.has-background-image) > .section-pattern {
+		z-index: -1;
 	}
 
 	/*
