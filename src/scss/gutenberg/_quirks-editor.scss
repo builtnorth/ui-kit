@@ -1,6 +1,21 @@
 // Editor-only layout quirks (editor canvas). Loaded through the gutenberg
 // index (the editor bundle), not the front-end essentials.
 
+// Core site logo (WordPress core bug): in the editor the logo <img> has no
+// width or height attributes and sits in a link that shrinks to fit it. An
+// SVG with only a viewBox has no intrinsic width, so it collapses to 0×0 (the
+// front end adds width and height, so it shows there). Fill the resize box
+// instead, whose width is the logo width, as the front end does.
+.editor-styles-wrapper .wp-block-site-logo .components-resizable-box__container {
+    .custom-logo-link {
+        display: block;
+    }
+
+    img {
+        width: 100%;
+    }
+}
+
 // Editor: `div` and `article` template parts are `display: contents` on the
 // front end (see _quirks.scss), which makes them untargetable in the canvas.
 // Keep a real, layout-transparent box so they can be clicked, at any depth
