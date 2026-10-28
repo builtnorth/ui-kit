@@ -48,13 +48,13 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width']";
 	}
 
 	.wp-block-tab-panel:not(#{$_boxed}) {
-		padding-top: var(--wp--custom--panel--padding-y, 1rem);
-		padding-bottom: var(--wp--custom--panel--padding-y, 1rem);
+		padding-top: var(--wp--custom--panel--padding-y, 1.5rem);
+		padding-bottom: var(--wp--custom--panel--padding-y, 1.5rem);
 	}
 }
 
 // A background or border on the tab panels wrapper (where core puts the
 // panels' border): its panels take the panel padding, as a colored panel does.
 .wp-block-tabs .wp-block-tab-panels:is(#{$_boxed}) > .wp-block-tab-panel {
-	padding: var(--wp--custom--panel--padding-y, 1rem) var(--wp--custom--panel--padding-x, 2rem);
+	padding: var(--wp--custom--panel--padding-y, 1.5rem) var(--wp--custom--panel--padding-x, 1.5rem);
 }

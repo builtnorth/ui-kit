@@ -71,7 +71,7 @@
 // Open, each corner is capped at about half the title row. !important: the
 // corners are also the item's inline style.
 .wp-block-accordion .wp-block-accordion-item.has-radius.is-open {
-	--_radius-cap: calc(var(--wp--custom--panel--padding-y, 1rem) + 0.625lh);
+	--_radius-cap: calc(var(--wp--custom--panel--padding-y, 1.5rem) + 0.625lh);
 	border-top-left-radius: min(var(--kitaris-accordion-item-radius-top-left, 0px), var(--_radius-cap)) !important;
 	border-top-right-radius: min(var(--kitaris-accordion-item-radius-top-right, 0px), var(--_radius-cap)) !important;
 	border-bottom-right-radius: min(var(--kitaris-accordion-item-radius-bottom-right, 0px), var(--_radius-cap)) !important;
@@ -97,36 +97,36 @@
 // settings are inline styles, so they still win).
 .wp-block-accordion .wp-block-accordion-heading__toggle,
 .wp-block-accordion .wp-block-accordion-panel {
-	padding-top: var(--wp--custom--panel--padding-y, 1rem);
-	padding-bottom: var(--wp--custom--panel--padding-y, 1rem);
+	padding-top: var(--wp--custom--panel--padding-y, 1.5rem);
+	padding-bottom: var(--wp--custom--panel--padding-y, 1.5rem);
 }
 
 // Sideways padding with a background or a border color on the row, or a Card.
 // On the item, not its heading and panel: core zeroes a closing panel's
 // padding (!important), so side padding there jumped on close.
 .wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color, .is-style-card) {
-	padding-inline: var(--wp--custom--panel--padding-x, 2rem);
+	padding-inline: var(--wp--custom--panel--padding-x, 1.5rem);
 }
 
 // A heading or panel with a background of its own pads its own sides, unless
 // its item already does (the padding would double).
 .wp-block-accordion .wp-block-accordion-item:not(.has-background, .has-border-color, .is-style-card) > .wp-block-accordion-heading.has-background .wp-block-accordion-heading__toggle,
 .wp-block-accordion .wp-block-accordion-item:not(.has-background, .has-border-color, .is-style-card) > .wp-block-accordion-panel.has-background {
-	padding-left: var(--wp--custom--panel--padding-x, 2rem);
-	padding-right: var(--wp--custom--panel--padding-x, 2rem);
+	padding-left: var(--wp--custom--panel--padding-x, 1.5rem);
+	padding-right: var(--wp--custom--panel--padding-x, 1.5rem);
 }
 
 // A closing panel with its own background keeps its sides: core zeroes a
 // hidden panel's padding (!important), so the content slid on close.
 .wp-block-accordion .wp-block-accordion-item:not(.has-background, .has-border-color, .is-style-card) > .wp-block-accordion-panel.has-background[hidden] {
-	padding-inline: var(--wp--custom--panel--padding-x, 2rem) !important;
+	padding-inline: var(--wp--custom--panel--padding-x, 1.5rem) !important;
 }
 
 // Editor: the panel's add-block button sits in its bottom-right corner, which
 // a rounded item clips (overflow hidden). Move it in by the panel padding.
 .wp-block-accordion .wp-block-accordion-item[style*="radius"] > .wp-block-accordion-panel > .block-list-appender {
-	right: var(--wp--custom--panel--padding-x, 2rem);
-	bottom: var(--wp--custom--panel--padding-y, 1rem);
+	right: var(--wp--custom--panel--padding-x, 1.5rem);
+	bottom: var(--wp--custom--panel--padding-y, 1.5rem);
 }
 
 // An item that pads its own sides already holds the panel in by that much.

@@ -408,7 +408,7 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 	.wp-block-kitaris-review-overview,
 	.wp-block-tab-panel
 ):is(#{$_boxed}) {
-	padding: var(--wp--custom--panel--padding-y, 1rem) var(--wp--custom--panel--padding-x, 2rem);
+	padding: var(--wp--custom--panel--padding-y, 1.5rem) var(--wp--custom--panel--padding-x, 1.5rem);
 }
 
 /* Card template text: role sizes. A size chosen on the block wins (core's
