@@ -109,6 +109,13 @@ $preset-fallbacks: () !default;
 			color: var(--_kitaris-icon-swap-#{$background}-fg, #{preset-color($contrast)});
 		}
 
+		// A gradient over the color (a fade to it): core's gradient class sets
+		// the `background` shorthand (!important), which resets the color to
+		// transparent. Put the color back under the gradient.
+		:root .has-#{$background}-background-color[class*="-gradient-background"] {
+			background-color: #{preset-color($background)} !important;
+		}
+
 		$surfaces: list.append($surfaces, ".has-#{$background}-background-color", $separator: comma);
 		$chips: list.append($chips, ".has-#{$background}-icon-background-color", $separator: comma);
 	}
