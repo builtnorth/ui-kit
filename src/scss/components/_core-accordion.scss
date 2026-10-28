@@ -108,16 +108,17 @@
 	padding-inline: var(--wp--custom--panel--padding-x, 2rem);
 }
 
-// A heading or panel with a background of its own pads its own sides.
-.wp-block-accordion .wp-block-accordion-heading.has-background .wp-block-accordion-heading__toggle,
-.wp-block-accordion .wp-block-accordion-panel.has-background {
+// A heading or panel with a background of its own pads its own sides, unless
+// its item already does (the padding would double).
+.wp-block-accordion .wp-block-accordion-item:not(.has-background, .has-border-color, .is-style-card) > .wp-block-accordion-heading.has-background .wp-block-accordion-heading__toggle,
+.wp-block-accordion .wp-block-accordion-item:not(.has-background, .has-border-color, .is-style-card) > .wp-block-accordion-panel.has-background {
 	padding-left: var(--wp--custom--panel--padding-x, 2rem);
 	padding-right: var(--wp--custom--panel--padding-x, 2rem);
 }
 
 // A closing panel with its own background keeps its sides: core zeroes a
 // hidden panel's padding (!important), so the content slid on close.
-.wp-block-accordion .wp-block-accordion-panel.has-background[hidden] {
+.wp-block-accordion .wp-block-accordion-item:not(.has-background, .has-border-color, .is-style-card) > .wp-block-accordion-panel.has-background[hidden] {
 	padding-inline: var(--wp--custom--panel--padding-x, 2rem) !important;
 }
 
