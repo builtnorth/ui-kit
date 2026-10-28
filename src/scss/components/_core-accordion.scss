@@ -8,8 +8,8 @@
    - The toggle icon is the control chip with a chevron (core draws a "+"
      glyph; it is hidden and the chevron is drawn on the chip), plus the
      Chevron Right and Plus/Minus block styles on the accordion.
-   - Rows and panels get the panel padding tokens, sideways too when they
-     have a background or a border color, or the item is a Card.
+   - Rows and panels get the panel padding tokens. The item pads the sides
+     when it has a background or a border color, or is a Card.
    - The Card style on an item (opt-in; Plain is the default) is a tile:
      the raised colour of the background it sits on, the tile radius.
    - A closed panel collapses with a height transition.
@@ -101,13 +101,24 @@
 	padding-bottom: var(--wp--custom--panel--padding-y, 1rem);
 }
 
-// Sideways padding with a background or a border color on the row.
-.wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color, .is-style-card) .wp-block-accordion-heading__toggle,
+// Sideways padding with a background or a border color on the row, or a Card.
+// On the item, not its heading and panel: core zeroes a closing panel's
+// padding (!important), so side padding there jumped on close.
+.wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color, .is-style-card) {
+	padding-inline: var(--wp--custom--panel--padding-x, 2rem);
+}
+
+// A heading or panel with a background of its own pads its own sides.
 .wp-block-accordion .wp-block-accordion-heading.has-background .wp-block-accordion-heading__toggle,
-.wp-block-accordion .wp-block-accordion-item:is(.has-background, .has-border-color, .is-style-card) > .wp-block-accordion-panel,
 .wp-block-accordion .wp-block-accordion-panel.has-background {
 	padding-left: var(--wp--custom--panel--padding-x, 2rem);
 	padding-right: var(--wp--custom--panel--padding-x, 2rem);
+}
+
+// A closing panel with its own background keeps its sides: core zeroes a
+// hidden panel's padding (!important), so the content slid on close.
+.wp-block-accordion .wp-block-accordion-panel.has-background[hidden] {
+	padding-inline: var(--wp--custom--panel--padding-x, 2rem) !important;
 }
 
 // Editor: the panel's add-block button sits in its bottom-right corner, which
@@ -115,6 +126,11 @@
 .wp-block-accordion .wp-block-accordion-item[style*="radius"] > .wp-block-accordion-panel > .block-list-appender {
 	right: var(--wp--custom--panel--padding-x, 2rem);
 	bottom: var(--wp--custom--panel--padding-y, 1rem);
+}
+
+// An item that pads its own sides already holds the panel in by that much.
+.wp-block-accordion .wp-block-accordion-item[style*="radius"]:is(.has-background, .has-border-color, .is-style-card) > .wp-block-accordion-panel > .block-list-appender {
+	right: 0;
 }
 
 // The panel sits right under its heading: core's item is a flow layout, so
