@@ -249,8 +249,11 @@ Classes to quickly add utility styles to your components.
 		z-index: 0;
 		scale: var(--pattern-size, 1);
 
-		// Flip the graphic in place, independent of the anchor.
+		// Flip the graphic in place, independent of the anchor. Block, not
+		// inline: an inline SVG or image sits on the text baseline and leaves
+		// a gap under it, so a bottom-aligned pattern stops short of the edge.
 		> * {
+			display: block;
 			scale: var(--_pattern-flip-x, 1) var(--_pattern-flip-y, 1);
 		}
 		&.pattern-flip--x {
