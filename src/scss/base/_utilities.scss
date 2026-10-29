@@ -378,6 +378,8 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 // padding and small radius tokens. With no tokens the card is square (tile
 // 0, as config's $radius-md), so its images are too; a theme that rounds its
 // cards but sets no small radius gets 0.5rem, capped at the tile radius.
+// A two-value radius (leaf corners) can't go through max()/calc(): a theme
+// that uses one sets the photo radius itself with card.media-radius.
 :where(
 	.wp-block-columns,
 	.wp-block-column,
@@ -396,7 +398,7 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width'], [style*='
 
 	.wp-block-post-featured-image,
 	:where(.wp-block-image, .wp-block-post-featured-image) img {
-		border-radius: var(--kitaris-nested-radius);
+		border-radius: var(--wp--custom--card--media-radius, var(--kitaris-nested-radius));
 	}
 }
 
