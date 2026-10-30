@@ -47,7 +47,9 @@ textarea {
 	@include form-textarea;
 }
 
-input[type="range"] {
+// :where() for the same reason: a component's own range input (e.g. the
+// image compare slider, sized to cover its image) wins with its class.
+input:where([type="range"]) {
 	@include form-range;
 }
 
