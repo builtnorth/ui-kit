@@ -57,6 +57,9 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
 
 // Flex container children: widths, chip alignment and justification.
 // WP layout (wp-container-* rules) handles justify-content / align-items / flex-direction.
+// Blocks with a natural width of their own, which center as boxes in a column.
+$_compact-children: ".alignleft, .alignright, .aligncenter, .wp-block-heading, .wp-block-paragraph, .wp-block-list, .wp-block-quote, .wp-block-image, .wp-block-buttons, .wp-block-button, .wp-block-icon, .wp-block-social-links, .wp-block-site-logo, .wp-block-site-title, .wp-block-site-tagline, .wp-block-post-title, .wp-block-post-date, .wp-block-post-terms, .wp-block-post-author, .wp-block-post-excerpt, .wp-block-kitaris-back-to-top, .wp-block-kitaris-contact-information, .wp-block-kitaris-copyright, .wp-block-kitaris-counter, .wp-block-kitaris-hero-heading, .wp-block-kitaris-open-status, .wp-block-kitaris-share-buttons, .wp-block-kitaris-social-media, .wp-block-kitaris-stat, .wp-block-kitaris-timer, .wp-block-kitaris-utility-links";
+
 @mixin kitaris-flex-container-children {
     &:not(.is-horizontal) {
         // Reset margins so no child escapes the column.
@@ -166,26 +169,29 @@ $_kitaris-hero-slider: ".wp-block-kitaris-slider:has(.wp-block-kitaris-slide > :
             }
         }
 
-        // Center/right: non-structural children shrink to natural width so
-        // align-items can center/right-align them.
+        // Center/right: compact blocks shrink to natural width so align-items
+        // can center/right-align them. Everything else spans the column: most
+        // blocks size themselves from their container, so shrinking them to
+        // their content leaves some at 0px. An unlisted block ends up wide,
+        // never collapsed.
         &.is-content-justification-center,
         &.is-content-justification-right {
+            > :where(#{$_compact-children}) {
+                width: auto;
+            }
+
             > :where(
                 :not(
+                    #{$_compact-children},
                     .alignfull,
                     .alignwide,
                     .is-style-label,
                     .is-style-subheading,
                     .section-pattern,
-                    .background,
-                    .wp-block-kitaris-split-section,
-                    .wp-block-columns,
-                    .wp-block-column,
-                    .wp-block-group,
-                    .wp-block-separator
+                    .background
                 )
             ) {
-                width: auto;
+                align-self: stretch;
             }
         }
     }
