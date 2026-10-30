@@ -17,6 +17,11 @@
 
 $_medium: var(--wp--custom--icon--size--medium, 2.75rem);
 
+// A fixed-size graphic: never squeezed by text beside it in a flex row.
+:where(.wp-block-icon) {
+	flex-shrink: 0;
+}
+
 .wp-block-icon > svg {
 	width: $_medium;
 	// Core makes the svg 100% tall (of its wrapper, which a flex parent can
