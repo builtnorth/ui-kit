@@ -17,7 +17,8 @@
  *   label each toward its own extreme, so contrast only goes up, unless the
  *   theme sets hover-background / hover-text. A background of a variant's own
  *   colour redefines its tokens (Kitaris), and buttons inherit them.
- * - Small and Large set only the font size; padding is in em, so it scales.
+ * - Small and Large set the font size, and padding is in em, so it scales.
+ *   Small also has tighter padding.
  *
  * A colour picked on the button itself still wins: core's colour classes use
  * !important.
@@ -173,9 +174,11 @@ $_link: ".wp-block-button__link";
     }
 }
 
-// Sizes: font size only.
+// Sizes: the font size, and Small is tighter too.
 .wp-block-button.is-size-small > #{$_link} {
     font-size: var(--wp--custom--button--font-size-small, 0.875em);
+    padding-block: 0.5em;
+    padding-inline: 1em;
 }
 
 .wp-block-button.is-size-large > #{$_link} {
