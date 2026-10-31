@@ -1,6 +1,7 @@
 // Surfaces
 //
-// This module outputs no CSS. Blocks @use it for their Card style:
+// This module outputs no CSS. Blocks @use it for their Card style, and anything
+// that paints its own background uses surface():
 //
 //   @use "@siratik/ui-kit/components/surfaces";
 //
@@ -18,6 +19,21 @@
 // the theme's theme.json block styles still win. Padding is per block.
 
 $_fallback-bg: color-mix(in srgb, currentColor 6%, transparent);
+
+// A panel, modal or menu with a background of its own and no background class.
+// Links and buttons read the nearest surface, so without this they take the
+// colors of the section around it. Unset, a raised color falls back to the
+// Card's light tint. Use at zero specificity where a picked background should
+// still win.
+@mixin surface($background, $text, $raised: initial, $raised-text: initial) {
+	background-color: $background;
+	color: $text;
+
+	--kitaris-auto-surface-color: #{$background};
+	--kitaris-auto-text-color: #{$text};
+	--kitaris-auto-raised-color: #{$raised};
+	--kitaris-auto-raised-text-color: #{$raised-text};
+}
 
 @mixin card {
 	background-color: var(--kitaris-auto-raised-color, #{$_fallback-bg});
