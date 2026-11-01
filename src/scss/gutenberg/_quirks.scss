@@ -393,3 +393,9 @@ $_kitaris-hero-slide: ".wp-block-kitaris-slide > :is(.wp-block-kitaris-hero, .wp
 .wp-block-kitaris-footer__inner > .wp-block-separator {
     margin-block-start: calc(var(--wp--custom--spacing--section-padding, 3.38rem) - var(--wp--style--block-gap, 1.5rem));
 }
+
+// The theme pins breadcrumbs to the start of a column; a centered or
+// right-aligned flex column places them instead.
+.is-layout-flex.is-vertical:is(.is-content-justification-center, .is-content-justification-right) > .wp-block-breadcrumbs {
+    align-self: auto;
+}
