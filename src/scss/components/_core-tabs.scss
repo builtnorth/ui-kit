@@ -7,7 +7,8 @@
      the tab list and the panels; a panel without a background or border has
      no padding of its own.
    - Classic (is-style-classic): the tabs sit on the panel. No gap between
-     the tab list and the panels, square bottom corners on the buttons and a
+     the tab list and the panels (whatever list, panels or panel margin a
+     theme or skin sets for Modern), square bottom corners on the buttons and a
      square top-left corner on the panels; a panel without a background or
      border keeps the panel's top and bottom padding off the tabs.
    - A panel with a background or border takes the panel padding (ui-kit base
@@ -35,6 +36,16 @@ $_boxed: ".has-background, .has-border-color, [style*='border-width']";
 .wp-block-tabs.is-style-classic {
 
 	> .wp-block-tab-panels {
+		margin-block-start: 0;
+	}
+
+	// A theme or skin may space the tab list off the panels (theme.json core/tab-list
+	// or core/tab-panel margin, for Modern); Classic's tabs still sit on the panel.
+	> .wp-block-tab-list {
+		margin-block-end: 0;
+	}
+
+	.wp-block-tab-panel {
 		margin-block-start: 0;
 	}
 
