@@ -43,6 +43,15 @@ blocks override freely.
 	display: flex;
 }
 
+// A button in the menu is as tall as its link: the link is inline-block, so
+// the wrapper would also take the menu's line box and sit taller than the
+// button, off centre beside other items (a search button).
+// Core's own button rules outrank zero specificity, so this carries core's
+// (.wp-block-buttons > .wp-block-button) under the menu.
+.wp-block-navigation .wp-block-buttons > .wp-block-button {
+	display: flex;
+}
+
 // The submenu arrow button is 0.6em: a 24px target around it (WCAG 2.5.8),
 // without changing how it looks.
 :where(button.wp-block-navigation__submenu-icon) {
@@ -83,4 +92,54 @@ blocks override freely.
 	align-items: center;
 	box-sizing: border-box;
 	padding-block: 0;
+}
+
+// Size (kitarisSize on core/search, Kitaris core extensions): the search is
+// as tall as a button of that size, so an icon-only search beside a Small
+// button matches it. The field, the icon button and a text button all read
+// the field height and control size, so they follow together. Small is the
+// small font with 0.5em padding (ui-kit components/core-buttons); Large is
+// the large font with WordPress's button padding, calc(0.667em + 2px).
+$_button-line-height: var(--wp--custom--line-height--body, 1.65);
+
+.wp-block-search.is-size-small {
+	--wp--custom--form--field--height: calc(var(--wp--custom--button--font-size-small, 0.875rem) * (#{$_button-line-height} + 1));
+	--wp--custom--control--size: var(--wp--custom--form--field--height);
+
+	.wp-block-search__button {
+		font-size: var(--wp--custom--button--font-size-small, 0.875rem);
+	}
+
+	// The square is the size; the theme's search button padding would add to it.
+	.wp-block-search__button.has-icon {
+		padding: 0;
+	}
+
+	// The field is that tall too: its text and padding would otherwise set a
+	// taller natural height (an input centres its own text).
+	.wp-block-search__input {
+		height: var(--wp--custom--form--field--height);
+		padding-block: 0;
+	}
+}
+
+.wp-block-search.is-size-large {
+	--wp--custom--form--field--height: calc(var(--wp--custom--button--font-size-large, 1.25rem) * (#{$_button-line-height} + 1.334) + 4px);
+	--wp--custom--control--size: var(--wp--custom--form--field--height);
+
+	.wp-block-search__button {
+		font-size: var(--wp--custom--button--font-size-large, 1.25rem);
+	}
+
+	// The square is the size; the theme's search button padding would add to it.
+	.wp-block-search__button.has-icon {
+		padding: 0;
+	}
+
+	// The field is that tall too: its text and padding would otherwise set a
+	// taller natural height (an input centres its own text).
+	.wp-block-search__input {
+		height: var(--wp--custom--form--field--height);
+		padding-block: 0;
+	}
 }
