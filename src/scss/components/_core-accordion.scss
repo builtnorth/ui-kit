@@ -180,6 +180,7 @@
 	color: $control-color;
 	border: $control-border-width solid transparent;
 	border-radius: $control-radius;
+	corner-shape: $control-corner-shape;
 	background-color: var(--wp--custom--control--background, transparent);
 	// Hover/focus: the inline control tokens, built from the title color so
 	// the tints match the row (incl. has-*-color classes).

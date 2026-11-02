@@ -33,6 +33,8 @@ $control-icon-size: var(--wp--custom--control--icon-size, 0.875rem) !default;
 // Line weight of every control glyph (chevrons, arrows, X, plus/minus).
 $control-icon-stroke: var(--wp--custom--control--icon-stroke, 2px) !default;
 $control-radius: var(--wp--custom--control--radius, 0) !default;
+// The control corner style (round, bevel, scoop…): a skin like Angle cuts its corners.
+$control-corner-shape: var(--wp--custom--control--corner-shape, round) !default;
 $control-offset: var(--wp--custom--control--offset, 0.5rem) !default;
 $control-color: var(--wp--custom--control--color, currentColor) !default;
 // Edge at rest for controls without a line of their own (accordion toggle):

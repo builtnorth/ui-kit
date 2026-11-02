@@ -29,6 +29,7 @@ body .wp-lightbox-overlay {
 			min-height: #{$control-size};
 			padding: 0;
 			border-radius: #{$control-radius};
+			corner-shape: #{$control-corner-shape};
 			background: #{$control-background};
 			color: #{$control-color};
 		}
@@ -85,6 +86,7 @@ body .wp-lightbox-container .lightbox-trigger {
 		// draw a border, so the button keeps its edge there.
 		border: 1px solid transparent;
 		border-radius: #{$control-radius};
+		corner-shape: #{$control-corner-shape};
 		background: #{$control-overlay-background};
 		box-shadow: 0 0 0 1px #{$control-overlay-ring};
 		color: #{$control-overlay-color};

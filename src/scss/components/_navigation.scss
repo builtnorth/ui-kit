@@ -22,6 +22,7 @@ blocks override freely.
 	min-width: $control-size;
 	min-height: $control-size;
 	border-radius: $control-radius;
+	corner-shape: $control-corner-shape;
 }
 
 // The glyph you see at the control icon size: core's bars span 16 of their

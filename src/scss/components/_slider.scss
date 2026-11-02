@@ -33,6 +33,7 @@ $_dot-count-max: 40;
     );
     border: #{$control-border-width} solid;
     border-radius: #{$control-radius};
+    corner-shape: #{$control-corner-shape};
 }
 
 // Arrow on the section (below the slides): the inline control tokens, built
@@ -764,6 +765,7 @@ $_dot-count-max: 40;
     padding: 0 $_dot-padding-inline;
     border: 0;
     border-radius: #{$control-radius};
+    corner-shape: #{$control-corner-shape};
     background: transparent;
     color: inherit;
     cursor: pointer;
@@ -779,6 +781,7 @@ $_dot-count-max: 40;
         );
         border: #{$control-border-width} solid currentColor;
         border-radius: #{$control-radius};
+        corner-shape: #{$control-corner-shape};
         background-color: transparent;
     }
 
@@ -817,11 +820,13 @@ $_dot-count-max: 40;
     }
 }
 
-// Circles. Same 24px target; the mark is a dot, filled for the current stop.
+// Dots. Same 24px target; the mark is a dot, filled for the current stop.
+// A control: its corners are the control radius (a circle when that is round).
 .kitaris-carousel__dots.is-dots-style-dots > .kitaris-carousel__dot::after {
     width: calc(#{$_dot-circle-size} * var(--_indicator-scale, 1));
     height: calc(#{$_dot-circle-size} * var(--_indicator-scale, 1));
-    border-radius: $radius-full;
+    border-radius: #{$control-radius};
+    corner-shape: #{$control-corner-shape};
 }
 
 .kitaris-carousel__dots.is-dots-style-dots
