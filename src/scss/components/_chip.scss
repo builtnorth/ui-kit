@@ -13,7 +13,7 @@
 // reads on any background. Text styles stay the theme's: a link chip keeps
 // the theme's link underline unless the block says otherwise.
 
-/// Icon chip: the geometry of a core/icon background (components/core-icon).
+/// Icon chip: the geometry of a core/icon background (Kitaris core extensions, core-icon).
 /// The icon keeps its size and the background adds space around it in
 /// proportion: the chip's font-size is the icon's size, so its padding in em
 /// grows with the icon. Colours are the caller's.

@@ -98,7 +98,7 @@ blocks override freely.
 // as tall as a button of that size, so an icon-only search beside a Small
 // button matches it. The field, the icon button and a text button all read
 // the field height and control size, so they follow together. Small is the
-// small font with 0.5em padding (ui-kit components/core-buttons); Large is
+// small font with 0.5em padding (Kitaris core extensions, core-buttons); Large is
 // the large font with WordPress's button padding, calc(0.667em + 2px).
 $_button-line-height: var(--wp--custom--line-height--body, 1.65);
 

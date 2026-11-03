@@ -76,7 +76,6 @@ For package-specific overrides:
 
 // Components (with namespace)
 @use "@siratik/ui-kit/components" as ui;
-@use "@siratik/ui-kit/components/core-buttons" as *; // core/button variants and sizes
 
 // Button colours come from theme.json tokens (settings.custom.button.*),
 // not from SCSS. See THEME-CONFIGURATION.md → Buttons.
@@ -124,7 +123,7 @@ For package-specific overrides:
 ## What's Included
 
 - **Base**: Reset, utilities, accessibility, images, and color utilities
-- **Components**: Core button variants and sizes, sliders, pagination
+- **Components**: Surfaces, chips, sliders, lightbox, navigation, list icons
 - **Forms**: Field chrome (labels, text inputs, selects, checkboxes, radios, range, file), as global element styles or as mixins you scope yourself
 - **Helpers**: Mixins, functions, and media query utilities
 - **Layout**: Grid and column systems
