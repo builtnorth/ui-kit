@@ -1,3 +1,5 @@
+@use "../helpers/index" as *;
+
 // Template parts in the post-type and card areas (`div` heroes and
 // sections, `article` cards) drop their wrapper box on the front end, so a
 // hero stacks flush and goes full width and a card lays out in its query
@@ -398,4 +400,48 @@ $_kitaris-hero-slide: ".wp-block-kitaris-slide > :is(.wp-block-kitaris-hero, .wp
 // right-aligned flex column places them instead.
 .is-layout-flex.is-vertical:is(.is-content-justification-center, .is-content-justification-right) > .wp-block-breadcrumbs {
     align-self: auto;
+}
+
+// A space-between row in a centered column centers its last item when the
+// others render nothing (e.g. contact info with no data), instead of pinning it left.
+.is-layout-flex.is-vertical.is-content-justification-center > .is-layout-flex.is-content-justification-space-between:has(> :only-child) {
+    justify-content: center;
+}
+
+// The same row when its other item is a group with nothing visible at this
+// screen size (every child hidden by core's viewport visibility, or none
+// rendered): the empty group takes no room and the remaining item centers,
+// e.g. a logo whose contact details are empty and whose menu button is
+// mobile-only.
+@mixin center-beside-empty-group($hidden) {
+    $empty: ".wp-block-group:not(:has(> :not(.wp-block-hidden-#{$hidden})))";
+    $row: ".is-layout-flex.is-vertical.is-content-justification-center > .is-layout-flex.is-content-justification-space-between";
+
+    #{$row} > #{$empty} {
+        display: none;
+    }
+
+    // :has() can't nest, so the empty group is spelled out: no children, or
+    // one or two children that are all hidden at this size.
+    $h: ".wp-block-hidden-#{$hidden}";
+
+    #{$row}:has(> :last-child:nth-child(2)):is(
+        :has(> .wp-block-group:empty),
+        :has(> .wp-block-group > #{$h}:only-child),
+        :has(> .wp-block-group > #{$h}:first-child + #{$h}:last-child)
+    ) {
+        justify-content: center;
+    }
+}
+
+@include viewport-desktop {
+    @include center-beside-empty-group(desktop);
+}
+
+@include viewport-tablet {
+    @include center-beside-empty-group(tablet);
+}
+
+@include viewport-mobile {
+    @include center-beside-empty-group(mobile);
 }
