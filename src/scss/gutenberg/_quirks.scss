@@ -417,7 +417,9 @@ $_kitaris-hero-slide: ".wp-block-kitaris-slide > :is(.wp-block-kitaris-hero, .wp
     $empty: ".wp-block-group:not(:has(> :not(.wp-block-hidden-#{$hidden})))";
     $row: ".is-layout-flex.is-vertical.is-content-justification-center > .is-layout-flex.is-content-justification-space-between";
 
-    #{$row} > #{$empty} {
+    // Only in a two-item row: with more items, empty groups at the ends keep
+    // the middle one centered (a logo between two contact groups).
+    #{$row}:has(> :last-child:nth-child(2)) > #{$empty} {
         display: none;
     }
 
