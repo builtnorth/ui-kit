@@ -60,7 +60,7 @@ core and the theme.
 ## Buttons (`button`)
 
 Buttons are core's Button block (`core/button`). With Kitaris's button variants on
-(`blocks.core_extensions.button_variants`, on with the `house-defaults` preset) they have two settings:
+(`blocks.core_extensions.button_variants`, turned on in the theme's `blocks` config) they have two settings:
 
 - **Style** (core's block styles): Fill (default), Outline (`is-style-*`).
 - **Variant** (Kitaris attribute): Primary (default), Secondary, Tertiary, Text Link
