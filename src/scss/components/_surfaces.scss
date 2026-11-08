@@ -9,9 +9,10 @@
 //       @include surfaces.card;
 //   }
 //
-// A Card takes the raised colour of the background it sits on
-// (--kitaris-auto-raised-color, set per background by base/colors
-// kitaris-text-contrast-rules) and that colour's text pair. It is a surface
+// A Card takes the card colour of the background it sits on
+// (--kitaris-auto-raised-color / --kitaris-card, set per background by Kitaris
+// Colors\Surfaces, or by base/colors kitaris-text-contrast-rules) and that
+// colour's text pair. It is a surface
 // itself: links and buttons inside it follow the card, not the section.
 // Without the theme's pairs it is a light tint of the text colour.
 //
@@ -33,13 +34,20 @@ $_fallback-bg: color-mix(in srgb, currentColor 6%, transparent);
 	--kitaris-auto-text-color: #{$text};
 	--kitaris-auto-raised-color: #{$raised};
 	--kitaris-auto-raised-text-color: #{$raised-text};
+	// The surface names (Kitaris Colors\Surfaces). Kitaris resets button and
+	// icon colours on panels it knows (kitaris_surface_reset_selectors).
+	--kitaris-surface: #{$background};
+	--kitaris-on-surface: #{$text};
+	--kitaris-card: #{$raised};
+	--kitaris-on-card: #{$raised-text};
 }
 
 @mixin card {
 	background-color: var(--kitaris-auto-raised-color, #{$_fallback-bg});
 	color: var(--kitaris-auto-raised-text-color, inherit);
 
-	// What's inside reads the card as its surface.
+	// What's inside reads the card as its surface (Kitaris sets the surface
+	// names on cards it knows: kitaris_card_selectors).
 	--kitaris-auto-surface-color: var(--kitaris-auto-raised-color, Canvas);
 	--kitaris-auto-text-color: var(--kitaris-auto-raised-text-color, currentColor);
 }
