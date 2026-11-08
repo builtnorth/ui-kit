@@ -131,10 +131,12 @@ $form-choice-border-radius: var(
     --wp--custom--form--choice--border-radius,
     0
 ) !default;
-// Fill of a checked choice: any color a theme or user picks.
+// Fill of a checked choice: any color a theme or user picks, else the accent
+// of the surface it sits on (Kitaris surfaces: its pair on a band of its own
+// color).
 $form-choice-checked-color: var(
     --wp--custom--form--choice--checked-color,
-    var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000))
+    var(--kitaris-accent, var(--wp--custom--color--primary, var(--wp--preset--color--contrast, #000)))
 ) !default;
 // Tick, dot and bar on that fill, where contrast-color() isn't supported
 // (supported browsers derive it from the fill, so it always reads).
